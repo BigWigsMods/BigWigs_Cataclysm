@@ -8,3 +8,6 @@ move-folders:
     BigWigs_Cataclysm/Firelands: BigWigs_Firelands
     BigWigs_Cataclysm/DragonSoul: BigWigs_DragonSoul
 
+ignore:
+	- BigWigs_Cataclysm.toc
+
