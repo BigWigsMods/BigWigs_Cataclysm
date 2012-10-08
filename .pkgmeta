@@ -1,0 +1,10 @@
+package-as: BigWigs_Cataclysm
+
+move-folders:
+    BigWigs_Cataclysm/Blackwing: BigWigs_Blackwing
+    BigWigs_Cataclysm/Bastion: BigWigs_Bastion
+    BigWigs_Cataclysm/Throne: BigWigs_Throne
+    BigWigs_Cataclysm/Baradin: BigWigs_Baradin
+    BigWigs_Cataclysm/Firelands: BigWigs_Firelands
+    BigWigs_Cataclysm/DragonSoul: BigWigs_DragonSoul
+

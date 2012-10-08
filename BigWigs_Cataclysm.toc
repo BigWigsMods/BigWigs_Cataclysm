@@ -1,0 +1,14 @@
+## Interface: 50001
+
+## Title: Big Wigs [|cffeda55fCataclysm|r]
+## Notes: A collection of Big Wigs modules from the Cataclysm era.
+## Author: Ammo, Funkydude, Maat, Rabbit
+
+## LoadOnDemand: 1
+## Dependencies: BigWigs
+
+## X-Category: Raid
+## X-BigWigs-LoadOn-ZoneId: 752, 758, 754, 824, 800, 773
+
+modules.xml
+
