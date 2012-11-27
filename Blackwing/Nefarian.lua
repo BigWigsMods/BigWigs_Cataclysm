@@ -72,7 +72,9 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_AURA_APPLIED", "ExplosiveCindersApplied", 79339)
 	self:Log("SPELL_AURA_REMOVED", "ExplosiveCindersRemoved", 79339)
+
 	self:Log("SPELL_DAMAGE", "PersonalShadowBlaze", 81007)
+	self:Log("SPELL_MISSED", "PersonalShadowBlaze", 81007)
 
 	self:Emote("Electrocute", L["crackle_trigger"])
 

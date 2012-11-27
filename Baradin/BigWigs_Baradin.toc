@@ -1,4 +1,4 @@
-## Interface: 50001
+## Interface: 50100
 
 ## Title: Big Wigs [|cffeda55fBaradin Hold|r]
 ## Title-ruRU: Big Wigs [|cffeda55fКрепость Барадин|r]

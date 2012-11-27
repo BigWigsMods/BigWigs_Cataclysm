@@ -68,6 +68,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "Feedback", 87904)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "AcidRain", 88301)
 	self:Log("SPELL_DAMAGE", "Shock", 87873) -- [May be wrong since MoP id changes]
+	self:Log("SPELL_MISSED", "Shock", 87873) -- [May be wrong since MoP id changes]
 	-- Acid Rain is applied at P2 transition
 	self:Log("SPELL_AURA_APPLIED", "Phase2", 88301)
 
@@ -76,8 +77,12 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_AURA_APPLIED", "LightningRod", 89668)
 	self:Log("SPELL_AURA_REMOVED", "RodRemoved", 89668)
+
 	self:Log("SPELL_DAMAGE", "WindBurst3", 93286)
+	self:Log("SPELL_MISSED", "WindBurst3", 93286)
+
 	self:Log("SPELL_DAMAGE", "Cloud", 89588)
+	self:Log("SPELL_MISSED", "Cloud", 89588)
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 	self:Death("Win", 46753)

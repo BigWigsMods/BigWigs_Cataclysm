@@ -78,7 +78,9 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "LastPhase", 82630)
 	self:Log("SPELL_CAST_SUCCESS", "DarkenedCreations", 82414)
 	self:Log("SPELL_CAST_SUCCESS", "CorruptingCrash", 81685)
+
 	self:Log("SPELL_DAMAGE", "Blaze", 81538)
+	self:Log("SPELL_MISSED", "Blaze", 81538)
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 

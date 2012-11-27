@@ -171,6 +171,8 @@ function mod:OnBossEnable()
 	end
 
 	self:Log("SPELL_DAMAGE", "OrbDamage", 92852, 92958) -- twilight slicer, twilight pulse [May be wrong since MoP id changes]
+	self:Log("SPELL_MISSED", "OrbDamage", 92852, 92958) -- twilight slicer, twilight pulse [May be wrong since MoP id changes]
+
 	self:Log("SWING_DAMAGE", "WhelpWatcher", "*")
 	self:Log("SWING_MISS", "WhelpWatcher", "*")
 

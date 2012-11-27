@@ -57,7 +57,7 @@ end
 
 function mod:OnBossEnable()
 	self:Log("SPELL_DAMAGE", "BroodlingWatcher", "*")
-	self:Log("SPELL_MISS", "BroodlingWatcher", "*")
+	self:Log("SPELL_MISSED", "BroodlingWatcher", "*")
 
 	self:Log("SPELL_AURA_APPLIED", "Fixate", 99559, 99526)
 	self:Log("SPELL_AURA_APPLIED", "Frenzy", 99497)

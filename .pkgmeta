@@ -9,5 +9,6 @@ move-folders:
     BigWigs_Cataclysm/DragonSoul: BigWigs_DragonSoul
 
 ignore:
-	- BigWigs_Cataclysm.toc
+    - BigWigs_Cataclysm.toc
+    - modules.xml
 
