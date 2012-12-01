@@ -214,9 +214,8 @@ do
 		48049,
 		48050,
 	}
-	function mod:WhelpWatcher(...)
-		local sGUID = select(11, ...)
-		local mobId = tonumber(sGUID:sub(7, 10), 16)
+	function mod:WhelpWatcher(_,_,_,_,_,_,_,_,_,_,sGUID)
+		local mobId = self:GetCID(sGUID)
 		for i, v in next, whelpIds do
 			if mobId == v then whelpGUIDs[sGUID] = true end
 		end
