@@ -16,7 +16,7 @@ local quake, thundershock, hardenSkin = GetSpellInfo(83565), GetSpellInfo(83067)
 local gravityCrush = GetSpellInfo(84948)
 local crushMarked = false
 local timeLeft = 8
-local first = nil
+local phase = 1
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -126,9 +126,9 @@ function mod:OnEngage()
 	self:Bar(82631, L["shield_bar"], 30, 82631)
 	self:Bar(82746, glaciate, 30, 82746)
 
-	first = nil
+	phase = 1
 	crushMarked = false
-	self:RegisterEvent("UNIT_HEALTH_FREQUENT")
+	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1", "boss2", "boss3", "boss4")
 end
 
 --------------------------------------------------------------------------------
@@ -223,19 +223,18 @@ end
 do
 	local terrastra = EJ_GetSectionInfo(3125)
 	local arion = EJ_GetSectionInfo(3123)
-	function mod:UNIT_HEALTH_FREQUENT(_, unit)
-		if unit == "boss1" or unit == "boss2" or unit == "boss3" or unit == "boss4" then
-			local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
-			if not first then
-				if hp < 30 then
-					self:Message("switch", L["health_report"]:format((UnitName(unit)), hp), "Attention", 26662, "Info")
-					first = true
-				end
-			else
-				if hp > 1 and hp < 30 and (UnitName(unit) == arion or UnitName(unit) == terrastra) then
-					self:Message("switch", L["health_report"]:format((UnitName(unit)), hp), "Attention", 26662, "Info")
-					self:UnregisterEvent("UNIT_HEALTH_FREQUENT")
-				end
+	function mod:UNIT_HEALTH_FREQUENT(unit)
+		local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+		if phase == 1 then
+			if hp < 30 then
+				self:Message("switch", L["health_report"]:format((UnitName(unit)), hp), "Attention", 26662, "Info")
+				phase = 2
+			end
+		elseif phase == 2 then
+			if hp > 1 and hp < 30 and (UnitName(unit) == arion or UnitName(unit) == terrastra) then
+				phase = 3
+				self:Message("switch", L["health_report"]:format((UnitName(unit)), hp), "Attention", 26662, "Info")
+				self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1", "boss2", "boss3", "boss4")
 			end
 		end
 	end
@@ -351,6 +350,6 @@ function mod:LastPhase()
 	self:CancelAllTimers()
 	self:Bar(84948, gravityCrush, 43, 84948)
 	self:OpenProximity(9)
-	self:UnregisterEvent("UNIT_HEALTH")
+	self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1", "boss2", "boss3", "boss4")
 end
 

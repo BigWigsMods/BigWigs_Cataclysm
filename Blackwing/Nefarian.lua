@@ -88,7 +88,7 @@ function mod:OnEngage()
 	self:Bar(77939, L["discharge_bar"], 30, 77939)
 	phase, deadAdds, shadowBlazeTimer = 1, 0, 35
 	phase3warned = false
-	self:RegisterEvent("UNIT_POWER")
+	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", "PowerCheck", "boss1", "boss2")
 	shadowblazeHandle, lastBlaze = nil, 0
 end
 
@@ -222,12 +222,12 @@ end
 
 do
 	local onyxia = EJ_GetSectionInfo(3283)
-	function mod:UNIT_POWER()
-		if UnitName("boss1") == onyxia then
-			local power = UnitPower("boss1", ALTERNATE_POWER_INDEX)
+	function mod:PowerCheck(unit)
+		if UnitName(unit) == onyxia then
+			local power = UnitPower(unit, ALTERNATE_POWER_INDEX)
 			if power > 80 then
 				self:Message(78999, L["onyxia_power_message"], "Attention", 78999)
-				self:UnregisterEvent("UNIT_POWER")
+				self:UnregisterUnitEvent("UNIT_POWER_FREQUENT", "boss1", "boss2")
 			end
 		end
 	end

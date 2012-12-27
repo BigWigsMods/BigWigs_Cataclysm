@@ -62,7 +62,7 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", "Blobs")
+	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "Blobs", "boss1", "boss2", "boss3", "boss4")
 	self:Log("SPELL_AURA_APPLIED", "AcidicApplied", 104898)
 	self:Log("SPELL_AURA_REMOVED", "AcidicRemoved", 104898)
 	self:Log("SPELL_CAST_SUCCESS", "DeepCorruption", 105171)
@@ -94,8 +94,8 @@ function mod:Bolt(player, spellId, _, _, spellName, buffStack)
 	end
 end
 
-function mod:Blobs(_, unit, spellName, _, _, spellId)
-	if (unit == "boss1" or unit == "boss2" or unit == "boss3" or unit == "boss4") and colorCombinations[spellId] then
+function mod:Blobs(unit, spellName, _, _, spellId)
+	if colorCombinations[spellId] then
 		if self:Heroic() then
 			self:Message("blobs", ("%s %s %s %s"):format(colorCombinations[spellId][1], colorCombinations[spellId][2], colorCombinations[spellId][4], colorCombinations[spellId][3]), "Urgent", L["blobs_icon"], "Alarm")
 			self:Bar("blobs", L["blobs_bar"], 75, L["blobs_icon"])

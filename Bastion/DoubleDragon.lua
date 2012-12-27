@@ -78,7 +78,7 @@ function mod:OnBossEnable()
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
-	self:RegisterEvent("UNIT_AURA")
+	self:RegisterUnitEvent("UNIT_AURA", "MeteorCheck", "player")
 
 	self:Death("Deaths", 45992, 45993)
 end
@@ -185,8 +185,8 @@ local function markRemoved()
 	markWarned = false
 end
 
-function mod:UNIT_AURA(event, unit)
-	if unit == "player" and not markWarned and UnitDebuff("player", marked) then
+function mod:MeteorCheck(unit)
+	if not markWarned and UnitDebuff(unit, marked) then
 		self:FlashShake(88518)
 		self:LocalMessage(88518, CL["you"]:format(marked), "Personal", 88518, "Long")
 		markWarned = true

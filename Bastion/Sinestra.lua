@@ -196,7 +196,7 @@ function mod:OnEngage()
 	self:Bar("whelps", L["whelps"], 16, 69005) -- whelp like icon
 	self:ScheduleTimer(nextOrbSpawned, 29)
 	eggs = 0
-	self:RegisterEvent("UNIT_HEALTH_FREQUENT")
+	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "PhaseWarn", "boss1")
 	wipe(whelpGUIDs)
 	orbWarned = nil
 	playerInList = nil
@@ -266,12 +266,11 @@ function mod:Indomitable(player, spellId, _, _, spellName)
 	end
 end
 
-function mod:UNIT_HEALTH_FREQUENT(_, unit)
-	if unit ~= "boss1" then return end
+function mod:PhaseWarn(unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp <= 30.5 then
 		self:Message("phase", CL["phase"]:format(2), "Positive", 86226, "Info")
-		self:UnregisterEvent("UNIT_HEALTH_FREQUENT")
+		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 		self:CancelAllTimers()
 		self:SendMessage("BigWigs_StopBar", self, "~"..slicer)
 		self:SendMessage("BigWigs_StopBar", self, "~"..breath)

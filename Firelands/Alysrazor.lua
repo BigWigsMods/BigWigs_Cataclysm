@@ -137,9 +137,8 @@ end
 do
 	local flying = GetSpellInfo(98619)
 	local lastCheck = 0
-	function mod:UNIT_AURA(_, unit)
-		if unit ~= "player" then return end
-		local _, _, _, _, _, _, expires = UnitBuff("player", flying)
+	function mod:FlightCheck(unit)
+		local _, _, _, _, _, _, expires = UnitBuff(unit, flying)
 		if expires ~= lastCheck then
 			lastCheck = expires
 			self:Bar("flight", flying, expires-GetTime(), 98619)
@@ -148,12 +147,12 @@ do
 	function mod:StartFlying(player)
 		if UnitIsUnit(player, "player") then
 			self:Bar("flight", flying, 30, 98619)
-			self:RegisterEvent("UNIT_AURA")
+			self:RegisterUnitEvent("UNIT_AURA", "FlightCheck", "player")
 		end
 	end
 	function mod:StopFlying(player)
 		if UnitIsUnit(player, "player") then
-			self:UnregisterEvent("UNIT_AURA")
+			self:UnregisterUnitEvent("UNIT_AURA", "player")
 		end
 	end
 end
@@ -269,12 +268,12 @@ do
 		halfWarned, fullWarned = false, false
 		burnCount = burnCount + 1
 		if burnCount < 3 then
-			self:RegisterEvent("UNIT_POWER")
+			self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1")
 		end
 	end
 
-	function mod:UNIT_POWER(_, unit)
-		local power = UnitPower("boss1", 0)
+	function mod:UNIT_POWER_FREQUENT(unit)
+		local power = UnitPower(unit, 0)
 		if power > 40 and not halfWarned then
 			self:Message(99925, L["halfpower_soon_message"], "Urgent", 99925)
 			halfWarned = true
@@ -283,7 +282,7 @@ do
 			fullWarned = true
 		elseif power == 100 then
 			self:Message(99925, (L["stage_message"]:format(1))..": "..(L["encounter_restart"]), "Positive", 99925, "Alert")
-			self:UnregisterEvent("UNIT_POWER")
+			self:UnregisterUnitEvent("UNIT_POWER_FREQUENT", unit)
 			initiateCount = 0
 			self:Bar("initiate", L["initiate_both"], 13.5, 97062)
 			if self:Heroic() then

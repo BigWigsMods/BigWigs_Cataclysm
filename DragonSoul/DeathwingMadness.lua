@@ -75,7 +75,7 @@ function mod:VerifyEnable()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1", "boss2", "boss3", "boss4")
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
 	self:Log("SPELL_CAST_SUCCESS", "ElementiumBolt", 105651)
@@ -118,20 +118,18 @@ end
 
 do
 	local fragment = GetSpellInfo(106775)
-	function mod:UNIT_SPELLCAST_SUCCEEDED(_, unit, spellName, _, _, spellId)
-		if unit == "boss1" or unit == "boss2" or unit == "boss3" or unit == "boss4" then
-			if spellName == hemorrhage then
-				self:Message("hemorrhage", spellName, "Urgent", L["hemorrhage_icon"], "Alarm")
-			elseif spellName == fragment then
-				self:Message("fragment", L["fragment"], "Urgent", L["fragment_icon"], "Alarm")
-				self:Bar("fragment", L["fragment"], 90, L["fragment_icon"])
-			elseif spellId == 105551 then
-				local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
-				self:Message("smalltentacles", ("%d%% - %s"):format(hp > 50 and 70 or 40, L["smalltentacles"]), "Urgent", L["smalltentacles_icon"], "Alarm")
-			elseif spellId == 106765 then
-				self:Message("terror", L["terror"], "Important", L["terror_icon"])
-				self:Bar("terror", L["terror"], 90, L["terror_icon"])
-			end
+	function mod:UNIT_SPELLCAST_SUCCEEDED(unit, spellName, _, _, spellId)
+		if spellName == hemorrhage then
+			self:Message("hemorrhage", spellName, "Urgent", L["hemorrhage_icon"], "Alarm")
+		elseif spellName == fragment then
+			self:Message("fragment", L["fragment"], "Urgent", L["fragment_icon"], "Alarm")
+			self:Bar("fragment", L["fragment"], 90, L["fragment_icon"])
+		elseif spellId == 105551 then
+			local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+			self:Message("smalltentacles", ("%d%% - %s"):format(hp > 50 and 70 or 40, L["smalltentacles"]), "Urgent", L["smalltentacles_icon"], "Alarm")
+		elseif spellId == 106765 then
+			self:Message("terror", L["terror"], "Important", L["terror_icon"])
+			self:Bar("terror", L["terror"], 90, L["terror_icon"])
 		end
 	end
 end
@@ -141,7 +139,7 @@ function mod:LastPhase(_, spellId)
 	self:Bar("fragment", L["fragment"], 10.5, L["fragment_icon"])
 	self:Bar("terror", L["terror"], 35.5, L["terror_icon"])
 	if self:Heroic() then
-		self:RegisterEvent("UNIT_HEALTH_FREQUENT")
+		self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "BlobsWarn", "boss1")
 	end
 end
 
@@ -224,20 +222,18 @@ function mod:ParasiteRemoved(player)
 	end
 end
 
-function mod:UNIT_HEALTH_FREQUENT(_, unitId)
-	if unitId == "boss1" then
-		local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
-		if hp > 14.9 and hp < 16 and curPercent == 20 then
-			self:Message("ej:4351", L["blobs_soon"]:format(15), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
-			curPercent = 15
-		elseif hp > 9.9 and hp < 11 and curPercent == 15 then
-			self:Message("ej:4351", L["blobs_soon"]:format(10), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
-			curPercent = 10
-		elseif hp > 4.9 and hp < 6 and curPercent == 10 then
-			self:Message("ej:4351", L["blobs_soon"]:format(5), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
-			curPercent = 5
-			self:UnregisterEvent("UNIT_HEALTH_FREQUENT")
-		end
+function mod:BlobsWarn(unitId)
+	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+	if hp > 14.9 and hp < 16 and curPercent == 20 then
+		self:Message("ej:4351", L["blobs_soon"]:format(15), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
+		curPercent = 15
+	elseif hp > 9.9 and hp < 11 and curPercent == 15 then
+		self:Message("ej:4351", L["blobs_soon"]:format(10), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
+		curPercent = 10
+	elseif hp > 4.9 and hp < 6 and curPercent == 10 then
+		self:Message("ej:4351", L["blobs_soon"]:format(5), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
+		curPercent = 5
+		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unitId)
 	end
 end
 

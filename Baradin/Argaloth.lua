@@ -45,7 +45,7 @@ function mod:OnEngage()
 	self:Berserk(300)
 	self:Bar(88942, "~"..GetSpellInfo(88942), 10, 88942)
 	fireStorm = 100
-	self:RegisterEvent("UNIT_HEALTH_FREQUENT")
+	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "FirestormWarn", "boss1")
 end
 
 --------------------------------------------------------------------------------
@@ -79,8 +79,7 @@ function mod:FelFirestorm(_, spellId, _, _, spellName)
 	self:Bar(88942, "~"..GetSpellInfo(88942), 32, 88942)
 end
 
-function mod:UNIT_HEALTH_FREQUENT(_, unit)
-	if unit ~= "boss1" then return end
+function mod:FirestormWarn(unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 69 and fireStorm > 70 then
 		self:Message(88972, L["firestorm_message"], "Attention")
@@ -88,7 +87,7 @@ function mod:UNIT_HEALTH_FREQUENT(_, unit)
 	elseif hp < 36 and fireStorm > 50 then
 		self:Message(88972, L["firestorm_message"], "Attention")
 		fireStorm = 33
-		self:UnregisterEvent("UNIT_HEALTH_FREQUENT")
+		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 	end
 end
 

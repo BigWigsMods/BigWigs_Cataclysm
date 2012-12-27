@@ -68,7 +68,7 @@ end
 function mod:OnEngage()
 	self:Berserk(self:Heroic() and 300 or 360, nil, nil, 101304)
 	self:Bar(97282, L["stomp"], 15, 97282)
-	self:RegisterEvent("UNIT_HEALTH_FREQUENT")
+	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
 	lastFragments = GetTime()
 end
 
@@ -111,17 +111,14 @@ function mod:MoltenArmor(player, spellId, _, _, spellName, stack, _, _, _, dGUID
 	end
 end
 
-function mod:UNIT_HEALTH_FREQUENT(_, unitId)
-	-- Boss frames were jumping around, there are 3 up with the buff on, so one of boss1 or boss2 is bound to exist
-	if unitId == "boss1" or unitId == "boss2" then
-		local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
-		if hp < 30 then -- phase starts at 25
-			self:Message("ej:2537", L["phase2_warning"], "Positive", 99846, "Info")
-			self:UnregisterEvent("UNIT_HEALTH_FREQUENT")
-			local stack = select(4, UnitBuff(unitId, moltenArmor))
-			if stack then
-				self:Message(98255, L["molten_message"]:format(stack), "Important", 98255, "Alarm")
-			end
+function mod:UNIT_HEALTH_FREQUENT(unitId)
+	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+	if hp < 30 then -- phase starts at 25
+		self:Message("ej:2537", L["phase2_warning"], "Positive", 99846, "Info")
+		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unitId)
+		local _, _, _, stack = UnitBuff(unitId, moltenArmor)
+		if stack then
+			self:Message(98255, L["molten_message"]:format(stack), "Important", 98255, "Alarm")
 		end
 	end
 end

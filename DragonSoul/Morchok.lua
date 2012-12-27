@@ -61,7 +61,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "SummonKohcrom", 109017)
 
 	--Normal
-	self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP", "BloodOver")
+	self:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", "BloodOver", "boss1")
 	self:Log("SPELL_CAST_START", "Stomp", 103414)
 	self:Log("SPELL_CAST_START", "BlackBlood", 103851)
 	self:Log("SPELL_AURA_APPLIED", "Furious", 103846)
@@ -96,8 +96,8 @@ function mod:SummonKohcrom(_, spellId, _, _, spellName)
 end
 
 -- I know it's ugly to use this, but if we were to start bars at :BlackBlood then we are subject to BlackBlood duration changes
-function mod:BloodOver(_, unit, _, _, _, spellId)
-	if unit == "boss1" and spellId == 103851 then
+function mod:BloodOver(unit, _, _, _, spellId)
+	if spellId == 103851 then
 		self:Bar(spellId, L["blood"], 75, spellId)
 		crystalCount, stompCount = 0, 1
 		if self:Heroic() then

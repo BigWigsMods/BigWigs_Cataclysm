@@ -96,8 +96,8 @@ function mod:OnEngage()
 	firstFury = 0
 	counter = 1
 
-	self:RegisterEvent("UNIT_AURA")
-	self:RegisterEvent("UNIT_HEALTH_FREQUENT")
+	self:RegisterUnitEvent("UNIT_AURA", "SicknessCheck", "player")
+	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
 end
 
 --------------------------------------------------------------------------------
@@ -147,11 +147,10 @@ end
 do
 	local sickness = GetSpellInfo(82235)
 	local prev = 0
-	function mod:UNIT_AURA(_, unit)
-		if unit ~= "player" then return end
+	function mod:SicknessCheck(unit)
 		local t = GetTime()
 		if (t - prev) > 7 then
-			local sick = UnitDebuff("player", sickness)
+			local sick = UnitDebuff(unit, sickness)
 			if sick then
 				prev = t
 				self:LocalMessage(82235, L["sickness_message"], "Personal", 81831, "Long")
@@ -204,15 +203,14 @@ function mod:FesterBlood(_, spellId, _, _, spellName)
 	oozecount = oozecount + 1
 end
 
-function mod:UNIT_HEALTH_FREQUENT(_, unit)
-	if unit ~= "boss1" then return end
+function mod:UNIT_HEALTH_FREQUENT(unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if firstFury == 0 and hp > 86 and hp < 89 then
 		self:Message(82524, L["first_fury_soon"], "Attention", 82524)
 		firstFury = 1
 	elseif hp < 30 then
 		self:Message(82630, L["phase2_soon"], "Attention", 82630, "Info")
-		self:UnregisterEvent("UNIT_HEALTH_FREQUENT")
+		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 	end
 end
 

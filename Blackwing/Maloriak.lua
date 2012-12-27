@@ -125,7 +125,7 @@ function mod:OnEngage()
 	aberrations = 18
 	phaseCounter = 0
 	isChilled, currentPhase = nil, nil
-	self:RegisterEvent("UNIT_HEALTH_FREQUENT")
+	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "PhaseWarn", "boss1")
 end
 
 --------------------------------------------------------------------------------
@@ -295,12 +295,11 @@ function mod:Jets(_, spellId, _, _, spellName)
 	self:Bar(78194, spellName, 10, spellId)
 end
 
-function mod:UNIT_HEALTH_FREQUENT(_, unit)
-	if unit ~= "boss1" then return end
+function mod:PhaseWarn(unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 29 then --Switches at 25%
 		self:Message("phase", L["final_phase_soon"], "Positive", 77991, "Info")
-		self:UnregisterEvent("UNIT_HEALTH_FREQUENT")
+		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 	end
 end
 

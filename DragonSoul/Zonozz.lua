@@ -52,7 +52,7 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", "Darkness")
+	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "Darkness", "boss1")
 	self:Log("SPELL_CAST_SUCCESS", "PsychicDrain", 104322)
 	self:Log("SPELL_AURA_APPLIED", "ShadowsApplied", 103434)
 	self:Log("SPELL_AURA_REMOVED", "ShadowsRemoved", 103434)
@@ -80,8 +80,8 @@ end
 -- Event Handlers
 --
 
-function mod:Darkness(_, unit, spellName, _, _, spellId)
-	if unit == "boss1" and spellId == L["darkness_icon"] then
+function mod:Darkness(unit, spellName, _, _, spellId)
+	if spellId == 109413 then
 		self:Bar("darkness", L["darkness"], 30, spellId)
 		self:Message("darkness", L["darkness"], "Important", spellId, "Info")
 		self:Bar(103434, "~"..GetSpellInfo(103434), 37, 103434) -- Shadows
