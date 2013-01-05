@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-<!--@debug@-->
+
 <Include file="Blackwing\locales.xml"/>
 <Include file="Blackwing\modules.xml"/>
 
@@ -18,6 +18,6 @@
 
 <Include file="DragonSoul\locales.xml"/>
 <Include file="DragonSoul\modules.xml"/>
-<!--@end-debug@-->
+
 </Ui>
 
