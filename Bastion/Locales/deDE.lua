@@ -17,7 +17,7 @@ if L then
 
 	L.sickness_message = "Krankheit auf DIR!"
 	L.blaze_message = "Lohe auf DIR!"
-	L.crash_say = "Schmettern auf MIR!"
+	L.crash_say = "Schmettern"
 
 	L.fury_message = "Furor!"
 	L.first_fury_soon = "Furor bald!"
@@ -39,7 +39,7 @@ if L then
 	L.dazzling_message = "Wirbelzonen kommen!"
 
 	L.blast_message = "Druckwelle"
-	L.engulfingmagic_say = "Einhüllende Magie auf MIR!"
+	L.engulfingmagic_say = "Einhüllende Magie"
 
 	L.valiona_trigger = "Theralion, ich werde den Gang einhüllen. Deck ihre Flucht!"
 
@@ -75,8 +75,8 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "deDE")
 if L then
-	L.static_overload_say = "Überladung auf MIR!"
-	L.gravity_core_say = "Gravitation auf MIR!"
+	L.static_overload_say = "Überladung"
+	L.gravity_core_say = "Gravitation"
 	L.health_report = "%s bei %d%%, Wechsel bald!"
 	L.switch = "Wechsel"
 	L.switch_desc = "Warnt, wenn die Bosse wechseln."

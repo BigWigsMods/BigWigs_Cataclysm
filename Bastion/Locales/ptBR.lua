@@ -5,7 +5,7 @@ if L then
 	L.orders = "Trocas de modos"
 	L.orders_desc = "Avisa quando Cho'gall muda a ordem de posições entre Sombra/Chamas."
 
-	L.crash_say = "Colisão em MIM!"
+	L.crash_say = "Colisão"
 	L.worship_cooldown = "~Conversão"
 	L.adherent_bar = "Add grande #%d"
 	L.adherent_message = "Add %d aparece!"
@@ -37,7 +37,7 @@ if L then
 	L.dazzling_message = "Zonas espirais Iminente!"
 
 	L.blast_message = "Explosão Crepúscular" --Sounds better and makes more sense than Twilight Blast (the user instantly knows something is coming from the sky at them)
-	L.engulfingmagic_say = "Magia Engolfante em MIM!"
+	L.engulfingmagic_say = "Magia Engolfante"
 
 	L.valiona_trigger = "Theralion, eu vou incendiar o corredor. Cubra a fuga deles!"
 
@@ -74,8 +74,8 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "ptBR")
 if L then
-	L.static_overload_say = "Sobrecarga estática em MIM!"
-	L.gravity_core_say = "Núcleo gravitacional em MIM!"
+	L.static_overload_say = "Sobrecarga estática"
+	L.gravity_core_say = "Núcleo gravitacional"
 	L.health_report = "%s com %d%%, mudança de fase iminente!"
 	L.switch = "Troca"
 	L.switch_desc = "Avisa a troca de chefes."

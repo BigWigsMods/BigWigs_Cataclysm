@@ -17,7 +17,7 @@ if L then
 
 	L.sickness_message = ">你< 快要嘔吐了!"
 	L.blaze_message = ">你< 燃炎！"
-	L.crash_say = ">我< 腐化轟擊！"
+	L.crash_say = "腐化轟擊"
 
 	L.fury_message = "丘加利之怒！"
 	L.first_fury_soon = "即將 丘加利之怒！"
@@ -39,7 +39,7 @@ if L then
 	L.dazzling_message = "即將！暮光之境！"
 
 	L.blast_message = "暮光衝擊！"
-	L.engulfingmagic_say = ">我< 侵噬魔法！"
+	L.engulfingmagic_say = "侵噬魔法"
 
 	L.valiona_trigger = "瑟拉里恩，我的火會淹沒整個通道。擋住他們的退路!"
 	L.win_trigger = "至少...有瑟拉里恩陪葬..."
@@ -76,8 +76,8 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "zhTW")
 if L then
-	L.static_overload_say = ">我< 靜電超載！"
-	L.gravity_core_say = ">我< 重力之核！"
+	L.static_overload_say = "靜電超載"
+	L.gravity_core_say = "重力之核"
 	L.health_report = "%s生命值>%d%%<，即將階段轉換！"
 	L.switch = "轉換"
 	L.switch_desc = "當首領轉換時發出警報。"

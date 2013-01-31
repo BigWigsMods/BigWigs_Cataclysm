@@ -80,7 +80,7 @@ do
 			if UnitIsUnit("boss1target", "player") then
 				if spellId == 99836 then
 					mod:FlashShake("crystal")
-					mod:Say("crystal", CL["say"]:format(L["crystal_trap"]))
+					mod:Say("crystal", L["crystal_trap"])
 				else
 					mod:FlashShake("immolationyou")
 					mod:LocalMessage("immolationyou", CL["underyou"]:format(L["immolationyou_message"]), "Personal", spellId, "Alarm")

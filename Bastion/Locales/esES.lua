@@ -5,7 +5,7 @@ if L then
 	L.orders = "Cambios de posición"
 	L.orders_desc = "Avisa cuando Cho'gall cambia el orden de posiciones entre Sombra/Llama."
 
-	L.crash_say = "¡Colisión en MI!"
+	L.crash_say = "Colisión"
 	L.worship_cooldown = "~Conversión"
 	L.adherent_bar = "Gran add #%d"
 	L.adherent_message = "¡Add %d aparece!"
@@ -37,7 +37,7 @@ if L then
 	L.dazzling_message = "¡Zonas espirales inminentes!"
 
 	L.blast_message = "Explosión en caída" --Sounds better and makes more sense than Twilight Blast (the user instantly knows something is coming from the sky at them)
-	L.engulfingmagic_say = "¡Trago de magia en MI!"
+	L.engulfingmagic_say = "Trago de magia"
 
 	L.valiona_trigger = "Theralion, voy a incendiar el corredor. ¡Que no escapen!"
 
@@ -71,8 +71,8 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "esES") or BigWigs:NewBossLocale("Ascendant Council", "esMX")
 if L then
-	L.static_overload_say = "¡Sobrecarga estática en MI!"
-	L.gravity_core_say = "¡Núcleo de gravedad en MI!"
+	L.static_overload_say = "Sobrecarga estática"
+	L.gravity_core_say = "Núcleo de gravedad"
 	L.health_report = "%s está al %d%% de vida, ¡cambio pronto!"
 	L.switch = "Cambio"
 	L.switch_desc = "Avisa los cambios de jefes"

@@ -17,7 +17,7 @@ if L then
 
 	L.sickness_message = "Vous ne vous sentez pas bien !"
 	L.blaze_message = "Brasier sur vous !"
-	L.crash_say = "Déferlante sur moi !"
+	L.crash_say = "Déferlante"
 
 	L.fury_message = "Fureur !"
 	L.first_fury_soon = "Fureur imminente !"
@@ -39,7 +39,7 @@ if L then
 	L.dazzling_message = "Arrivée des zones tourbillonnantes !"
 
 	L.blast_message = "Déflagration"
-	L.engulfingmagic_say = "Magie sur moi !"
+	L.engulfingmagic_say = "Magie"
 
 	L.valiona_trigger = "Theralion, je m'occupe du vestibule. Couvre leur fuite !" -- à vérifier
 	L.win_trigger = "Au moins... Theralion meurt avec moi..." -- à vérifier
@@ -76,8 +76,8 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "frFR")
 if L then
-	L.static_overload_say = "Surcharge sur moi !"
-	L.gravity_core_say = "Gravité sur moi !"
+	L.static_overload_say = "Surcharge"
+	L.gravity_core_say = "Gravité"
 	L.health_report = "%s est à %d%%, changement de phase imminent !"
 	L.switch = "Changement"
 	L.switch_desc = "Prévient quand les boss échangent leurs places."

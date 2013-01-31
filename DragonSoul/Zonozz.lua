@@ -119,7 +119,7 @@ end
 function mod:ShadowsApplied(player, spellId)
 	if UnitIsUnit(player, "player") and not self:LFR() then
 		self:LocalMessage(103434, CL["you"]:format(L["shadows"]), "Personal", spellId, "Alert")
-		self:Say(103434, CL["say"]:format(L["shadows"]))
+		self:Say(103434, L["shadows"])
 		self:FlashShake(103434)
 		if self:Heroic() then
 			self:OpenProximity(103434, 10)

@@ -14,7 +14,6 @@ local worshipTargets = mod:NewTargetList()
 local worshipCooldown = 24
 local firstFury = 0
 local counter = 1
-local corruptingCrash = GetSpellInfo(81685)
 local bigcount = 1
 local oozecount = 1
 
@@ -39,7 +38,7 @@ if L then
 
 	L.sickness_message = "You feel terrible!"
 	L.blaze_message = "Fire under YOU!"
-	L.crash_say = "Crash on ME!"
+	L.crash_say = "Crash"
 
 	L.fury_message = "Fury!"
 	L.first_fury_soon = "Fury Soon!"
@@ -106,46 +105,45 @@ end
 
 do
 	local last = 0
-	function mod:Blaze(player, spellId, _, _, spellName)
+	function mod:Blaze(args)
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			if UnitIsUnit(player, "player") then
-				self:LocalMessage(81538, L["blaze_message"], "Personal", spellId, "Info")
-				self:FlashShake(81538)
+			if UnitIsUnit(args.destName, "player") then
+				self:LocalMessage(args.spellId, L["blaze_message"], "Personal", args.spellId, "Info")
+				self:FlashShake(args.spellId)
 			end
 		end
 	end
 end
 
 do
-	local function checkTarget(sGUID)
+	local function checkTarget(sGUID, spellId)
 		local mobId = mod:GetUnitIdByGUID(sGUID)
 		if mobId then
 			local player = UnitName(mobId.."target")
 			if not player then return end
 			if UnitIsUnit("player", player) then
-				mod:Say(81685, L["crash_say"])
-				mod:FlashShake(81685)
+				mod:Say(spellId, L["crash_say"])
+				mod:FlashShake(spellId)
 			end
-			mod:TargetMessage(81685, corruptingCrash, player, "Urgent", 81685, "Long")
+			mod:TargetMessage(spellId, spellId, player, "Urgent", spellId, "Long") -- Corrupting Crash
 			if counter == 1 then
-				mod:PrimaryIcon(81685, player)
+				mod:PrimaryIcon(spellId, player)
 			else
-				mod:SecondaryIcon(81685, player)
+				mod:SecondaryIcon(spellId, player)
 			end
 			if mod:Difficulty() == 6 then counter = counter + 1 end
 		end
 		if counter > 2 then counter = 1 end
 	end
-	function mod:CorruptingCrash(...)
-		local sGUID = select(11, ...)
-		self:ScheduleTimer(checkTarget, 0.2, sGUID)
+	function mod:CorruptingCrash(args)
+		self:ScheduleTimer(checkTarget, 0.2, args.sourceGUID, args.spellId)
 	end
 end
 
 do
-	local sickness = GetSpellInfo(82235)
+	local sickness = mod:SpellName(82235)
 	local prev = 0
 	function mod:SicknessCheck(unit)
 		local t = GetTime()
@@ -161,21 +159,21 @@ do
 	end
 end
 
-function mod:FuryOfChogall(_, spellId, _, _, spellName)
+function mod:FuryOfChogall(args)
 	if firstFury == 1 then
-		self:Message(82524, L["first_fury_message"], "Attention", spellId)
+		self:Message(args.spellId, L["first_fury_message"], "Attention", args.spellId)
 		self:Bar(91303, L["worship_cooldown"], 10, 91303)
 		worshipCooldown = 40
 		firstFury = 2
 	else
-		self:Message(82524, L["fury_message"], "Attention", spellId)
+		self:Message(args.spellId, L["fury_message"], "Attention", args.spellId)
 	end
-	self:Bar(82524, spellName, 47, spellId)
+	self:Bar(args.spellId, args.spellName, 47, args.spellId)
 end
 
-function mod:Orders(_, spellId, _, _, spellName)
-	self:Message("orders", spellName, "Urgent", spellId)
-	if spellId == 81556 then
+function mod:Orders(args)
+	self:Message("orders", args.spellName, "Urgent", args.spellId)
+	if args.spellId == 81556 then
 		if self:Heroic() then
 			self:Bar(81571, L["unleashed_shadows"], 24, 81571) -- verified for 25man heroic
 		else
@@ -186,20 +184,20 @@ end
 
 do
 	local function nextAdd(spellId)
-		mod:Bar(81628, L["adherent_bar"]:format(bigcount), 50, spellId)
+		mod:Bar(spellId, L["adherent_bar"]:format(bigcount), 50, spellId)
 	end
-	function mod:SummonCorruptingAdherent(_, spellId, _, _, spellName)
-		self:Message(81628, L["adherent_message"]:format(bigcount), "Important", spellId)
+	function mod:SummonCorruptingAdherent(args)
+		self:Message(args.spellId, L["adherent_message"]:format(bigcount), "Important", args.spellId)
 		bigcount = bigcount + 1
-		self:ScheduleTimer(nextAdd, 41, spellId)
+		self:ScheduleTimer(nextAdd, 41, args.spellId)
 
 		-- I assume its 40 sec from summon and the timer is not between two casts of Fester Blood
 		self:Bar(82299, L["ooze_bar"]:format(oozecount), 40, 82299)
 	end
 end
 
-function mod:FesterBlood(_, spellId, _, _, spellName)
-	self:Message(82299, L["ooze_message"]:format(oozecount), "Attention", spellId, "Alert")
+function mod:FesterBlood(args)
+	self:Message(args.spellId, L["ooze_message"]:format(oozecount), "Attention", args.spellId, "Alert")
 	oozecount = oozecount + 1
 end
 
@@ -214,17 +212,17 @@ function mod:UNIT_HEALTH_FREQUENT(unit)
 	end
 end
 
-function mod:LastPhase(_, spellId)
+function mod:LastPhase(args)
 	self:StopBar(L["adherent_bar"])
 	self:StopBar(L["ooze_bar"])
 	self:StopBar(L["worship_cooldown"])
-	self:Message(82630, L["phase2_message"], "Positive", spellId)
+	self:Message(args.spellId, L["phase2_message"], "Positive", args.spellId)
 	self:Bar(82414, L["tentacles_bar"], 6, 82414)
 end
 
-function mod:DarkenedCreations(_, spellId)
-	self:Message(82414, L["tentacles_message"], "Urgent", spellId)
-	self:Bar(82414, L["tentacles_bar"], 30, 82414)
+function mod:DarkenedCreations(args)
+	self:Message(args.spellId, L["tentacles_message"], "Urgent", args.spellId)
+	self:Bar(args.spellId, L["tentacles_bar"], 30, args.spellId)
 end
 
 do
@@ -234,12 +232,12 @@ do
 		mod:PlaySound(91303, "Alarm")
 		scheduled = nil
 	end
-	function mod:Worship(player, spellId, _, _, spellName)
-		worshipTargets[#worshipTargets + 1] = player
+	function mod:Worship(args)
+		worshipTargets[#worshipTargets + 1] = args.destName
 		if not scheduled then
 			scheduled = true
 			self:Bar(91303, L["worship_cooldown"], worshipCooldown, 91303)
-			self:ScheduleTimer(worshipWarn, 0.3, spellName)
+			self:ScheduleTimer(worshipWarn, 0.3, args.spellName)
 		end
 	end
 end

@@ -24,8 +24,8 @@ local phase = 1
 
 local L = mod:NewLocale("enUS", true)
 if L then
-	L.static_overload_say = "Overload on ME!"
-	L.gravity_core_say = "Gravity on ME!"
+	L.static_overload_say = "Overload"
+	L.gravity_core_say = "Gravity"
 	L.health_report = "%s at %d%%, phase change soon!"
 	L.switch = "Switch"
 	L.switch_desc = "Warning for boss switches."
@@ -148,7 +148,7 @@ do
 			self:ScheduleTimer(lrWarn, 0.3, spellName)
 		end
 		if UnitIsUnit(player, "player") then
-			self:Say(83099, CL["say"]:format(spellName))
+			self:Say(83099, spellName)
 			self:FlashShake(83099)
 			self:OpenProximity("proximity", 10)
 		end

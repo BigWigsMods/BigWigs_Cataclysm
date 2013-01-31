@@ -17,7 +17,7 @@ if L then
 
 	L.sickness_message = "당신은 피부 트러블!"
 	L.blaze_message = "당신은 불꽃!"
-	L.crash_say = "나에게 부패의 충돌!"
+	L.crash_say = "부패의 충돌"
 
 	L.fury_message = "격노!"
 	L.first_fury_soon = "곧 격노!"
@@ -39,7 +39,7 @@ if L then
 	L.dazzling_message = "곧 황혼 세계"
 
 	L.blast_message = "황혼 폭발"
-	L.engulfingmagic_say = "나에게 사로잡힌 마법!"
+	L.engulfingmagic_say = "사로잡힌 마법"
 
 	L.valiona_trigger = "테랄리온, 내가 전당에 불을 뿜겠다. 놈들의 퇴로를 막아라!"
 
@@ -75,8 +75,8 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "koKR")
 if L then
-	L.static_overload_say = "나에게 전화 과부하!"
-	L.gravity_core_say = "나에게 중력 핵!"
+	L.static_overload_say = "전화 과부하"
+	L.gravity_core_say = "중력 핵"
 	L.health_report = "%s 체력 -%d%%-, 곧 단계 변화!"
 	L.switch = "전환"
 	L.switch_desc = "보스의 전환을 알립니다."

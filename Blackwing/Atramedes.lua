@@ -97,7 +97,7 @@ do
 	function mod:UNIT_AURA(_, unit)
 		if UnitDebuff(unit, pestered) then
 			if unit == "player" then
-				self:Say(92677, CL["say"]:format(obnoxious))
+				self:Say(92677, obnoxious)
 			end
 			self:TargetMessage(92677, obnoxious, UnitName(unit), "Attention", 92677, "Long")
 			self:UnregisterEvent("UNIT_AURA")
@@ -107,7 +107,7 @@ end
 
 function mod:Tracking(player, spellId, _, _, spellName)
 	if UnitIsUnit(player, "player") then
-		self:Say(78092, CL["say"]:format((GetSpellInfo(78092))))
+		self:Say(78092, 78092)
 		self:FlashShake(78092)
 	end
 	self:TargetMessage(78092, spellName, player, "Personal", spellId, "Alarm")

@@ -11,8 +11,7 @@ mod:RegisterEnableMob(45992, 45993)
 --
 
 local phaseCount = 0
-local marked, blackout, deepBreath = GetSpellInfo(88518), GetSpellInfo(86788), GetSpellInfo(86059)
-local devouringFlames = "~"..GetSpellInfo(86840)
+local devouringFlames = "~"..mod:SpellName(86840)
 local theralion = EJ_GetSectionInfo(2994)
 local valiona = EJ_GetSectionInfo(2985)
 local emTargets = mod:NewTargetList()
@@ -32,7 +31,7 @@ if L then
 	L.dazzling_message = "Swirly zones incoming!"
 
 	L.blast_message = "Falling Blast" --Sounds better and makes more sense than Twilight Blast (the user instantly knows something is coming from the sky at them)
-	L.engulfingmagic_say = "Engulf on ME!"
+	L.engulfingmagic_say = "Engulf"
 
 	L.valiona_trigger = "Theralion, I will engulf the hallway. Cover their escape!"
 	L.win_trigger = "At least... Theralion dies with me..."
@@ -65,7 +64,7 @@ function mod:OnBossEnable()
 	-- Phase Switch -- should be able to do this easier once we get Transcriptor logs
 	self:Log("SPELL_CAST_START", "DazzlingDestruction", 86408)
 	self:Yell("DeepBreath", L["valiona_trigger"])
-	self:Emote("DeepBreathCast", deepBreath)
+	self:Emote("DeepBreathCast", self:SpellName(86059)) -- Deep Breath
 
 	self:Log("SPELL_AURA_APPLIED", "BlackoutApplied", 86788)
 	self:Log("SPELL_AURA_REMOVED", "BlackoutRemoved", 86788)
@@ -86,7 +85,7 @@ end
 function mod:OnEngage()
 	markWarned = false
 	self:Bar(86840, devouringFlames, 25, 86840)
-	self:Bar(86788, blackout, 11, 86788)
+	self:Bar(86788, 86788, 11, 86788) -- Blackout
 	self:Bar("phase_switch", L["phase_bar"]:format(theralion), 103, 60639)
 	self:OpenProximity("proximity", 8)
 	self:Berserk(600)
@@ -105,23 +104,22 @@ do
 			mod:LocalMessage(86369, CL["you"]:format(L["blast_message"]), "Personal", 86369, "Long")
 		end
 	end
-	function mod:TwilightBlast(...)
-		local sGUID = select(11, ...)
-		self:ScheduleTimer(checkTarget, 0.3, sGUID)
+	function mod:TwilightBlast(args)
+		self:ScheduleTimer(checkTarget, 0.3, args.sourceGUID)
 	end
 end
 
 local function valionaHasLanded()
-	mod:SendMessage("BigWigs_StopBar", mod, "~"..GetSpellInfo(86622))
+	mod:StopBar("~"..GetSpellInfo(86622))
 	mod:Message("phase_switch", L["phase_bar"]:format(valiona), "Positive", 60639)
 	mod:Bar(86840, devouringFlames, 26, 86840)
-	mod:Bar(86788, blackout, 11, 86788)
+	mod:Bar(86788, 86788, 11, 86788) -- Blackout
 	mod:OpenProximity("proximity", 8)
 end
 
 local function theralionHasLanded()
-	mod:SendMessage("BigWigs_StopBar", mod, blackout)
-	mod:SendMessage("BigWigs_StopBar", mod, devouringFlames)
+	mod:StopBar(86788) -- Blackout
+	mod:StopBar(devouringFlames)
 	mod:Bar("phase_switch", L["phase_bar"]:format(valiona), 130, 60639)
 	mod:CloseProximity()
 end
@@ -185,12 +183,15 @@ local function markRemoved()
 	markWarned = false
 end
 
-function mod:MeteorCheck(unit)
-	if not markWarned and UnitDebuff(unit, marked) then
-		self:FlashShake(88518)
-		self:LocalMessage(88518, CL["you"]:format(marked), "Personal", 88518, "Long")
-		markWarned = true
-		self:ScheduleTimer(markRemoved, 7)
+do
+	local marked = mod:SpellName(88518)
+	function mod:MeteorCheck(unit)
+		if not markWarned and UnitDebuff(unit, marked) then
+			self:FlashShake(88518)
+			self:LocalMessage(88518, CL["you"]:format(marked), "Personal", 88518, "Long")
+			markWarned = true
+			self:ScheduleTimer(markRemoved, 7)
+		end
 	end
 end
 

@@ -72,8 +72,6 @@ if L then
 	L.release_aberration_message = "¡%s adds restantes!"
 	L.release_all = "¡%s adds liberados!"
 
-	L.bitingchill_say = "¡Escalofrío cortante en MI!"
-
 	L.phase = "Fase"
 	L.phase_desc = "Avisa los cambios de fase."
 	L.next_phase = "Siguiente fase"

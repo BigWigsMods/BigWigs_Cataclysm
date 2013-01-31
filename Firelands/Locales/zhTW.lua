@@ -91,7 +91,7 @@ if L then
 	L.seed_explosion = ">你< 即將灼熱種子爆炸！"
 	L.seed_bar = "你：灼熱種子爆炸"
 	L.adrenaline_message = "激奮腺素：>%d<層！"
-	L.leap_say = ">我< 跳躍火焰斬！"
+	L.leap_say = "跳躍火焰斬"
 end
 
 L = BigWigs:NewBossLocale("Ragnaros", "zhTW")

@@ -17,7 +17,7 @@ if L then
 
 	L.sickness_message = "Вы больны, и вас сейчас стошнит!"
 	L.blaze_message = "Пламя под ТОБОЙ!"
-	L.crash_say = "Сокрушение на МНЕ!"
+	L.crash_say = "Сокрушение"
 
 	L.fury_message = "Неистовство!"
 	L.first_fury_soon = "Скоро Неистовство!"
@@ -39,7 +39,7 @@ if L then
 	L.dazzling_message = "Шокирующее разрушение!"
 
 	L.blast_message = "Сумеречный взрыв"
-	L.engulfingmagic_say = "Избыточная магия на МНЕ!"
+	L.engulfingmagic_say = "Избыточная магия"
 
 	L.valiona_trigger = "Тералион, я подожгу коридор. Не дай им уйти!"
 	L.win_trigger = "Одно утешает... Тералион погиб вместе со мной..."
@@ -59,8 +59,8 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "ruRU")
 if L then
-	L.static_overload_say = "Перегрузка на МНЕ!"
-	L.gravity_core_say = "Гравитация на МНЕ!"
+	L.static_overload_say = "Перегрузка"
+	L.gravity_core_say = "Гравитация"
 	L.health_report = "%s имеет %d%% здоровья, скоро смена!"
 	L.switch = "Смена"
 	L.switch_desc = "Сообщать о смене боссов"

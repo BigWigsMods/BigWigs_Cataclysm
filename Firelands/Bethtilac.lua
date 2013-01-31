@@ -112,7 +112,7 @@ do
 			self:TargetMessage(99990, burst, lastBroodlingTarget, "Important", 99990, "Alert")
 			if UnitIsUnit(lastBroodlingTarget, "player") then
 				self:FlashShake(99990)
-				self:Say(99990, CL["say"]:format(burst))
+				self:Say(99990, burst)
 			end
 		end
 	end

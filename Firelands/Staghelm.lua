@@ -28,7 +28,7 @@ if L then
 	L.seed_explosion = "You explode soon!"
 	L.seed_bar = "You explode!"
 	L.adrenaline_message = "Adrenaline x%d!"
-	L.leap_say = "Leap on ME!"
+	L.leap_say = "Leap"
 end
 L = mod:GetLocale()
 

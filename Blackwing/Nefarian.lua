@@ -203,7 +203,7 @@ do
 		cinderTargets[#cinderTargets + 1] = player
 		if UnitIsUnit(player, "player") then
 			self:FlashShake(79339)
-			self:Say(79339, CL["say"]:format(spellName))
+			self:Say(79339, spellName)
 			self:Bar(79339, spellName, 8, spellId)
 			self:OpenProximity(79339, 10) -- assumed
 		end

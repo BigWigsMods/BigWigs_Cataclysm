@@ -206,7 +206,7 @@ function mod:Parasite(player, spellId)
 		self:FlashShake("ej:4347")
 		self:Bar("ej:4347", CL["you"]:format(L["parasite"]), 10, spellId)
 		self:OpenProximity("ej:4347", 10)
-		self:Say("ej:4347", CL["say"]:format(L["parasite"]))
+		self:Say("ej:4347", L["parasite"])
 	else
 		self:Bar("ej:4347", CL["other"]:format(L["parasite"], player), 10, spellId)
 	end

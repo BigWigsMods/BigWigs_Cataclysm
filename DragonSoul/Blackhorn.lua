@@ -126,7 +126,7 @@ do
 			if not player then return end
 			if UnitIsUnit("player", player) then
 				local twilightFlames = GetSpellInfo(108076)
-				mod:Say(108076, CL["say"]:format(twilightFlames))
+				mod:Say(108076, twilightFlames
 				mod:FlashShake(108076)
 				mod:LocalMessage(108076, twilightFlames, "Personal", 108076, "Long")
 			end
@@ -159,7 +159,7 @@ do
 			timer = nil
 			if UnitIsUnit("boss2target", "player") then
 				mod:FlashShake(108046)
-				mod:Say(108046, CL["say"]:format(shockwave))
+				mod:Say(108046, shockwave)
 			end
 			return
 		end
