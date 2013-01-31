@@ -118,8 +118,8 @@ do
 		isHeadPhase = true
 		self:Message(79011, L["expose_message"], "Positive", 79011)
 		self:Bar(79011, L["expose_message"], 30, 79011)
-		self:SendMessage("BigWigs_StopBar", self, pillarOfFlame)
-		self:SendMessage("BigWigs_StopBar", self, lavaSpew)
+		self:StopBar(pillarOfFlame)
+		self:StopBar(lavaSpew)
 		self:CancelDelayedMessage(L["spew_warning"])
 		self:ScheduleTimer(rebootTimers, 30)
 	end
@@ -146,8 +146,8 @@ end
 function mod:Phase2()
 	phase = 2
 	self:Message("phase2", L["phase2_message"], "Attention", 92195)
-	self:SendMessage("BigWigs_StopBar", self, L["blazing_bar"])
-	self:OpenProximity(8, "phase2")
+	self:StopBar(L["blazing_bar"])
+	self:OpenProximity("phase2", 8)
 end
 
 function mod:PillarOfFlame(_, spellId, _, _, spellName)
@@ -159,7 +159,7 @@ function mod:Infection(player, spellId, _, _, spellName)
 	if UnitIsUnit(player, "player") then
 		self:LocalMessage(78941, L["infection_message"], "Personal", spellId, "Alarm")
 		self:FlashShake(78941)
-		self:OpenProximity(8, 78941)
+		self:OpenProximity(78941, 8)
 	else
 		self:Whisper(78941, player, L["infection_message"], true)
 	end
@@ -172,7 +172,7 @@ function mod:InfectionRemoved(player)
 end
 
 function mod:Slump()
-	self:SendMessage("BigWigs_StopBar", self,  pillarOfFlame)
+	self:StopBar( pillarOfFlame)
 	self:Bar("slump", L["slump_bar"], 95, 36702)
 	self:Message("slump", L["slump_message"], "Positive", 36702, "Info")
 end
@@ -187,7 +187,7 @@ do
 	end
 
 	function mod:MangleRemoved(player, _, _, _, spellName)
-		self:SendMessage("BigWigs_StopBar", self, CL["other"]:format(spellName, player))
+		self:StopBar(CL["other"]:format(spellName, player))
 	end
 end
 

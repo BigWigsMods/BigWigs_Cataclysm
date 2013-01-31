@@ -108,8 +108,8 @@ do
 		end
 	end
 	function mod:Stage2()
-		self:SendMessage("BigWigs_StopBar", self, (GetSpellInfo(107588))) -- Twilight Onslaught
-		self:SendMessage("BigWigs_StopBar", self, L["sapper"])
+		self:StopBar((GetSpellInfo(107588))) -- Twilight Onslaught
+		self:StopBar(L["sapper"])
 		self:Bar(108046, "~"..GetSpellInfo(108046), 14, 108046) -- Shockwave
 		self:Message("warmup", CL["phase"]:format(2) .. ": " .. self.displayName, "Positive", L["warmup_icon"])
 		if not self:LFR() then
@@ -182,7 +182,7 @@ end
 function mod:Sunder(player, spellId, _, _, spellName, buffStack)
 	if self:Tank() then
 		buffStack = buffStack or 1
-		self:SendMessage("BigWigs_StopBar", self, L["sunder_message"]:format(player, buffStack - 1))
+		self:StopBar(L["sunder_message"]:format(player, buffStack - 1))
 		self:Bar("sunder", L["sunder_message"]:format(player, buffStack), 30, spellId)
 		self:LocalMessage("sunder", L["sunder_message"], "Urgent", spellId, buffStack > 2 and "Info" or nil, player, buffStack)
 	end

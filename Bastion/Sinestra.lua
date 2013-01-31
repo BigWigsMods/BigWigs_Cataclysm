@@ -272,8 +272,8 @@ function mod:PhaseWarn(unit)
 		self:Message("phase", CL["phase"]:format(2), "Positive", 86226, "Info")
 		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 		self:CancelAllTimers()
-		self:SendMessage("BigWigs_StopBar", self, "~"..slicer)
-		self:SendMessage("BigWigs_StopBar", self, "~"..breath)
+		self:StopBar("~"..slicer)
+		self:StopBar("~"..breath)
 	end
 end
 

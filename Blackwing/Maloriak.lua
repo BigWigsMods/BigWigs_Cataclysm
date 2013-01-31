@@ -157,7 +157,7 @@ end
 function mod:Red()
 	if currentPhase == "red" then return end
 	currentPhase = "red"
-	self:SendMessage("BigWigs_StopBar", self, flashFreeze)
+	self:StopBar(flashFreeze)
 	self:Bar(77679, scorchingBlast, 25, 77679)
 	self:Message("phase", L["red_phase"], "Positive", "Interface\\Icons\\INV_POTION_24", "Long")
 	if not isChilled then
@@ -169,18 +169,18 @@ end
 function mod:Blue()
 	if currentPhase == "blue" then return end
 	currentPhase = "blue"
-	self:SendMessage("BigWigs_StopBar", self, scorchingBlast)
+	self:StopBar(scorchingBlast)
 	self:Bar(77699, flashFreeze, 28, 77699)
 	self:Message("phase", L["blue_phase"], "Positive", "Interface\\Icons\\INV_POTION_20", "Long")
-	self:OpenProximity(5)
+	self:OpenProximity("proximity", 5)
 	nextPhase(47)
 end
 
 function mod:Green()
 	if currentPhase == "green" then return end
 	currentPhase = "green"
-	self:SendMessage("BigWigs_StopBar", self, scorchingBlast)
-	self:SendMessage("BigWigs_StopBar", self, flashFreeze)
+	self:StopBar(scorchingBlast)
+	self:StopBar(flashFreeze)
 	self:Message("phase", L["green_phase"], "Positive", "Interface\\Icons\\INV_POTION_162", "Long")
 	if not isChilled then
 		self:CloseProximity()

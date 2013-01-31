@@ -55,25 +55,25 @@ end
 -- Event Handlers
 --
 
-function mod:SearingShadows(player, spellId, _, _, spellName)
-	self:TargetMessage(96913, spellName, player, "Important", spellId)
-	self:Bar(96913, L["shadows_bar"], 24, spellId) --23-26
+function mod:SearingShadows(args)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
+	self:Bar(args.spellId, L["shadows_bar"], 24, args.spellId) --23-26
 end
 
-function mod:Eyes(_, spellId, _, _, spellName)
-	self:FlashShake(96920)
-	self:Message(96920, spellName, "Urgent", spellId, "Alert")
-	self:Bar(96920, L["destruction_bar"], 10, 96968) -- 96968 is Occu'thar's Destruction
-	self:Bar(96920, L["eyes_bar"], 58, spellId)
+function mod:Eyes(args)
+	self:FlashShake(args.spellId)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Alert")
+	self:Bar(args.spellId, L["destruction_bar"], 10, 96968) -- 96968 is Occu'thar's Destruction
+	self:Bar(args.spellId, L["eyes_bar"], 58, args.spellId)
 	fireCount = 0
-	self:Bar(96884, L["fire_bar"], 18.5, spellId) --18.5-19.2
+	self:Bar(96884, L["fire_bar"], 18.5, args.spellId) --18.5-19.2
 end
 
-function mod:FocusedFire(_, spellId, _, _, spellName)
-	self:Message(96884, L["fire_message"], "Attention", spellId)
+function mod:FocusedFire(args)
+	self:Message(args.spellId, L["fire_message"], "Attention", args.spellId)
 	fireCount = fireCount + 1
 	if fireCount < 3 then
-		self:Bar(96884, L["fire_bar"], 15.7, spellId) --15.5-16
+		self:Bar(args.spellId, L["fire_bar"], 15.7, args.spellId) --15.5-16
 	end
 end
 

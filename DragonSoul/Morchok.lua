@@ -91,8 +91,8 @@ end
 function mod:SummonKohcrom(_, spellId, _, _, spellName)
 	self:Bar("stomp_boss", "~"..self.displayName.." - "..L["stomp_boss"], 6, L["stomp_boss_icon"]) -- 6-12s
 	self:Message(109017, spellName, "Positive", spellId)
-	self:SendMessage("BigWigs_StopBar", self, L["crystal"])
-	self:SendMessage("BigWigs_StopBar", self, "~"..L["stomp_boss"])
+	self:StopBar(L["crystal"])
+	self:StopBar("~"..L["stomp_boss"])
 end
 
 -- I know it's ugly to use this, but if we were to start bars at :BlackBlood then we are subject to BlackBlood duration changes
@@ -176,7 +176,7 @@ end
 function mod:Crush(player, spellId, _, _, spellName, buffStack)
 	if self:Tank() then
 		buffStack = buffStack or 1
-		self:SendMessage("BigWigs_StopBar", self, L["crush_message"]:format(player, buffStack - 1))
+		self:StopBar(L["crush_message"]:format(player, buffStack - 1))
 		self:Bar("crush", L["crush_message"]:format(player, buffStack), 20, spellId)
 		self:LocalMessage("crush", L["crush_message"], "Urgent", spellId, buffStack > 2 and "Info" or nil, player, buffStack)
 	end

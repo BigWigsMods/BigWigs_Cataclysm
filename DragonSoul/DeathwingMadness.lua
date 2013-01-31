@@ -112,8 +112,8 @@ function mod:Impale(_, spellId, _, _, spellName)
 end
 
 function mod:TentacleKilled()
-	self:SendMessage("BigWigs_StopBar", self, (GetSpellInfo(106400)))
-	self:SendMessage("BigWigs_StopBar", self, L["parasite"])
+	self:StopBar((GetSpellInfo(106400)))
+	self:StopBar(L["parasite"])
 end
 
 do
@@ -181,12 +181,12 @@ end
 
 function mod:Cataclysm(_, spellId, _, _, spellName)
 	self:Message(106523, spellName, "Attention", spellId)
-	self:SendMessage("BigWigs_StopBar", self, spellName)
+	self:StopBar(spellName)
 	self:Bar(106523, CL["cast"]:format(spellName), 60, spellId)
 end
 
 function mod:AgonizingPain()
-	self:SendMessage("BigWigs_StopBar", self, CL["cast"]:format(cataclysm))
+	self:StopBar(CL["cast"]:format(cataclysm))
 end
 
 function mod:Shrapnel(player, spellId, _, _, spellName)
@@ -205,7 +205,7 @@ function mod:Parasite(player, spellId)
 	if UnitIsUnit(player, "player") then
 		self:FlashShake("ej:4347")
 		self:Bar("ej:4347", CL["you"]:format(L["parasite"]), 10, spellId)
-		self:OpenProximity(10, "ej:4347")
+		self:OpenProximity("ej:4347", 10)
 		self:Say("ej:4347", CL["say"]:format(L["parasite"]))
 	else
 		self:Bar("ej:4347", CL["other"]:format(L["parasite"], player), 10, spellId)

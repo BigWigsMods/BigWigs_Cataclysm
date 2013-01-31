@@ -130,13 +130,13 @@ function mod:Deaths(mobId)
 	if mobId == 41948 then
 		deadAdds = deadAdds + 1
 		if self:Heroic() and not phase3warned then
-			self:SendMessage("BigWigs_StopBar", self, CL["phase"]:format(phase))
+			self:StopBar(CL["phase"]:format(phase))
 			phase = 3
 			self:Message("phase", CL["phase"]:format(phase), "Attention", 81007)
 			phase3warned = true
 		end
 		if deadAdds == 3 and not phase3warned then
-			self:SendMessage("BigWigs_StopBar", self, CL["phase"]:format(phase))
+			self:StopBar(CL["phase"]:format(phase))
 			phase = 3
 			self:Message("phase", CL["phase"]:format(phase), "Attention", 81007)
 			phase3warned = true
@@ -183,7 +183,7 @@ function mod:ShadowblazeCorrection()
 end
 
 function mod:PhaseThree()
-	self:SendMessage("BigWigs_StopBar", self, CL["phase"]:format(phase))
+	self:StopBar(CL["phase"]:format(phase))
 	if not phase3warned then
 		phase = 3
 		self:Message("phase", CL["phase"]:format(phase), "Attention", 78621)
@@ -205,7 +205,7 @@ do
 			self:FlashShake(79339)
 			self:Say(79339, CL["say"]:format(spellName))
 			self:Bar(79339, spellName, 8, spellId)
-			self:OpenProximity(10, 79339) -- assumed
+			self:OpenProximity(79339, 10) -- assumed
 		end
 		if not scheduled then
 			scheduled = true

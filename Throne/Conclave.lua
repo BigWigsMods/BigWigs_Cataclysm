@@ -12,8 +12,6 @@ mod:RegisterEnableMob(45870, 45871, 45872) -- Anshal, Nezir, Rohash
 
 local firstWindBlast = true
 local toxicSporesWarned = false
-local toxicSpores = GetSpellInfo(86281)
-local soothingBreeze = GetSpellInfo(86205)
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -23,7 +21,7 @@ local L = mod:NewLocale("enUS", true)
 if L then
 	L.gather_strength = "%s is Gathering Strength"
 
-	L.storm_shield = GetSpellInfo(93059)
+	L.storm_shield = mod:SpellName(93059)
 	L.storm_shield_desc = "Absorption Shield"
 
 	L.full_power = "Full Power"
@@ -74,10 +72,10 @@ function mod:OnEngage()
 	firstWindBlast = true
 	toxicSporesWarned = false
 	self:Bar("full_power", L["full_power"], 90, 86193)
-	self:Bar(86205, soothingBreeze, 16.2, 86205)
+	self:Bar(86205, 86205, 16.2, 86205) -- Soothing Breeze
 
 	local flag = BigWigs.C.BAR
-	local stormShield, nurture, windBlast = GetSpellInfo(93059), GetSpellInfo(85422), GetSpellInfo(86193)
+	local stormShield, nurture, windBlast = self:SpellName(93059), self:SpellName(85422), self:SpellName(86193)
 	if bit.band(self.db.profile.storm_shield, flag) == flag and bit.band(self.db.profile[nurture], flag) == flag and bit.band(self.db.profile[windBlast], flag) == flag then
 		self:Bar(85422, nurture.."/"..windBlast.."/"..stormShield, 30, "achievement_boss_murmur")
 	else
@@ -90,57 +88,57 @@ end
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
-function mod:FullPower(_, spellId)
-	self:Bar("full_power", L["full_power"], 113, spellId)
-	self:Message("full_power", L["full_power"], "Attention", spellId)
-	self:Bar(86205, soothingBreeze, 31.3, 86205)
+function mod:FullPower(args)
+	self:Bar("full_power", L["full_power"], 113, args.spellId)
+	self:Message("full_power", L["full_power"], "Attention", args.spellId)
+	self:Bar(86205, 86205, 31.3, 86205) -- Soothing Breeze
 end
 
-function mod:WindChill(player, spellId, _, _, _, stack)
-	if UnitIsUnit(player, "player") then
+function mod:WindChill(args)
+	if UnitIsUnit(args.destName, "player") then
 	-- probably need to adjust stack numbers
 		if stack == 4 then
-			self:LocalMessage(84645, L["wind_chill"]:format(stack), "Personal", spellId)
+			self:LocalMessage(args.spellId, L["wind_chill"]:format(stack), "Personal", args.spellId)
 		elseif stack == 8 then
-			self:LocalMessage(84645, L["wind_chill"]:format(stack), "Personal", spellId, "Alarm")
-			self:FlashShake(84645)
+			self:LocalMessage(args.spellId, L["wind_chill"]:format(stack), "Personal", args.spellId, "Alarm")
+			self:FlashShake(args.spellId)
 		end
 	end
 end
 
-function mod:StormShield(_, spellId, _, _, spellName)
-	self:Bar("storm_shield", spellName, 113, spellId)
-	self:Message("storm_shield", spellName, "Urgent", spellId)
+function mod:StormShield(args)
+	self:Bar("storm_shield", args.spellName, 113, args.spellId)
+	self:Message("storm_shield", args.spellName, "Urgent", args.spellId)
 end
 
-function mod:WindBlast(_, spellId, _, _, spellName)
+function mod:WindBlast(args)
 	if firstWindBlast then
-		self:Bar(86193, spellName, 82, spellId)
-		self:Message(86193, spellName, "Important", spellId)
+		self:Bar(args.spellId, args.spellName, 82, args.spellId)
+		self:Message(args.spellId, args.spellName, "Important", args.spellId)
 		firstWindBlast = false
 	else
-		self:Bar(86193, spellName, 60, spellId)
-		self:Message(86193, spellName, "Important", spellId)
+		self:Bar(args.spellId, args.spellName, 60, args.spellId)
+		self:Message(args.spellId, args.spellName, "Important", args.spellId)
 	end
 end
 
-function mod:ToxicSpores(_, spellId, _, _, spellName)
+function mod:ToxicSpores(args)
 	if not toxicSporesWarned then
-		self:Bar(86281, spellName, 20, spellId)
-		self:Message(86281, spellName, "Urgent", spellId)
+		self:Bar(args.spellId, args.spellName, 20, args.spellId)
+		self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
 		toxicSporesWarned = true
 	end
 end
 
-function mod:SoothingBreeze(_, spellId, _, _, spellName)
-	self:Bar(86205, spellName, 32.5, spellId)
-	self:Message(86205, spellName, "Urgent", spellId)
+function mod:SoothingBreeze(args)
+	self:Bar(args.spellId, args.spellName, 32.5, args.spellId)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
 end
 
-function mod:Nurture(_, spellId, _, _, spellName)
-	self:Bar(85422, spellName, 113, spellId)
-	self:Message(85422, spellName, "Urgent", spellId)
-	self:Bar(86281, toxicSpores, 23, 86281)
+function mod:Nurture(args)
+	self:Bar(args.spellId, args.spellName, 113, args.spellId)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
+	self:Bar(86281, 86281, 23, 86281) -- Toxic Spores
 	toxicSporesWarned = false
 end
 

@@ -171,7 +171,7 @@ end
 function mod:LightningConductor(player, spellId, _, _, spellName)
 	if UnitIsUnit(player, "player") then
 		self:FlashShake(79888)
-		self:OpenProximity(10, 79888) --assumed
+		self:OpenProximity(79888, 10) --assumed
 	end
 	self:TargetMessage(79888, spellName, player, "Attention", spellId, "Alarm")
 	self:SecondaryIcon(79888, player)

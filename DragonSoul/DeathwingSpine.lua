@@ -128,7 +128,7 @@ do
 	end
 	function mod:Level()
 		self:Message("roll", L["level_message"], "Positive", L["roll_icon"])
-		self:SendMessage("BigWigs_StopBar", self, L["roll"])
+		self:StopBar(L["roll"])
 		self:CancelTimer(timer, true)
 		timer = nil
 	end
@@ -174,7 +174,7 @@ function mod:FieryGripCast(_, spellId, _, _, spellName, _, _, _, _, _, sGUID)
 	corruptionStatus[sGUID] = nil
 	if lastBar == sGUID or lastBar == true then
 		lastBar = nil
-		self:SendMessage("BigWigs_StopBar", self, fieryGrip)
+		self:StopBar(fieryGrip)
 	end
 end
 
@@ -210,7 +210,7 @@ function mod:CorruptionDeath(_, GUID)
 		-- Cancel bar
 		corruptionStatus[GUID] = nil
 		lastBar = nil
-		self:SendMessage("BigWigs_StopBar", self, fieryGrip)
+		self:StopBar(fieryGrip)
 	end
 end
 
@@ -308,7 +308,7 @@ function mod:Deaths(mobId)
 	if mobId == 53879 then
 		self:Win()
 	else
-		self:SendMessage("BigWigs_StopBar", self, L["exposed"])
+		self:StopBar(L["exposed"])
 	end
 end
 

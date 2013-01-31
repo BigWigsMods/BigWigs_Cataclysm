@@ -120,7 +120,7 @@ end
 
 function mod:OnEngage()
 	if self:Heroic() then
-		self:OpenProximity(10)
+		self:OpenProximity("proximity", 10)
 	end
 
 	self:Bar(82631, L["shield_bar"], 30, 82631)
@@ -150,7 +150,7 @@ do
 		if UnitIsUnit(player, "player") then
 			self:Say(83099, CL["say"]:format(spellName))
 			self:FlashShake(83099)
-			self:OpenProximity(10)
+			self:OpenProximity("proximity", 10)
 		end
 	end
 end
@@ -280,8 +280,8 @@ function mod:BurningBlood(player, spellId, _, _, spellName)
 end
 
 function mod:Switch()
-	self:SendMessage("BigWigs_StopBar", self, L["shield_bar"])
-	self:SendMessage("BigWigs_StopBar", self, glaciate)
+	self:StopBar(L["shield_bar"])
+	self:StopBar(glaciate)
 	self:Bar(83565, quake, 33, 83565)
 	self:Bar(83067, thundershock, 70, 83067)
 	self:Bar(83718, hardenSkin, 25.5, 83718)
@@ -344,12 +344,12 @@ do
 end
 
 function mod:LastPhase()
-	self:SendMessage("BigWigs_StopBar", self, quake)
-	self:SendMessage("BigWigs_StopBar", self, thundershock)
-	self:SendMessage("BigWigs_StopBar", self, hardenSkin)
+	self:StopBar(quake)
+	self:StopBar(thundershock)
+	self:StopBar(hardenSkin)
 	self:CancelAllTimers()
 	self:Bar(84948, gravityCrush, 43, 84948)
-	self:OpenProximity(9)
+	self:OpenProximity("proximity", 9)
 	self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1", "boss2", "boss3", "boss4")
 end
 

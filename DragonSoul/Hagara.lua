@@ -94,7 +94,7 @@ function mod:FrostFlakeApplied(player, spellId, _, _, spellName)
 		self:LocalMessage(109325, CL["you"]:format(spellName), "Personal", spellId, Long)
 		self:Say(109325, CL["say"]:format(spellName))
 		self:FlashShake(109325)
-		self:OpenProximity(10, 109325)
+		self:OpenProximity(109325, 10)
 	end
 end
 
@@ -106,14 +106,14 @@ function mod:FrostFlakeRemoved(player)
 end
 
 function mod:WaterShield(_, spellId)
-	self:SendMessage("BigWigs_StopBar", self, "~"..(GetSpellInfo(107851))) -- Focused Assault
+	self:StopBar("~"..(GetSpellInfo(107851))) -- Focused Assault
 	self:Message(105409, L["lightning_next"], "Attention", spellId)
 	nextPhase = L["ice_next"]
 	nextPhaseIcon = 105409
 end
 
 function mod:FrozenTempest(_, spellId)
-	self:SendMessage("BigWigs_StopBar", self, "~"..(GetSpellInfo(107851))) -- Focused Assault
+	self:StopBar("~"..(GetSpellInfo(107851))) -- Focused Assault
 	self:Message(105256, L["ice_next"], "Attention", spellId)
 	nextPhase = L["lightning_next"]
 	nextPhaseIcon = 105409
@@ -158,7 +158,7 @@ do
 	function mod:IceLanceApplied(player)
 		playerTbl[#playerTbl + 1] = player
 		if UnitIsUnit(player, "player") then
-			self:OpenProximity(3, 105316)
+			self:OpenProximity(105316, 3)
 		end
 		if not scheduled then
 			scheduled = true

@@ -11,8 +11,6 @@ mod:RegisterEnableMob(46753)
 --
 
 local phase, lastWindburst = 1, 0
-local cloud = GetSpellInfo(89588)
-local windburst = GetSpellInfo(87770)
 local shock = nil
 local acidRainCounter, acidRainCounted = 1, nil
 
@@ -90,7 +88,7 @@ end
 
 function mod:OnEngage()
 	self:Berserk(600)
-	self:Bar(87770, windburst, 22, 87770) -- accurate?
+	self:Bar(87770, 87770, 22, 87770) -- Windburst
 	phase, lastWindburst = 1, 0
 	acidRainCounter, acidRainCounted = 1, nil
 	shock = nil
@@ -107,98 +105,95 @@ do
 			mod:ScheduleTimer(Shocker, 10, spellName)
 		end
 	end
-	function mod:Shock(_, _, _, _, spellName)
+	function mod:Shock(args)
 		if not shock then
 			--Do we need a looping timer here?
-			Shocker(spellName)
+			Shocker(args.spellName)
 			shock = true
 		end
 	end
 end
 
-function mod:Cloud(player, spellId, _, _, spelName)
-	if not UnitIsUnit(player, "player") then return end
-	self:LocalMessage(89588, CL["you"]:format(spellName), "Urgent", spellId, "Alarm")
+function mod:Cloud(args)
+	if not UnitIsUnit(args.destName, "player") then return end
+	self:LocalMessage(args.spellId, CL["you"]:format(args.spellName), "Urgent", args.spellId, "Alarm")
 end
 
-function mod:LightningRod(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(89668)
-		self:OpenProximity(20)
+function mod:LightningRod(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
+		self:OpenProximity("proximity", 20)
 	end
-	self:TargetMessage(89668, spellName, player, "Personal", spellId, "Long")
-	self:Whisper(89668, player, spellName)
-	self:PrimaryIcon(89668, player)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Long")
+	self:Whisper(args.spellId, args.destName, args.spellName)
+	self:PrimaryIcon(args.spellId, args.destName)
 end
 
-function mod:RodRemoved(player)
-	self:PrimaryIcon(89668) -- De-mark
-	if UnitIsUnit(player, "player") then
+function mod:RodRemoved(args)
+	self:PrimaryIcon(args.spellId) -- De-mark
+	if UnitIsUnit(args.destName, "player") then
 		self:CloseProximity()
 	end
 end
 
-function mod:Phase2(_, spellId)
+function mod:Phase2(args)
 	if phase >= 2 then return end
-	self:Message("phase", CL["phase"]:format(2), "Positive", spellId, "Info")
-	self:SendMessage("BigWigs_StopBar", self, windburst)
+	self:Message("phase", CL["phase"]:format(2), "Positive", args.spellId, "Info")
+	self:StopBar(87770) -- Windburst
 	phase = 2
 end
 
-local function CloudSpawn()
-	mod:Bar(89588, cloud, 10, 89588)
-	mod:Message(89588, cloud, "Important", 89588, "Info")
+local function CloudSpawn(spellId)
+	mod:Bar(spellId, spellId, 10, spellId) -- Lightning Clouds
+	mod:Message(spellId, spellId, "Important", spellId, "Info") -- Lightning Clouds
 	mod:ScheduleTimer(CloudSpawn, 10)
 end
 
 function mod:Phase3()
 	if phase >= 3 then return end
 	self:Message("phase", CL["phase"]:format(3), "Positive", 88301)
-	self:Bar(87770, windburst, 24, 87770)
-	self:Bar(89588, cloud, 16, 89588)
-	self:ScheduleTimer(CloudSpawn, 16)
-	self:SendMessage("BigWigs_StopBar", self, L["stormling_bar"])
-	self:SendMessage("BigWigs_StopBar", self, (GetSpellInfo(87904))) -- Feedback
-	self:SendMessage("BigWigs_StopBar", self, L["acid_rain"]:format(acidRainCounter))
+	self:Bar(87770, 87770, 24, 87770) -- Windburst
+	self:Bar(89588, 89588, 16, 89588) -- Lightning Clouds
+	self:ScheduleTimer(CloudSpawn, 16, 89588)
+	self:StopBar(L["stormling_bar"])
+	self:StopBar(87904) -- Feedback
+	self:StopBar(L["acid_rain"]:format(acidRainCounter))
 	phase = 3
 end
 
-function mod:Feedback(_, spellId, _, _, spellName, stack)
-	if not stack then
-		stack = 1
-	else
-		self:SendMessage("BigWigs_StopBar", self, L["feedback_message"]:format(stack-1))
-	end
-	self:Bar(87904, L["feedback_message"]:format(stack), self:Heroic() and 20 or 30, spellId)
-	self:Message(87904, L["feedback_message"]:format(stack), "Positive", spellId)
+function mod:Feedback(args)
+	local buffStack = args.count or 1
+	self:StopBar(L["feedback_message"]:format(buffStack-1))
+	self:Bar(args.spellId, L["feedback_message"]:format(buffStack), self:Heroic() and 20 or 30, args.spellId)
+	self:Message(args.spellId, L["feedback_message"]:format(buffStack), "Positive", args.spellId)
 end
 
 do
 	local function clearCount()
 		acidRainCounted = nil
 	end
-	function mod:AcidRain(_, spellId)
+	function mod:AcidRain(args)
 		if acidRainCounted then return end
 		acidRainCounter, acidRainCounted = acidRainCounter + 1, true
 		self:ScheduleTimer(clearCount, 12) -- 15 - 3
-		self:Bar(88301, L["acid_rain"]:format(acidRainCounter), 15, spellId) -- do we really want counter on bar too?
-		self:Message(88301, L["acid_rain"]:format(acidRainCounter), "Attention", spellId)
+		self:Bar(args.spellId, L["acid_rain"]:format(acidRainCounter), 15, args.spellId) -- do we really want counter on bar too?
+		self:Message(args.spellId, L["acid_rain"]:format(acidRainCounter), "Attention", args.spellId)
 	end
 end
 
-function mod:Electrocute(player, spellId, _, _, spellName)
-	self:TargetMessage(88427, spellName, player, "Personal", spellId)
+function mod:Electrocute(args)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId)
 end
 
-function mod:WindBurst1(_, spellId, _, _, spellName)
-	self:Bar(87770, spellName, 26, spellId)
-	self:Message(87770, spellName, "Important", spellId, "Alert")
+function mod:WindBurst1(args)
+	self:Bar(args.spellId, args.spellName, 26, args.spellId)
+	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
 end
 
-function mod:WindBurst3(_, spellId, _, _, spellName)
+function mod:WindBurst3(args)
 	if (GetTime() - lastWindburst) > 5 then
-		self:Bar(87770, spellName, 19, spellId) -- 22 was too long, 19 should work
-		self:Message(87770, spellName, "Attention", spellId)
+		self:Bar(87770, args.spellName, 19, args.spellId) -- 22 was too long, 19 should work
+		self:Message(87770, args.spellName, "Attention", args.spellId)
 	end
 	lastWindburst = GetTime()
 end

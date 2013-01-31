@@ -105,7 +105,7 @@ end
 function mod:OnEngage()
 	self:Bar(98237, L["hand_bar"], 25, 98237)
 	self:Bar(98710, lavaWaves, 30, 98710)
-	self:OpenProximity(6)
+	self:OpenProximity("proximity", 6)
 	self:Berserk(1080)
 	lavaWavesCD, dreadflameCD = 30, 40
 	if self:Heroic() then
@@ -127,9 +127,9 @@ end
 function mod:Phase4()
 	--10% Yell is Phase 4 for heroic, and victory for normal
 	if self:Heroic() then
-		self:SendMessage("BigWigs_StopBar", self, livingMeteor)
-		self:SendMessage("BigWigs_StopBar", self, lavaWaves)
-		self:SendMessage("BigWigs_StopBar", self, moltenSeed)
+		self:StopBar(livingMeteor)
+		self:StopBar(lavaWaves)
+		self:StopBar(moltenSeed)
 		phase = 4
 		 -- not sure if we want a different option key or different icon
 		self:Message(98953, CL["phase"]:format(phase), "Positive", 98953)
@@ -174,7 +174,7 @@ end
 function mod:Wound(player, spellId, _, _, _, buffStack)
 	if self:Tank() then
 		buffStack = buffStack or 1
-		self:SendMessage("BigWigs_StopBar", self, L["wound_message"]:format(player, buffStack - 1))
+		self:StopBar(L["wound_message"]:format(player, buffStack - 1))
 		self:Bar("wound", L["wound_message"]:format(player, buffStack), 21, spellId)
 		self:TargetMessage("wound", L["wound_message"], player, "Urgent", spellId, buffStack > 2 and "Info" or nil, buffStack)
 	end
@@ -210,10 +210,10 @@ function mod:Fixated(unit)
 end
 
 function mod:IntermissionEnd()
-	self:SendMessage("BigWigs_StopBar", self, L["intermission_bar"])
+	self:StopBar(L["intermission_bar"])
 	if phase == 1 then
 		lavaWavesCD = 40
-		self:OpenProximity(6)
+		self:OpenProximity("proximity", 6)
 		if self:Heroic() then
 			self:Bar(98498, "~"..moltenSeed, 15, 98498)
 			self:Bar(98710, lavaWaves, 7.5, 98710)
@@ -249,20 +249,20 @@ end
 function mod:SplittingBlow(_, spellId, _, _, spellName)
 	if phase == 2 then
 		self:CancelAllTimers()
-		self:SendMessage("BigWigs_StopBar", self, L["seed_explosion"])
-		self:SendMessage("BigWigs_StopBar", self, moltenSeed)
-		self:SendMessage("BigWigs_StopBar", self, worldInFlames)
-		self:SendMessage("BigWigs_StopBar", self, (GetSpellInfo(99172))) -- Engulfing Flames
+		self:StopBar(L["seed_explosion"])
+		self:StopBar(moltenSeed)
+		self:StopBar(worldInFlames)
+		self:StopBar((GetSpellInfo(99172))) -- Engulfing Flames
 	end
 	self:Message(98953, L["intermission_message"], "Positive", spellId, "Long")
 	self:Bar(98953, spellName, 7, spellId)
 	self:Bar(98953, L["intermission_bar"], self:Heroic() and 60 or 57, spellId) -- They are probably both 60
 	self:CloseProximity()
 	sons = 8
-	self:SendMessage("BigWigs_StopBar", self, L["hand_bar"])
-	self:SendMessage("BigWigs_StopBar", self, lavaWaves)
-	self:SendMessage("BigWigs_StopBar", self, "~"..wrathOfRagnaros)
-	self:SendMessage("BigWigs_StopBar", self, moltenSeed)
+	self:StopBar(L["hand_bar"])
+	self:StopBar(lavaWaves)
+	self:StopBar("~"..wrathOfRagnaros)
+	self:StopBar(moltenSeed)
 end
 
 function mod:SulfurasSmash(_, spellId)

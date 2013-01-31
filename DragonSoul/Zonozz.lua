@@ -89,7 +89,7 @@ function mod:Darkness(unit, spellName, _, _, spellId)
 		if (GetTime() - ballTimer) > isHC then
 			self:Bar("ball", L["ball"], isHC == 45 and isHC or 36, L["ball_icon"])
 		end
-		self:SendMessage("BigWigs_StopBar", self, "~"..L["drain"])
+		self:StopBar("~"..L["drain"])
 	end
 end
 
@@ -122,7 +122,7 @@ function mod:ShadowsApplied(player, spellId)
 		self:Say(103434, CL["say"]:format(L["shadows"]))
 		self:FlashShake(103434)
 		if self:Heroic() then
-			self:OpenProximity(10, 103434)
+			self:OpenProximity(103434, 10)
 		end
 	end
 end

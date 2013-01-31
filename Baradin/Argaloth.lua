@@ -43,7 +43,7 @@ end
 
 function mod:OnEngage()
 	self:Berserk(300)
-	self:Bar(88942, "~"..GetSpellInfo(88942), 10, 88942)
+	self:Bar(88942, "~"..self:SpellName(88942), 10, 88942) -- Meteor Slash
 	fireStorm = 100
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "FirestormWarn", "boss1")
 end
@@ -52,31 +52,30 @@ end
 -- Event Handlers
 --
 
-function mod:MeteorSlash(_, spellId, _, _, spellName)
-	self:Message(88942, spellName, "Important", spellId)
-	self:Bar(88942, "~"..spellName, 17, spellId)
+function mod:MeteorSlash(args)
+	self:Message(args.spellId, args.spellName, "Important", args.spellId)
+	self:Bar(args.spellId, "~"..args.spellName, 17, args.spellId)
 end
 
 do
 	local scheduled = nil
-	local function consumingWarn()
-		mod:TargetMessage(88954, L["darkness_message"], consumingTargets, "Personal", 88954)
+	local function consumingWarn(spellId)
+		mod:TargetMessage(spellId, L["darkness_message"], consumingTargets, "Personal", spellId)
 		scheduled = nil
 	end
-	function mod:ConsumingDarkness(player)
-		consumingTargets[#consumingTargets + 1] = player
+	function mod:ConsumingDarkness(args)
+		consumingTargets[#consumingTargets + 1] = args.destName
 		if not scheduled then
-			scheduled = true
-			self:ScheduleTimer(consumingWarn, 0.5)
+			scheduled = self:ScheduleTimer(consumingWarn, 0.5, args.spellId)
 		end
 	end
 end
 
-function mod:FelFirestorm(_, spellId, _, _, spellName)
-	self:SendMessage("BigWigs_StopBar", self, L["meteor_bar"])
-	self:Message(88972, fireStorm.."% - "..spellName, "Urgent", spellId, "Alert")
-	self:FlashShake(88972)
-	self:Bar(88942, "~"..GetSpellInfo(88942), 32, 88942)
+function mod:FelFirestorm(args)
+	self:StopBar(L["meteor_bar"])
+	self:Message(args.spellId, fireStorm.."% - "..args.spellName, "Urgent", args.spellId, "Alert")
+	self:FlashShake(args.spellId)
+	self:Bar(88942, "~"..self:SpellName(88942), 32, 88942) -- Meteor Slash
 end
 
 function mod:FirestormWarn(unit)

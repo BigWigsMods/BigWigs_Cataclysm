@@ -154,7 +154,7 @@ do
 			if sick then
 				prev = t
 				self:LocalMessage(82235, L["sickness_message"], "Personal", 81831, "Long")
-				self:OpenProximity(5, 82235)
+				self:OpenProximity(82235, 5)
 				self:FlashShake(82235)
 			end
 		end
@@ -215,9 +215,9 @@ function mod:UNIT_HEALTH_FREQUENT(unit)
 end
 
 function mod:LastPhase(_, spellId)
-	self:SendMessage("BigWigs_StopBar", self, L["adherent_bar"])
-	self:SendMessage("BigWigs_StopBar", self, L["ooze_bar"])
-	self:SendMessage("BigWigs_StopBar", self, L["worship_cooldown"])
+	self:StopBar(L["adherent_bar"])
+	self:StopBar(L["ooze_bar"])
+	self:StopBar(L["worship_cooldown"])
 	self:Message(82630, L["phase2_message"], "Positive", spellId)
 	self:Bar(82414, L["tentacles_bar"], 6, 82414)
 end

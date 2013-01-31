@@ -132,7 +132,7 @@ do
 		mod:DelayedMessage(77840, 38.5, L["searing_soon"], "Attention", 77840)
 	end
 	function mod:AirPhase()
-		self:SendMessage("BigWigs_StopBar", self, sonicBreath)
+		self:StopBar(sonicBreath)
 		self:Message("air_phase", L["air_phase"], "Attention", 5740) -- Rain of Fire Icon
 		self:Bar("ground_phase", L["ground_phase"], 30, 61882) -- Earthquake Icon
 		self:ScheduleTimer(groundPhase, 30)

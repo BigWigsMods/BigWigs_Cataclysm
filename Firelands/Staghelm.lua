@@ -148,7 +148,7 @@ function mod:CatForm(_, spellId, _, _, spellName)
 	local spell = GetSpellInfo(98450) -- Searing Seeds
 	local hasDebuff, _, _, _, _, _, remaining = UnitDebuff("player", spell)
 	if not hasDebuff or (remaining - GetTime() > 6) then
-		self:OpenProximity(10, 98374)
+		self:OpenProximity(98374, 10)
 	end
 end
 
@@ -163,9 +163,9 @@ end
 
 function mod:SearingSeedsRemoved(player)
 	if not UnitIsUnit(player, "player") then return end
-	self:SendMessage("BigWigs_StopBar", self, L["seed_bar"])
+	self:StopBar(L["seed_bar"])
 	if form == "cat" then
-		self:OpenProximity(10, 98374)
+		self:OpenProximity(98374, 10)
 	else
 		self:CloseProximity(98450)
 	end
@@ -181,11 +181,11 @@ do
 	local function searingSeed()
 		mod:LocalMessage(98450, L["seed_explosion"], "Personal", 98450, "Alarm")
 		mod:FlashShake(98450)
-		mod:OpenProximity(12, 98450)
+		mod:OpenProximity(98450, 12)
 	end
 
 	function mod:SearingSeeds(player, spellId, _, _, spellName)
-		self:SendMessage("BigWigs_StopBar", self, leapingFlames)
+		self:StopBar(leapingFlames)
 		if not UnitIsUnit(player, "player") then return end
 		local remaining = (select(7, UnitDebuff("player", spellName))) - GetTime()
 		self:Bar(98450, L["seed_bar"], remaining, spellId)

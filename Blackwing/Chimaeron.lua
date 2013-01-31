@@ -56,12 +56,12 @@ end
 function mod:Warmup(_, msg)
 	if msg == L["bileotron_engage"] then
 		self:Bar("warmup", self.displayName, 30, "achievement_dungeon_blackwingdescent_raid_chimaron")
-		self:OpenProximity(6)
+		self:OpenProximity("proximity", 6)
 	end
 end
 
 function mod:OnEngage()
-	self:SendMessage("BigWigs_StopBar", self, self.displayName)
+	self:StopBar(self.displayName)
 	self:Berserk(450)
 	if not self:Heroic() then
 		self:Bar(88853, L["next_system_failure"], 90, 88853) --happens randomly at either 60 or 90 on heroic
@@ -75,7 +75,7 @@ end
 --
 
 function mod:SystemFailureStart(_, spellId, _, _, spellName)
-	self:SendMessage("BigWigs_StopBar", self, L["next_system_failure"])
+	self:StopBar(L["next_system_failure"])
 	self:Bar(88853, spellName, 30, spellId)
 	self:Message(88853, spellName, "Important", spellId, "Alarm")
 	self:FlashShake(88853)
@@ -88,7 +88,7 @@ function mod:SystemFailureEnd(_, spellId)
 			self:Bar(88853, L["next_system_failure"], 65, spellId)
 		end
 		self:FlashShake(88853)
-		self:OpenProximity(6)
+		self:OpenProximity("proximity", 6)
 	end
 end
 
@@ -101,7 +101,7 @@ end
 function mod:Mortality(_, spellId, _, _, spellName)
 	self:Message(82890, spellName, "Important", spellId, "Long")
 	self:CloseProximity()
-	self:SendMessage("BigWigs_StopBar", self, L["next_system_failure"])
+	self:StopBar(L["next_system_failure"])
 end
 
 function mod:Break(player, spellId, _, _, _, stack)

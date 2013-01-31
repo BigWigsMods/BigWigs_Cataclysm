@@ -8,8 +8,6 @@ mod:RegisterEnableMob(55869)
 
 local firstAbility = nil
 local danceCount = 0
-local skewer = GetSpellInfo(104936)
-local hate = GetSpellInfo(105067)
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -44,7 +42,7 @@ end
 function mod:OnEngage()
 	self:Berserk(300)
 	self:Bar(104936, L["first_ability"], 7, 104936)
-	self:Bar(105784, GetSpellInfo(105784), 35, 105784) -- Blade Dance
+	self:Bar(105784, 105784, 35, 105784) -- Blade Dance
 	firstAbility = nil
 	danceCount = 0
 end
@@ -53,34 +51,34 @@ end
 -- Event Handlers
 --
 
-function mod:Hate(player, spellId, _, _, spellName)
+function mod:Hate(args)
 	if not firstAbility then
 		firstAbility = true
-		self:Bar(104936, skewer, 8, 104936)
+		self:Bar(104936, 104936, 8, 104936) -- Skewer
 	end
-	self:Bar(105067, spellName, 20, spellId)
-	self:TargetMessage(105067, spellName, player, "Important", spellId)
+	self:Bar(args.spellId, args.spellName, 20, args.spellId)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
 end
 
-function mod:Skewer(player, spellId, _, _, spellName)
+function mod:Skewer(args)
 	if not firstAbility then
 		firstAbility = true
-		self:Bar(105067, hate, 8, 105067)
+		self:Bar(105067, 105067, 8, 105067) -- Seething Hate
 	end
-	self:Bar(104936, spellName, 20, spellId)
-	self:TargetMessage(104936, spellName, player, "Attention", spellId)
+	self:Bar(args.spellId, args.spellName, 20, args.spellId)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId)
 end
 
-function mod:BladeDance(_, spellId, _, _, spellName)
+function mod:BladeDance(args)
 	danceCount = danceCount + 1
-	self:Message(105784, L["dance_message"]:format(danceCount), "Urgent", spellId, "Info")
-	self:Bar(105784, CL["cast"]:format(spellName), 4, spellId)
+	self:Message(args.spellId, L["dance_message"]:format(danceCount), "Urgent", args.spellId, "Info")
+	self:Bar(args.spellId, CL["cast"]:format(args.spellName), 4, args.spellId)
 	if danceCount == 1 then
 		firstAbility = nil
 		-- XXX Fix this up instead of just cancelling the bars
-		self:SendMessage("BigWigs_StopBar", self, skewer)
-		self:SendMessage("BigWigs_StopBar", self, hate)
-		self:Bar(105784, spellName, 60, spellId)
+		self:StopBar(104936) -- Skewer
+		self:StopBar(105067) -- Seething Hate
+		self:Bar(args.spellId, args.spellName, 60, args.spellId)
 	end
 end
 

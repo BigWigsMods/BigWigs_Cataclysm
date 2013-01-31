@@ -129,7 +129,7 @@ end
 
 function mod:Frenzy()
 	self:CancelAllTimers()
-	self:SendMessage("BigWigs_StopBar", self, L["drone_bar"])
+	self:StopBar(L["drone_bar"])
 	self:Message(99497, CL["phase"]:format(2), "Positive", 99497, "Alarm")
 end
 

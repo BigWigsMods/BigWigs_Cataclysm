@@ -88,7 +88,7 @@ function mod:OnEngage()
 	self:Bar(86840, devouringFlames, 25, 86840)
 	self:Bar(86788, blackout, 11, 86788)
 	self:Bar("phase_switch", L["phase_bar"]:format(theralion), 103, 60639)
-	self:OpenProximity(8)
+	self:OpenProximity("proximity", 8)
 	self:Berserk(600)
 	phaseCount = 0
 end
@@ -116,7 +116,7 @@ local function valionaHasLanded()
 	mod:Message("phase_switch", L["phase_bar"]:format(valiona), "Positive", 60639)
 	mod:Bar(86840, devouringFlames, 26, 86840)
 	mod:Bar(86788, blackout, 11, 86788)
-	mod:OpenProximity(8)
+	mod:OpenProximity("proximity", 8)
 end
 
 local function theralionHasLanded()
@@ -176,7 +176,7 @@ function mod:BlackoutApplied(player, spellId, _, _, spellName)
 end
 
 function mod:BlackoutRemoved(player, spellId, _, _, spellName)
-	self:OpenProximity(8)
+	self:OpenProximity("proximity", 8)
 	self:PrimaryIcon(86788)
 	self:Bar(86788, spellName, 40, spellId) -- make sure to remove bar when it's removed
 end
@@ -210,7 +210,7 @@ do
 		if UnitIsUnit(player, "player") then
 			self:Say(86622, L["engulfingmagic_say"])
 			self:FlashShake(86622)
-			self:OpenProximity(10)
+			self:OpenProximity("proximity", 10)
 		end
 		emTargets[#emTargets + 1] = player
 		if not scheduled then

@@ -245,7 +245,7 @@ end
 
 function mod:FieryTornado()
 	self:BuffCheck()
-	self:SendMessage("BigWigs_StopBar", self, firestorm)
+	self:StopBar(firestorm)
 	local fieryTornado = GetSpellInfo(99816)
 	self:Bar(99816, fieryTornado, 35, 99816)
 	self:Message(99816, (L["stage_message"]:format(2))..": "..fieryTornado, "Important", 99816, "Alarm")
@@ -309,7 +309,7 @@ do
 		else
 			self:Message(99925, L["kill_message"], "Positive", 99922, "Alert")
 		end
-		self:SendMessage("BigWigs_StopBar", self, "~"..GetSpellInfo(99432))
+		self:StopBar("~"..GetSpellInfo(99432))
 	end
 end
 
