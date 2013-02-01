@@ -202,7 +202,7 @@ function mod:Fixated(unit)
 	if fixated and not fixateWarned then
 		fixateWarned = true
 		self:LocalMessage(99849, CL["you"]:format(fixate), "Personal", 99849, "Long")
-		self:Say(99849, fixate)
+		self:Say(99849)
 		self:FlashShake(99849)
 	elseif not fixated and fixateWarned then
 		fixateWarned = false
@@ -300,7 +300,7 @@ do
 	function mod:BlazingHeat(player, spellID, _, _, spellName)
 		blazingHeatTargets[#blazingHeatTargets + 1] = player
 		if UnitIsUnit(player, "player") then
-			self:Say(100460, spellName)
+			self:Say(100460)
 			self:FlashShake(100460)
 		end
 		if iconCounter == 1 then

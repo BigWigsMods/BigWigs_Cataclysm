@@ -100,7 +100,7 @@ function mod:Fragments(_, spellId)
 end
 
 function mod:Stomp(_, spellId, _, _, spellName)
-	self:Message(97282, L["stomp_message"], "Urgent",  spellId, "Alert")
+	self:Message(97282, L["stomp_message"], "Urgent", spellId, "Alert")
 	self:Bar(97282, L["stomp"], 30, spellId)
 	self:Bar(97282, CL["cast"]:format(L["stomp"]), 3, spellId)
 end

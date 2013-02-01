@@ -6,8 +6,7 @@ local mod, CL = BigWigs:NewBoss("Atramedes", 754, 171)
 if not mod then return end
 mod:RegisterEnableMob(41442)
 
-local searingFlame = GetSpellInfo(77840)
-local sonicBreath = "~"..GetSpellInfo(78075)
+local sonicBreath = "~"..mod:SpellName(78075)
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -61,7 +60,7 @@ end
 
 function mod:OnEngage()
 	self:Bar(78075, sonicBreath, 23, 78075)
-	self:Bar(77840, searingFlame, 45, 77840)
+	self:Bar(77840, 77840, 45, 77840) -- Searing Flame
 	self:DelayedMessage(77840, 35, L["searing_soon"], "Attention", 77840)
 	self:Bar("air_phase", L["air_phase"], 92, 5740) -- Rain of Fire Icon
 	if self:Heroic() then
@@ -83,43 +82,41 @@ do
 			mod:SecondaryIcon(92677, fiend)
 		end
 	end
-	function mod:ObnoxiousPhaseShift(...)
+	function mod:ObnoxiousPhaseShift(args)
 		self:Message(92677, L["obnoxious_soon"], "Attention", 92677) -- do we really need this?
-		local dGUID = select(10, ...)
-		FiendCheck(dGUID)
+		FiendCheck(args.destGUID)
 		self:RegisterEvent("UNIT_AURA")
 	end
 end
 
 do
-	local pestered = GetSpellInfo(92685)
-	local obnoxious = GetSpellInfo(92677)
+	local pestered = mod:SpellName(92685)
 	function mod:UNIT_AURA(_, unit)
 		if UnitDebuff(unit, pestered) then
 			if unit == "player" then
-				self:Say(92677, obnoxious)
+				self:Say(92677)
 			end
-			self:TargetMessage(92677, obnoxious, UnitName(unit), "Attention", 92677, "Long")
+			self:TargetMessage(92677, 92677, UnitName(unit), "Attention", 92677, "Long") -- Obnoxious
 			self:UnregisterEvent("UNIT_AURA")
 		end
 	end
 end
 
-function mod:Tracking(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:Say(78092, 78092)
-		self:FlashShake(78092)
+function mod:Tracking(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:Say(args.spellId)
+		self:FlashShake(args.spellId)
 	end
-	self:TargetMessage(78092, spellName, player, "Personal", spellId, "Alarm")
-	self:PrimaryIcon(78092, player)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Alarm")
+	self:PrimaryIcon(args.spellId, args.destName)
 end
 
-function mod:SonicBreath(_, spellId)
-	self:Bar(78075, sonicBreath, 42, spellId)
+function mod:SonicBreath(args)
+	self:Bar(args.spellId, sonicBreath, 42, args.spellId)
 end
 
-function mod:SearingFlame(_, spellId, _, _, spellName)
-	self:Message(77840, spellName, "Important", spellId, "Alert")
+function mod:SearingFlame(args)
+	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
 end
 
 do
@@ -128,7 +125,7 @@ do
 		mod:Bar("air_phase", L["air_phase"], 90, 5740) -- Rain of Fire Icon
 		mod:Bar(78075, sonicBreath, 25, 78075)
 		-- XXX need a good trigger for ground phase start to make this even more accurate
-		mod:Bar(77840, searingFlame, 48.5, 77840)
+		mod:Bar(77840, 77840, 48.5, 77840) -- Searing Flame
 		mod:DelayedMessage(77840, 38.5, L["searing_soon"], "Attention", 77840)
 	end
 	function mod:AirPhase()

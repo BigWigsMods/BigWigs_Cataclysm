@@ -97,20 +97,20 @@ end
 --
 
 do
-	local function checkTarget(sGUID)
+	local function checkTarget(sGUID, spellId)
 		local bossId = UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
 		if not UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
 		if UnitIsUnit(bossId, "player") then
-			mod:LocalMessage(86369, CL["you"]:format(L["blast_message"]), "Personal", 86369, "Long")
+			mod:LocalMessage(spellId, CL["you"]:format(L["blast_message"]), "Personal", spellId, "Long")
 		end
 	end
 	function mod:TwilightBlast(args)
-		self:ScheduleTimer(checkTarget, 0.3, args.sourceGUID)
+		self:ScheduleTimer(checkTarget, 0.3, args.sourceGUID, args.spellId)
 	end
 end
 
 local function valionaHasLanded()
-	mod:StopBar("~"..GetSpellInfo(86622))
+	mod:StopBar("~"..mod:SpellName(86622))
 	mod:Message("phase_switch", L["phase_bar"]:format(valiona), "Positive", 60639)
 	mod:Bar(86840, devouringFlames, 26, 86840)
 	mod:Bar(86788, 86788, 11, 86788) -- Blackout
@@ -124,18 +124,18 @@ local function theralionHasLanded()
 	mod:CloseProximity()
 end
 
-function mod:TwilightShift(player, spellId, _, _, spellName, stack)
-	self:Bar(93051, spellName, 20, 93051)
-	if stack > 3 then
-		self:TargetMessage(93051, L["twilight_shift"], player, "Important", spellId, nil, stack)
+function mod:TwilightShift(args)
+	self:Bar(args.spellId, args.spellName, 20, args.spellId)
+	if args.amount > 3 then
+		self:TargetMessage(args.spellId, L["twilight_shift"], args.destName, "Important", args.spellId, nil, args.amount)
 	end
 end
 
 -- When Theralion is landing he casts DD 3 times, with a 5 second interval.
-function mod:DazzlingDestruction()
+function mod:DazzlingDestruction(args)
 	phaseCount = phaseCount + 1
 	if phaseCount == 1 then
-		self:Message(86408, L["dazzling_message"], "Important", 86408, "Alarm")
+		self:Message(args.spellId, L["dazzling_message"], "Important", args.spellId, "Alarm")
 	elseif phaseCount == 3 then
 		self:ScheduleTimer(theralionHasLanded, 5)
 		self:Message("phase_switch", L["phase_bar"]:format(theralion), "Positive", 60639)
@@ -160,23 +160,23 @@ function mod:DeepBreath()
 	self:ScheduleTimer(valionaHasLanded, 40)
 end
 
-function mod:BlackoutApplied(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(86788)
+function mod:BlackoutApplied(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
 	else
-		self:PlaySound(86788, "Alert")
+		self:PlaySound(args.spellId, "Alert")
 	end
-	self:TargetMessage(86788, spellName, player, "Personal", spellId, "Alert")
-	self:Bar(86788, spellName, 45, spellId)
-	self:Whisper(86788, player, spellName)
-	self:PrimaryIcon(86788, player)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Alert")
+	self:Bar(args.spellId, args.spellName, 45, args.spellId)
+	self:Whisper(args.spellId, args.destName, args.spellName)
+	self:PrimaryIcon(args.spellId, args.destName)
 	self:CloseProximity()
 end
 
-function mod:BlackoutRemoved(player, spellId, _, _, spellName)
+function mod:BlackoutRemoved(args)
 	self:OpenProximity("proximity", 8)
-	self:PrimaryIcon(86788)
-	self:Bar(86788, spellName, 40, spellId) -- make sure to remove bar when it's removed
+	self:PrimaryIcon(args.spellId)
+	self:Bar(args.spellId, args.spellName, 40, args.spellId) -- make sure to remove bar when it's removed
 end
 
 local function markRemoved()
@@ -195,35 +195,35 @@ do
 	end
 end
 
-function mod:DevouringFlames(_, spellId, _, _, spellName)
-	self:Bar(86840, devouringFlames, 42, spellId) -- make sure to remove bar when it takes off
-	self:Message(86840, spellName, "Important", spellId, "Alert")
+function mod:DevouringFlames(args)
+	self:Bar(args.spellId, devouringFlames, 42, args.spellId) -- make sure to remove bar when it takes off
+	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
 end
 
 do
 	local scheduled = nil
-	local function emWarn(spellName)
-		mod:TargetMessage(86622, spellName, emTargets, "Personal", 86622, "Alarm")
-		mod:Bar(86622, "~"..spellName, 37, 86622)
+	local function emWarn(spellName, spellId)
+		mod:TargetMessage(spellId, spellName, emTargets, "Personal", spellId, "Alarm")
+		mod:Bar(spellId, "~"..spellName, 37, spellId)
 		scheduled = nil
 	end
-	function mod:EngulfingMagicApplied(player, spellId, _, _, spellName)
-		if UnitIsUnit(player, "player") then
-			self:Say(86622, L["engulfingmagic_say"])
-			self:FlashShake(86622)
+	function mod:EngulfingMagicApplied(args)
+		if UnitIsUnit(args.destName, "player") then
+			self:Say(args.spellId, L["engulfingmagic_say"])
+			self:FlashShake(args.spellId)
 			self:OpenProximity("proximity", 10)
 		end
-		emTargets[#emTargets + 1] = player
+		emTargets[#emTargets + 1] = args.destName
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(emWarn, 0.3, spellName)
+			self:ScheduleTimer(emWarn, 0.3, args.spellName, args.spellId)
 		end
-		self:Whisper(86622, player, spellName)
+		self:Whisper(args.spellId, args.destName, args.spellName)
 	end
 end
 
-function mod:EngulfingMagicRemoved(player)
-	if UnitIsUnit(player, "player") then
+function mod:EngulfingMagicRemoved(args)
+	if UnitIsUnit(args.destName, "player") then
 		self:CloseProximity()
 	end
 end

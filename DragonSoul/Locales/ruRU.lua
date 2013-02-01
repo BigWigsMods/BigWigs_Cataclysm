@@ -93,7 +93,7 @@ end
 
 L = BigWigs:NewBossLocale("Warmaster Blackhorn", "ruRU")
 if L then
-    L.warmup = "Начало боя"
+	L.warmup = "Начало боя"
 	L.warmup_desc = "Время до начала боя."
 
 	L.sunder = "Раскол брони"
@@ -134,6 +134,6 @@ if L then
 	L.bolt_explode = "<Взрыв Стрелы>"
 	L.parasite = "Паразит"
 	L.blobs_soon = "%d%% - Свертывающаяся кровь скоро!"
-	
-	L.bigtentacle  = "Большое щупальце"
+
+	L.bigtentacle = "Большое щупальце"
 end

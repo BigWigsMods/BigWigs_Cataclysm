@@ -2,7 +2,7 @@ local L = BigWigs:NewBossLocale("Beth'tilac", "koKR")
 if not L then return end
 if L then
 	L.flare_desc = "화염 광역에 대한 타이머 바를 표시합니다."
-	
+
 	L.devastate_message = "그을리는 유린 #%d"
 	L.drone_bar = "잿그물 수거미"
 	L.drone_message = "수거미 등장!"

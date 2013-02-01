@@ -125,10 +125,9 @@ do
 			local player = UnitName(mobId.."target")
 			if not player then return end
 			if UnitIsUnit("player", player) then
-				local twilightFlames = GetSpellInfo(108076)
-				mod:Say(108076, twilightFlames
+				mod:Say(108076)
 				mod:FlashShake(108076)
-				mod:LocalMessage(108076, twilightFlames, "Personal", 108076, "Long")
+				mod:LocalMessage(108076, 108076, "Personal", 108076, "Long") -- Twilight Flames
 			end
 			mod:PrimaryIcon(108076, player)
 		end
@@ -153,20 +152,19 @@ do
 		local player = UnitName("boss2target")
 		if player and (not UnitDetailedThreatSituation("boss2target", "boss2") or fired > 11) then
 			-- If we've done 12 (0.6s) checks and still not passing the threat check, it's probably being cast on the tank
-			local shockwave = GetSpellInfo(108046)
-			mod:TargetMessage(108046, shockwave, player, "Attention", 108046, "Alarm")
-			mod:CancelTimer(timer, true)
+			mod:TargetMessage(108046, 108046, player, "Attention", 108046, "Alarm") -- Shockwave
+			mod:CancelTimer(timer)
 			timer = nil
 			if UnitIsUnit("boss2target", "player") then
 				mod:FlashShake(108046)
-				mod:Say(108046, shockwave)
+				mod:Say(108046)
 			end
 			return
 		end
 		-- 19 == 0.95sec
 		-- Safety check if the unit doesn't exist
 		if fired > 18 then
-			mod:CancelTimer(timer, true)
+			mod:CancelTimer(timer)
 			timer = nil
 		end
 	end

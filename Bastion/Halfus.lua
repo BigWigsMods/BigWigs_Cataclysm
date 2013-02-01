@@ -49,28 +49,28 @@ end
 -- Event Handlers
 --
 
-function mod:FuriousRoar(_, spellId, _, _, spellName)
-	self:Message(83710, spellName, "Important", spellId)
-	self:Bar(83710, spellName, 25, spellId)
+function mod:FuriousRoar(args)
+	self:Message(args.spellId, args.spellName, "Important", args.spellId)
+	self:Bar(args.spellId, args.spellName, 25, args.spellId)
 end
 
 -- Slate Dragon: Stone Touch (83603), 35 sec internal cd, resulting in Paralysis, 12 sec stun
 -- Next Stone Touch after 23 sec, hence delaying Furious Roar if less then 12 sec left
-function mod:Paralysis(_, spellId, _, _, spellName)
-	self:Message(83603, spellName, "Attention", spellId)
-	self:Bar(83603, CL["cast"]:format(spellName), 12, spellId)
-	self:Bar(83603, spellName, 35, spellId)
+function mod:Paralysis(args)
+	self:Message(83603, args.spellName, "Attention", args.spellId)
+	self:Bar(83603, CL["cast"]:format(args.spellName), 12, args.spellId)
+	self:Bar(83603, args.spellName, 35, args.spellId)
 end
 
-function mod:MalevolentStrikes(player, spellId, _, _, spellName, stack)
+function mod:MalevolentStrikes(args)
 	local stackWarn = self:Heroic() and 5 or 10 -- 8% in heroic, 6% in normal, announce around 50-60% reduced healing
-	if stack > stackWarn then
-		self:TargetMessage(83908, L["strikes_message"], player, "Urgent", spellId, "Info", stack)
+	if args.amount > stackWarn then
+		self:TargetMessage(args.spellId, L["strikes_message"], args.destName, "Urgent", args.spellId, "Info", args.amount)
 	end
 end
 
-function mod:Breath(_, spellId)
-	self:Message(83707, L["breath_message"], "Attention", spellId)
-	self:Bar(83707, L["breath_bar"], 20, spellId)
+function mod:Breath(args)
+	self:Message(args.spellId, L["breath_message"], "Attention", args.spellId)
+	self:Bar(args.spellId, L["breath_bar"], 20, args.spellId)
 end
 

@@ -66,7 +66,7 @@ function mod:OnEngage()
 	if not self:Heroic() then
 		self:Bar(88853, L["next_system_failure"], 90, 88853) --happens randomly at either 60 or 90 on heroic
 	end
-	self:Bar(82848, GetSpellInfo(82848), 30, 82848) --Massacre
+	self:Bar(82848, 82848, 30, 82848) --Massacre
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "Phase2Warn", "boss1")
 end
 
@@ -74,42 +74,42 @@ end
 -- Event Handlers
 --
 
-function mod:SystemFailureStart(_, spellId, _, _, spellName)
+function mod:SystemFailureStart(args)
 	self:StopBar(L["next_system_failure"])
-	self:Bar(88853, spellName, 30, spellId)
-	self:Message(88853, spellName, "Important", spellId, "Alarm")
-	self:FlashShake(88853)
+	self:Bar(args.spellId, args.spellId, 30, args.spellId)
+	self:Message(args.spellId, args.spellId, "Important", args.spellId, "Alarm")
+	self:FlashShake(args.spellId)
 	self:CloseProximity()
 end
 
-function mod:SystemFailureEnd(_, spellId)
+function mod:SystemFailureEnd(args)
 	if self.isEngaged then --To prevent firing after a wipe
 		if not self:Heroic() then
-			self:Bar(88853, L["next_system_failure"], 65, spellId)
+			self:Bar(args.spellId, L["next_system_failure"], 65, args.spellId)
 		end
-		self:FlashShake(88853)
+		self:FlashShake(args.spellId)
 		self:OpenProximity("proximity", 6)
 	end
 end
 
-function mod:Massacre(_, spellId, _, _, spellName)
-	self:Message(82848, spellName, "Attention", spellId)
-	self:Bar(82848, spellName, 30, spellId)
-	self:Bar(82935, GetSpellInfo(82935), 19, 82935) --Caustic Slime
+function mod:Massacre(args)
+	self:Message(args.spellId, args.spellId, "Attention", args.spellId)
+	self:Bar(args.spellId, args.spellId, 30, args.spellId)
+	self:Bar(82935, 82935, 19, 82935) --Caustic Slime
 end
 
-function mod:Mortality(_, spellId, _, _, spellName)
-	self:Message(82890, spellName, "Important", spellId, "Long")
+function mod:Mortality(args)
+	self:Message(args.spellId, args.spellId, "Important", args.spellId, "Long")
 	self:CloseProximity()
 	self:StopBar(L["next_system_failure"])
 end
 
-function mod:Break(player, spellId, _, _, _, stack)
-	self:TargetMessage(82881, L["break_message"], player, "Attention", spellId, nil, stack or 1)
+function mod:Break(args)
+	self:TargetMessage(args.spellId, L["break_message"], args.destName, "Attention", args.spellId, nil, args.amount or 1)
 end
 
-function mod:DoubleAttack(_, spellId, _, _, spellName)
-	self:Message(88826, spellName, "Urgent", spellId)
+function mod:DoubleAttack(args)
+	self:Message(args.spellId, args.spellId, "Urgent", args.spellId)
 end
 
 function mod:Phase2Warn(unit)

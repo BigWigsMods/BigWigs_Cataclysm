@@ -173,7 +173,7 @@ local function nextBlaze()
 end
 
 function mod:ShadowblazeCorrection()
-	self:CancelTimer(shadowblazeHandle, true)
+	self:CancelTimer(shadowblazeHandle)
 	if (GetTime() - lastBlaze) <= 3 then
 		shadowblazeHandle = mod:ScheduleTimer(nextBlaze, shadowBlazeTimer)
 	elseif (GetTime() - lastBlaze) >= 6 then
@@ -203,7 +203,7 @@ do
 		cinderTargets[#cinderTargets + 1] = player
 		if UnitIsUnit(player, "player") then
 			self:FlashShake(79339)
-			self:Say(79339, spellName)
+			self:Say(79339)
 			self:Bar(79339, spellName, 8, spellId)
 			self:OpenProximity(79339, 10) -- assumed
 		end

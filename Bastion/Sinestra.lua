@@ -32,7 +32,7 @@ L = mod:GetLocale()
 -- Locals
 --
 
-local breath, slicer = (GetSpellInfo(90125)), (GetSpellInfo(92852))
+local breath, slicer = mod:SpellName(90125), mod:SpellName(92852)
 local roleCheckWarned = nil
 local eggs = 0
 local orbList = {}
@@ -101,7 +101,7 @@ local function colorize(tbl)
 	for i, v in next, tbl do
 		local class = select(2, UnitClass(v))
 		if class then
-			tbl[i] = hexColors[class]  .. v .. "|r"
+			tbl[i] = hexColors[class] .. v .. "|r"
 		end
 	end
 	return tbl
@@ -214,10 +214,10 @@ do
 		48049,
 		48050,
 	}
-	function mod:WhelpWatcher(_,_,_,_,_,_,_,_,_,_,sGUID)
-		local mobId = self:GetCID(sGUID)
+	function mod:WhelpWatcher(args)
+		local mobId = self:GetCID(args.sourceGUID)
 		for i, v in next, whelpIds do
-			if mobId == v then whelpGUIDs[sGUID] = true end
+			if mobId == v then whelpGUIDs[args.sourceGUID] = true end
 		end
 	end
 end
@@ -234,35 +234,34 @@ function mod:Whelps()
 	self:Message("whelps", L["whelps"], "Important", 69005)
 end
 
-function mod:Extinction(_, spellId, _, _, spellName)
-	self:Bar(86227, spellName, 15, spellId)
+function mod:Extinction(args)
+	self:Bar(args.spellId, args.spellName, 15, args.spellId)
 end
 
 do
 	local scheduled = nil
 	local function EggMessage(spellId)
-		mod:Message(87654, L["egg_vulnerable"], "Important", spellId, "Alert")
-		mod:Bar(87654, L["egg_vulnerable"], 30, 87654)
+		mod:Message(spellId, L["egg_vulnerable"], "Important", spellId, "Alert")
+		mod:Bar(spellId, L["egg_vulnerable"], 30, spellId)
 		scheduled = nil
 	end
-	function mod:Egg(_, spellId)
+	function mod:Egg(args)
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(EggMessage, 0.1, spellId)
+			self:ScheduleTimer(EggMessage, 0.1, args.spellId)
 		end
 	end
 end
 
 function mod:EggTrigger()
-	self:Bar(87654, L["egg_vulnerable"], 5, 87654)
+	self:Bar(args.spellId, L["egg_vulnerable"], 5, args.spellId)
 end
 
-function mod:Indomitable(player, spellId, _, _, spellName)
-	self:Message(90045, spellName, "Urgent", spellId)
-	local _, class = UnitClass("player")
-	if class == "HUNTER" or class == "ROGUE" then
-		self:PlaySound(90045, "Info")
-		self:FlashShake(90045)
+function mod:Indomitable(args)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
+	if self:Dispeller("enrage", true) then
+		self:PlaySound(args.spellId, "Info")
+		self:FlashShake(args.spellId)
 	end
 end
 
@@ -277,13 +276,13 @@ function mod:PhaseWarn(unit)
 	end
 end
 
-function mod:Breath(_, spellId, _, _, spellName)
-	self:Bar(90125, "~"..spellName, 24, spellId)
-	self:Message(90125, spellName, "Urgent", spellId)
+function mod:Breath(args)
+	self:Bar(args.spellId, "~"..args.spellName, 24, args.spellId)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
 end
 
-function mod:Deaths(mobId)
-	if mobId == 46842 then
+function mod:Deaths(args)
+	if args.mobId == 46842 then
 		eggs = eggs + 1
 		if eggs == 2 then
 			self:Message("phase", CL["phase"]:format(3), "Positive", 51070, "Info") -- broken egg icon
@@ -292,7 +291,7 @@ function mod:Deaths(mobId)
 			self:Bar(90125, "~"..breath, 24, 90125)
 			self:ScheduleTimer(nextOrbSpawned, 30)
 		end
-	elseif mobId == 45213 then
+	elseif args.mobId == 45213 then
 		self:Win()
 	end
 end

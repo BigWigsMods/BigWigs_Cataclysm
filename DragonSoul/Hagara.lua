@@ -92,7 +92,7 @@ function mod:FrostFlakeApplied(player, spellId, _, _, spellName)
 	self:PrimaryIcon(109325, player)
 	if UnitIsUnit("player", player) then
 		self:LocalMessage(109325, CL["you"]:format(spellName), "Personal", spellId, Long)
-		self:Say(109325, spellName)
+		self:Say(109325)
 		self:FlashShake(109325)
 		self:OpenProximity(109325, 10)
 	end

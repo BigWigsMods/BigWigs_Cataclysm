@@ -1,4 +1,4 @@
-﻿local L = BigWigs:NewBossLocale("Beth'tilac", "deDE")
+local L = BigWigs:NewBossLocale("Beth'tilac", "deDE")
 if not L then return end
 if L then
 	L.flare_desc = "Zeigt eine Timerleiste für Funkenleuchtfeuer."

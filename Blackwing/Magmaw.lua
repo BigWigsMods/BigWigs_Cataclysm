@@ -172,7 +172,7 @@ function mod:InfectionRemoved(player)
 end
 
 function mod:Slump()
-	self:StopBar( pillarOfFlame)
+	self:StopBar(pillarOfFlame)
 	self:Bar("slump", L["slump_bar"], 95, 36702)
 	self:Message("slump", L["slump_message"], "Positive", 36702, "Info")
 end

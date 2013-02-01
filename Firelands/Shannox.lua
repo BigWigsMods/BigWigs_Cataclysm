@@ -75,7 +75,7 @@ do
 			if spellId == 99836 then
 				mod:TargetMessage("crystal", L["crystal_trap"], player, "Urgent", spellId, "Alarm")
 			end
-			mod:CancelTimer(timer, true)
+			mod:CancelTimer(timer)
 			timer = nil
 			if UnitIsUnit("boss1target", "player") then
 				if spellId == 99836 then
@@ -91,7 +91,7 @@ do
 		-- 19 == 0.95sec
 		-- Safety check if the unit doesn't exist
 		if fired > 18 then
-			mod:CancelTimer(timer, true)
+			mod:CancelTimer(timer)
 			timer = nil
 		end
 	end

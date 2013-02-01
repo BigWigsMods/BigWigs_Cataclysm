@@ -94,7 +94,7 @@ do
 			local bossId = ("boss%d"):format(i)
 			if UnitGUID(bossId) == sGUID and UnitIsUnit(bossId.."target", "player") then
 				mod:FlashShake(80157)
-				mod:Say(80157, 80157)
+				mod:Say(80157)
 				break
 			end
 		end

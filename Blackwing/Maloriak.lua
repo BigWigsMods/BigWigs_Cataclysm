@@ -234,7 +234,7 @@ do
 	function mod:Interrupt(_, _, _, secSpellId)
 		if secSpellId ~= 77569 then return end
 		-- Someone interrupted release aberrations!
-		self:CancelTimer(handle, true)
+		self:CancelTimer(handle)
 		handle = nil
 	end
 end
@@ -267,7 +267,7 @@ do
 	function mod:BitingChill(player, spellId, _, _, spellName)
 		chillTargets[#chillTargets + 1] = player
 		if UnitIsUnit(player, "player") then
-			self:Say(77760, 77760)
+			self:Say(77760)
 			self:FlashShake(77760)
 			isChilled = true
 		end

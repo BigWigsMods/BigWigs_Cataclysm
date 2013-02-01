@@ -106,7 +106,7 @@ do
 	local function graspCheck()
 		if not mod.isEngaged then
 			-- Timer should not be spamming
-			mod:CancelTimer(timer, true)
+			mod:CancelTimer(timer)
 		end
 		if not UnitDebuff("player", tendrils) and not UnitIsDead("player") then -- Grasping Tendrils
 			mod:LocalMessage("roll", L["not_hooked"], "Personal", 105563, "Alert")
@@ -117,19 +117,19 @@ do
 		self:Bar("roll", L["roll"], 5, L["roll_icon"])
 		self:Message("roll", CL["custom_sec"]:format(L["roll"], 5), "Attention", L["roll_icon"], "Long")
 		self:FlashShake("roll")
-		if timer then self:CancelTimer(timer, true) end
+		if timer then self:CancelTimer(timer) end
 		timer = self:ScheduleRepeatingTimer(graspCheck, 0.8)
 	end
 	function mod:Rolls()
 		self:Message("roll", L["roll_message"], "Positive", L["roll_icon"])
 		self:Bar("roll", CL["cast"]:format(L["roll"]), 5, L["roll_icon"])
-		self:CancelTimer(timer, true)
+		self:CancelTimer(timer)
 		timer = nil
 	end
 	function mod:Level()
 		self:Message("roll", L["level_message"], "Positive", L["roll_icon"])
 		self:StopBar(L["roll"])
-		self:CancelTimer(timer, true)
+		self:CancelTimer(timer)
 		timer = nil
 	end
 end
@@ -139,7 +139,7 @@ do
 	function mod:AbsorbedBlood(_, spellId, _, _, spellName, stack, _, _, _, dGUID)
 		-- Cancel old timer
 		if timers[dGUID] ~= nil then
-			self:CancelTimer(timers[dGUID], true)
+			self:CancelTimer(timers[dGUID])
 			timers[dGUID] = nil
 		end
 
@@ -233,7 +233,7 @@ do
 		-- We are only printing if the haltPrinting flag has been turned off
 		if not haltPrinting then
 			if scheduled then
-				mod:CancelTimer(scheduled, true)
+				mod:CancelTimer(scheduled)
 			end
 			scheduled = mod:ScheduleTimer(reportBloods, 1) 
 		end

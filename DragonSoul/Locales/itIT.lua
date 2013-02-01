@@ -117,7 +117,7 @@ if L then
 	L.not_hooked = "TU >NON< SEI armpionato!"
 	L.roll_message = "Si sta Avvitando, Avvitamento! Avvitamento!"
 	L.level_trigger = "si stabilizza"
-	L.level_message = "Ottimo, si e' Stabilizzato!"
+	L.level_message = "Ottimo, si è Stabilizzato!"
 
 	L.exposed = "Armatura Esposta"
 

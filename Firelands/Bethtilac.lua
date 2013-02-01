@@ -91,7 +91,7 @@ do
 		self:DelayedMessage("spinner", 12, L["spinner_warn"]:format(1), "Positive", L["spinner_icon"])
 		self:DelayedMessage("spinner", 24, L["spinner_warn"]:format(2), "Positive", L["spinner_icon"])
 		self:DelayedMessage("spinner", 35, L["spinner_warn"]:format(3), "Positive", L["spinner_icon"])
-		self:CancelTimer(scheduled, true)
+		self:CancelTimer(scheduled)
 		scheduled = self:ScheduleTimer(droneWarning, 45)
 	end
 end
@@ -100,20 +100,16 @@ end
 -- Event Handlers
 --
 
-do
-	local burst = GetSpellInfo(99990)
-
-	function mod:BroodlingWatcher()
-		if not self:Heroic() then return end
-		local broodling = self:GetUnitIdByGUID(53745)
-		if broodling and UnitExists(broodling.."target") and UnitExists(lastBroodlingTarget) then
-			if UnitIsUnit(broodling.."target", lastBroodlingTarget) then return end
-			lastBroodlingTarget = UnitName(broodling.."target")
-			self:TargetMessage(99990, burst, lastBroodlingTarget, "Important", 99990, "Alert")
-			if UnitIsUnit(lastBroodlingTarget, "player") then
-				self:FlashShake(99990)
-				self:Say(99990, burst)
-			end
+function mod:BroodlingWatcher()
+	if not self:Heroic() then return end
+	local broodling = self:GetUnitIdByGUID(53745)
+	if broodling and UnitExists(broodling.."target") and UnitExists(lastBroodlingTarget) then
+		if UnitIsUnit(broodling.."target", lastBroodlingTarget) then return end
+		lastBroodlingTarget = UnitName(broodling.."target")
+		self:TargetMessage(99990, 99990, lastBroodlingTarget, "Important", 99990, "Alert") -- Volatile Burst
+		if UnitIsUnit(lastBroodlingTarget, "player") then
+			self:FlashShake(99990)
+			self:Say(99990)
 		end
 	end
 end

@@ -95,7 +95,7 @@ do
 		fired = fired + 1
 		local player = UnitName("boss1target")
 		if player and not UnitDetailedThreatSituation("boss1target", "boss1") then
-			mod:CancelTimer(timer, true)
+			mod:CancelTimer(timer)
 			timer = nil
 			if UnitIsUnit("player", "boss1target") then
 				mod:Say(98476, L["leap_say"])
@@ -106,7 +106,7 @@ do
 			return
 		end
 		if fired > 18 then
-			mod:CancelTimer(timer, true)
+			mod:CancelTimer(timer)
 			timer = nil
 		end
 	end
@@ -169,7 +169,7 @@ function mod:SearingSeedsRemoved(player)
 	else
 		self:CloseProximity(98450)
 	end
-	self:CancelTimer(seedTimer, true)
+	self:CancelTimer(seedTimer)
 	seedTimer = nil
 end
 

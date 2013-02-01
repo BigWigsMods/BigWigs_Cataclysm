@@ -11,9 +11,7 @@ mod:RegisterEnableMob(43686, 43687, 43688, 43689, 43735) --Ignacious, Feludius, 
 --
 
 local lrTargets, gcTargets = mod:NewTargetList(), mod:NewTargetList()
-local glaciate = GetSpellInfo(82746)
-local quake, thundershock, hardenSkin = GetSpellInfo(83565), GetSpellInfo(83067), GetSpellInfo(83718)
-local gravityCrush = GetSpellInfo(84948)
+local quake, thundershock = mod:SpellName(83565), mod:SpellName(83067)
 local crushMarked = false
 local timeLeft = 8
 local phase = 1
@@ -124,7 +122,7 @@ function mod:OnEngage()
 	end
 
 	self:Bar(82631, L["shield_bar"], 30, 82631)
-	self:Bar(82746, glaciate, 30, 82746)
+	self:Bar(82746, 82746, 30, 82746) -- Glaciate
 
 	phase = 1
 	crushMarked = false
@@ -137,19 +135,19 @@ end
 
 do
 	local scheduled = nil
-	local function lrWarn(spellName)
-		mod:TargetMessage(83099, spellName, lrTargets, "Important", 83099, "Alert")
+	local function lrWarn(spellName, spellId)
+		mod:TargetMessage(spellId, spellName, lrTargets, "Important", spellId, "Alert")
 		scheduled = nil
 	end
-	function mod:LightningRodApplied(player, _, _, _, spellName)
-		lrTargets[#lrTargets + 1] = player
+	function mod:LightningRodApplied(args)
+		lrTargets[#lrTargets + 1] = args.destName
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(lrWarn, 0.3, spellName)
+			self:ScheduleTimer(lrWarn, 0.3, args.spellName, args.spellId)
 		end
-		if UnitIsUnit(player, "player") then
-			self:Say(83099, spellName)
-			self:FlashShake(83099)
+		if UnitIsUnit(args.destName, "player") then
+			self:Say(args.spellId)
+			self:FlashShake(args.spellId)
 			self:OpenProximity("proximity", 10)
 		end
 	end
@@ -157,67 +155,67 @@ end
 
 do
 	local scheduled = nil
-	local function gcWarn(spellName)
-		mod:TargetMessage(84948, spellName, gcTargets, "Important", 84948, "Alert")
+	local function gcWarn(spellName, spellId)
+		mod:TargetMessage(spellId, spellName, gcTargets, "Important", spellId, "Alert")
 		scheduled = nil
 	end
 	local function marked()
 		crushMarked = false
 	end
-	function mod:GravityCrush(player, spellId, _, _, spellName)
-		gcTargets[#gcTargets + 1] = player
-		if not crushMarked  then
-			self:PrimaryIcon(84948, player)
+	function mod:GravityCrush(args)
+		gcTargets[#gcTargets + 1] = args.destName
+		if not crushMarked then
+			self:PrimaryIcon(args.spellId, args.destName)
 			crushMarked = true
 			self:ScheduleTimer(marked, 5)
 		end
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(gcWarn, 0.2, spellName)
+			self:ScheduleTimer(gcWarn, 0.2, args.spellName, args.spellId)
 		end
-		self:Bar(84948, spellName, 25, spellId)
+		self:Bar(args.spellId, args.spellName, 25, args.spellId)
 	end
 end
 
-function mod:LightningRodRemoved(player, spellId)
-	if UnitIsUnit(player, "player") then
+function mod:LightningRodRemoved(args)
+	if UnitIsUnit(args.destName, "player") then
 		self:CloseProximity()
 	end
 end
 
-function mod:GravityCore(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:Say(92075, L["gravity_core_say"])
-		self:FlashShake(92075)
+function mod:GravityCore(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:Say(args.spellId, L["gravity_core_say"])
+		self:FlashShake(args.spellId)
 	end
-	self:TargetMessage(92075, spellName, player, "Attention", spellId, "Alarm")
-	self:SecondaryIcon(92075, player)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:SecondaryIcon(args.spellId, args.destName)
 end
 
-function mod:GravityCoreRemoved()
-	self:SecondaryIcon(92075)
+function mod:GravityCoreRemoved(args)
+	self:SecondaryIcon(args.spellId)
 end
 
-function mod:StaticOverload(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:Say(92067, L["static_overload_say"])
-		self:FlashShake(92067)
+function mod:StaticOverload(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:Say(args.spellId, L["static_overload_say"])
+		self:FlashShake(args.spellId)
 	end
-	self:TargetMessage(92067, spellName, player, "Attention", spellId, "Alarm")
-	self:PrimaryIcon(92067, player)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:PrimaryIcon(args.spellId, args.destName)
 end
 
-function mod:StaticOverloadRemoved()
-	self:PrimaryIcon(92067)
+function mod:StaticOverloadRemoved(args)
+	self:PrimaryIcon(args.spellId)
 end
 
-function mod:FrostBeacon(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(92307)
+function mod:FrostBeacon(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
 	end
-	self:TargetMessage(92307, spellName, player, "Attention", spellId, "Alarm")
-	self:Whisper(92307, player, spellName)
-	self:PrimaryIcon(92307, player)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:Whisper(args.spellId, args.destName, args.spellName)
+	self:PrimaryIcon(args.spellId, args.destName)
 end
 
 do
@@ -240,51 +238,51 @@ do
 	end
 end
 
-function mod:FlameShield(_, spellId)
-	self:Bar(82631, L["shield_bar"], 62, spellId)
-	self:Message(82631, L["shield_up_message"], "Important", spellId, "Alert")
+function mod:FlameShield(args)
+	self:Bar(args.spellId, L["shield_bar"], 62, args.spellId)
+	self:Message(args.spellId, L["shield_up_message"], "Important", args.spellId, "Alert")
 end
 
-function mod:FlameShieldRemoved(_, spellId)
-	self:Message(82631, L["shield_down_message"], "Important", spellId, "Alert")
+function mod:FlameShieldRemoved(args)
+	self:Message(args.spellId, L["shield_down_message"], "Important", args.spellId, "Alert")
 end
 
-function mod:HardenSkinStart(_, spellId, _, _, spellName)
-	self:Bar(83718, spellName, 44, spellId)
-	self:Message(83718, spellName, "Urgent", spellId, "Info")
+function mod:HardenSkinStart(args)
+	self:Bar(args.spellId, args.spellName, 44, args.spellId)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Info")
 end
 
-function mod:Glaciate(_, spellId, _, _, spellName)
-	self:Bar(82746, spellName, 33, spellId)
-	self:Message(82746, spellName, "Attention", spellId, "Alert")
+function mod:Glaciate(args)
+	self:Bar(args.spellId, args.spellName, 33, args.spellId)
+	self:Message(args.spellId, args.spellName, "Attention", args.spellId, "Alert")
 end
 
-function mod:Waterlogged(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:LocalMessage(82762, spellName, "Personal", spellId, "Long")
+function mod:Waterlogged(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:LocalMessage(args.spellId, args.spellName, "Personal", args.spellId, "Long")
 	end
 end
 
-function mod:HeartofIce(player, spellId, _, _, spellName)
-	self:TargetMessage(82665, spellName, player, "Important", spellId)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(82665)
+function mod:HeartofIce(args)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
 	end
 end
 
-function mod:BurningBlood(player, spellId, _, _, spellName)
-	self:TargetMessage(82660, spellName, player, "Important", spellId)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(82660)
+function mod:BurningBlood(args)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
 	end
 end
 
 function mod:Switch()
 	self:StopBar(L["shield_bar"])
-	self:StopBar(glaciate)
+	self:StopBar(82746) -- Glaciate
 	self:Bar(83565, quake, 33, 83565)
 	self:Bar(83067, thundershock, 70, 83067)
-	self:Bar(83718, hardenSkin, 25.5, 83718)
+	self:Bar(83718, 83718, 25.5, 83718) -- Harden Skin
 	self:CancelAllTimers()
 	-- XXX this needs to be delayed
 end
@@ -295,7 +293,7 @@ do
 	local function quakeIncoming()
 		local name, _, icon = UnitDebuff("player", flying)
 		if name then
-			mod:CancelTimer(hardenTimer, true)
+			mod:CancelTimer(hardenTimer)
 			return
 		end
 		mod:LocalMessage(83565, L["thundershock_quake_spam"]:format(quake, timeLeft), "Personal", icon, "Info")
@@ -309,10 +307,10 @@ do
 		hardenTimer = self:ScheduleRepeatingTimer(quakeIncoming, 2)
 	end
 
-	function mod:Quake(_, spellId, _, _, spellName)
-		self:Bar(83565, spellName, 68, spellId)
-		self:Message(83565, spellName, "Important", spellId, "Alarm")
-		self:CancelTimer(hardenTimer, true) -- Should really wait 3 more sec.
+	function mod:Quake(args)
+		self:Bar(args.spellId, args.spellName, 68, args.spellId)
+		self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alarm")
+		self:CancelTimer(hardenTimer) -- Should really wait 3 more sec.
 	end
 end
 
@@ -322,7 +320,7 @@ do
 	local function thunderShockIncoming()
 		local name, _, icon = UnitDebuff("player", grounded)
 		if name then
-			mod:CancelTimer(thunderTimer, true)
+			mod:CancelTimer(thunderTimer)
 			return
 		end
 		mod:LocalMessage(83067, L["thundershock_quake_spam"]:format(thundershock, timeLeft), "Personal", icon, "Info")
@@ -336,19 +334,19 @@ do
 		thunderTimer = self:ScheduleRepeatingTimer(thunderShockIncoming, 2)
 	end
 
-	function mod:Thundershock(_, spellId, _, _, spellName)
-		self:Bar(83067, spellName, 65, spellId)
-		self:Message(83067, spellName, "Important", spellId, "Alarm")
-		self:CancelTimer(thunderTimer, true) -- Should really wait 3 more sec but meh.
+	function mod:Thundershock(args)
+		self:Bar(args.spellId, args.spellName, 65, args.spellId)
+		self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alarm")
+		self:CancelTimer(thunderTimer) -- Should really wait 3 more sec but meh.
 	end
 end
 
 function mod:LastPhase()
 	self:StopBar(quake)
 	self:StopBar(thundershock)
-	self:StopBar(hardenSkin)
+	self:StopBar(83718) -- Harden Skin
 	self:CancelAllTimers()
-	self:Bar(84948, gravityCrush, 43, 84948)
+	self:Bar(84948, 84948, 43, 84948) -- Gravity Crush
 	self:OpenProximity("proximity", 9)
 	self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1", "boss2", "boss3", "boss4")
 end
