@@ -11,7 +11,6 @@ mod:RegisterEnableMob(55294, 56667) -- Ultraxion, Thrall
 --
 
 local hourCounter = 1
-local lightTargets = mod:NewTargetList()
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -66,7 +65,7 @@ function mod:GetOptions(CL)
 		"warmup", "crystal", "berserk", "bosskill",
 	}, {
 		[106371] = L["twilight"],
-		[105925] = GetSpellInfo(105925),
+		[105925] = mod:SpellName(105925),
 		warmup = CL["general"],
 	}
 end
@@ -74,7 +73,9 @@ end
 function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "HourofTwilight", 106371)
 	self:Log("SPELL_AURA_APPLIED", "FadingLight", 109075, 105925) -- Normal/Tank
+
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
+
 	self:Yell("Warmup", L["warmup_trigger"])
 	self:Emote("Gift", L["crystal_icon"])
 	self:Emote("Dreams", L["crystal_green_icon"])
@@ -90,7 +91,7 @@ end
 
 function mod:OnEngage()
 	self:Berserk(360)
-	self:Bar(106371, GetSpellInfo(106371), 45, 106371) -- Hour of Twilight
+	self:Bar(106371, 106371, 45, 106371) -- Hour of Twilight
 	self:Bar("crystal", L["crystal_red"], 80, L["crystal_icon"])
 	hourCounter = 1
 end
@@ -110,46 +111,47 @@ function mod:Dreams()
 end
 
 function mod:Magic()
-	self:Bar("crystal", EJ_GetSectionInfo(4241), 75, L["crystal_bronze_icon"]) -- Timeloop
+	self:Bar("crystal", 105984, 75, L["crystal_bronze_icon"]) -- Timeloop
 	self:Message("crystal", L["crystal_blue"], "Positive", L["crystal_blue_icon"], "Info")
 end
 
 function mod:Loop()
-	self:Message("crystal", EJ_GetSectionInfo(4241), "Positive", L["crystal_bronze_icon"], "Info") -- Timeloop
+	self:Message("crystal", 105984, "Positive", L["crystal_bronze_icon"], "Info") -- Timeloop
 end
 
-function mod:HourofTwilight(_, spellId, _, _, spellName)
-	self:Message(106371, ("%s (%d)"):format(spellName, hourCounter), "Important", spellId, "Alert")
+function mod:HourofTwilight(args)
+	self:Message(106371, ("%s (%d)"):format(args.spellName, hourCounter), "Important", args.spellId, "Alert")
 	hourCounter = hourCounter + 1
-	self:Bar(106371, ("%s (%d)"):format(spellName, hourCounter), 45, spellId)
-	self:Bar("cast", CL["cast"]:format(L["twilight"]), self:Heroic() and 3 or 5, spellId)
+	self:Bar(106371, ("%s (%d)"):format(args.spellName, hourCounter), 45, args.spellId)
+	self:Bar("cast", CL["cast"]:format(L["twilight"]), self:Heroic() and 3 or 5, args.spellId)
 	self:FlashShake(106371)
 end
 
 do
 	local scheduled = nil
+	local lightTargets = mod:NewTargetList()
 	local function fadingLight(spellName)
 		mod:TargetMessage(105925, spellName, lightTargets, "Attention", 105925, "Alarm")
 		scheduled = nil
 	end
-	function mod:FadingLight(player, spellId, _, _, spellName)
-		lightTargets[#lightTargets + 1] = player
-		if UnitIsUnit(player, "player") then
-			local duration = select(6, UnitDebuff("player", spellName))
-			self:Bar("lightself", L["lightself_bar"], duration, spellId)
+	function mod:FadingLight(args)
+		lightTargets[#lightTargets + 1] = args.destName
+		if UnitIsUnit(args.destName, "player") then
+			local duration = select(6, UnitDebuff("player", args.spellName))
+			self:Bar("lightself", L["lightself_bar"], duration, args.spellId)
 			self:FlashShake("lightself")
 		else -- This is mainly a tanking assist
-			if spellId == 105925 and self:Tank() then
+			if args.spellId == 105925 and self:Tank() then
 				self:FlashShake("lighttank")
-				local duration = select(6, UnitDebuff(player, spellName))
-				self:Bar("lighttank", L["lighttank_bar"]:format(player), duration, spellId)
-				self:LocalMessage("lighttank", L["lighttank_message"], "Attention", spellId, player)
+				local duration = select(6, UnitDebuff(args.destName, args.spellName))
+				self:Bar("lighttank", L["lighttank_bar"]:format(args.destName), duration, args.spellId)
+				self:LocalMessage("lighttank", L["lighttank_message"], "Attention", args.spellId, args.destName)
 				self:PlaySound("lighttank", "Alarm")
 			end
 		end
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(fadingLight, 0.2, spellName)
+			self:ScheduleTimer(fadingLight, 0.2, args.spellName)
 		end
 	end
 end

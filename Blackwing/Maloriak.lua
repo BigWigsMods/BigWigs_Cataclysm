@@ -14,8 +14,8 @@ local aberrations = 18
 local phaseCounter = 0
 local chillTargets = mod:NewTargetList()
 local isChilled, currentPhase = nil, nil
-local scorchingBlast = "~"..GetSpellInfo(77679)
-local flashFreeze = "~"..GetSpellInfo(77699)
+local scorchingBlast = "~"..mod:SpellName(77679)
+local flashFreeze = "~"..mod:SpellName(77699)
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -134,88 +134,87 @@ end
 
 do
 	local last = 0
-	function mod:DarkSludge(player, spellId)
-		if not UnitIsUnit(player, "player") then return end
+	function mod:DarkSludge(args)
+		if not UnitIsUnit(args.destName, "player") then return end
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			self:LocalMessage("sludge", L["sludge_message"], "Personal", spellId, "Info")
+			self:LocalMessage("sludge", L["sludge_message"], "Personal", args.spellId, "Info")
 			self:FlashShake("sludge")
 		end
 	end
 end
 
-local function nextPhase(timeToNext)
-	phaseCounter = phaseCounter + 1
-	if (not mod:Heroic() and phaseCounter == 2) or (mod:Heroic() and phaseCounter == 3) then
-		mod:Bar("phase", L["green_phase_bar"], timeToNext, "INV_POTION_162")
-	else
-		mod:Bar("phase", L["next_phase"], timeToNext, "INV_ALCHEMY_ELIXIR_EMPTY")
+do
+	local function nextPhase(timeToNext)
+		phaseCounter = phaseCounter + 1
+		if (not mod:Heroic() and phaseCounter == 2) or (mod:Heroic() and phaseCounter == 3) then
+			mod:Bar("phase", L["green_phase_bar"], timeToNext, "INV_POTION_162")
+		else
+			mod:Bar("phase", L["next_phase"], timeToNext, "INV_ALCHEMY_ELIXIR_EMPTY")
+		end
+	end
+
+	function mod:Red()
+		if currentPhase == "red" then return end
+		currentPhase = "red"
+		self:StopBar(flashFreeze)
+		self:Bar(77679, scorchingBlast, 25, 77679)
+		self:Message("phase", L["red_phase"], "Positive", "Interface\\Icons\\INV_POTION_24", "Long")
+		if not isChilled then
+			self:CloseProximity()
+		end
+		nextPhase(47)
+	end
+	function mod:Blue()
+		if currentPhase == "blue" then return end
+		currentPhase = "blue"
+		self:StopBar(scorchingBlast)
+		self:Bar(77699, flashFreeze, 28, 77699)
+		self:Message("phase", L["blue_phase"], "Positive", "Interface\\Icons\\INV_POTION_20", "Long")
+		self:OpenProximity("proximity", 5)
+		nextPhase(47)
+	end
+	function mod:Green()
+		if currentPhase == "green" then return end
+		currentPhase = "green"
+		self:StopBar(scorchingBlast)
+		self:StopBar(flashFreeze)
+		self:Message("phase", L["green_phase"], "Positive", "Interface\\Icons\\INV_POTION_162", "Long")
+		if not isChilled then
+			self:CloseProximity()
+		end
+		nextPhase(47)
+		-- Make sure to reset after the nextPhase() call, which increments it
+		phaseCounter = 0
+	end
+	function mod:Dark()
+		if currentPhase == "dark" then return end
+		currentPhase = "dark"
+		self:Message("phase", L["dark_phase"], "Positive", "Interface\\Icons\\INV_ELEMENTAL_PRIMAL_SHADOW", "Long")
+		if not isChilled then
+			self:CloseProximity()
+		end
+		nextPhase(100)
 	end
 end
 
-function mod:Red()
-	if currentPhase == "red" then return end
-	currentPhase = "red"
-	self:StopBar(flashFreeze)
-	self:Bar(77679, scorchingBlast, 25, 77679)
-	self:Message("phase", L["red_phase"], "Positive", "Interface\\Icons\\INV_POTION_24", "Long")
-	if not isChilled then
-		self:CloseProximity()
-	end
-	nextPhase(47)
+function mod:FlashFreezeTimer(args)
+	self:Bar(args.spellId, flashFreeze, 15, args.spellId)
 end
 
-function mod:Blue()
-	if currentPhase == "blue" then return end
-	currentPhase = "blue"
-	self:StopBar(scorchingBlast)
-	self:Bar(77699, flashFreeze, 28, 77699)
-	self:Message("phase", L["blue_phase"], "Positive", "Interface\\Icons\\INV_POTION_20", "Long")
-	self:OpenProximity("proximity", 5)
-	nextPhase(47)
-end
-
-function mod:Green()
-	if currentPhase == "green" then return end
-	currentPhase = "green"
-	self:StopBar(scorchingBlast)
-	self:StopBar(flashFreeze)
-	self:Message("phase", L["green_phase"], "Positive", "Interface\\Icons\\INV_POTION_162", "Long")
-	if not isChilled then
-		self:CloseProximity()
-	end
-	nextPhase(47)
-	-- Make sure to reset after the nextPhase() call, which increments it
-	phaseCounter = 0
-end
-
-function mod:Dark()
-	if currentPhase == "dark" then return end
-	currentPhase = "dark"
-	self:Message("phase", L["dark_phase"], "Positive", "Interface\\Icons\\INV_ELEMENTAL_PRIMAL_SHADOW", "Long")
-	if not isChilled then
-		self:CloseProximity()
-	end
-	nextPhase(100)
-end
-
-function mod:FlashFreezeTimer(_, spellId, _, _, spellName)
-	self:Bar(77699, flashFreeze, 15, spellId)
-end
-
-function mod:FlashFreeze(player, spellId, _, _, spellName)
-	self:TargetMessage(77699, spellName, player, "Attention", spellId, "Info")
-	self:PrimaryIcon(77699, player)
+function mod:FlashFreeze(args)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Info")
+	self:PrimaryIcon(args.spellId, args.destName)
 end
 
 function mod:FlashFreezeRemoved()
-	self:PrimaryIcon(77699)
+	self:PrimaryIcon(args.spellId)
 end
 
-function mod:Remedy(unit, spellId, _, _, spellName, _, _, _, _, dGUID)
-	if self:GetCID(dGUID) == 41378 then
-		self:Message(77912, spellName, "Important", spellId, "Alarm")
+function mod:Remedy(args)
+	if self:GetCID(args.destGUID) == 41378 then
+		self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alarm")
 	end
 end
 
@@ -231,55 +230,56 @@ do
 		--cast is 1.95sec with Tongues, plus some latency time
 		handle = self:ScheduleTimer(release, 2.1)
 	end
-	function mod:Interrupt(_, _, _, secSpellId)
-		if secSpellId ~= 77569 then return end
-		-- Someone interrupted release aberrations!
-		self:CancelTimer(handle)
-		handle = nil
+	function mod:Interrupt(args)
+		if args.extraSpellId == 77569 then
+			-- Someone interrupted release aberrations!
+			self:CancelTimer(handle)
+			handle = nil
+		end
 	end
 end
 
-function mod:ConsumingFlames(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(77786)
+function mod:ConsumingFlames(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
 	end
-	self:TargetMessage(77786, spellName, player, "Personal", spellId, "Info")
-	self:Whisper(77786, player, spellName)
-	self:PrimaryIcon(77786, player)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Info")
+	self:Whisper(args.spellId, args.destName, args.spellName)
+	self:PrimaryIcon(args.spellId, args.destName)
 end
 
-function mod:ScorchingBlast(_, spellId, _, _, spellName)
-	self:Message(77679, spellName, "Attention", spellId)
-	self:Bar(77679, scorchingBlast, 10, 77679)
+function mod:ScorchingBlast(args)
+	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
+	self:Bar(args.spellId, scorchingBlast, 10, args.spellId)
 end
 
-function mod:ReleaseAll(_, spellId)
-	self:Message(77991, L["release_all"]:format(aberrations + 2), "Important", spellId, "Alert")
-	self:Bar(78194, "~"..GetSpellInfo(78194), 12.5, 78194)
+function mod:ReleaseAll(args)
+	self:Message(args.spellId, L["release_all"]:format(aberrations + 2), "Important", args.spellId, "Alert")
+	self:Bar(args.spellId, "~"..args.spellName, 12.5, args.spellId)
 end
 
 do
 	local scheduled = nil
-	local function chillWarn(spellName)
-		mod:TargetMessage(77760, spellName, chillTargets, "Attention", 77760, "Info")
+	local function chillWarn(spellName, spellId)
+		mod:TargetMessage(spellId, spellName, chillTargets, "Attention", spellId, "Info")
 		scheduled = nil
 	end
-	function mod:BitingChill(player, spellId, _, _, spellName)
-		chillTargets[#chillTargets + 1] = player
-		if UnitIsUnit(player, "player") then
-			self:Say(77760)
-			self:FlashShake(77760)
+	function mod:BitingChill(args)
+		chillTargets[#chillTargets + 1] = args.destName
+		if UnitIsUnit(args.destName, "player") then
+			self:Say(args.spellId)
+			self:FlashShake(args.spellId)
 			isChilled = true
 		end
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(chillWarn, 0.3, spellName)
+			self:ScheduleTimer(chillWarn, 0.3, args.spellName, args.spellId)
 		end
 	end
 end
 
-function mod:BitingChillRemoved(player)
-	if UnitIsUnit(player, "player") then
+function mod:BitingChillRemoved(args)
+	if UnitIsUnit(args.destName, "player") then
 		isChilled = nil
 		if currentPhase ~= "blue" then
 			self:CloseProximity()
@@ -287,12 +287,12 @@ function mod:BitingChillRemoved(player)
 	end
 end
 
-function mod:ArcaneStorm(_, spellId, _, _, spellName)
-	self:Message(77896, spellName, "Urgent", spellId)
+function mod:ArcaneStorm(args)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
 end
 
-function mod:Jets(_, spellId, _, _, spellName)
-	self:Bar(78194, spellName, 10, spellId)
+function mod:Jets(args)
+	self:Bar(args.spellId, args.spellName, 10, args.spellId)
 end
 
 function mod:PhaseWarn(unit)

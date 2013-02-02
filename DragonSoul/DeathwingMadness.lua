@@ -112,7 +112,7 @@ function mod:Impale(_, spellId, _, _, spellName)
 end
 
 function mod:TentacleKilled()
-	self:StopBar((GetSpellInfo(106400)))
+	self:StopBar(106400) -- Impale
 	self:StopBar(L["parasite"])
 end
 

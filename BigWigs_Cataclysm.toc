@@ -2,7 +2,6 @@
 
 ## Title: Big Wigs [|cffeda55fCataclysm|r]
 ## Notes: A collection of Big Wigs modules from the Cataclysm era.
-## Author: Ammo, Funkydude, Maat, Rabbit
 
 ## LoadOnDemand: 1
 ## Dependencies: BigWigs

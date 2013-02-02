@@ -89,19 +89,18 @@ end
 --
 
 do
-	local function checkTarget(sGUID)
+	local function checkTarget(sGUID, spellId)
 		for i = 1, 4 do
 			local bossId = ("boss%d"):format(i)
 			if UnitGUID(bossId) == sGUID and UnitIsUnit(bossId.."target", "player") then
-				mod:FlashShake(80157)
-				mod:Say(80157)
+				mod:FlashShake(spellId)
+				mod:Say(spellId)
 				break
 			end
 		end
 	end
-	function mod:ChemicalCloudCast(...)
-		local sGUID = select(11, ...)
-		self:ScheduleTimer(checkTarget, 0.1, sGUID)
+	function mod:ChemicalCloudCast(args)
+		self:ScheduleTimer(checkTarget, 0.1, args.sourceGUID, args.spellId)
 	end
 end
 
@@ -113,17 +112,17 @@ end
 
 do
 	local prev = 0
-	function mod:Switch(unit, spellId, _, _, spellName, _, _, _, _, dGUID)
+	function mod:Switch(args)
 		local timer = self:Heroic() and 27 or 42
 		local t = GetTime()
 		if (t - prev) > timer then
 			prev = t
-			self:Bar("switch", L["next_switch"], timer+3, spellId)
-			self:Message("switch", L["switch_message"]:format(unit, spellName), "Positive", spellId, "Long")
+			self:Bar("switch", L["next_switch"], timer+3, args.spellId)
+			self:Message("switch", L["switch_message"]:format(args.destName, args.spellName), "Positive", args.spellId, "Long")
 			--Using dGUID to avoid issues with names appearing as "UNKNOWN" for a second or so
 			for i = 1, 4 do
 				local bossId = ("boss%d"):format(i)
-				if UnitGUID(bossId) == dGUID then
+				if UnitGUID(bossId) == args.destGUID then
 					self:PrimaryIcon("switch", bossId)
 					break
 				end
@@ -132,70 +131,70 @@ do
 	end
 end
 
-function mod:Grip(_, spellId, _, _, spellName)
-	self:Message(91849, spellName, "Urgent", 91849)
+function mod:Grip(args)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
 	self:Bar("nef", L["nef_next"], 35, 69005)
 end
 
-function mod:ShadowInfusion(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(92048)
+function mod:ShadowInfusion(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
 	end
-	self:TargetMessage(92048, spellName, player, "Urgent", spellId)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Urgent", args.spellId)
 	self:Bar("nef", L["nef_next"], 35, 69005)
-	self:SecondaryIcon(92048, player)
+	self:SecondaryIcon(args.spellId, args.destName)
 end
 
-function mod:EncasingShadows(player, spellId, _, _, spellName)
-	self:TargetMessage(92023, spellName, player, "Urgent", spellId)
+function mod:EncasingShadows(args)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Urgent", args.spellId)
 	self:Bar("nef", L["nef_next"], 35, 69005)
 end
 
-function mod:AcquiringTarget(player, spellId)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(79501)
+function mod:AcquiringTarget(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
 	end
-	self:TargetMessage(79501, L["acquiring_target"], player, "Urgent", spellId, "Alarm")
-	self:SecondaryIcon(79501, player)
+	self:TargetMessage(args.spellId, L["acquiring_target"], args.destName, "Urgent", args.spellId, "Alarm")
+	self:SecondaryIcon(args.spellId, args.destName)
 end
 
-function mod:Fixate(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(80094)
-		self:LocalMessage(80094, L["bomb_message"], "Personal", spellId, "Alarm")
+function mod:Fixate(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
+		self:LocalMessage(args.spellId, L["bomb_message"], "Personal", args.spellId, "Alarm")
 	else
-		self:Whisper(80094, player, L["bomb_message"], true)
+		self:Whisper(args.spellId, args.destName, L["bomb_message"], true)
 	end
 end
 
-function mod:LightningConductor(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(79888)
-		self:OpenProximity(79888, 10) --assumed
+function mod:LightningConductor(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
+		self:OpenProximity(args.spellId, 10) --assumed
 	end
-	self:TargetMessage(79888, spellName, player, "Attention", spellId, "Alarm")
-	self:SecondaryIcon(79888, player)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:SecondaryIcon(args.spellId, args.destName)
 end
 
-function mod:LightningConductorRemoved(player)
-	if not UnitIsUnit(player, "player") then return end
-	self:CloseProximity(79888)
+function mod:LightningConductorRemoved(args)
+	if not UnitIsUnit(args.destName, "player") then return end
+	self:CloseProximity(args.spellId)
 end
 
-function mod:PoisonProtocol(_, spellId, _, _, spellName)
-	self:Bar(80053, spellName, 45, spellId)
-	self:Message(80053, L["protocol_message"], "Important", spellId, "Alert")
+function mod:PoisonProtocol(args)
+	self:Bar(args.spellId, args.spellName, 45, args.spellId)
+	self:Message(args.spellId, L["protocol_message"], "Important", args.spellId, "Alert")
 end
 
 do
 	local last = 0
-	function mod:ChemicalCloud(player, spellId)
+	function mod:ChemicalCloud(args)
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			if UnitIsUnit(player, "player") then
-				self:LocalMessage(80161, L["cloud_message"], "Personal", spellId, "Info")
-				self:FlashShake(80161)
+			if UnitIsUnit(args.destName, "player") then
+				self:LocalMessage(args.spellId, L["cloud_message"], "Personal", args.spellId, "Info")
+				self:FlashShake(args.spellId)
 			end
 		end
 	end

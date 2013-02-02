@@ -304,8 +304,8 @@ do
 	end
 end
 
-function mod:Deaths(mobId)
-	if mobId == 53879 then
+function mod:Deaths(args)
+	if args.mobId == 53879 then
 		self:Win()
 	else
 		self:StopBar(L["exposed"])

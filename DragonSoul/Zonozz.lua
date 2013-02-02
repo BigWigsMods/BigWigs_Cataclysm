@@ -71,7 +71,7 @@ function mod:OnEngage()
 		self:Berserk(360) -- confirmed 10 man heroic
 	end
 	self:Bar("ball", L["ball"], 6, L["ball_icon"])
-	self:Bar(103434, "~"..GetSpellInfo(103434), 23, 103434) -- Shadows
+	self:Bar(103434, "~"..self:SpellName(103434), 23, 103434) -- Shadows
 	self:Bar("drain", L["drain"], 17, 104322)
 	ballTimer = 0
 end
@@ -84,7 +84,7 @@ function mod:Darkness(unit, spellName, _, _, spellId)
 	if spellId == 109413 then
 		self:Bar("darkness", L["darkness"], 30, spellId)
 		self:Message("darkness", L["darkness"], "Important", spellId, "Info")
-		self:Bar(103434, "~"..GetSpellInfo(103434), 37, 103434) -- Shadows
+		self:Bar(103434, "~"..self:SpellName(103434), 37, 103434) -- Shadows
 		local isHC = self:Heroic() and 45 or 54
 		if (GetTime() - ballTimer) > isHC then
 			self:Bar("ball", L["ball"], isHC == 45 and isHC or 36, L["ball_icon"])
@@ -93,13 +93,13 @@ function mod:Darkness(unit, spellName, _, _, spellId)
 	end
 end
 
-function mod:VoidDiffusion(_, spellId, _, _, spellName, stack)
-	self:Message("bounce", ("%s (%d)"):format(L["bounce"], stack or 1), "Important", spellId)
+function mod:VoidDiffusion(args)
+	self:Message("bounce", ("%s (%d)"):format(L["bounce"], args.count or 1), "Important", args.spellId)
 end
 
-function mod:PsychicDrain(_, spellId, _, _, spellName)
-	self:Bar("drain", "~"..spellName, 20, spellId)
-	self:Message("drain", spellName, "Urgent", spellId)
+function mod:PsychicDrain(args)
+	self:Bar("drain", "~"..args.spellName, 20, args.spellId)
+	self:Message("drain", args.spellName, "Urgent", args.spellId)
 end
 
 function mod:VoidoftheUnmaking()
@@ -111,25 +111,25 @@ function mod:VoidoftheUnmaking()
 	self:Message("ball", L["ball"], "Urgent", L["ball_icon"], "Alarm")
 end
 
-function mod:ShadowsCast(_, spellId, _, _, spellName)
-	self:Message(103434, spellName, "Attention", spellId)
-	self:Bar(103434, "~"..spellName, 26, spellId) -- 26-29
+function mod:ShadowsCast(args)
+	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
+	self:Bar(args.spellId, "~"..args.spellName, 26, args.spellId) -- 26-29
 end
 
-function mod:ShadowsApplied(player, spellId)
-	if UnitIsUnit(player, "player") and not self:LFR() then
-		self:LocalMessage(103434, CL["you"]:format(L["shadows"]), "Personal", spellId, "Alert")
-		self:Say(103434, L["shadows"])
-		self:FlashShake(103434)
+function mod:ShadowsApplied(args)
+	if not self:LFR() and UnitIsUnit(args.destName, "player") then
+		self:LocalMessage(args.spellId, CL["you"]:format(L["shadows"]), "Personal", args.spellId, "Alert")
+		self:Say(args.spellId, L["shadows"])
+		self:FlashShake(args.spellId)
 		if self:Heroic() then
-			self:OpenProximity(103434, 10)
+			self:OpenProximity(args.spellId, 10)
 		end
 	end
 end
 
-function mod:ShadowsRemoved(player)
-	if UnitIsUnit(player, "player") and not self:LFR() then
-		self:CloseProximity(103434)
+function mod:ShadowsRemoved(args)
+	if not self:LFR() and UnitIsUnit(args.destName, "player") then
+		self:CloseProximity(args.spellId)
 	end
 end
 

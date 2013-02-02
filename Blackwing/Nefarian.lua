@@ -13,7 +13,6 @@ mod:RegisterEnableMob(41270, 41376)
 local phase, deadAdds, shadowBlazeTimer = 1, 0, 35
 local cinderTargets = mod:NewTargetList()
 local powerTargets = mod:NewTargetList()
-local shadowblaze = GetSpellInfo(81007)
 local phase3warned = false
 local shadowblazeHandle, lastBlaze = nil, 0
 
@@ -98,36 +97,36 @@ end
 
 do
 	local prev = 0
-	local discharge = GetSpellInfo(77939)
-	function mod:LightningDischarge(_, spellId, _, _, spellName)
-		if spellName ~= discharge then return end
+	local discharge = mod:SpellName(77939)
+	function mod:LightningDischarge(args)
+		if args.spellName ~= discharge then return end
 		local t = GetTime()
 		if (t - prev) > 10 then
 			prev = t
-			self:Bar(77939, L["discharge_bar"], 21, spellId)
+			self:Bar(77939, L["discharge_bar"], 21, args.spellId)
 		end
 	end
 end
 
 do
 	local prev = 0
-	function mod:PersonalShadowBlaze(player, spellId)
+	function mod:PersonalShadowBlaze(args)
 		local t = GetTime()
-		if (t - prev) > 1 and UnitIsUnit(player, "player") then
+		if (t - prev) > 1 and UnitIsUnit(args.destName, "player") then
 			prev = t
-			self:LocalMessage(81007, L["shadowblaze_message"], "Personal", spellId, "Info")
-			self:FlashShake(81007)
+			self:LocalMessage(args.spellId, L["shadowblaze_message"], "Personal", args.spellId, "Info")
+			self:FlashShake(args.spellId)
 		end
 	end
 end
 
 function mod:Electrocute()
 	self:Message(81272, L["crackle_message"], "Urgent", 81272, "Alert")
-	self:Bar(81272, (GetSpellInfo(81272)), 5, 81272)
+	self:Bar(81272, 81272, 5, 81272) -- Electrocute
 end
 
-function mod:Deaths(mobId)
-	if mobId == 41948 then
+function mod:Deaths(args)
+	if args.mobId == 41948 then
 		deadAdds = deadAdds + 1
 		if self:Heroic() and not phase3warned then
 			self:StopBar(CL["phase"]:format(phase))
@@ -141,7 +140,7 @@ function mod:Deaths(mobId)
 			self:Message("phase", CL["phase"]:format(phase), "Attention", 81007)
 			phase3warned = true
 		end
-	elseif mobId == 41376 then
+	elseif args.mobId == 41376 then
 		self:Win()
 	end
 end
@@ -166,8 +165,8 @@ local function nextBlaze()
 	elseif shadowBlazeTimer > 15 and not mod:Heroic() then
 		shadowBlazeTimer = shadowBlazeTimer - 5
 	end
-	mod:Message(81007, shadowblaze, "Important", 81007, "Alarm")
-	mod:Bar(81007, shadowblaze, shadowBlazeTimer, 81007)
+	mod:Message(81007, 81007, "Important", 81007, "Alarm") -- Shadowblaze
+	mod:Bar(81007, 81007, shadowBlazeTimer, 81007) -- Shadowblaze
 	lastBlaze = GetTime()
 	shadowblazeHandle = mod:ScheduleTimer(nextBlaze, shadowBlazeTimer)
 end
@@ -189,34 +188,34 @@ function mod:PhaseThree()
 		self:Message("phase", CL["phase"]:format(phase), "Attention", 78621)
 		phase3warned = true
 	end
-	self:Bar(81007, shadowblaze, 12, 81007)
+	self:Bar(81007, 81007, 12, 81007) -- Shadowblaze
 	shadowblazeHandle = self:ScheduleTimer(nextBlaze, 12)
 end
 
 do
 	local scheduled = nil
-	local function cinderWarn(spellName)
-		mod:TargetMessage(79339, spellName, cinderTargets, "Urgent", 79339, "Info")
+	local function cinderWarn(spellName, spellId)
+		mod:TargetMessage(spellId, spellName, cinderTargets, "Urgent", spellId, "Info")
 		scheduled = nil
 	end
-	function mod:ExplosiveCindersApplied(player, spellId, _, _, spellName)
-		cinderTargets[#cinderTargets + 1] = player
-		if UnitIsUnit(player, "player") then
-			self:FlashShake(79339)
-			self:Say(79339)
-			self:Bar(79339, spellName, 8, spellId)
-			self:OpenProximity(79339, 10) -- assumed
+	function mod:ExplosiveCindersApplied(args)
+		cinderTargets[#cinderTargets + 1] = args.destName
+		if UnitIsUnit(args.destName, "player") then
+			self:FlashShake(args.spellId)
+			self:Say(args.spellId)
+			self:Bar(args.spellId, args.spellName, 8, args.spellId)
+			self:OpenProximity(args.spellId, 10) -- assumed
 		end
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(cinderWarn, 0.3, spellName)
+			self:ScheduleTimer(cinderWarn, 0.3, args.spellName, args.spellId)
 		end
 	end
 end
 
-function mod:ExplosiveCindersRemoved(player)
-	if UnitIsUnit(player, "player") then
-		self:CloseProximity(79339)
+function mod:ExplosiveCindersRemoved(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:CloseProximity(args.spellId)
 	end
 end
 

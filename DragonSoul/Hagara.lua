@@ -80,58 +80,58 @@ end
 -- Event Handlers
 --
 
-function mod:Assault(_, spellId, _, _, spellName)
+function mod:Assault(args)
 	if self:Tank() or self:Healer() then
-		self:LocalMessage("assault", spellName, "Urgent", spellId)
-		self:Bar("assault", "~"..spellName, 15, spellId)
-		self:Bar("assault", "<"..spellName..">", 5, spellId)
+		self:LocalMessage("assault", args.spellName, "Urgent", args.spellId)
+		self:Bar("assault", "~"..args.spellName, 15, args.spellId)
+		self:Bar("assault", "<"..args.spellName..">", 5, args.spellId)
 	end
 end
 
-function mod:FrostFlakeApplied(player, spellId, _, _, spellName)
-	self:PrimaryIcon(109325, player)
-	if UnitIsUnit("player", player) then
-		self:LocalMessage(109325, CL["you"]:format(spellName), "Personal", spellId, Long)
-		self:Say(109325)
-		self:FlashShake(109325)
-		self:OpenProximity(109325, 10)
+function mod:FrostFlakeApplied(args)
+	self:PrimaryIcon(args.spellId, args.destName)
+	if UnitIsUnit("player", args.destName) then
+		self:LocalMessage(args.spellId, CL["you"]:format(args.spellName), "Personal", args.spellId, Long)
+		self:Say(args.spellId)
+		self:FlashShake(args.spellId)
+		self:OpenProximity(args.spellId, 10)
 	end
 end
 
-function mod:FrostFlakeRemoved(player)
-	self:PrimaryIcon(109325)
-	if UnitIsUnit("player", player) then
-		self:CloseProximity(109325)
+function mod:FrostFlakeRemoved(args)
+	self:PrimaryIcon(args.spellId)
+	if UnitIsUnit("player", args.destName) then
+		self:CloseProximity(args.spellId)
 	end
 end
 
-function mod:WaterShield(_, spellId)
-	self:StopBar("~"..(GetSpellInfo(107851))) -- Focused Assault
-	self:Message(105409, L["lightning_next"], "Attention", spellId)
+function mod:WaterShield(args)
+	self:StopBar("~"..self:SpellName(107851)) -- Focused Assault
+	self:Message(args.spellId, L["lightning_next"], "Attention", args.spellId)
 	nextPhase = L["ice_next"]
-	nextPhaseIcon = 105409
+	nextPhaseIcon = 105256
 end
 
-function mod:FrozenTempest(_, spellId)
-	self:StopBar("~"..(GetSpellInfo(107851))) -- Focused Assault
-	self:Message(105256, L["ice_next"], "Attention", spellId)
+function mod:FrozenTempest(args)
+	self:StopBar("~"..self:SpellName(107851)) -- Focused Assault
+	self:Message(args.spellId, L["ice_next"], "Attention", args.spellId)
 	nextPhase = L["lightning_next"]
 	nextPhaseIcon = 105409
 end
 
-function mod:Feedback(_, spellId, _, _, spellName)
-	self:Message(108934, spellName, "Attention", spellId)
-	self:Bar(108934, spellName, 15, spellId)
+function mod:Feedback(args)
+	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
+	self:Bar(args.spellId, args.spellName, 15, args.spellId)
 	self:Bar("nextphase", nextPhase, 63, nextPhaseIcon)
 	if self:Tank() then
-		self:Bar("assault", GetSpellInfo(107851), 20, 107851) -- Focused Assault
+		self:Bar("assault", 107851, 20, 107851) -- Focused Assault
 	end
 end
 
-function mod:IceTombStart(_, spellId, _, _, spellName)
-	self:Message(104448, spellName, "Attention", spellId)
-	self:Bar(104448, spellName, 8, spellId)
-	self:FlashShake(104448)
+function mod:IceTombStart(args)
+	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
+	self:Bar(args.spellId, args.spellName, 8, args.spellId)
+	self:FlashShake(args.spellId)
 end
 
 do
@@ -140,11 +140,11 @@ do
 		mod:TargetMessage(104448, spellName, playerTbl, "Important", 104448)
 		scheduled = nil
 	end
-	function mod:IceTombApplied(player, _, _, _, spellName)
-		playerTbl[#playerTbl + 1] = player
+	function mod:IceTombApplied(args)
+		playerTbl[#playerTbl + 1] = args.destName
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(iceTomb, 0.1, spellName)
+			self:ScheduleTimer(iceTomb, 0.1, args.spellName)
 		end
 	end
 end
@@ -152,12 +152,12 @@ end
 do
 	local scheduled = nil
 	local function iceLance()
-		mod:TargetMessage(105316, GetSpellInfo(105316), playerTbl, "Urgent", 105316, "Info")
+		mod:TargetMessage(105316, 105316, playerTbl, "Urgent", 105316, "Info") -- Ice Lance
 		scheduled = nil
 	end
-	function mod:IceLanceApplied(player)
-		playerTbl[#playerTbl + 1] = player
-		if UnitIsUnit(player, "player") then
+	function mod:IceLanceApplied(args)
+		playerTbl[#playerTbl + 1] = args.destName
+		if UnitIsUnit(args.destName, "player") then
 			self:OpenProximity(105316, 3)
 		end
 		if not scheduled then
@@ -167,8 +167,8 @@ do
 	end
 end
 
-function mod:IceLanceRemoved(player)
-	if UnitIsUnit(player, "player") then
+function mod:IceLanceRemoved(args)
+	if UnitIsUnit(args.destName, "player") then
 		self:CloseProximity(105316)
 	end
 end

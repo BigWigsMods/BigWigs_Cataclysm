@@ -8,8 +8,8 @@ mod:RegisterEnableMob(41570)
 
 local phase = 1
 local isHeadPhase = nil
-local lavaSpew = "~"..GetSpellInfo(77690)
-local pillarOfFlame = "~"..GetSpellInfo(78006)
+local lavaSpew = "~"..mod:SpellName(77690)
+local pillarOfFlame = "~"..mod:SpellName(78006)
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -90,9 +90,9 @@ function mod:OnEngage()
 	end
 	self:Berserk(600)
 	self:Bar("slump", L["slump_bar"], 100, 36702)
-	self:Bar(78006, GetSpellInfo(78006), 30, 78006) --Pillar of Flame
+	self:Bar(78006, 78006, 30, 78006) -- Pillar of Flame
 	self:Bar(77690, lavaSpew, 24, 77690)
-	self:Bar(89773, "~"..GetSpellInfo(89773), 90, 89773)
+	self:Bar(89773, "~"..self:SpellName(89773), 90, 89773) -- Mangle
 	self:DelayedMessage(77690, 24, L["spew_warning"], "Attention")
 	phase = 1
 	isHeadPhase = nil
@@ -102,10 +102,10 @@ end
 -- Event Handlers
 --
 
-function mod:Armageddon(_, spellId, _, _, spellName)
+function mod:Armageddon(args)
 	if not isHeadPhase then return end
-	self:Message(79011, spellName, "Important", spellId, "Alarm")
-	self:Bar(79011, spellName, 8, spellId)
+	self:Message(79011, args.spellName, "Important", args.spellId, "Alarm")
+	self:Bar(79011, args.spellName, 8, args.spellId)
 end
 
 do
@@ -127,18 +127,18 @@ end
 
 do
 	local prev = 0
-	function mod:LavaSpew(_, spellId, _, _, spellName)
+	function mod:LavaSpew(args)
 		local time = GetTime()
 		if time - prev > 10 then
 			prev = time
-			self:Message(77690, spellName, "Important", spellId)
-			self:Bar(77690, lavaSpew, 26, spellId)
-			self:DelayedMessage(77690, 24, L["spew_warning"], "Attention")
+			self:Message(args.spellId, args.spellName, "Important", args.spellId)
+			self:Bar(args.spellId, lavaSpew, 26, args.spellId)
+			self:DelayedMessage(args.spellId, 24, L["spew_warning"], "Attention")
 		end
 	end
 end
 
-function mod:BlazingInferno(_, spellId)
+function mod:BlazingInferno()
 	self:Message("blazing", L["blazing_message"], "Urgent", "Interface\\Icons\\SPELL_SHADOW_RAISEDEAD", "Info")
 	self:Bar("blazing", L["blazing_bar"], 35, "SPELL_SHADOW_RAISEDEAD")
 end
@@ -150,23 +150,23 @@ function mod:Phase2()
 	self:OpenProximity("phase2", 8)
 end
 
-function mod:PillarOfFlame(_, spellId, _, _, spellName)
-	self:Message(78006, spellName, "Urgent", spellId, "Alert")
-	self:Bar(78006, pillarOfFlame, 32, spellId)
+function mod:PillarOfFlame(args)
+	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Alert")
+	self:Bar(args.spellId, pillarOfFlame, 32, args.spellId)
 end
 
-function mod:Infection(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		self:LocalMessage(78941, L["infection_message"], "Personal", spellId, "Alarm")
+function mod:Infection(args)
+	if UnitIsUnit(args.destName, "player") then
+		self:LocalMessage(78941, L["infection_message"], "Personal", args.spellId, "Alarm")
 		self:FlashShake(78941)
 		self:OpenProximity(78941, 8)
 	else
-		self:Whisper(78941, player, L["infection_message"], true)
+		self:Whisper(78941, args.destName, L["infection_message"], true)
 	end
 end
 
-function mod:InfectionRemoved(player)
-	if phase == 1 and UnitIsUnit(player, "player") then
+function mod:InfectionRemoved(args)
+	if phase == 1 and UnitIsUnit(args.destName, "player") then
 		self:CloseProximity(78941)
 	end
 end
@@ -177,17 +177,13 @@ function mod:Slump()
 	self:Message("slump", L["slump_message"], "Positive", 36702, "Info")
 end
 
-do
-	local mangleTarget = nil
-	function mod:Mangle(player, spellId, _, _, spellName)
-		mangleTarget = player
-		self:TargetMessage(89773, spellName, player, "Personal", spellId, "Info")
-		self:Bar(89773, CL["other"]:format(spellName, player), 30, spellId)
-		self:Bar(89773, "~"..spellName, 95, spellId)
-	end
+function mod:Mangle(args)
+	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Info")
+	self:TargetBar(args.spellId, args.spellName, args.destName, 30, args.spellId)
+	self:Bar(args.spellId, "~"..args.spellName, 95, args.spellId)
+end
 
-	function mod:MangleRemoved(player, _, _, _, spellName)
-		self:StopBar(CL["other"]:format(spellName, player))
-	end
+function mod:MangleRemoved(args)
+	self:StopBar(args.spellName, args.destName)
 end
 

@@ -85,16 +85,16 @@ end
 -- Event Handlers
 --
 
-function mod:Bolt(player, spellId, _, _, spellName, buffStack)
+function mod:Bolt(args)
 	if self:Tank() then
-		buffStack = buffStack or 1
-		self:StopBar(L["bolt_message"]:format(player, buffStack - 1))
-		self:Bar("bolt", L["bolt_message"]:format(player, buffStack), 12, spellId)
-		self:LocalMessage("bolt", L["bolt_message"], "Urgent", spellId, buffStack > 2 and "Info" or nil, player, buffStack)
+		local buffStack = args.count or 1
+		self:StopBar(L["bolt_message"]:format(args.destName, buffStack - 1))
+		self:Bar("bolt", L["bolt_message"]:format(args.destName, buffStack), 12, args.spellId)
+		self:LocalMessage("bolt", L["bolt_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
 	end
 end
 
-function mod:Blobs(unit, spellName, _, _, spellId)
+function mod:Blobs(_, _, _, _, spellId)
 	if colorCombinations[spellId] then
 		if self:Heroic() then
 			self:Message("blobs", ("%s %s %s %s"):format(colorCombinations[spellId][1], colorCombinations[spellId][2], colorCombinations[spellId][4], colorCombinations[spellId][3]), "Urgent", L["blobs_icon"], "Alarm")
@@ -118,8 +118,8 @@ function mod:AcidicRemoved()
 	end
 end
 
-function mod:DeepCorruption(_, spellId)
-	self:LocalMessage("ej:4321", GetSpellInfo(23401), "Personal", spellId, "Alert") -- Corrupted Healing
+function mod:DeepCorruption(args)
+	self:LocalMessage("ej:4321", 23401, "Personal", args.spellId, "Alert") -- Corrupted Healing
 end
 
 do
