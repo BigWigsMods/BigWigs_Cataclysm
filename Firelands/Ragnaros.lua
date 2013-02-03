@@ -197,8 +197,8 @@ do
 	end
 end
 
-function mod:Fixated(args)
-	local fixated = UnitDebuff(args.destName, fixate)
+function mod:FixatedCheck(unit)
+	local fixated = UnitDebuff(unit, fixate)
 	if fixated and not fixateWarned then
 		fixateWarned = true
 		self:LocalMessage(99849, CL["you"]:format(fixate), "Personal", 99849, "Long")
@@ -229,7 +229,7 @@ function mod:IntermissionEnd()
 		end
 		self:Bar(99317, "~"..livingMeteor, 52, 99317)
 		self:Bar(98710, lavaWaves, 55, 98710)
-		self:RegisterUnitEvent("UNIT_AURA", "Fixated", "player")
+		self:RegisterUnitEvent("UNIT_AURA", "FixatedCheck", "player")
 		self:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED")
 	end
 	phase = phase + 1
