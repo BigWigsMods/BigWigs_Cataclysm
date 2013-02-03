@@ -7,9 +7,6 @@ if not mod then return end
 -- Thrall, Deathwing, Arm Tentacle, Arm Tentacle, Wing Tentacle, Mutated Corruption
 mod:RegisterEnableMob(56103, 56173, 56167, 56846, 56168, 56471)
 
-local hemorrhage = GetSpellInfo(105863)
-local cataclysm = GetSpellInfo(106523)
-local impale = GetSpellInfo(106400)
 local canEnable = true
 local curPercent = 100
 local paraCount = 0
@@ -25,7 +22,7 @@ if L then
 	L.impale, L.impale_desc = EJ_GetSectionInfo(4114)
 	L.impale_icon = 106400
 
-	L.last_phase = GetSpellInfo(106708)
+	L.last_phase = mod:SpellName(106708)
 	L.last_phase_desc = EJ_GetSectionInfo(4046)
 	L.last_phase_icon = 106834
 
@@ -106,9 +103,9 @@ end
 -- Event Handlers
 --
 
-function mod:Impale(_, spellId, _, _, spellName)
-	self:LocalMessage("impale", spellName, "Urgent", spellId, "Alarm")
-	self:Bar("impale", spellName, 35, spellId)
+function mod:Impale(args)
+	self:LocalMessage("impale", args.spellName, "Urgent", args.spellId, "Alarm")
+	self:Bar("impale", args.spellName, 35, args.spellId)
 end
 
 function mod:TentacleKilled()
@@ -117,7 +114,8 @@ function mod:TentacleKilled()
 end
 
 do
-	local fragment = GetSpellInfo(106775)
+	local fragment = mod:SpellName(106775)
+	local hemorrhage = mod:SpellName(105863)
 	function mod:UNIT_SPELLCAST_SUCCEEDED(unit, spellName, _, _, spellId)
 		if spellName == hemorrhage then
 			self:Message("hemorrhage", spellName, "Urgent", L["hemorrhage_icon"], "Alarm")
@@ -134,8 +132,8 @@ do
 	end
 end
 
-function mod:LastPhase(_, spellId)
-	self:Message("last_phase", EJ_GetSectionInfo(4046), "Attention", spellId) -- Stage 2: The Last Stand
+function mod:LastPhase(args)
+	self:Message("last_phase", EJ_GetSectionInfo(4046), "Attention", args.spellId) -- Stage 2: The Last Stand
 	self:Bar("fragment", L["fragment"], 10.5, L["fragment_icon"])
 	self:Bar("terror", L["terror"], 35.5, L["terror_icon"])
 	if self:Heroic() then
@@ -147,77 +145,77 @@ function mod:AssaultAspects()
 	paraCount = 0
 	if curPercent == 100 then
 		curPercent = 20
-		self:Bar("impale", impale, 22, 106400)
-		self:Bar(105651, GetSpellInfo(105651), 40.5, 105651) -- Elementium Bolt
+		self:Bar("impale", 106400, 22, 106400) -- Impale
+		self:Bar(105651, 105651, 40.5, 105651) -- Elementium Bolt
 		if self:Heroic() then
-			self:Bar("hemorrhage", hemorrhage, 55.5, 105863)
+			self:Bar("hemorrhage", 105863, 55.5, 105863) -- Hemorrhage
 			self:Bar("ej:4347", L["parasite"], 11, 108649)
 		else
-			self:Bar("hemorrhage", hemorrhage, 85.5, 105863)
+			self:Bar("hemorrhage", 105863, 85.5, 105863) -- Hemorrhage
 		end
-		self:Bar(106523, cataclysm, 175, 106523)
+		self:Bar(106523, 106523, 175, 106523) -- Cataclysm
 		self:Bar("bigtentacle", L["bigtentacle"], 11.2, L["bigtentacle_icon"])
 		self:DelayedMessage("bigtentacle", 11.2, L["bigtentacle"] , "Urgent", L["bigtentacle_icon"], "Alert")
 	else
-		self:Bar("impale", impale, 27.5, 106400)
-		self:Bar(105651, GetSpellInfo(105651), 55.5, 105651) -- Elementium Bolt
+		self:Bar("impale", 106400, 27.5, 106400) -- Impale
+		self:Bar(105651, 105651, 55.5, 105651) -- Elementium Bolt
 		if self:Heroic() then
-			self:Bar("hemorrhage", hemorrhage, 70.5, 105863)
+			self:Bar("hemorrhage", 105863, 70.5, 105863) -- Hemorrhage
 			self:Bar("ej:4347", L["parasite"], 22.5, 108649)
 		else
-			self:Bar("hemorrhage", hemorrhage, 100.5, 105863)
+			self:Bar("hemorrhage", 105863, 100.5, 105863) -- Hemorrhage
 		end
-		self:Bar(106523, cataclysm, 190, 106523)
+		self:Bar(106523, 106523, 190, 106523) -- Cataclysm
 		self:Bar("bigtentacle", L["bigtentacle"], 16.7, L["bigtentacle_icon"])
 		self:DelayedMessage("bigtentacle", 16.7, L["bigtentacle"] , "Urgent", L["bigtentacle_icon"], "Alert")
 	end
 end
 
-function mod:ElementiumBolt(_, spellId, _, _, spellName)
-	self:FlashShake(105651)
-	self:Message(105651, spellName, "Important", spellId, "Long")
-	self:Bar(105651, L["bolt_explode"], UnitBuff("player", (GetSpellInfo(110628))) and 18 or 8, spellId)
+function mod:ElementiumBolt(args)
+	self:FlashShake(args.spellId)
+	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Long")
+	self:Bar(args.spellId, L["bolt_explode"], UnitBuff("player", self:SpellName(110628)) and 18 or 8, args.spellId)
 end
 
-function mod:Cataclysm(_, spellId, _, _, spellName)
-	self:Message(106523, spellName, "Attention", spellId)
-	self:StopBar(spellName)
-	self:Bar(106523, CL["cast"]:format(spellName), 60, spellId)
+function mod:Cataclysm(args)
+	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
+	self:StopBar(args.spellName)
+	self:Bar(args.spellId, CL["cast"]:format(args.spellName), 60, args.spellId)
 end
 
 function mod:AgonizingPain()
-	self:StopBar(CL["cast"]:format(cataclysm))
+	self:StopBar(CL["cast"]:format(self:SpellName(106523)))
 end
 
-function mod:Shrapnel(player, spellId, _, _, spellName)
-	if UnitIsUnit(player, "player") then
-		local you = CL["you"]:format(spellName)
-		self:LocalMessage(106794, you, "Important", spellId, "Long")
+function mod:Shrapnel(args)
+	if UnitIsUnit(args.destName, "player") then
+		local you = CL["you"]:format(args.spellName)
+		self:LocalMessage(106794, you, "Important", args.spellId, "Long")
 		self:FlashShake(106794)
-		self:Bar(106794, you, 7, spellId)
+		self:Bar(106794, you, 7, args.spellId)
 	end
 end
 
-function mod:Parasite(player, spellId)
+function mod:Parasite(args)
 	paraCount = paraCount + 1
-	self:TargetMessage("ej:4347", L["parasite"], player, "Urgent", spellId)
-	self:PrimaryIcon("ej:4347", player)
-	if UnitIsUnit(player, "player") then
+	self:TargetMessage("ej:4347", L["parasite"], args.destName, "Urgent", args.spellId)
+	self:PrimaryIcon("ej:4347", args.destName)
+	if UnitIsUnit(args.destName, "player") then
 		self:FlashShake("ej:4347")
-		self:Bar("ej:4347", CL["you"]:format(L["parasite"]), 10, spellId)
+		self:Bar("ej:4347", CL["you"]:format(L["parasite"]), 10, args.spellId)
 		self:OpenProximity("ej:4347", 10)
 		self:Say("ej:4347", L["parasite"])
 	else
-		self:Bar("ej:4347", CL["other"]:format(L["parasite"], player), 10, spellId)
+		self:Bar("ej:4347", CL["other"]:format(L["parasite"], args.destName), 10, args.spellId)
 	end
 	if paraCount < 2 then
 		self:Bar("ej:4347", L["parasite"], 60, 108649)
 	end
 end
 
-function mod:ParasiteRemoved(player)
+function mod:ParasiteRemoved(args)
 	self:PrimaryIcon("ej:4347")
-	if UnitIsUnit(player, "player") then
+	if UnitIsUnit(args.destName, "player") then
 		self:CloseProximity("ej:4347")
 	end
 end

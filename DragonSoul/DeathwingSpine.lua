@@ -12,7 +12,7 @@ mod:RegisterEnableMob(53879, 56575, 56341, 53891, 56161, 56162)
 --
 
 local gripTargets = mod:NewTargetList()
-local fieryGrip = GetSpellInfo(105490)
+local fieryGrip = mod:SpellName(105490)
 local bloodCount = 0
 
 -- Locals for Fiery Grip, described in comments below
@@ -101,7 +101,7 @@ end
 --
 
 do
-	local tendrils = GetSpellInfo(105563)
+	local tendrils = mod:SpellName(105563)
 	local timer = nil
 	local function graspCheck()
 		if not mod.isEngaged then
@@ -136,22 +136,22 @@ end
 
 do
 	local timers = {}
-	function mod:AbsorbedBlood(_, spellId, _, _, spellName, stack, _, _, _, dGUID)
+	function mod:AbsorbedBlood(args)
 		-- Cancel old timer
-		if timers[dGUID] ~= nil then
-			self:CancelTimer(timers[dGUID])
-			timers[dGUID] = nil
+		if timers[args.destGUID] ~= nil then
+			self:CancelTimer(timers[args.destGUID])
+			timers[args.destGUID] = nil
 		end
 
 		-- Create closure to retain stack count, spell name, and GUID
 		local printStacks = function(level)
-			self:Message(105248, ("%s (%d)"):format(spellName, stack), level, spellId)
-			timers[dGUID] = nil
+			self:Message(args.spellId, ("%s (%d)"):format(args.spellName, args.amount), level, args.spellId)
+			timers[args.destGUID] = nil
 		end
 
 		-- Throttle message by 0.5s, or print immediately if we hit 9 stacks
-		if stack < 9 then
-			timers[dGUID] = self:ScheduleTimer(printStacks, 0.5, "Urgent")
+		if args.amount < 9 then
+			timers[args.destGUID] = self:ScheduleTimer(printStacks, 0.5, "Urgent")
 		else
 			printStacks("Important")
 		end
@@ -169,21 +169,21 @@ end
 	  We set it to true initially because we miss the first plasma cast for some 
 	  reason (likely because of the zone change).
 ]]
-function mod:FieryGripCast(_, spellId, _, _, spellName, _, _, _, _, _, sGUID)
+function mod:FieryGripCast(args)
 	-- Reset flag
-	corruptionStatus[sGUID] = nil
-	if lastBar == sGUID or lastBar == true then
+	corruptionStatus[args.sourceGUID] = nil
+	if lastBar == args.sourceGUID or lastBar == true then
 		lastBar = nil
 		self:StopBar(fieryGrip)
 	end
 end
 
-function mod:SearingPlasmaCast(_, spellId, _, _, spellName, _, _, _, _, _, sGUID)
+function mod:SearingPlasmaCast(args)
 	-- Set flag and maybe show bar, ignore if already set
-	if not corruptionStatus[sGUID] then
-		corruptionStatus[sGUID] = 0
+	if not corruptionStatus[args.sourceGUID] then
+		corruptionStatus[args.sourceGUID] = 0
 	else
-		corruptionStatus[sGUID] = corruptionStatus[sGUID] + 1
+		corruptionStatus[args.sourceGUID] = corruptionStatus[args.sourceGUID] + 1
 	end
 
 	local gripTime = 0
@@ -194,21 +194,21 @@ function mod:SearingPlasmaCast(_, spellId, _, _, spellName, _, _, _, _, _, sGUID
 		-- 10 man has 4 casts of 8s
 		gripTime = 32
 	end
-	gripTime = gripTime - corruptionStatus[sGUID] * 8
+	gripTime = gripTime - corruptionStatus[args.sourceGUID] * 8
 	local nextGripNew = gripTime + GetTime()
 
 	-- Only showing the bar if one isn't already up or if we need to recalibrate (error > 0.5s)
-	if not lastBar or (lastBar == sGUID and math.abs(nextGrip - nextGripNew) > 0.5) then
-		lastBar = sGUID
+	if not lastBar or (lastBar == args.sourceGUID and math.abs(nextGrip - nextGripNew) > 0.5) then
+		lastBar = args.sourceGUID
 		nextGrip = nextGripNew
 		self:Bar(105490, fieryGrip, gripTime, 105490)
 	end
 end
 
-function mod:CorruptionDeath(_, GUID)
-	if lastBar == GUID then
+function mod:CorruptionDeath(args)
+	if lastBar == args.destGUID then
 		-- Cancel bar
-		corruptionStatus[GUID] = nil
+		corruptionStatus[args.destGUID] = nil
 		lastBar = nil
 		self:StopBar(fieryGrip)
 	end
@@ -248,14 +248,14 @@ do
 		bloodCount = bloodCount - 1
 		deadBlood[GUID] = nil
 	end
-	function mod:ResidueChange(_, spellId, _, _, _, _, _, _, _, _, sGUID)
-		if spellId == 109371 or spellId == 109372 or spellId == 109373 or spellId == 105219 then
+	function mod:ResidueChange(args)
+		if args.spellId == 105219 then
 			-- Burst (+1)
 			bloodCount = bloodCount + 1
 			-- Mark this blood as dead so we know if he revives
-			deadBlood[sGUID] = GetTime()
-		elseif spellId == 105248 then
-			residueDecrease(sGUID)
+			deadBlood[args.sourceGUID] = GetTime()
+		elseif args.spellId == 105248 then
+			residueDecrease(args.sourceGUID)
 		end
 
 		residuePrint()
@@ -264,42 +264,42 @@ do
 	-- Thrash, Frost Fever, and Vindication. At some point one of these should
 	-- be applied to a blood, and if it is at least 5s after death, we know that
 	-- it revived.
-	local function bloodCheck(GUID, debug)
+	local function bloodCheck(GUID)
 		if deadBlood[GUID] and GetTime() - deadBlood[GUID] > 5 then
 			residueDecrease(GUID)
 			residuePrint()
 		end
 	end
-	function mod:BloodCheckDest(_, _, _, _, spellName, _, _, _, _, dGUID)
-		bloodCheck(dGUID, spellName)
+	function mod:BloodCheckDest(args)
+		bloodCheck(args.destGUID)
 	end
-	function mod:BloodCheckSource(_, _, _, _, _, _, _, _, _, _, sGUID)
-		bloodCheck(sGUID, "Melee")
+	function mod:BloodCheckSource(args)
+		bloodCheck(args.sourceGUID)
 	end
 end
 
-function mod:Nuclear(_, spellId, _, _, spellName)
-	self:Message(105845, spellName, "Important", spellId, "Info")
-	self:Bar(105845, spellName, 5, spellId)
-	self:FlashShake(105845)
+function mod:Nuclear(args)
+	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Info")
+	self:Bar(args.spellId, args.spellName, 5, args.spellId)
+	self:FlashShake(args.spellId)
 end
 
-function mod:Seal(_, spellId)
-	self:Message(105848, L["exposed"], "Important", spellId)
-	self:Bar(105848, L["exposed"], self:LFR() and 33 or 23, spellId) -- 33 is a guess
+function mod:Seal(args)
+	self:Message(105848, L["exposed"], "Important", args.spellId)
+	self:Bar(105848, L["exposed"], self:LFR() and 33 or 23, args.spellId) -- 33 is a guess
 end
 
 do
 	local scheduled = nil
-	local function grip(spellName)
-		mod:TargetMessage(105490, spellName, gripTargets, "Urgent", 105490)
+	local function grip(spellName, spellId)
+		mod:TargetMessage(spellId, spellName, gripTargets, "Urgent", spellId)
 		scheduled = nil
 	end
-	function mod:FieryGripApplied(player, spellId, _, _, spellName)
-		gripTargets[#gripTargets + 1] = player
+	function mod:FieryGripApplied(args)
+		gripTargets[#gripTargets + 1] = args.destName
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(grip, 0.2, spellName)
+			self:ScheduleTimer(grip, 0.2, args.spellName, args.spellId)
 		end
 	end
 end

@@ -137,13 +137,13 @@ do
 	function mod:FadingLight(args)
 		lightTargets[#lightTargets + 1] = args.destName
 		if UnitIsUnit(args.destName, "player") then
-			local duration = select(6, UnitDebuff("player", args.spellName))
+			local _, _, _, _, _, duration = UnitDebuff("player", args.spellName)
 			self:Bar("lightself", L["lightself_bar"], duration, args.spellId)
 			self:FlashShake("lightself")
 		else -- This is mainly a tanking assist
 			if args.spellId == 105925 and self:Tank() then
 				self:FlashShake("lighttank")
-				local duration = select(6, UnitDebuff(args.destName, args.spellName))
+				local _, _, _, _, _, duration = UnitDebuff(args.destName, args.spellName)
 				self:Bar("lighttank", L["lighttank_bar"]:format(args.destName), duration, args.spellId)
 				self:LocalMessage("lighttank", L["lighttank_message"], "Attention", args.spellId, args.destName)
 				self:PlaySound("lighttank", "Alarm")

@@ -7,7 +7,7 @@ if not mod then return end
 mod:RegisterEnableMob(53494)
 
 local countdownTargets = mod:NewTargetList()
-local countdownCounter, count = 1, 0
+local countdownCounter, shardCounter = 1, 0
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -54,55 +54,54 @@ end
 
 function mod:OnEngage()
 	self:Berserk(360)
-	self:Bar(99259, (GetSpellInfo(99259)), 5, 99259) -- Shard of Torment
+	self:Bar(99259, 99259, 5, 99259) -- Shard of Torment
 	self:Bar("ej:2598", L["blade_bar"], 30, 99352)
 	if self:Heroic() then
 		self:Bar(99516, L["link_message"], 25, 99516) -- Countdown
 		countdownCounter = 1
 	end
-	count = 0
+	shardCounter = 0
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
 
-function mod:Blades(_, spellId, _, _, spellName)
-	self:Message("ej:2598", spellName, "Attention", spellId)
-	self:Bar("ej:2598", L["blade_bar"], 47, spellId)
+function mod:Blades(args)
+	self:Message("ej:2598", args.spellName, "Attention", args.spellId)
+	self:Bar("ej:2598", L["blade_bar"], 47, args.spellId)
 end
 
-function mod:Countdown(player, spellId)
-	countdownTargets[#countdownTargets + 1] = player
-	if UnitIsUnit(player, "player") then
-		self:FlashShake(99516)
+function mod:Countdown(args)
+	countdownTargets[#countdownTargets + 1] = args.destName
+	if UnitIsUnit(args.destName, "player") then
+		self:FlashShake(args.spellId)
 	end
 	if countdownCounter == 1 then
-		self:PrimaryIcon(99516, player)
+		self:PrimaryIcon(args.spellId, args.destName)
 		countdownCounter = 2
 	else
-		self:Bar(99516, L["link_message"], 47.6, spellId)
-		self:TargetMessage(99516, L["link_message"], countdownTargets, "Important", 99516, "Alarm")
-		self:SecondaryIcon(99516, player)
+		self:Bar(args.spellId, L["link_message"], 47.6, args.spellId)
+		self:TargetMessage(args.spellId, L["link_message"], countdownTargets, "Important", args.spellId, "Alarm")
+		self:SecondaryIcon(args.spellId, args.destName)
 		countdownCounter = 1
 	end
 end
 
-function mod:CountdownRemoved()
-	self:PrimaryIcon(99516)
-	self:SecondaryIcon(99516)
+function mod:CountdownRemoved(args)
+	self:PrimaryIcon(args.spellId)
+	self:SecondaryIcon(args.spellId)
 end
 
-function mod:Shards(_, spellId, _, _, spellName)
-	count = count + 1
-	self:Message(99259, L["shard_message"]:format(count), "Urgent", spellId, "Alert")
-	self:Bar(99259, spellName, 34, spellId)
+function mod:Shards(args)
+	shardCounter = shardCounter + 1
+	self:Message(99259, L["shard_message"]:format(shardCounter), "Urgent", args.spellId, "Alert")
+	self:Bar(99259, args.spellName, 34, args.spellId)
 end
 
-function mod:Torment(player, spellId, _, _, _, stack)
-	if UnitIsUnit("focus", player) and stack > 1 then
-		local sound = stack > 5 and "Info" or nil
-		self:LocalMessage("torment", L["focus_message"]:format(stack), "Personal", spellId, sound)
+function mod:Torment(args)
+	if UnitIsUnit("focus", args.destName) and args.amount > 1 then
+		self:LocalMessage("torment", L["focus_message"]:format(args.amount), "Personal", args.spellId, args.amount > 5 and "Info")
 	end
 end
 

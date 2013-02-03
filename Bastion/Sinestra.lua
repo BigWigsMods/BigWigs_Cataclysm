@@ -99,7 +99,7 @@ end
 
 local function colorize(tbl)
 	for i, v in next, tbl do
-		local class = select(2, UnitClass(v))
+		local _, class = UnitClass(v)
 		if class then
 			tbl[i] = hexColors[class] .. v .. "|r"
 		end

@@ -10,7 +10,6 @@ mod:RegisterEnableMob(52571, 53619) --Staghelm, Druid of the Flame
 -- Locales
 --
 
-local leapingFlames, flameScythe = (GetSpellInfo(98476)), (GetSpellInfo(98474))
 -- Update, in 4.3 the rate at which his energy is affected by Adrenaline is nerfed considerbly. (Despite what tooltip says)
 -- I don't have data to determine if/when it caps at 3.7, but if it does, it's somewhere much later then it used to be.
 -- So stack beyond 11-12 may falsely report 3.7 until data for more specials can be determined (although it was already wrong to begin with post 4.3 so this is unchanged)
@@ -77,32 +76,32 @@ end
 -- Event Handlers
 --
 
-function mod:Adrenaline(_, spellId, _, _, spellName, stack)
-	self:Message(97238, L["adrenaline_message"]:format(stack or 1), "Attention", spellId)
+function mod:Adrenaline(args)
+	self:Message(args.spellId, L["adrenaline_message"]:format(args.amount or 1), "Attention", args.spellId)
 	 -- this is power based, not time. Power regen is affected by adrenaline
 	 -- adrenaline gets stacked every special
 	specialCounter = specialCounter + 1
 	if form == "cat" then
-		self:Bar(98476, leapingFlames, specialCD[specialCounter] or 3.7, 98476)
+		self:Bar(98476, 98476, specialCD[specialCounter] or 3.7, 98476) -- Leaping Flames
 	elseif form == "scorpion" then
-		self:Bar(98474, flameScythe, specialCD[specialCounter] or 3.7, 98474)
+		self:Bar(98474, 98474, specialCD[specialCounter] or 3.7, 98474) -- Flame Scythe
 	end
 end
 
 do
 	local prev, fired, timer = 0, 0, nil
-	local function checkTarget()
+	local function checkTarget(spellId)
 		fired = fired + 1
 		local player = UnitName("boss1target")
 		if player and not UnitDetailedThreatSituation("boss1target", "boss1") then
 			mod:CancelTimer(timer)
 			timer = nil
 			if UnitIsUnit("player", "boss1target") then
-				mod:Say(98476, L["leap_say"])
-				mod:FlashShake(98476)
+				mod:Say(spellId, L["leap_say"])
+				mod:FlashShake(spellId)
 			end
-			mod:TargetMessage(98476, leapingFlames, player, "Urgent", 98476, "Long")
-			mod:PrimaryIcon(98476, player)
+			mod:TargetMessage(spellId, spellId, player, "Urgent", spellId, "Long") -- Leaping Flames
+			mod:PrimaryIcon(spellId, player)
 			return
 		end
 		if fired > 18 then
@@ -110,12 +109,12 @@ do
 			timer = nil
 		end
 	end
-	function mod:LeapingFlames()
+	function mod:LeapingFlames(args)
 		local t = GetTime() --Throttle as it's sometimes casted twice in a row
 		if t-prev > 2 then
 			prev, fired = t, 0
 			if not timer then
-				timer = self:ScheduleRepeatingTimer(checkTarget, 0.05)
+				timer = self:ScheduleRepeatingTimer(checkTarget, 0.05, args.spellId)
 			end
 		end
 	end
@@ -132,67 +131,66 @@ do
 			end
 		end
 	end
-	function mod:RecklessLeap(...)
-		local sGUID = select(11, ...)
+	function mod:RecklessLeap(args)
 		--3sec cast so we have room to balance accuracy vs reaction time
-		self:ScheduleTimer(checkTarget, 1.5, sGUID)
+		self:ScheduleTimer(checkTarget, 1.5, args.sourceGUID)
 	end
 end
 
-function mod:CatForm(_, spellId, _, _, spellName)
+function mod:CatForm(args)
 	form = "cat"
-	self:Message(98374, spellName, "Important", spellId, "Alert")
+	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
 	specialCounter = 1
-	self:Bar(98476, leapingFlames, specialCD[specialCounter], 98476)
+	self:Bar(98476, 98476, specialCD[specialCounter], 98476) -- Leaping Flames
 	--Don't open if already opened from seed
-	local spell = GetSpellInfo(98450) -- Searing Seeds
-	local hasDebuff, _, _, _, _, _, remaining = UnitDebuff("player", spell)
+	local hasDebuff, _, _, _, _, _, remaining = UnitDebuff("player", self:SpellName(98450)) -- Searing Seeds
 	if not hasDebuff or (remaining - GetTime() > 6) then
-		self:OpenProximity(98374, 10)
+		self:OpenProximity(args.spellId, 10)
 	end
 end
 
-function mod:ScorpionForm(_, spellId, _, _, spellName)
+function mod:ScorpionForm(args)
 	form = "scorpion"
-	self:Message(98379, spellName, "Important", spellId, "Alert")
+	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
 	self:PrimaryIcon(98476)
 	self:CloseProximity(98374)
 	specialCounter = 1
-	self:Bar(98474, flameScythe, specialCD[specialCounter], 98474)
+	self:Bar(98474, 98474, specialCD[specialCounter], 98474) -- Flame Scythe
 end
 
-function mod:SearingSeedsRemoved(player)
-	if not UnitIsUnit(player, "player") then return end
+function mod:SearingSeedsRemoved(args)
+	if not UnitIsUnit(args.destName, "player") then return end
 	self:StopBar(L["seed_bar"])
 	if form == "cat" then
 		self:OpenProximity(98374, 10)
 	else
-		self:CloseProximity(98450)
+		self:CloseProximity(args.spellId)
 	end
 	self:CancelTimer(seedTimer)
 	seedTimer = nil
 end
 
-function mod:BurningOrbs(_, spellId, _, _, spellName)
-	self:Bar(98451, spellName, 64, spellId)
+function mod:BurningOrbs(args)
+	self:Bar(args.spellId, args.spellName, 64, args.spellId)
 end
 
 do
-	local function searingSeed()
-		mod:LocalMessage(98450, L["seed_explosion"], "Personal", 98450, "Alarm")
-		mod:FlashShake(98450)
-		mod:OpenProximity(98450, 12)
+	local function searingSeed(spellId)
+		mod:LocalMessage(spellId, L["seed_explosion"], "Personal", spellId, "Alarm")
+		mod:FlashShake(spellId)
+		mod:OpenProximity(spellId, 12)
 	end
 
-	function mod:SearingSeeds(player, spellId, _, _, spellName)
-		self:StopBar(leapingFlames)
-		if not UnitIsUnit(player, "player") then return end
-		local remaining = (select(7, UnitDebuff("player", spellName))) - GetTime()
-		self:Bar(98450, L["seed_bar"], remaining, spellId)
+	function mod:SearingSeeds(args)
+		self:StopBar(98476) -- Leaping Flames
+		if not UnitIsUnit(args.destName, "player") then return end
+		local _, _, _, _, _, _, remaining = UnitDebuff("player", args.spellName)
+		remaining = remaining - GetTime()
+		self:Bar(args.spellId, L["seed_bar"], remaining, args.spellId)
 		if remaining < 5 then
 			searingSeed()
 		else
-			seedTimer = self:ScheduleTimer(searingSeed, remaining - 5)
+			seedTimer = self:ScheduleTimer(searingSeed, remaining - 5, args.spellId)
 		end
 	end
 end

@@ -19,7 +19,7 @@ local lastBroodlingTarget = ""
 
 local L = mod:NewLocale("enUS", true)
 if L then
-	L.flare = GetSpellInfo(99859)
+	L.flare = mod:SpellName(99859)
 	L.flare_desc = "Show a timer bar for AoE flare."
 	L.flare_icon = 99859
 
@@ -114,44 +114,43 @@ function mod:BroodlingWatcher()
 	end
 end
 
-function mod:Fixate(player, spellId, _, _, spellName)
-	if not UnitIsPlayer(player) then return end --Affects the NPC and a player
-	self:TargetMessage(99559, spellName, player, "Attention", spellId, "Alarm")
-	if UnitIsUnit("player", player) then
+function mod:Fixate(args)
+	if not UnitIsPlayer(args.destName) then return end --Affects the NPC and a player
+	self:TargetMessage(99559, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	if UnitIsUnit("player", args.destName) then
 		self:FlashShake(99559)
-		self:Whisper(99559, player, CL["you"]:format(spellName))
+		self:Whisper(99559, args.destName, CL["you"]:format(args.spellName))
 	end
 end
 
-function mod:Frenzy()
+function mod:Frenzy(args)
 	self:CancelAllTimers()
 	self:StopBar(L["drone_bar"])
-	self:Message(99497, CL["phase"]:format(2), "Positive", 99497, "Alarm")
+	self:Message(args.spellId, CL["phase"]:format(2), "Positive", args.spellId, "Alarm")
 end
 
-function mod:Kiss(player, spellId, _, _, spellName)
-	self:TargetMessage(99506, L["kiss_message"], player, "Urgent", spellId)
-	self:Bar(99506, L["kiss_message"], 31.5, spellId)
+function mod:Kiss(args)
+	self:TargetMessage(args.spellId, L["kiss_message"], args.destName, "Urgent", args.spellId)
+	self:Bar(args.spellId, L["kiss_message"], 31.5, args.spellId)
 	-- We play the sound manually because TargetMessage strips it unless the target is the player
-	self:PlaySound(99506, "Info")
+	self:PlaySound(args.spellId, "Info")
 end
 
-function mod:Devastate(_, spellId)
-	local name = GetSpellInfo(100048) --Fiery Web Silk
-	local hasDebuff = UnitDebuff("player", name)
+function mod:Devastate(args)
+	local hasDebuff = UnitDebuff("player", self:SpellName(100048)) -- Fiery Web Silk
 	if hasDebuff then
 		local devastate = L["devastate_message"]:format(devastateCount)
-		self:Message(99052, devastate, "Important", spellId, "Long")
-		self:Bar(99052, CL["cast"]:format(devastate), 8, spellId)
-		self:FlashShake(99052)
+		self:Message(args.spellId, devastate, "Important", args.spellId, "Long")
+		self:Bar(args.spellId, CL["cast"]:format(devastate), 8, args.spellId)
+		self:FlashShake(args.spellId)
 	else
-		self:Message(99052, L["devastate_message"]:format(devastateCount), "Attention", spellId)
+		self:Message(args.spellId, L["devastate_message"]:format(devastateCount), "Attention", args.spellId)
 	end
 	devastateCount = devastateCount + 1
 	-- This timer is only accurate if you dont fail with the Drones
 	-- Might need to use the bosses power bar or something to adjust this
 	if devastateCount > 3 then return end
-	self:Bar(99052, L["devastate_message"]:format(devastateCount), 90, spellId)
+	self:Bar(args.spellId, L["devastate_message"]:format(devastateCount), 90, args.spellId)
 	self:Bar("spinner", L["spinner_warn"]:format(1), 20, L["spinner_icon"])
 	self:Bar("spinner", L["spinner_warn"]:format(2), 29, L["spinner_icon"])
 	self:Bar("spinner", L["spinner_warn"]:format(3), 40, L["spinner_icon"])
@@ -160,7 +159,7 @@ function mod:Devastate(_, spellId)
 	self:DelayedMessage("spinner", 40, L["spinner_warn"]:format(3), "Positive", L["spinner_icon"])
 end
 
-function mod:Flare(_, spellId, _, _, spellName)
-	self:Bar("flare", spellName, 6, spellId)
+function mod:Flare(args)
+	self:Bar("flare", args.spellName, 6, args.spellId)
 end
 

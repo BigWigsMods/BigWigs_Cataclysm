@@ -289,7 +289,7 @@ end
 
 do
 	local hardenTimer = nil
-	local flying = GetSpellInfo(83500)
+	local flying = mod:SpellName(83500)
 	local function quakeIncoming()
 		local name, _, icon = UnitDebuff("player", flying)
 		if name then
@@ -316,7 +316,7 @@ end
 
 do
 	local thunderTimer = nil
-	local grounded = GetSpellInfo(83581)
+	local grounded = mod:SpellName(83581)
 	local function thunderShockIncoming()
 		local name, _, icon = UnitDebuff("player", grounded)
 		if name then

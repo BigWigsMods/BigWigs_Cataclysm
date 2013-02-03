@@ -162,7 +162,7 @@ function mod:Phase3()
 end
 
 function mod:Feedback(args)
-	local buffStack = args.count or 1
+	local buffStack = args.amount or 1
 	self:StopBar(L["feedback_message"]:format(buffStack-1))
 	self:Bar(args.spellId, L["feedback_message"]:format(buffStack), self:Heroic() and 20 or 30, args.spellId)
 	self:Message(args.spellId, L["feedback_message"]:format(buffStack), "Positive", args.spellId)

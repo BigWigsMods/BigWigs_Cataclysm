@@ -94,7 +94,7 @@ function mod:Darkness(unit, spellName, _, _, spellId)
 end
 
 function mod:VoidDiffusion(args)
-	self:Message("bounce", ("%s (%d)"):format(L["bounce"], args.count or 1), "Important", args.spellId)
+	self:Message("bounce", ("%s (%d)"):format(L["bounce"], args.amount or 1), "Important", args.spellId)
 end
 
 function mod:PsychicDrain(args)
