@@ -97,10 +97,10 @@ end
 function mod:WindChill(args)
 	if UnitIsUnit(args.destName, "player") then
 	-- probably need to adjust stack numbers
-		if stack == 4 then
-			self:LocalMessage(args.spellId, L["wind_chill"]:format(stack), "Personal", args.spellId)
-		elseif stack == 8 then
-			self:LocalMessage(args.spellId, L["wind_chill"]:format(stack), "Personal", args.spellId, "Alarm")
+		if args.amount == 4 then
+			self:LocalMessage(args.spellId, L["wind_chill"]:format(args.amount), "Personal", args.spellId)
+		elseif args.amount == 8 then
+			self:LocalMessage(args.spellId, L["wind_chill"]:format(args.amount), "Personal", args.spellId, "Alarm")
 			self:FlashShake(args.spellId)
 		end
 	end

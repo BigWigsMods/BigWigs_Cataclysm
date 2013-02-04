@@ -255,7 +255,7 @@ do
 end
 
 function mod:EggTrigger()
-	self:Bar(args.spellId, L["egg_vulnerable"], 5, args.spellId)
+	self:Bar(87654, L["egg_vulnerable"], 5, 87654)
 end
 
 function mod:Indomitable(args)

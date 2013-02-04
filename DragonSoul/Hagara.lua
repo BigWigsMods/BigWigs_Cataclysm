@@ -91,7 +91,7 @@ end
 function mod:FrostFlakeApplied(args)
 	self:PrimaryIcon(args.spellId, args.destName)
 	if UnitIsUnit("player", args.destName) then
-		self:LocalMessage(args.spellId, CL["you"]:format(args.spellName), "Personal", args.spellId, Long)
+		self:LocalMessage(args.spellId, CL["you"]:format(args.spellName), "Personal", args.spellId, "Long")
 		self:Say(args.spellId)
 		self:FlashShake(args.spellId)
 		self:OpenProximity(args.spellId, 10)

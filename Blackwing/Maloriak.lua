@@ -208,7 +208,7 @@ function mod:FlashFreeze(args)
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
-function mod:FlashFreezeRemoved()
+function mod:FlashFreezeRemoved(args)
 	self:PrimaryIcon(args.spellId)
 end
 
