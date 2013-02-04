@@ -79,7 +79,8 @@ function mod:OnBossEnable()
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
-	self:Death("Deaths", 41376, 41948)
+	self:Death("Win", 41376)
+	self:Death("PrototypeDeaths", 41948) -- Chromatic Prototype
 end
 
 function mod:OnEngage()
@@ -125,23 +126,19 @@ function mod:Electrocute()
 	self:Bar(81272, 81272, 5, 81272) -- Electrocute
 end
 
-function mod:Deaths(args)
-	if args.mobId == 41948 then
-		deadAdds = deadAdds + 1
-		if self:Heroic() and not phase3warned then
-			self:StopBar(CL["phase"]:format(phase))
-			phase = 3
-			self:Message("phase", CL["phase"]:format(phase), "Attention", 81007)
-			phase3warned = true
-		end
-		if deadAdds == 3 and not phase3warned then
-			self:StopBar(CL["phase"]:format(phase))
-			phase = 3
-			self:Message("phase", CL["phase"]:format(phase), "Attention", 81007)
-			phase3warned = true
-		end
-	elseif args.mobId == 41376 then
-		self:Win()
+function mod:PrototypeDeaths()
+	deadAdds = deadAdds + 1
+	if self:Heroic() and not phase3warned then
+		self:StopBar(CL["phase"]:format(phase))
+		phase = 3
+		self:Message("phase", CL["phase"]:format(phase), "Attention", 81007)
+		phase3warned = true
+	end
+	if deadAdds == 3 and not phase3warned then
+		self:StopBar(CL["phase"]:format(phase))
+		phase = 3
+		self:Message("phase", CL["phase"]:format(phase), "Attention", 81007)
+		phase3warned = true
 	end
 end
 

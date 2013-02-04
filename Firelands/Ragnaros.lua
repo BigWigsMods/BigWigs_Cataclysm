@@ -99,7 +99,8 @@ function mod:OnBossEnable()
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
-	self:Death("Deaths", 52409, 53140) -- Ragnaros, Son of Flame
+	self:Death("Win", 52409)
+	self:Death("SonDeaths", 53140) -- Son of Flame
 end
 
 function mod:OnEngage()
@@ -332,14 +333,10 @@ do
 	end
 end
 
-function mod:Deaths(args)
-	if args.mobId == 53140 then
-		sons = sons - 1
-		if sons < 4 then
-			self:LocalMessage(98953, L["sons_left"]:format(sons), "Positive", 98473) -- the speed buff icon on the sons
-		end
-	elseif args.mobId == 52409 then
-		self:Win()
+function mod:SonDeaths()
+	sons = sons - 1
+	if sons < 4 then
+		self:LocalMessage(98953, L["sons_left"]:format(sons), "Positive", 98473) -- the speed buff icon on the sons
 	end
 end
 

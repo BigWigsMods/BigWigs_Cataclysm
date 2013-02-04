@@ -187,7 +187,8 @@ function mod:OnBossEnable()
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
-	self:Death("Deaths", 45213, 46842) -- Sinestra, Pulsing Twilight Egg
+	self:Death("Win", 45213)
+	self:Death("TwilightEggDeaths", 46842) -- Pulsing Twilight Egg
 end
 
 function mod:OnEngage()
@@ -281,18 +282,14 @@ function mod:Breath(args)
 	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
 end
 
-function mod:Deaths(args)
-	if args.mobId == 46842 then
-		eggs = eggs + 1
-		if eggs == 2 then
-			self:Message("phase", CL["phase"]:format(3), "Positive", 51070, "Info") -- broken egg icon
-			self:Bar("whelps", L["whelps"], 50, 69005)
-			self:Bar(92852, "~"..slicer, 30, 92852)
-			self:Bar(90125, "~"..breath, 24, 90125)
-			self:ScheduleTimer(nextOrbSpawned, 30)
-		end
-	elseif args.mobId == 45213 then
-		self:Win()
+function mod:TwilightEggDeaths()
+	eggs = eggs + 1
+	if eggs == 2 then
+		self:Message("phase", CL["phase"]:format(3), "Positive", 51070, "Info") -- broken egg icon
+		self:Bar("whelps", L["whelps"], 50, 69005)
+		self:Bar(92852, "~"..slicer, 30, 92852)
+		self:Bar(90125, "~"..breath, 24, 90125)
+		self:ScheduleTimer(nextOrbSpawned, 30)
 	end
 end
 

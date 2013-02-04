@@ -75,7 +75,9 @@ function mod:OnBossEnable()
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 	self:Yell("Engage", L["engage_trigger"])
-	self:Death("Deaths", 53879, 56575, 56341)
+
+	self:Death("Win", 53879)
+	self:Death("BurningTendonDeaths", 56575, 56341) -- Burning Tendons
 end
 
 -- Note: Engage is not called as early as you may expect. It is about 4s from the start of combat
@@ -304,11 +306,7 @@ do
 	end
 end
 
-function mod:Deaths(args)
-	if args.mobId == 53879 then
-		self:Win()
-	else
-		self:StopBar(L["exposed"])
-	end
+function mod:BurningTendonDeaths()
+	self:StopBar(L["exposed"])
 end
 
