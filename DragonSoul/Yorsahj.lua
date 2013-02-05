@@ -15,7 +15,7 @@ if L then
 	L.engage_trigger = "Iilth qi'uothk shn'ma yeh'glu Shath'Yar! H'IWN IILTH!"
 
 	L.bolt = mod:SpellName(105416)
-	L.bolt_desc = "Tank alert only. Count the stacks of void bolt and show a duration bar."
+	L.bolt_desc = "Count the stacks of void bolt and show a duration bar."
 	L.bolt_icon = 105416
 	L.bolt_message = "%2$dx Bolt on %1$s"
 
@@ -35,7 +35,6 @@ if L then
 	L.acid_icon = "spell_nature_corrosivebreath"
 end
 L = mod:GetLocale()
-L.bolt = L.bolt.." "..INLINE_TANK_ICON
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -57,7 +56,7 @@ local colorCombinations = {
 
 function mod:GetOptions()
 	return {
-		"blobs", "bolt", "acid", "ej:4321", "proximity", "berserk", "bosskill"
+		"blobs", {"bolt", "TANK"}, "acid", "ej:4321", "proximity", "berserk", "bosskill"
 	}
 end
 
@@ -86,12 +85,10 @@ end
 --
 
 function mod:Bolt(args)
-	if self:Tank() then
-		local buffStack = args.amount or 1
-		self:StopBar(L["bolt_message"]:format(args.destName, buffStack - 1))
-		self:Bar("bolt", L["bolt_message"]:format(args.destName, buffStack), 12, args.spellId)
-		self:LocalMessage("bolt", L["bolt_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
-	end
+	local buffStack = args.amount or 1
+	self:StopBar(L["bolt_message"]:format(args.destName, buffStack - 1))
+	self:Bar("bolt", L["bolt_message"]:format(args.destName, buffStack), 12, args.spellId)
+	self:LocalMessage("bolt", L["bolt_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
 end
 
 function mod:Blobs(_, _, _, _, spellId)

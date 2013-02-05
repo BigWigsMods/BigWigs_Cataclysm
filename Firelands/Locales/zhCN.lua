@@ -111,7 +111,7 @@ if L then
 	L.ragnaros_back_message = "拉格纳罗斯返回，集合！"
 
 	L.wound = "灼烧之伤"
-	L.wound_desc = "只对坦克警报。灼烧之伤堆叠计数并显示持续计时条。"
+	L.wound_desc = "灼烧之伤堆叠计数并显示持续计时条。"
 	L.wound_message = "灼烧之伤%2$d层：>%1$s<！"
 end
 

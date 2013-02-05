@@ -62,7 +62,7 @@ function mod:GetOptions()
 		99816,
 		99432,
 		99844, 99925,
-		{100744, "FLASHSHAKE"}, "meteor",
+		{100744, "FLASH"}, "meteor",
 		"bosskill"
 	}, {
 		[99362] = "ej:2820", --Stage 1: Flight
@@ -218,7 +218,7 @@ function mod:Molting(args)
 end
 
 function mod:Firestorm(args)
-	self:FlashShake(args.spellId)
+	self:Flash(args.spellId)
 	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Alert")
 	self:Bar(args.spellId, CL["cast"]:format(args.spellName), 10, args.spellId)
 end

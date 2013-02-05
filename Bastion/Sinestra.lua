@@ -108,7 +108,7 @@ local function colorize(tbl)
 end
 
 local function orbWarning(source)
-	if playerInList then mod:FlashShake(92852) end
+	if playerInList then mod:Flash(92852) end
 
 	-- this is why orbList can't be created by :NewTargetList
 	if orbList[1] then mod:PrimaryIcon(92852, orbList[1]) end
@@ -146,13 +146,13 @@ function mod:GetOptions(CL)
 	return {
 	-- Phase 1 and 3
 		90125, -- Breath
-		{92852, "FLASHSHAKE", "ICON"}, -- Twilight Slicer
+		{92852, "FLASH", "ICON"}, -- Twilight Slicer
 		86227, -- Extinction
 		"whelps",
 
 	-- Phase 2
 		87654, -- Omelet Time
-		{90045, "FLASHSHAKE"}, -- Indomitable
+		{90045, "FLASH"}, -- Indomitable
 
 	-- General
 		"phase",
@@ -262,7 +262,7 @@ function mod:Indomitable(args)
 	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
 	if self:Dispeller("enrage", true) then
 		self:PlaySound(args.spellId, "Info")
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 end
 

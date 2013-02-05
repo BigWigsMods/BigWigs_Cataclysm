@@ -41,12 +41,11 @@ if L then
 	L.ragnaros_back_message = "Raggy is back, parry on!" -- yeah thats right PARRY ON!
 
 	L.wound = "Burning Wound"
-	L.wound_desc = "Tank alert only. Count the stacks of burning wound and show a duration bar."
+	L.wound_desc = "Count the stacks of burning wound and show a duration bar."
 	L.wound_icon = 99399
 	L.wound_message = "%2$dx Wound on %1$s"
 end
 L = mod:GetLocale()
-L.wound = L.wound.." "..INLINE_TANK_ICON
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -55,11 +54,11 @@ L.wound = L.wound.." "..INLINE_TANK_ICON
 function mod:GetOptions()
 	return {
 		98237, 98263, 98164,
-		98953, {100460, "ICON", "FLASHSHAKE", "SAY"},
+		98953, {100460, "ICON", "FLASH", "SAY"},
 		98498, 99172,
-		99317, {99849, "FLASHSHAKE", "SAY"},
+		99317, {99849, "FLASH", "SAY"},
 		100171, 100479, 100646, 100714, 100604, 100675,
-		98710, "wound", "proximity", "berserk", "bosskill"
+		98710, {"wound", "TANK"}, "proximity", "berserk", "bosskill"
 	}, {
 		[98237] = "ej:2629",
 		[98953] = L["intermission_bar"],
@@ -173,12 +172,10 @@ function mod:BreadthofFrost(args)
 end
 
 function mod:Wound(args)
-	if self:Tank() then
-		local buffStack = args.amount or 1
-		self:StopBar(L["wound_message"]:format(args.destName, buffStack - 1))
-		self:Bar("wound", L["wound_message"]:format(args.destName, buffStack), 21, args.spellId)
-		self:TargetMessage("wound", L["wound_message"], args.destName, "Urgent", args.spellId, buffStack > 2 and "Info" or nil, buffStack)
-	end
+	local buffStack = args.amount or 1
+	self:StopBar(L["wound_message"]:format(args.destName, buffStack - 1))
+	self:Bar("wound", L["wound_message"]:format(args.destName, buffStack), 21, args.spellId)
+	self:TargetMessage("wound", L["wound_message"], args.destName, "Urgent", args.spellId, buffStack > 2 and "Info" or nil, buffStack)
 end
 
 function mod:MagmaTrap(args)
@@ -204,7 +201,7 @@ function mod:FixatedCheck(unit)
 		fixateWarned = true
 		self:LocalMessage(99849, CL["you"]:format(fixate), "Personal", 99849, "Long")
 		self:Say(99849)
-		self:FlashShake(99849)
+		self:Flash(99849)
 	elseif not fixated and fixateWarned then
 		fixateWarned = false
 	end
@@ -302,7 +299,7 @@ do
 		blazingHeatTargets[#blazingHeatTargets + 1] = args.destName
 		if UnitIsUnit(args.destName, "player") then
 			self:Say(args.spellId)
-			self:FlashShake(args.spellId)
+			self:Flash(args.spellId)
 		end
 		if iconCounter == 1 then
 			self:PrimaryIcon(args.spellId, args.destName)

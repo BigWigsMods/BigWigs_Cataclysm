@@ -47,7 +47,7 @@ function mod:GetOptions(CL)
 		87904,
 		"stormling",
 		88301,
-		{89668, "ICON", "FLASHSHAKE", "WHISPER"}, 89588, 87770, "proximity",
+		{89668, "ICON", "FLASH", "WHISPER"}, 89588, 87770, "proximity",
 		87873,
 		88427, "phase", "berserk", "bosskill"
 	}, {
@@ -121,7 +121,7 @@ end
 
 function mod:LightningRod(args)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 		self:OpenProximity("proximity", 20)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Long")

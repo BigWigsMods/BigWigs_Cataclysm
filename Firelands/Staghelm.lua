@@ -38,8 +38,8 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		98379, 98474,
-		{98374, "PROXIMITY"}, {98476, "FLASHSHAKE", "ICON", "SAY"},
-		{98450, "FLASHSHAKE", "PROXIMITY"}, 98451,
+		{98374, "PROXIMITY"}, {98476, "FLASH", "ICON", "SAY"},
+		{98450, "FLASH", "PROXIMITY"}, 98451,
 		97238, "berserk", "bosskill"
 	}, {
 		[98379] = 98379,
@@ -98,7 +98,7 @@ do
 			timer = nil
 			if UnitIsUnit("player", "boss1target") then
 				mod:Say(spellId, L["leap_say"])
-				mod:FlashShake(spellId)
+				mod:Flash(spellId)
 			end
 			mod:TargetMessage(spellId, spellId, player, "Urgent", spellId, "Long") -- Leaping Flames
 			mod:PrimaryIcon(spellId, player)
@@ -126,7 +126,7 @@ do
 			local leapTarget = ("%s%d%s"):format("raid", i, "target")
 			if UnitGUID(leapTarget) == guid and UnitIsUnit("player", leapTarget.."target") then
 				mod:Say(98476, L["leap_say"])
-				mod:FlashShake(98476)
+				mod:Flash(98476)
 				break
 			end
 		end
@@ -177,7 +177,7 @@ end
 do
 	local function searingSeed(spellId)
 		mod:LocalMessage(spellId, L["seed_explosion"], "Personal", spellId, "Alarm")
-		mod:FlashShake(spellId)
+		mod:Flash(spellId)
 		mod:OpenProximity(spellId, 12)
 	end
 

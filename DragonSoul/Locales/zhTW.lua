@@ -4,7 +4,7 @@ if L then
 	L.engage_trigger = "你想要阻止山崩。我會埋葬你。"
 
 	L.crush = "擊碎護甲"
-	L.crush_desc = "只警報坦克。擊碎護甲堆疊計數並顯示持續條。"
+	L.crush_desc = "擊碎護甲堆疊計數並顯示持續條。"
 	L.crush_message = "%2$d層擊碎護甲：>%1$s<！"
 
 	L.blood = "大地黑血"
@@ -34,7 +34,7 @@ L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "zhTW")
 if L then
 	L.engage_trigger = "Iilth qi'uothk shn'ma yeh'glu Shath'Yar! H'IWN IILTH!"
 
-	L.bolt_desc = "只警報坦克。虛無箭堆疊計數並顯示持續條。"
+	L.bolt_desc = "虛無箭堆疊計數並顯示持續條。"
 	L.bolt_message = "%2$d層虛無箭：>%1$s<！"
 
 	L.blue = "|cFF0080FF藍|r"
@@ -56,8 +56,6 @@ if L then
 	L.lightning_or_frost = "閃電或寒冰"
 	L.ice_next = "寒冰階段"
 	L.lightning_next = "閃電階段"
-
-	L.assault_desc = "只警報坦克和治療。 "..select(2, EJ_GetSectionInfo(4159))
 
 	L.nextphase = "下一階段"
 	L.nextphase_desc = "當下一階段時發出警報。"
@@ -86,7 +84,7 @@ if L then
 	L.lightself_bar = "<你將爆炸>"
 
 	L.lighttank = "坦克凋零之光"
-	L.lighttank_desc = "只警報坦克。如果坦克中了凋零之光，顯示一個爆炸計時條及閃爍震動。"
+	L.lighttank_desc = "如果坦克中了凋零之光，顯示一個爆炸計時條及閃爍震動。"
 	L.lighttank_bar = "<%s 爆炸>"
 	L.lighttank_message = "坦克爆炸！"
 end
@@ -97,7 +95,7 @@ if L then
 	L.warmup_desc = "首領戰鬥開始之前的計時器。"
 
 	L.sunder = "破甲攻擊"
-	L.sunder_desc = "只警報坦克。破甲攻擊堆疊計數並顯示持續條。"
+	L.sunder_desc = "破甲攻擊堆疊計數並顯示持續條。"
 	L.sunder_message = "%2$d層破甲攻擊：>%1$s<！"
 
 	L.sapper_trigger = "一頭龍急速飛來，載送一名暮光工兵降落到甲板上!"

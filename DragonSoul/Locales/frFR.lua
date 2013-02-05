@@ -4,7 +4,7 @@ if L then
 	L.engage_trigger = "Vous cherchez à arrêter l'avalanche. Je vais vous ensevelir."
 
 	L.crush = "Ecraser armure"
-	L.crush_desc = "Alerte pour tanks uniquement. Compte les cumuls d'Ecraser armure et affiche une barre de durée."
+	L.crush_desc = "Compte les cumuls d'Ecraser armure et affiche une barre de durée."
 	L.crush_message = "%2$dx Ecraser sur %1$s"
 
 	L.blood = "Sang noir"
@@ -34,7 +34,7 @@ L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "frFR")
 if L then
 	L.engage_trigger = "Iilth qi'uothk shn'ma yeh'glu Shath'Yar! H'IWN IILTH!"
 
-	L.bolt_desc = "Alerte pour tanks uniquement. Compte les cumuls d'Eclairs de Vide et affiche une barre de durée."
+	L.bolt_desc = "Compte les cumuls d'Eclairs de Vide et affiche une barre de durée."
 	L.bolt_message = "%2$dx Éclair sur %1$s"
 
 	L.blue = "|cFF0080FFBleu|r"
@@ -56,8 +56,6 @@ if L then
 	L.lightning_or_frost = "Foudre ou Glace"
 	L.ice_next = "Phase de glace"
 	L.lightning_next = "Phase de foudre"
-
-	L.assault_desc = "Alerte pour tanks & soigneurs uniquement. "..select(2, EJ_GetSectionInfo(4159))
 
 	L.nextphase = "Prochaine phase"
 	L.nextphase_desc = "Prévient quand arrive la phase suivante."
@@ -86,7 +84,7 @@ if L then
 	L.lightself_bar = "<Vous explosez>"
 
 	L.lighttank = "Lumière faiblissante sur tanks"
-	L.lighttank_desc = "Alerte pour tank uniquement. Si un tank a Lumière faiblissante, affiche une barre d'explosion et Flash/Shake."
+	L.lighttank_desc = "Si un tank a Lumière faiblissante, affiche une barre d'explosion et Flash/Shake."
 	L.lighttank_bar = "<%s explose>"
 	L.lighttank_message = "Tank explosif"
 end
@@ -97,7 +95,7 @@ if L then
 	L.warmup_desc = "Délai avant que le combat ne commence."
 
 	L.sunder = "Fracasser armure"
-	L.sunder_desc = "Alerte pour tanks uniquement. Compte les cumuls de Fracasser armure et affiche une barre de durée."
+	L.sunder_desc = "Compte les cumuls de Fracasser armure et affiche une barre de durée."
 	L.sunder_message = "%2$dx Fracasser sur %1$s"
 
 	L.sapper_trigger = "Un drake plonge et dépose un sapeur du Crépuscule sur le pont !"

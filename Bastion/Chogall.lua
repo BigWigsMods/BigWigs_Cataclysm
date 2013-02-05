@@ -57,9 +57,9 @@ L = mod:GetLocale()
 
 function mod:GetOptions(CL)
 	return {
-		91303, {81538, "FLASHSHAKE"}, {81685, "FLASHSHAKE", "ICON", "SAY"}, 81571, 82524, 81628, 82299,
+		91303, {81538, "FLASH"}, {81685, "FLASH", "ICON", "SAY"}, 81571, 82524, 81628, 82299,
 		82630, 82414,
-		"orders", {82235, "FLASHSHAKE", "PROXIMITY"}, "berserk", "bosskill"
+		"orders", {82235, "FLASH", "PROXIMITY"}, "berserk", "bosskill"
 	}, {
 		[91303] = CL.phase:format(1),
 		[82630] = CL.phase:format(2),
@@ -111,7 +111,7 @@ do
 			last = time
 			if UnitIsUnit(args.destName, "player") then
 				self:LocalMessage(args.spellId, L["blaze_message"], "Personal", args.spellId, "Info")
-				self:FlashShake(args.spellId)
+				self:Flash(args.spellId)
 			end
 		end
 	end
@@ -125,7 +125,7 @@ do
 			if not player then return end
 			if UnitIsUnit("player", player) then
 				mod:Say(spellId, L["crash_say"])
-				mod:FlashShake(spellId)
+				mod:Flash(spellId)
 			end
 			mod:TargetMessage(spellId, spellId, player, "Urgent", spellId, "Long") -- Corrupting Crash
 			if counter == 1 then
@@ -153,7 +153,7 @@ do
 				prev = t
 				self:LocalMessage(82235, L["sickness_message"], "Personal", 81831, "Long")
 				self:OpenProximity(82235, 5)
-				self:FlashShake(82235)
+				self:Flash(82235)
 			end
 		end
 	end

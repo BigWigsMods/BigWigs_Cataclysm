@@ -49,8 +49,8 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		77939, 78999, 81272, {81007, "FLASHSHAKE"},
-		{79339, "FLASHSHAKE", "SAY", "PROXIMITY"}, "berserk",
+		77939, 78999, 81272, {81007, "FLASH"},
+		{79339, "FLASH", "SAY", "PROXIMITY"}, "berserk",
 		"phase", "bosskill"
 	}, {
 		[77939] = "ej:3283", -- Onyxia
@@ -116,7 +116,7 @@ do
 		if (t - prev) > 1 and UnitIsUnit(args.destName, "player") then
 			prev = t
 			self:LocalMessage(args.spellId, L["shadowblaze_message"], "Personal", args.spellId, "Info")
-			self:FlashShake(args.spellId)
+			self:Flash(args.spellId)
 		end
 	end
 end
@@ -198,7 +198,7 @@ do
 	function mod:ExplosiveCindersApplied(args)
 		cinderTargets[#cinderTargets + 1] = args.destName
 		if UnitIsUnit(args.destName, "player") then
-			self:FlashShake(args.spellId)
+			self:Flash(args.spellId)
 			self:Say(args.spellId)
 			self:Bar(args.spellId, args.spellName, 8, args.spellId)
 			self:OpenProximity(args.spellId, 10) -- assumed

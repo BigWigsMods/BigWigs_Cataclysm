@@ -53,7 +53,7 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		"slump", 79011, 89773, 78006, {78941, "FLASHSHAKE", "WHISPER", "PROXIMITY"}, 77690,
+		"slump", 79011, 89773, 78006, {78941, "FLASH", "WHISPER", "PROXIMITY"}, 77690,
 		"blazing", "armageddon", {"phase2", "PROXIMITY"},
 		"berserk", "bosskill"
 	}, {
@@ -158,7 +158,7 @@ end
 function mod:Infection(args)
 	if UnitIsUnit(args.destName, "player") then
 		self:LocalMessage(78941, L["infection_message"], "Personal", args.spellId, "Alarm")
-		self:FlashShake(78941)
+		self:Flash(78941)
 		self:OpenProximity(78941, 8)
 	else
 		self:Whisper(78941, args.destName, L["infection_message"], true)

@@ -25,16 +25,11 @@ if L then
 	L.ice_next = "Ice phase"
 	L.lightning_next = "Lightning phase"
 
-	L.assault = EJ_GetSectionInfo(4159)
-	L.assault_desc = "Tank & Healer alert only. "..select(2, EJ_GetSectionInfo(4159))
-	L.assault_icon = 107851
-
 	L.nextphase = "Next Phase"
 	L.nextphase_desc = "Warnings for next phase"
 	L.nextphase_icon = 2139 -- random icon (counterspell)
 end
 L = mod:GetLocale()
-L.assault = L.assault.." "..INLINE_TANK_ICON..INLINE_HEALER_ICON
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -42,13 +37,13 @@ L.assault = L.assault.." "..INLINE_TANK_ICON..INLINE_HEALER_ICON
 
 function mod:GetOptions()
 	return {
-		{104448, "FLASHSHAKE"}, 105256, {105316, "PROXIMITY"}, {109325, "ICON", "FLASHSHAKE", "PROXIMITY", "SAY"},
+		{104448, "FLASH"}, 105256, {105316, "PROXIMITY"}, {109325, "ICON", "FLASH", "PROXIMITY", "SAY"},
 		105409,
-		"assault", 108934, "nextphase", "berserk", "bosskill",
+		{"ej:4159", "TANK_HEALER"}, 108934, "nextphase", "berserk", "bosskill",
 	}, {
 		[104448] = L["ice_next"],
 		[105409] = L["lightning_next"],
-		assault = "general",
+		["ej:4159"] = "general",
 	}
 end
 
@@ -81,11 +76,9 @@ end
 --
 
 function mod:Assault(args)
-	if self:Tank() or self:Healer() then
-		self:LocalMessage("assault", args.spellName, "Urgent", args.spellId)
-		self:Bar("assault", "~"..args.spellName, 15, args.spellId)
-		self:Bar("assault", "<"..args.spellName..">", 5, args.spellId)
-	end
+	self:LocalMessage("ej:4159", args.spellName, "Urgent", args.spellId)
+	self:Bar("ej:4159", "~"..args.spellName, 15, args.spellId)
+	self:Bar("ej:4159", "<"..args.spellName..">", 5, args.spellId)
 end
 
 function mod:FrostFlakeApplied(args)
@@ -93,7 +86,7 @@ function mod:FrostFlakeApplied(args)
 	if UnitIsUnit("player", args.destName) then
 		self:LocalMessage(args.spellId, CL["you"]:format(args.spellName), "Personal", args.spellId, "Long")
 		self:Say(args.spellId)
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10)
 	end
 end
@@ -123,15 +116,13 @@ function mod:Feedback(args)
 	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
 	self:Bar(args.spellId, args.spellName, 15, args.spellId)
 	self:Bar("nextphase", nextPhase, 63, nextPhaseIcon)
-	if self:Tank() then
-		self:Bar("assault", 107851, 20, 107851) -- Focused Assault
-	end
+	self:Bar("ej:4159", 107851, 20, 107851) -- Focused Assault
 end
 
 function mod:IceTombStart(args)
 	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
 	self:Bar(args.spellId, args.spellName, 8, args.spellId)
-	self:FlashShake(args.spellId)
+	self:Flash(args.spellId)
 end
 
 do

@@ -111,7 +111,7 @@ if L then
 	L.ragnaros_back_message = "Raggy voltou, se preparem!"
 
 	L.wound = "Ferida de Queimadura"
-	L.wound_desc = "Alerta somente para tanques. Conta os stacks de ferida de queimadura e mostra uma barra com sua duração."
+	L.wound_desc = "Conta os stacks de ferida de queimadura e mostra uma barra com sua duração."
 	L.wound_message = "%2$dx Ferida em %1$s"
 end
 

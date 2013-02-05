@@ -112,7 +112,7 @@ if L then
 	L.ragnaros_back_message = "라그 돌아옴, 파티 정비!"
 
 	L.wound = "불타는 상처"
-	L.wound_desc = "!탱거만 경고! 불타는 상처의 지속바와 중첩 횟수를 표시합니다."
+	L.wound_desc = "불타는 상처의 지속바와 중첩 횟수를 표시합니다."
 	L.wound_message = "상처 x%2$d : %1$s"
 end
 

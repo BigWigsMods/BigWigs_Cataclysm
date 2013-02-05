@@ -39,7 +39,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		86193, "storm_shield",
-		{84645, "FLASHSHAKE"},
+		{84645, "FLASH"},
 		85422, 86281, 86205,
 		86307, "full_power", "berserk", "bosskill"
 	}, {
@@ -101,7 +101,7 @@ function mod:WindChill(args)
 			self:LocalMessage(args.spellId, L["wind_chill"]:format(args.amount), "Personal", args.spellId)
 		elseif args.amount == 8 then
 			self:LocalMessage(args.spellId, L["wind_chill"]:format(args.amount), "Personal", args.spellId, "Alarm")
-			self:FlashShake(args.spellId)
+			self:Flash(args.spellId)
 		end
 	end
 end

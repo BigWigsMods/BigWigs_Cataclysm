@@ -46,13 +46,12 @@ if L then
 	L.lightself_icon = 105925
 
 	L.lighttank = "Fading Light on Tanks"
-	L.lighttank_desc = "Tank alert only. If a tank has Fading Light, show an explode bar and Flash/Shake."
+	L.lighttank_desc = "If a tank has Fading Light, show an explode bar and Flash/Shake."
 	L.lighttank_bar = "<%s Explodes>"
 	L.lighttank_message = "Exploding Tank"
 	L.lighttank_icon = 105925
 end
 L = mod:GetLocale()
-L.lighttank = L.lighttank.." "..INLINE_TANK_ICON
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -60,8 +59,8 @@ L.lighttank = L.lighttank.." "..INLINE_TANK_ICON
 
 function mod:GetOptions(CL)
 	return {
-		{106371, "FLASHSHAKE"}, "cast",
-		105925, {"lightself", "FLASHSHAKE"}, {"lighttank", "FLASHSHAKE"},
+		{106371, "FLASH"}, "cast",
+		105925, {"lightself", "FLASH"}, {"lighttank", "FLASH", "TANK"},
 		"warmup", "crystal", "berserk", "bosskill",
 	}, {
 		[106371] = L["twilight"],
@@ -124,7 +123,7 @@ function mod:HourofTwilight(args)
 	hourCounter = hourCounter + 1
 	self:Bar(106371, ("%s (%d)"):format(args.spellName, hourCounter), 45, args.spellId)
 	self:Bar("cast", CL["cast"]:format(L["twilight"]), self:Heroic() and 3 or 5, args.spellId)
-	self:FlashShake(106371)
+	self:Flash(106371)
 end
 
 do
@@ -139,10 +138,10 @@ do
 		if UnitIsUnit(args.destName, "player") then
 			local _, _, _, _, _, duration = UnitDebuff("player", args.spellName)
 			self:Bar("lightself", L["lightself_bar"], duration, args.spellId)
-			self:FlashShake("lightself")
+			self:Flash("lightself")
 		else -- This is mainly a tanking assist
-			if args.spellId == 105925 and self:Tank() then
-				self:FlashShake("lighttank")
+			if args.spellId == 105925 then
+				self:Flash("lighttank")
 				local _, _, _, _, _, duration = UnitDebuff(args.destName, args.spellName)
 				self:Bar("lighttank", L["lighttank_bar"]:format(args.destName), duration, args.spellId)
 				self:LocalMessage("lighttank", L["lighttank_message"], "Attention", args.spellId, args.destName)

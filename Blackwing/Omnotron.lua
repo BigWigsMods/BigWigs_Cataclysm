@@ -42,9 +42,9 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{79501, "ICON", "FLASHSHAKE"},
-		{79888, "ICON", "FLASHSHAKE", "PROXIMITY"},
-		{80161, "FLASHSHAKE"}, {80157, "FLASHSHAKE", "SAY"}, 80053, {80094, "FLASHSHAKE", "WHISPER"},
+		{79501, "ICON", "FLASH"},
+		{79888, "ICON", "FLASH", "PROXIMITY"},
+		{80161, "FLASH"}, {80157, "FLASH", "SAY"}, 80053, {80094, "FLASH", "WHISPER"},
 		"nef", 91849, 91879, {92048, "ICON"}, 92023, {"switch", "ICON"},
 		"berserk", "bosskill"
 	}, {
@@ -93,7 +93,7 @@ do
 		for i = 1, 4 do
 			local bossId = ("boss%d"):format(i)
 			if UnitGUID(bossId) == sGUID and UnitIsUnit(bossId.."target", "player") then
-				mod:FlashShake(spellId)
+				mod:Flash(spellId)
 				mod:Say(spellId)
 				break
 			end
@@ -138,7 +138,7 @@ end
 
 function mod:ShadowInfusion(args)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Urgent", args.spellId)
 	self:Bar("nef", L["nef_next"], 35, 69005)
@@ -152,7 +152,7 @@ end
 
 function mod:AcquiringTarget(args)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, L["acquiring_target"], args.destName, "Urgent", args.spellId, "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
@@ -160,7 +160,7 @@ end
 
 function mod:Fixate(args)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 		self:LocalMessage(args.spellId, L["bomb_message"], "Personal", args.spellId, "Alarm")
 	else
 		self:Whisper(args.spellId, args.destName, L["bomb_message"], true)
@@ -169,7 +169,7 @@ end
 
 function mod:LightningConductor(args)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10) --assumed
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
@@ -194,7 +194,7 @@ do
 			last = time
 			if UnitIsUnit(args.destName, "player") then
 				self:LocalMessage(args.spellId, L["cloud_message"], "Personal", args.spellId, "Info")
-				self:FlashShake(args.spellId)
+				self:Flash(args.spellId)
 			end
 		end
 	end

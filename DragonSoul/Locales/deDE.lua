@@ -4,7 +4,7 @@ if L then
 	L.engage_trigger = "Ihr versucht, eine Lawine aufzuhalten. Ich werde Euch begraben."
 
 	L.crush = "Rüstung zerschmettern"
-	L.crush_desc = "Nur für Tanks. Zählt die Stapel von Rüstung zerschmettern und zeigt eine Timerleiste an."
+	L.crush_desc = "Zählt die Stapel von Rüstung zerschmettern und zeigt eine Timerleiste an."
 	L.crush_message = "%2$dx Rüstung zerschmettern: %1$s"
 
 	L.blood = "Schwarzes Blut"
@@ -34,7 +34,7 @@ L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "deDE")
 if L then
 	L.engage_trigger = "Iilth qi'uothk shn'ma yeh'glu Shath'Yar! H'IWN IILTH!"
 
-	L.bolt_desc = "Nur für Tanks. Zählt die Stapel von Leerenblitz und zeigt eine Timerleiste an."
+	L.bolt_desc = "Zählt die Stapel von Leerenblitz und zeigt eine Timerleiste an."
 	L.bolt_message = "%2$dx Blitz: %1$s"
 
 	L.blue = "|cFF0080FFBlau|r"
@@ -56,8 +56,6 @@ if L then
 	L.lightning_or_frost = "Blitz oder Eis"
 	L.ice_next = "Eisphase"
 	L.lightning_next = "Blitzphase"
-
-	L.assault_desc = "Nur für Tanks & Heiler. "..select(2, EJ_GetSectionInfo(4159))
 
 	L.nextphase = "Nächste Phase"
 	L.nextphase_desc = "Warnungen für die nächste Phase"
@@ -86,7 +84,7 @@ if L then
 	L.lightself_bar = "<Du Explodierst>"
 
 	L.lighttank = "Schwindendes Licht auf Tanks"
-	L.lighttank_desc = "Nur für Tanks. Wenn ein Tank von schwindendem Licht betroffen ist, werden eine Timerleiste sowie Flash & Shake für die Explosion angezeigt."
+	L.lighttank_desc = "Wenn ein Tank von schwindendem Licht betroffen ist, werden eine Timerleiste sowie Flash & Shake für die Explosion angezeigt."
 	L.lighttank_bar = "<%s Explodiert>"
 	L.lighttank_message = "Explodierender Tank"
 end
@@ -97,7 +95,7 @@ if L then
 	L.warmup_desc = "Zeit bis zum Starten des Bosskampfes."
 
 	L.sunder = "Rüstung zerreißen"
-	L.sunder_desc = "Nur für Tanks. Zählt die Stapel von Rüstung zerreißen und zeigt eine Timerleiste an."
+	L.sunder_desc = "Zählt die Stapel von Rüstung zerreißen und zeigt eine Timerleiste an."
 	L.sunder_message = "%2$dx Rüstung zerreißen: %1$s"
 
 	L.sapper_trigger = "Ein Drache stürzt herab, um einen Zwielichtpionier auf dem Deck abzusetzen!"

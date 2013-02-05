@@ -46,8 +46,8 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{86788, "ICON", "FLASHSHAKE", "WHISPER"}, {88518, "FLASHSHAKE"}, 86059, 86840,
-		{86622, "FLASHSHAKE", "SAY", "WHISPER"}, 86408, 86369, 93051,
+		{86788, "ICON", "FLASH", "WHISPER"}, {88518, "FLASH"}, 86059, 86840,
+		{86622, "FLASH", "SAY", "WHISPER"}, 86408, 86369, 93051,
 		"proximity", "phase_switch", "berserk", "bosskill"
 	}, {
 		[86788] = valiona,
@@ -162,7 +162,7 @@ end
 
 function mod:BlackoutApplied(args)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	else
 		self:PlaySound(args.spellId, "Alert")
 	end
@@ -187,7 +187,7 @@ do
 	local marked = mod:SpellName(88518)
 	function mod:MeteorCheck(unit)
 		if not markWarned and UnitDebuff(unit, marked) then
-			self:FlashShake(88518)
+			self:Flash(88518)
 			self:LocalMessage(88518, CL["you"]:format(marked), "Personal", 88518, "Long")
 			markWarned = true
 			self:ScheduleTimer(markRemoved, 7)
@@ -210,7 +210,7 @@ do
 	function mod:EngulfingMagicApplied(args)
 		if UnitIsUnit(args.destName, "player") then
 			self:Say(args.spellId, L["engulfingmagic_say"])
-			self:FlashShake(args.spellId)
+			self:Flash(args.spellId)
 			self:OpenProximity("proximity", 10)
 		end
 		emTargets[#emTargets + 1] = args.destName

@@ -36,7 +36,7 @@ function mod:GetOptions()
 		"ground_phase", 78075, 77840,
 		"air_phase",
 		{92677, "ICON", "SAY"},
-		{78092, "FLASHSHAKE", "ICON", "SAY"}, "berserk", "bosskill"
+		{78092, "FLASH", "ICON", "SAY"}, "berserk", "bosskill"
 	}, {
 		ground_phase = L["ground_phase"],
 		air_phase = L["air_phase"],
@@ -105,7 +105,7 @@ end
 function mod:Tracking(args)
 	if UnitIsUnit(args.destName, "player") then
 		self:Say(args.spellId)
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Alarm")
 	self:PrimaryIcon(args.spellId, args.destName)

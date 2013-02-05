@@ -37,7 +37,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		100002, {100129, "ICON"}, "berserk", "bosskill",
-		"immolation", {"immolationyou", "FLASHSHAKE"}, {"crystal", "SAY", "FLASHSHAKE"},
+		"immolation", {"immolationyou", "FLASH"}, {"crystal", "SAY", "FLASH"},
 	}, {
 		[100002] = "general",
 		["immolation"] = L["traps_header"],
@@ -79,10 +79,10 @@ do
 			timer = nil
 			if UnitIsUnit("boss1target", "player") then
 				if spellId == 99836 then
-					mod:FlashShake("crystal")
+					mod:Flash("crystal")
 					mod:Say("crystal", L["crystal_trap"])
 				else
-					mod:FlashShake("immolationyou")
+					mod:Flash("immolationyou")
 					mod:LocalMessage("immolationyou", CL["underyou"]:format(L["immolationyou_message"]), "Personal", spellId, "Alarm")
 				end
 			end

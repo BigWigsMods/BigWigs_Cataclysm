@@ -28,7 +28,7 @@ L = mod:GetLocale()
 --
 
 function mod:GetOptions()
-	return {96913, {96920, "FLASHSHAKE"}, 96884, "berserk", "bosskill"}
+	return {96913, {96920, "FLASH"}, 96884, "berserk", "bosskill"}
 end
 
 function mod:OnBossEnable()
@@ -61,7 +61,7 @@ function mod:SearingShadows(args)
 end
 
 function mod:Eyes(args)
-	self:FlashShake(args.spellId)
+	self:Flash(args.spellId)
 	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Alert")
 	self:Bar(args.spellId, L["destruction_bar"], 10, 96968) -- 96968 is Occu'thar's Destruction
 	self:Bar(args.spellId, L["eyes_bar"], 58, args.spellId)

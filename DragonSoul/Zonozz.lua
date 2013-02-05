@@ -43,7 +43,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		"ball", "bounce", "darkness",
-		"drain", {103434, "FLASHSHAKE", "SAY", "PROXIMITY"},
+		"drain", {103434, "FLASH", "SAY", "PROXIMITY"},
 		"berserk", "bosskill",
 	}, {
 		ball = "ej:3973",
@@ -120,7 +120,7 @@ function mod:ShadowsApplied(args)
 	if not self:LFR() and UnitIsUnit(args.destName, "player") then
 		self:LocalMessage(args.spellId, CL["you"]:format(L["shadows"]), "Personal", args.spellId, "Alert")
 		self:Say(args.spellId, L["shadows"])
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 		if self:Heroic() then
 			self:OpenProximity(args.spellId, 10)
 		end

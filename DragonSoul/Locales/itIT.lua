@@ -4,7 +4,7 @@ if L then
 	L.engage_trigger = "State cercando di fermare una valanga. Io vi seppelliro'."
 
 	L.crush = "Spacca Armatura"
-	L.crush_desc = "Avviso per i Difensori. Conta le stack di Spacca Armatura e mostra una barra di durata."
+	L.crush_desc = "Conta le stack di Spacca Armatura e mostra una barra di durata."
 	L.crush_message = "%2$dx Spacca Armatura su %1$s"
 
 	L.blood = "Sangue Nero della Terra"
@@ -34,7 +34,7 @@ L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "itIT")
 if L then
 	L.engage_trigger = "Iilth qi'uothk shn'ma yeh'glu Shath'Yar! H'IWN IILTH!"
 
-	L.bolt_desc = "Avviso per i Difensori. Conteggia le stack di Dardo del Vuoto e mostra un timer di durata."
+	L.bolt_desc = "Conteggia le stack di Dardo del Vuoto e mostra un timer di durata."
 	L.bolt_message = "%2$dx Dardo %1$s"
 
 	L.blue = "|cFF0080FFBlu|r"
@@ -57,8 +57,6 @@ if L then
 	L.lightning_or_frost = "Tempesta o Ghiaccio"
 	L.ice_next = "Fase del Ghiaccio"
 	L.lightning_next = "Fase dei Fulmini"
-
-	L.assault_desc = "Avviso per i Difensori e i curatori. "..select(2, EJ_GetSectionInfo(4159))
 
 	L.nextphase = "Prossima Fase"
 	L.nextphase_desc = "Avviso per la prossima fase."
@@ -87,7 +85,7 @@ if L then
 	L.lightself_bar = "<TU ESPLODI>"
 
 	L.lighttank = "Luce Calante sui Difensori"
-	L.lighttank_desc = "Avviso per i Difensori. Se un tank ha Luce Calante, visualizza una barra di esplosione che lampeggia e vibra."
+	L.lighttank_desc = "Se un tank ha Luce Calante, visualizza una barra di esplosione che lampeggia e vibra."
 	L.lighttank_bar = "<%s Esplode>"
 	L.lighttank_message = "I Difensori ESPLODONO"
 end
@@ -98,7 +96,7 @@ if L then
 	L.warmup_desc = "Tempo all'avvio del Combattimento."
 
 	L.sunder = "Sfondamento"
-	L.sunder_desc = "Avviso per i Difensori. Conteggia le stack di Sfondamento e visualizza una Timer di durata."
+	L.sunder_desc = "Conteggia le stack di Sfondamento e visualizza una Timer di durata."
 	L.sunder_message = "%2$dx Sfondamento su %1$s"
 
 	L.sapper_trigger = "Un drago lascia cadere un GENIERE sulla Nave!"

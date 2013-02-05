@@ -34,7 +34,7 @@ function mod:GetOptions()
 	return {
 		99259, "torment", "ej:2598", --Blades of Baleroc
 		"berserk", "bosskill",
-		{99516, "FLASHSHAKE", "ICON"}
+		{99516, "FLASH", "ICON"}
 	}, {
 		[99259] = "general",
 		[99516] = "heroic"
@@ -75,7 +75,7 @@ end
 function mod:Countdown(args)
 	countdownTargets[#countdownTargets + 1] = args.destName
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 	if countdownCounter == 1 then
 		self:PrimaryIcon(args.spellId, args.destName)

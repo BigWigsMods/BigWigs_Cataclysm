@@ -61,10 +61,10 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{77699, "ICON"}, {77760, "FLASHSHAKE", "WHISPER", "SAY"}, "proximity",
-		{77786, "FLASHSHAKE", "WHISPER", "ICON"}, 77679,
+		{77699, "ICON"}, {77760, "FLASH", "WHISPER", "SAY"}, "proximity",
+		{77786, "FLASH", "WHISPER", "ICON"}, 77679,
 		77991, 78194,
-		{"sludge", "FLASHSHAKE"},
+		{"sludge", "FLASH"},
 		"phase", 77912, 77569, 77896, "berserk", "bosskill"
 	}, {
 		[77699] = L["blue_phase"],
@@ -140,7 +140,7 @@ do
 		if (time - last) > 2 then
 			last = time
 			self:LocalMessage("sludge", L["sludge_message"], "Personal", args.spellId, "Info")
-			self:FlashShake("sludge")
+			self:Flash("sludge")
 		end
 	end
 end
@@ -241,7 +241,7 @@ end
 
 function mod:ConsumingFlames(args)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Info")
 	self:Whisper(args.spellId, args.destName, args.spellName)
@@ -268,7 +268,7 @@ do
 		chillTargets[#chillTargets + 1] = args.destName
 		if UnitIsUnit(args.destName, "player") then
 			self:Say(args.spellId)
-			self:FlashShake(args.spellId)
+			self:Flash(args.spellId)
 			isChilled = true
 		end
 		if not scheduled then

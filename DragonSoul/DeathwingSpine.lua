@@ -50,7 +50,7 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		105248, "residue", 105490, {105845, "FLASHSHAKE"}, {"roll", "FLASHSHAKE"},
+		105248, "residue", 105490, {105845, "FLASH"}, {"roll", "FLASH"},
 		105848, "bosskill",
 	}
 end
@@ -118,7 +118,7 @@ do
 	function mod:AboutToRoll()
 		self:Bar("roll", L["roll"], 5, L["roll_icon"])
 		self:Message("roll", CL["custom_sec"]:format(L["roll"], 5), "Attention", L["roll_icon"], "Long")
-		self:FlashShake("roll")
+		self:Flash("roll")
 		if timer then self:CancelTimer(timer) end
 		timer = self:ScheduleRepeatingTimer(graspCheck, 0.8)
 	end
@@ -283,7 +283,7 @@ end
 function mod:Nuclear(args)
 	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Info")
 	self:Bar(args.spellId, args.spellName, 5, args.spellId)
-	self:FlashShake(args.spellId)
+	self:Flash(args.spellId)
 end
 
 function mod:Seal(args)

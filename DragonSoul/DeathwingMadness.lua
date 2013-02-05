@@ -55,9 +55,9 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		"bigtentacle", "impale", "smalltentacles", {105651, "FLASHSHAKE"}, "hemorrhage", 106523,
-		"last_phase", "fragment", {106794, "FLASHSHAKE"}, "terror",
-		{"ej:4347", "FLASHSHAKE", "ICON", "PROXIMITY", "SAY"}, "ej:4351",
+		"bigtentacle", "impale", "smalltentacles", {105651, "FLASH"}, "hemorrhage", 106523,
+		"last_phase", "fragment", {106794, "FLASH"}, "terror",
+		{"ej:4347", "FLASH", "ICON", "PROXIMITY", "SAY"}, "ej:4351",
 		"berserk", "bosskill",
 	}, {
 		bigtentacle = "ej:4040",
@@ -172,7 +172,7 @@ function mod:AssaultAspects()
 end
 
 function mod:ElementiumBolt(args)
-	self:FlashShake(args.spellId)
+	self:Flash(args.spellId)
 	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Long")
 	self:Bar(args.spellId, L["bolt_explode"], UnitBuff("player", self:SpellName(110628)) and 18 or 8, args.spellId)
 end
@@ -191,7 +191,7 @@ function mod:Shrapnel(args)
 	if UnitIsUnit(args.destName, "player") then
 		local you = CL["you"]:format(args.spellName)
 		self:LocalMessage(106794, you, "Important", args.spellId, "Long")
-		self:FlashShake(106794)
+		self:Flash(106794)
 		self:Bar(106794, you, 7, args.spellId)
 	end
 end
@@ -201,7 +201,7 @@ function mod:Parasite(args)
 	self:TargetMessage("ej:4347", L["parasite"], args.destName, "Urgent", args.spellId)
 	self:PrimaryIcon("ej:4347", args.destName)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake("ej:4347")
+		self:Flash("ej:4347")
 		self:Bar("ej:4347", CL["you"]:format(L["parasite"]), 10, args.spellId)
 		self:OpenProximity("ej:4347", 10)
 		self:Say("ej:4347", L["parasite"])

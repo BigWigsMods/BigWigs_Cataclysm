@@ -25,7 +25,7 @@ if L then
 	L.warmup_icon = "achievment_boss_blackhorn"
 
 	L.sunder = "Sunder Armor"
-	L.sunder_desc = "Tank alert only. Count the stacks of sunder armor and show a duration bar."
+	L.sunder_desc = "Count the stacks of sunder armor and show a duration bar."
 	L.sunder_icon = 108043
 	L.sunder_message = "%2$dx Sunder on %1$s"
 
@@ -37,7 +37,6 @@ if L then
 	L.stage2_trigger = "Looks like I'm doing this myself. Good!"
 end
 L = mod:GetLocale()
-L.sunder = L.sunder.." "..INLINE_TANK_ICON
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -46,7 +45,7 @@ L.sunder = L.sunder.." "..INLINE_TANK_ICON
 function mod:GetOptions(CL)
 	return {
 		107588, "sapper",
-		"sunder", {108046, "SAY", "FLASHSHAKE"}, {108076, "SAY", "FLASHSHAKE", "ICON"}, 108044,
+		{"sunder", "TANK"}, {108046, "SAY", "FLASH"}, {108076, "SAY", "FLASH", "ICON"}, 108044,
 		"warmup", "berserk", "bosskill",
 	}, {
 		[107588] = "ej:4027",
@@ -126,7 +125,7 @@ do
 			if not player then return end
 			if UnitIsUnit("player", player) then
 				mod:Say(spellId)
-				mod:FlashShake(spellId)
+				mod:Flash(spellId)
 				mod:LocalMessage(spellId, spellId, "Personal", spellId, "Long") -- Twilight Flames
 			end
 			mod:PrimaryIcon(spellId, player)
@@ -155,7 +154,7 @@ do
 			mod:CancelTimer(timer)
 			timer = nil
 			if UnitIsUnit("boss2target", "player") then
-				mod:FlashShake(spellId)
+				mod:Flash(spellId)
 				mod:Say(spellId)
 			end
 			return
@@ -177,12 +176,10 @@ do
 end
 
 function mod:Sunder(args)
-	if self:Tank() then
-		local buffStack = args.amount or 1
-		self:StopBar(L["sunder_message"]:format(args.destName, buffStack - 1))
-		self:Bar("sunder", L["sunder_message"]:format(args.destName, buffStack), 30, args.spellId)
-		self:LocalMessage("sunder", L["sunder_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
-	end
+	local buffStack = args.amount or 1
+	self:StopBar(L["sunder_message"]:format(args.destName, buffStack - 1))
+	self:Bar("sunder", L["sunder_message"]:format(args.destName, buffStack), 30, args.spellId)
+	self:LocalMessage("sunder", L["sunder_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
 end
 
 function mod:Roar(args)

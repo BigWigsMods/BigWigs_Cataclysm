@@ -4,7 +4,7 @@ if L then
 	L.engage_trigger = "계란으로 바위를 치려 드는군. 내가 널 묻어주마."
 
 	L.crush = "갑옷 으깨기"
-	L.crush_desc = "!탱거만 경고! 갑옷 으깨기의 지속시간 바와 중첩 횟수를 표시합니다."
+	L.crush_desc = "갑옷 으깨기의 지속시간 바와 중첩 횟수를 표시합니다."
 	L.crush_message = "으깨기 x%2$d : %1$s"
 
 	L.blood = "검은 피"
@@ -34,7 +34,7 @@ L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "koKR")
 if L then
 	L.engage_trigger = "릴스 퀴요툭 샨마 예글루 셰아스야! 하인 릴스!"
 
-	L.bolt_desc = "!탱거만 경고! 공허의 화살 중첩과 지속시간 바를 표시합니다."
+	L.bolt_desc = "공허의 화살 중첩과 지속시간 바를 표시합니다."
 	L.bolt_message = "공허의 화살 x%2$d : %1$s"
 
 	L.blue = "|cFF0080FF파랑|r"
@@ -56,8 +56,6 @@ if L then
 	L.lightning_or_frost = "얼음 또는 번개"
 	L.ice_next = "얼음 단계"
 	L.lightning_next = "번개 단계"
-
-	L.assault_desc = "탱커 & 힐러만 경고합니다. "..select(2, EJ_GetSectionInfo(4159))
 
 	L.nextphase = "다음 단계"
 	L.nextphase_desc = "다음 단계에 대하여 알립니다."
@@ -86,7 +84,7 @@ if L then
 	L.lightself_bar = "<당신의 폭발>"
 
 	L.lighttank = "탱커에 대한 사그라지는 빛"
-	L.lighttank_desc = "!탱거만 경고! 탱커일경우 사그라지는 빛일때 번쩍임과 진동, 폭발까지 남은 시간을 바에 표시합니다."
+	L.lighttank_desc = "탱커일경우 사그라지는 빛일때 번쩍임과 진동, 폭발까지 남은 시간을 바에 표시합니다."
 	L.lighttank_bar = "<%s 폭발>"
 	L.lighttank_message = "탱커 폭발"
 end
@@ -97,7 +95,7 @@ if L then
 	L.warmup_desc = "전투가 시작되기까지의 타이머입니다."
 
 	L.sunder = "방어구 가르기"
-	L.sunder_desc = "!탱거만 경고! 방어구 가르기의 지속시간 바와 중첩 횟수를 표시합니다."
+	L.sunder_desc = "방어구 가르기의 지속시간 바와 중첩 횟수를 표시합니다."
 	L.sunder_message = "방어구 가르기 x%2$d : %1$s"
 
 	L.sapper_trigger = "비룡이 빠르게 날아와 황혼의 폭파병을 갑판에 떨어뜨립니다!"

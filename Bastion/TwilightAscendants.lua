@@ -52,19 +52,19 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		-- Ignacious
-		82631, {82660, "FLASHSHAKE"},
+		82631, {82660, "FLASH"},
 		-- Feludius
-		82746, {82665, "FLASHSHAKE"}, 82762,
+		82746, {82665, "FLASH"}, 82762,
 		-- Arion
-		83067, {83099, "SAY", "FLASHSHAKE"},
+		83067, {83099, "SAY", "FLASH"},
 		-- Terrastra
 		83565, 83718,
 		-- Monstrosity
 		{84948, "ICON"},
 		-- Heroic
-		{92067, "FLASHSHAKE", "SAY", "ICON"},
-		{92075, "FLASHSHAKE", "SAY", "ICON"},
-		{92307, "FLASHSHAKE", "ICON", "WHISPER"},
+		{92067, "FLASH", "SAY", "ICON"},
+		{92075, "FLASH", "SAY", "ICON"},
+		{92307, "FLASH", "ICON", "WHISPER"},
 		-- General
 		"proximity", "switch", "bosskill"
 	}, {
@@ -147,7 +147,7 @@ do
 		end
 		if UnitIsUnit(args.destName, "player") then
 			self:Say(args.spellId)
-			self:FlashShake(args.spellId)
+			self:Flash(args.spellId)
 			self:OpenProximity("proximity", 10)
 		end
 	end
@@ -186,7 +186,7 @@ end
 function mod:GravityCore(args)
 	if UnitIsUnit(args.destName, "player") then
 		self:Say(args.spellId, L["gravity_core_say"])
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
@@ -199,7 +199,7 @@ end
 function mod:StaticOverload(args)
 	if UnitIsUnit(args.destName, "player") then
 		self:Say(args.spellId, L["static_overload_say"])
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
@@ -211,7 +211,7 @@ end
 
 function mod:FrostBeacon(args)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
 	self:Whisper(args.spellId, args.destName, args.spellName)
@@ -266,14 +266,14 @@ end
 function mod:HeartofIce(args)
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 end
 
 function mod:BurningBlood(args)
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
 	if UnitIsUnit(args.destName, "player") then
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	end
 end
 

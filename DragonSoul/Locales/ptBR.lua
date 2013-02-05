@@ -4,7 +4,7 @@ if L then
 	L.engage_trigger = "Vocês querem deter uma avalanche. Mas eu vou soterrar vocês."
 
 	L.crush = "Esmagar armadura"
-	L.crush_desc = "Alerta somente para tanques. Mostra os stacks de Esmagar armadura e uma barra com sua duração."
+	L.crush_desc = "Mostra os stacks de Esmagar armadura e uma barra com sua duração."
 	L.crush_message = "%2$dx Esmagar em %1$s"
 
 	L.blood = "Sangue"
@@ -34,7 +34,7 @@ L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "ptBR")
 if L then
 	L.engage_trigger = "Iilth qi'uothk shn'ma yeh'glu Shath'Yar! H'IWN IILTH!"
 
-	L.bolt_desc = "Alerta para tanques. conta os stacks de Seta Caótica e mostra uma barra com sua duração."
+	L.bolt_desc = "Conta os stacks de Seta Caótica e mostra uma barra com sua duração."
 	L.bolt_message = "%2$dx Seta em %1$s"
 
 	L.blue = "|cFF0080FFAzul|r"
@@ -56,8 +56,6 @@ if L then
 	L.lightning_or_frost = "Relâmpago ou Gelo"
 	L.ice_next = "Fase de Gelo"
 	L.lightning_next = "Fase de Relâmpago"
-
-	L.assault_desc = "Alerta somente para Tanques & Curadores. "..select(2, EJ_GetSectionInfo(4159))
 
 	L.nextphase = "Próxima fase"
 	L.nextphase_desc = "Avisos para a próxima fase"
@@ -86,7 +84,7 @@ if L then
 	L.lightself_bar = "<Você explode!>"
 
 	L.lighttank = "Luz efêmera em tanquer"
-	L.lighttank_desc = "Alerta para tanques. Se um tanque está com a Luz efêmera, mostrará uma barra e piscará para a explosão."
+	L.lighttank_desc = "Se um tanque está com a Luz efêmera, mostrará uma barra e piscará para a explosão."
 	L.lighttank_bar = "<%s explode!>"
 	L.lighttank_message = "Tanque explodindo"
 end
@@ -97,7 +95,7 @@ if L then
 	L.warmup_desc = "Tempo até que o combate comece."
 
 	L.sunder = "Fender armadura"
-	L.sunder_desc = "Alerta para tanques. Mostra os stacks de Fender armadura e uma barra com sua duração."
+	L.sunder_desc = "Mostra os stacks de Fender armadura e uma barra com sua duração."
 	L.sunder_message = "%2$dx Fender em %1$s"
 
 	L.sapper_trigger = "Um draco mergulha para lançar um Sapador do Crepúsculo ao convés!"

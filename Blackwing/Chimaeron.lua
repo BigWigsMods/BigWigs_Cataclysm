@@ -30,7 +30,7 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		"warmup", 82848, 88826, 82881, {88853, "FLASHSHAKE"}, 82935, 82890,
+		"warmup", 82848, 88826, 82881, {88853, "FLASH"}, 82935, 82890,
 		"proximity", "berserk", "bosskill"
 	}, {
 		warmup = "normal",
@@ -78,7 +78,7 @@ function mod:SystemFailureStart(args)
 	self:StopBar(L["next_system_failure"])
 	self:Bar(args.spellId, args.spellId, 30, args.spellId)
 	self:Message(args.spellId, args.spellId, "Important", args.spellId, "Alarm")
-	self:FlashShake(args.spellId)
+	self:Flash(args.spellId)
 	self:CloseProximity()
 end
 
@@ -87,7 +87,7 @@ function mod:SystemFailureEnd(args)
 		if not self:Heroic() then
 			self:Bar(args.spellId, L["next_system_failure"], 65, args.spellId)
 		end
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 		self:OpenProximity("proximity", 6)
 	end
 end

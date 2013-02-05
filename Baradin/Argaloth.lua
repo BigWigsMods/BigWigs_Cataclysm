@@ -28,7 +28,7 @@ L = mod:GetLocale()
 --
 
 function mod:GetOptions()
-	return {88942, 88954, {88972, "FLASHSHAKE"}, "berserk", "bosskill"}
+	return {88942, 88954, {88972, "FLASH"}, "berserk", "bosskill"}
 end
 
 function mod:OnBossEnable()
@@ -74,7 +74,7 @@ end
 function mod:FelFirestorm(args)
 	self:StopBar(L["meteor_bar"])
 	self:Message(args.spellId, fireStorm.."% - "..args.spellName, "Urgent", args.spellId, "Alert")
-	self:FlashShake(args.spellId)
+	self:Flash(args.spellId)
 	self:Bar(88942, "~"..self:SpellName(88942), 32, 88942) -- Meteor Slash
 end
 

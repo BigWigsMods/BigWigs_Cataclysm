@@ -43,9 +43,9 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{99052, "FLASHSHAKE"}, "drone", "spinner",
+		{99052, "FLASH"}, "drone", "spinner",
 		99506, 99497, "flare",
-		{99559, "FLASHSHAKE", "WHISPER"}, {99990, "FLASHSHAKE", "SAY"},
+		{99559, "FLASH", "WHISPER"}, {99990, "FLASH", "SAY"},
 		"bosskill"
 	}, {
 		[99052] = "ej:2764",
@@ -108,7 +108,7 @@ function mod:BroodlingWatcher()
 		lastBroodlingTarget = UnitName(broodling.."target")
 		self:TargetMessage(99990, 99990, lastBroodlingTarget, "Important", 99990, "Alert") -- Volatile Burst
 		if UnitIsUnit(lastBroodlingTarget, "player") then
-			self:FlashShake(99990)
+			self:Flash(99990)
 			self:Say(99990)
 		end
 	end
@@ -118,7 +118,7 @@ function mod:Fixate(args)
 	if not UnitIsPlayer(args.destName) then return end --Affects the NPC and a player
 	self:TargetMessage(99559, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
 	if UnitIsUnit("player", args.destName) then
-		self:FlashShake(99559)
+		self:Flash(99559)
 		self:Whisper(99559, args.destName, CL["you"]:format(args.spellName))
 	end
 end
@@ -142,7 +142,7 @@ function mod:Devastate(args)
 		local devastate = L["devastate_message"]:format(devastateCount)
 		self:Message(args.spellId, devastate, "Important", args.spellId, "Long")
 		self:Bar(args.spellId, CL["cast"]:format(devastate), 8, args.spellId)
-		self:FlashShake(args.spellId)
+		self:Flash(args.spellId)
 	else
 		self:Message(args.spellId, L["devastate_message"]:format(devastateCount), "Attention", args.spellId)
 	end

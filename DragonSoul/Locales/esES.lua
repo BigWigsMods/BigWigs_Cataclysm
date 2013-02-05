@@ -4,7 +4,7 @@ if L then
 	L.engage_trigger = "Pretendéis detener una avalancha. Os sepultaré."
 
 	L.crush = "Machacar armadura"
-	L.crush_desc = "Alerta solo para tanques. Muestra los stacs de Machacar armadura y una barra con su duración."
+	L.crush_desc = "Muestra los stacs de Machacar armadura y una barra con su duración."
 	L.crush_message = "%2$dx Machacar en %1$s"
 
 	L.blood = "Sangre"
@@ -34,7 +34,7 @@ L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "esES") or BigWigs:NewBossL
 if L then
 	L.engage_trigger = "¡Iilth qi'uothk shn'ma yeh'glu Shath'Yar! ¡H'IWN IILTH!"
 
-	L.bolt_desc = "Alerta para tanques. Cuenta los stacs de Descarga de Vacío y muestra una barra con su duración."
+	L.bolt_desc = "Cuenta los stacs de Descarga de Vacío y muestra una barra con su duración."
 	L.bolt_message = "%2$dx Descarga en %1$s"
 
 	L.blue = "|cFF0080FFAzul|r"
@@ -56,8 +56,6 @@ if L then
 	L.lightning_or_frost = "Relámpago o Hielo"
 	L.ice_next = "Fase de Hielo"
 	L.lightning_next = "Fase de Relámpago"
-
-	L.assault_desc = "Alerta solo para Tanques & Sanadores. "..select(2, EJ_GetSectionInfo(4159))
 
 	L.nextphase = "Siguiente Fase"
 	L.nextphase_desc = "Avisos para la siguiente fase"
@@ -86,7 +84,7 @@ if L then
 	L.lightself_bar = "<Explotas>"
 
 	L.lighttank = "Luz mortecina en tanques"
-	L.lighttank_desc = "Alerta para tanques. Si un tanque tiene Luz mortecina, muestra una barra y un Flash para la explosión."
+	L.lighttank_desc = "Si un tanque tiene Luz mortecina, muestra una barra y un Flash para la explosión."
 	L.lighttank_bar = "<%s Explota>"
 	L.lighttank_message = "Tanque explotando"
 end
@@ -97,7 +95,7 @@ if L then
 	L.warmup_desc = "Tiempo hasta que el combate comience."
 
 	L.sunder = "Hender armadura"
-	L.sunder_desc = "Alerta para tanques. Muestra los stacs de Hender armadura y una barra con su duración."
+	L.sunder_desc = "Muestra los stacs de Hender armadura y una barra con su duración."
 	L.sunder_message = "%2$dx Hender en %1$s"
 
 	L.sapper_trigger = "¡Un draco desciende para dejar a un zapador Crepuscular en la cubierta!"
