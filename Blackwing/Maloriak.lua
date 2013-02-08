@@ -160,7 +160,7 @@ do
 		currentPhase = "red"
 		self:StopBar(flashFreeze)
 		self:Bar(77679, scorchingBlast, 25, 77679)
-		self:Message("phase", L["red_phase"], "Positive", "Interface\\Icons\\INV_POTION_24", "Long")
+		self:Message("phase", L["red_phase"], "Positive", "INV_POTION_24", "Long")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -171,7 +171,7 @@ do
 		currentPhase = "blue"
 		self:StopBar(scorchingBlast)
 		self:Bar(77699, flashFreeze, 28, 77699)
-		self:Message("phase", L["blue_phase"], "Positive", "Interface\\Icons\\INV_POTION_20", "Long")
+		self:Message("phase", L["blue_phase"], "Positive", "INV_POTION_20", "Long")
 		self:OpenProximity("proximity", 5)
 		nextPhase(47)
 	end
@@ -180,7 +180,7 @@ do
 		currentPhase = "green"
 		self:StopBar(scorchingBlast)
 		self:StopBar(flashFreeze)
-		self:Message("phase", L["green_phase"], "Positive", "Interface\\Icons\\INV_POTION_162", "Long")
+		self:Message("phase", L["green_phase"], "Positive", "INV_POTION_162", "Long")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -191,7 +191,7 @@ do
 	function mod:Dark()
 		if currentPhase == "dark" then return end
 		currentPhase = "dark"
-		self:Message("phase", L["dark_phase"], "Positive", "Interface\\Icons\\INV_ELEMENTAL_PRIMAL_SHADOW", "Long")
+		self:Message("phase", L["dark_phase"], "Positive", "INV_ELEMENTAL_PRIMAL_SHADOW", "Long")
 		if not isChilled then
 			self:CloseProximity()
 		end

@@ -139,7 +139,7 @@ do
 end
 
 function mod:BlazingInferno()
-	self:Message("blazing", L["blazing_message"], "Urgent", "Interface\\Icons\\SPELL_SHADOW_RAISEDEAD", "Info")
+	self:Message("blazing", L["blazing_message"], "Urgent", "SPELL_SHADOW_RAISEDEAD", "Info")
 	self:Bar("blazing", L["blazing_bar"], 35, "SPELL_SHADOW_RAISEDEAD")
 end
 
