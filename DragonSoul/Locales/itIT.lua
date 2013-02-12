@@ -4,7 +4,7 @@ if L then
 	L.engage_trigger = "State cercando di fermare una valanga. Io vi seppelliro'."
 
 	L.crush = "Spacca Armatura"
-	L.crush_desc = "Conta le stack di Spacca Armatura e mostra una barra di durata."
+	L.crush_desc = "Conta gli accumuli di Spacca Armatura e mostra una barra di durata."
 	L.crush_message = "%2$dx Spacca Armatura su %1$s"
 
 	L.blood = "Sangue Nero della Terra"
@@ -96,14 +96,14 @@ if L then
 	L.warmup_desc = "Tempo all'avvio del Combattimento."
 
 	L.sunder = "Sfondamento"
-	L.sunder_desc = "Conteggia le stack di Sfondamento e visualizza una Timer di durata."
+	L.sunder_desc = "Conteggia fli accumuli di Sfondamento e visualizza una Timer di durata."
 	L.sunder_message = "%2$dx Sfondamento su %1$s"
 
 	L.sapper_trigger = "Un drago lascia cadere un GENIERE sulla Nave!"
 	L.sapper = "Geniere"
 	L.sapper_desc = "Il Geniere danneggia la nave"
 
-	L.stage2_trigger = "Sembra che dovro' fare tutto da solo. Bene!"
+	L.stage2_trigger = "Sembra che dovrò fare tutto da solo. Bene!"
 end
 
 L = BigWigs:NewBossLocale("Spine of Deathwing", "itIT")
@@ -126,7 +126,7 @@ end
 
 L = BigWigs:NewBossLocale("Madness of Deathwing", "itIT")
 if L then
-	L.engage_trigger = "Non potete far nulla. Distruggero' il vostro Mondo."
+	L.engage_trigger = "Non potete far nulla. Distruggerò il vostro Mondo."
 	L.smalltentacles_desc = "Al 70% e al 40% di vita il Tentacolo dell'Arto genera alcuni Tentacoli Brucianti che sono immuni alle Spell AOE."
 	L.bolt_explode = "<Esplosione del Dardo>"
 	L.parasite = "Parassita"

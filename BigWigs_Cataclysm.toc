@@ -1,7 +1,9 @@
 ## Interface: 50100
 
 ## Title: Big Wigs [|cffeda55fCataclysm|r]
+## Title-itIT: Big Wigs [|cffeda55fCataclysm|r]
 ## Notes: A collection of Big Wigs modules from the Cataclysm era.
+## Notes-itIT: Una collezione di moduli Big Wigs dell'era di Cataclysm.
 
 ## LoadOnDemand: 1
 ## Dependencies: BigWigs
