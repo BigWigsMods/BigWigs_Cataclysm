@@ -213,7 +213,7 @@ function mod:FlashFreezeRemoved(args)
 end
 
 function mod:Remedy(args)
-	if self:GetCID(args.destGUID) == 41378 then
+	if self:MobId(args.destGUID) == 41378 then
 		self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alarm")
 	end
 end

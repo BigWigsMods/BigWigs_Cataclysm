@@ -76,13 +76,13 @@ end
 --
 
 function mod:Obsidian(args)
-	if self:GetCID(args.destGUID) == 52558 then
+	if self:MobId(args.destGUID) == 52558 then
 		self:Message("armor", L["armor_gone_message"], "Positive", args.spellId)
 	end
 end
 
 function mod:ObsidianStack(args)
-	if args.amount % 20 == 0 and self:GetCID(args.destGUID) == 52558 then -- Only warn every 20
+	if args.amount % 20 == 0 and self:MobId(args.destGUID) == 52558 then -- Only warn every 20
 		self:Message("armor", L["armor_message"]:format(args.amount), "Positive", args.spellId)
 	end
 end
@@ -105,7 +105,7 @@ function mod:Stomp(args)
 end
 
 function mod:MoltenArmor(args)
-	if args.amount > 3 and args.amount % 2 == 0 and self:GetCID(args.destGUID) == 52558 then
+	if args.amount > 3 and args.amount % 2 == 0 and self:MobId(args.destGUID) == 52558 then
 		self:Message(98255, L["molten_message"]:format(args.amount), "Attention", args.spellId)
 	end
 end

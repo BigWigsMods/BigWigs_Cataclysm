@@ -216,7 +216,7 @@ do
 		48050,
 	}
 	function mod:WhelpWatcher(args)
-		local mobId = self:GetCID(args.sourceGUID)
+		local mobId = self:MobId(args.sourceGUID)
 		for i, v in next, whelpIds do
 			if mobId == v then whelpGUIDs[args.sourceGUID] = true end
 		end

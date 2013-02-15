@@ -106,7 +106,7 @@ end
 function mod:WaryDog(args)
 	-- We use the Immolation Trap IDs as we only want to warn for Wary after a
 	-- Immolation Trap not a Crystal Trap, which also applies Wary.
-	local creatureId = self:GetCID(args.destGUID)
+	local creatureId = self:MobId(args.destGUID)
 	if creatureId == 53695 or creatureId == 53694 then
 		self:Message("immolation", L["wary_dog"]:format(args.destName), "Attention", 100167)
 		self:Bar("immolation", L["wary_dog"]:format(args.destName), self:Heroic() and 25 or 15, 100167)
