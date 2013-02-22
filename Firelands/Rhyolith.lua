@@ -44,7 +44,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		98552, 98136,
-		"armor", 97282, 98255, "ej:2537", 101304, "bosskill"
+		"armor", 97282, 98255, -2537, 101304, "bosskill"
 	}, {
 		[98552] = L["adds_header"],
 		["armor"] = "general"
@@ -115,7 +115,7 @@ do
 	function mod:UNIT_HEALTH_FREQUENT(unitId)
 		local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
 		if hp < 30 then -- phase starts at 25
-			self:Message("ej:2537", L["phase2_warning"], "Positive", 99846, "Info")
+			self:Message(-2537, L["phase2_warning"], "Positive", 99846, "Info")
 			self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unitId)
 			local _, _, _, stack = UnitBuff(unitId, moltenArmor)
 			if stack then

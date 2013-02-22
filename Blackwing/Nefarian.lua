@@ -53,7 +53,7 @@ function mod:GetOptions()
 		{79339, "FLASH", "SAY", "PROXIMITY"}, "berserk",
 		"phase", "bosskill"
 	}, {
-		[77939] = "ej:3283", -- Onyxia
+		[77939] = -3283, -- Onyxia
 		[78999] = "normal",
 		[79339] = "heroic",
 		phase = "general"

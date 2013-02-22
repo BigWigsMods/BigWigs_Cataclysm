@@ -48,8 +48,8 @@ function mod:GetOptions()
 		{99559, "FLASH", "WHISPER"}, {99990, "FLASH", "SAY"},
 		"bosskill"
 	}, {
-		[99052] = "ej:2764",
-		[99506] = "ej:2782",
+		[99052] = -2764,
+		[99506] = -2782,
 		[99559] = "heroic",
 		bosskill = "general"
 	}

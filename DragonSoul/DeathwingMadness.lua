@@ -57,12 +57,12 @@ function mod:GetOptions()
 	return {
 		"bigtentacle", "impale", "smalltentacles", {105651, "FLASH"}, "hemorrhage", 106523,
 		"last_phase", "fragment", {106794, "FLASH"}, "terror",
-		{"ej:4347", "FLASH", "ICON", "PROXIMITY", "SAY"}, "ej:4351",
+		{-4347, "FLASH", "ICON", "PROXIMITY", "SAY"}, -4351,
 		"berserk", "bosskill",
 	}, {
-		bigtentacle = "ej:4040",
-		last_phase = "ej:4046",
-		["ej:4347"] = "heroic",
+		bigtentacle = -4040,
+		last_phase = -4046,
+		[-4347] = "heroic",
 		berserk = "general",
 	}
 end
@@ -149,7 +149,7 @@ function mod:AssaultAspects()
 		self:Bar(105651, 105651, 40.5, 105651) -- Elementium Bolt
 		if self:Heroic() then
 			self:Bar("hemorrhage", 105863, 55.5, 105863) -- Hemorrhage
-			self:Bar("ej:4347", L["parasite"], 11, 108649)
+			self:Bar(-4347, L["parasite"], 11, 108649)
 		else
 			self:Bar("hemorrhage", 105863, 85.5, 105863) -- Hemorrhage
 		end
@@ -161,7 +161,7 @@ function mod:AssaultAspects()
 		self:Bar(105651, 105651, 55.5, 105651) -- Elementium Bolt
 		if self:Heroic() then
 			self:Bar("hemorrhage", 105863, 70.5, 105863) -- Hemorrhage
-			self:Bar("ej:4347", L["parasite"], 22.5, 108649)
+			self:Bar(-4347, L["parasite"], 22.5, 108649)
 		else
 			self:Bar("hemorrhage", 105863, 100.5, 105863) -- Hemorrhage
 		end
@@ -198,38 +198,38 @@ end
 
 function mod:Parasite(args)
 	paraCount = paraCount + 1
-	self:TargetMessage("ej:4347", L["parasite"], args.destName, "Urgent", args.spellId)
-	self:PrimaryIcon("ej:4347", args.destName)
+	self:TargetMessage(-4347, L["parasite"], args.destName, "Urgent", args.spellId)
+	self:PrimaryIcon(-4347, args.destName)
 	if UnitIsUnit(args.destName, "player") then
-		self:Flash("ej:4347")
-		self:Bar("ej:4347", CL["you"]:format(L["parasite"]), 10, args.spellId)
-		self:OpenProximity("ej:4347", 10)
-		self:Say("ej:4347", L["parasite"])
+		self:Flash(-4347)
+		self:Bar(-4347, CL["you"]:format(L["parasite"]), 10, args.spellId)
+		self:OpenProximity(-4347, 10)
+		self:Say(-4347, L["parasite"])
 	else
-		self:Bar("ej:4347", CL["other"]:format(L["parasite"], args.destName), 10, args.spellId)
+		self:Bar(-4347, CL["other"]:format(L["parasite"], args.destName), 10, args.spellId)
 	end
 	if paraCount < 2 then
-		self:Bar("ej:4347", L["parasite"], 60, 108649)
+		self:Bar(-4347, L["parasite"], 60, 108649)
 	end
 end
 
 function mod:ParasiteRemoved(args)
-	self:PrimaryIcon("ej:4347")
+	self:PrimaryIcon(-4347)
 	if UnitIsUnit(args.destName, "player") then
-		self:CloseProximity("ej:4347")
+		self:CloseProximity(-4347)
 	end
 end
 
 function mod:BlobsWarn(unitId)
 	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
 	if hp > 14.9 and hp < 16 and curPercent == 20 then
-		self:Message("ej:4351", L["blobs_soon"]:format(15), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
+		self:Message(-4351, L["blobs_soon"]:format(15), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
 		curPercent = 15
 	elseif hp > 9.9 and hp < 11 and curPercent == 15 then
-		self:Message("ej:4351", L["blobs_soon"]:format(10), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
+		self:Message(-4351, L["blobs_soon"]:format(10), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
 		curPercent = 10
 	elseif hp > 4.9 and hp < 6 and curPercent == 10 then
-		self:Message("ej:4351", L["blobs_soon"]:format(5), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
+		self:Message(-4351, L["blobs_soon"]:format(5), "Positive", "ability_deathwing_bloodcorruption_earth", "Info")
 		curPercent = 5
 		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unitId)
 	end

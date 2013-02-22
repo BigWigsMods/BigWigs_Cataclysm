@@ -48,8 +48,8 @@ function mod:GetOptions(CL)
 		{"sunder", "TANK"}, {108046, "SAY", "FLASH"}, {108076, "SAY", "FLASH", "ICON"}, 108044,
 		"warmup", "berserk", "bosskill",
 	}, {
-		[107588] = "ej:4027",
-		sunder = "ej:4033",
+		[107588] = -4027,
+		sunder = -4033,
 		warmup = CL["general"],
 	}
 end

@@ -48,9 +48,9 @@ function mod:GetOptions()
 		"nef", 91849, 91879, {92048, "ICON"}, 92023, {"switch", "ICON"},
 		"berserk", "bosskill"
 	}, {
-		[79501] = "ej:3207", -- Electron
-		[79888] = "ej:3201", -- Magmatron
-		[80161] = "ej:3208", -- Toxitron
+		[79501] = -3207, -- Electron
+		[79888] = -3201, -- Magmatron
+		[80161] = -3208, -- Toxitron
 		nef = "heroic",
 		switch = "general"
 	}

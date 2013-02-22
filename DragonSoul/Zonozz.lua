@@ -46,7 +46,7 @@ function mod:GetOptions()
 		"drain", {103434, "FLASH", "SAY", "PROXIMITY"},
 		"berserk", "bosskill",
 	}, {
-		ball = "ej:3973",
+		ball = -3973,
 		drain = "general",
 	}
 end

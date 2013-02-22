@@ -32,7 +32,7 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		99259, "torment", "ej:2598", --Blades of Baleroc
+		99259, "torment", -2598, --Blades of Baleroc
 		"berserk", "bosskill",
 		{99516, "FLASH", "ICON"}
 	}, {
@@ -55,7 +55,7 @@ end
 function mod:OnEngage()
 	self:Berserk(360)
 	self:Bar(99259, 99259, 5, 99259) -- Shard of Torment
-	self:Bar("ej:2598", L["blade_bar"], 30, 99352)
+	self:Bar(-2598, L["blade_bar"], 30, 99352)
 	if self:Heroic() then
 		self:Bar(99516, L["link_message"], 25, 99516) -- Countdown
 		countdownCounter = 1
@@ -68,8 +68,8 @@ end
 --
 
 function mod:Blades(args)
-	self:Message("ej:2598", args.spellName, "Attention", args.spellId)
-	self:Bar("ej:2598", L["blade_bar"], 47, args.spellId)
+	self:Message(-2598, args.spellName, "Attention", args.spellId)
+	self:Bar(-2598, L["blade_bar"], 47, args.spellId)
 end
 
 function mod:Countdown(args)

@@ -56,7 +56,7 @@ local colorCombinations = {
 
 function mod:GetOptions()
 	return {
-		"blobs", {"bolt", "TANK"}, "acid", "ej:4321", "proximity", "berserk", "bosskill"
+		"blobs", {"bolt", "TANK"}, "acid", -4321, "proximity", "berserk", "bosskill"
 	}
 end
 
@@ -116,7 +116,7 @@ function mod:AcidicRemoved()
 end
 
 function mod:DeepCorruption(args)
-	self:LocalMessage("ej:4321", 23401, "Personal", args.spellId, "Alert") -- Corrupted Healing
+	self:LocalMessage(-4321, 23401, "Personal", args.spellId, "Alert") -- Corrupted Healing
 end
 
 do

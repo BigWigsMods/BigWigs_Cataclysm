@@ -68,11 +68,11 @@ function mod:GetOptions()
 		-- General
 		"proximity", "switch", "bosskill"
 	}, {
-		[82631] = "ej:3118", -- Ignacious
-		[82746] = "ej:3110", -- Feludius
-		[83067] = "ej:3123", -- Arion
-		[83565] = "ej:3125", -- Terrastra
-		[84948] = "ej:3145", -- Elementium Monstrosity
+		[82631] = -3118, -- Ignacious
+		[82746] = -3110, -- Feludius
+		[83067] = -3123, -- Arion
+		[83565] = -3125, -- Terrastra
+		[84948] = -3145, -- Elementium Monstrosity
 		[92067] = "heroic",
 		proximity = "general",
 	}

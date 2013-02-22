@@ -39,11 +39,11 @@ function mod:GetOptions()
 	return {
 		{104448, "FLASH"}, 105256, {105316, "PROXIMITY"}, {109325, "ICON", "FLASH", "PROXIMITY", "SAY"},
 		105409,
-		{"ej:4159", "TANK_HEALER"}, 108934, "nextphase", "berserk", "bosskill",
+		{-4159, "TANK_HEALER"}, 108934, "nextphase", "berserk", "bosskill",
 	}, {
 		[104448] = L["ice_next"],
 		[105409] = L["lightning_next"],
-		["ej:4159"] = "general",
+		[-4159] = "general",
 	}
 end
 
@@ -76,9 +76,9 @@ end
 --
 
 function mod:Assault(args)
-	self:LocalMessage("ej:4159", args.spellName, "Urgent", args.spellId)
-	self:Bar("ej:4159", "~"..args.spellName, 15, args.spellId)
-	self:Bar("ej:4159", "<"..args.spellName..">", 5, args.spellId)
+	self:LocalMessage(-4159, args.spellName, "Urgent", args.spellId)
+	self:Bar(-4159, "~"..args.spellName, 15, args.spellId)
+	self:Bar(-4159, "<"..args.spellName..">", 5, args.spellId)
 end
 
 function mod:FrostFlakeApplied(args)
@@ -116,7 +116,7 @@ function mod:Feedback(args)
 	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
 	self:Bar(args.spellId, args.spellName, 15, args.spellId)
 	self:Bar("nextphase", nextPhase, 63, nextPhaseIcon)
-	self:Bar("ej:4159", 107851, 20, 107851) -- Focused Assault
+	self:Bar(-4159, 107851, 20, 107851) -- Focused Assault
 end
 
 function mod:IceTombStart(args)
