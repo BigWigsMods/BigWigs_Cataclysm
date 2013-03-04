@@ -76,15 +76,15 @@ end
 --
 
 function mod:Assault(args)
-	self:LocalMessage(-4159, args.spellName, "Urgent", args.spellId)
+	self:Message(-4159, args.spellName, "Urgent", args.spellId)
 	self:Bar(-4159, "~"..args.spellName, 15, args.spellId)
 	self:Bar(-4159, "<"..args.spellName..">", 5, args.spellId)
 end
 
 function mod:FrostFlakeApplied(args)
 	self:PrimaryIcon(args.spellId, args.destName)
-	if UnitIsUnit("player", args.destName) then
-		self:LocalMessage(args.spellId, CL["you"]:format(args.spellName), "Personal", args.spellId, "Long")
+	if self:Me(args.destGUID) then
+		self:Message(args.spellId, CL["you"]:format(args.spellName), "Personal", args.spellId, "Long")
 		self:Say(args.spellId)
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10)
@@ -93,7 +93,7 @@ end
 
 function mod:FrostFlakeRemoved(args)
 	self:PrimaryIcon(args.spellId)
-	if UnitIsUnit("player", args.destName) then
+	if self:Me(args.destGUID) then
 		self:CloseProximity(args.spellId)
 	end
 end
@@ -148,7 +148,7 @@ do
 	end
 	function mod:IceLanceApplied(args)
 		playerTbl[#playerTbl + 1] = args.destName
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			self:OpenProximity(105316, 3)
 		end
 		if not scheduled then
@@ -159,7 +159,7 @@ do
 end
 
 function mod:IceLanceRemoved(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:CloseProximity(105316)
 	end
 end

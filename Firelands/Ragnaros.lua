@@ -199,7 +199,7 @@ function mod:FixatedCheck(unit)
 	local fixated = UnitDebuff(unit, fixate)
 	if fixated and not fixateWarned then
 		fixateWarned = true
-		self:LocalMessage(99849, CL["you"]:format(fixate), "Personal", 99849, "Long")
+		self:Message(99849, CL["you"]:format(fixate), "Personal", 99849, "Long")
 		self:Say(99849)
 		self:Flash(99849)
 	elseif not fixated and fixateWarned then
@@ -297,7 +297,7 @@ do
 	end
 	function mod:BlazingHeat(args)
 		blazingHeatTargets[#blazingHeatTargets + 1] = args.destName
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			self:Say(args.spellId)
 			self:Flash(args.spellId)
 		end
@@ -333,7 +333,7 @@ end
 function mod:SonDeaths()
 	sons = sons - 1
 	if sons < 4 then
-		self:LocalMessage(98953, L["sons_left"]:format(sons), "Positive", 98473) -- the speed buff icon on the sons
+		self:Message(98953, L["sons_left"]:format(sons), "Positive", 98473) -- the speed buff icon on the sons
 	end
 end
 

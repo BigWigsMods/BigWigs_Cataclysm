@@ -88,7 +88,7 @@ function mod:Bolt(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["bolt_message"]:format(args.destName, buffStack - 1))
 	self:Bar("bolt", L["bolt_message"]:format(args.destName, buffStack), 12, args.spellId)
-	self:LocalMessage("bolt", L["bolt_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
+	self:Message("bolt", L["bolt_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
 end
 
 function mod:Blobs(_, _, _, _, spellId)
@@ -116,7 +116,7 @@ function mod:AcidicRemoved()
 end
 
 function mod:DeepCorruption(args)
-	self:LocalMessage(-4321, 23401, "Personal", args.spellId, "Alert") -- Corrupted Healing
+	self:Message(-4321, 23401, "Personal", args.spellId, "Alert") -- Corrupted Healing
 end
 
 do

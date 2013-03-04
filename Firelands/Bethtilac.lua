@@ -45,7 +45,7 @@ function mod:GetOptions()
 	return {
 		{99052, "FLASH"}, "drone", "spinner",
 		99506, 99497, "flare",
-		{99559, "FLASH", "WHISPER"}, {99990, "FLASH", "SAY"},
+		{99559, "FLASH"}, {99990, "FLASH", "SAY"},
 		"bosskill"
 	}, {
 		[99052] = -2764,
@@ -117,9 +117,8 @@ end
 function mod:Fixate(args)
 	if not UnitIsPlayer(args.destName) then return end --Affects the NPC and a player
 	self:TargetMessage(99559, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
-	if UnitIsUnit("player", args.destName) then
+	if self:Me(args.destGUID) then
 		self:Flash(99559)
-		self:Whisper(99559, args.destName, CL["you"]:format(args.spellName))
 	end
 end
 

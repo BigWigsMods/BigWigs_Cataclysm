@@ -53,7 +53,7 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		"slump", 79011, 89773, 78006, {78941, "FLASH", "WHISPER", "PROXIMITY"}, 77690,
+		"slump", 79011, 89773, 78006, {78941, "FLASH", "PROXIMITY"}, 77690,
 		"blazing", "armageddon", {"phase2", "PROXIMITY"},
 		"berserk", "bosskill"
 	}, {
@@ -156,17 +156,15 @@ function mod:PillarOfFlame(args)
 end
 
 function mod:Infection(args)
-	if UnitIsUnit(args.destName, "player") then
-		self:LocalMessage(78941, L["infection_message"], "Personal", args.spellId, "Alarm")
+	if self:Me(args.destGUID) then
+		self:Message(78941, L["infection_message"], "Personal", args.spellId, "Alarm")
 		self:Flash(78941)
 		self:OpenProximity(78941, 8)
-	else
-		self:Whisper(78941, args.destName, L["infection_message"], true)
 	end
 end
 
 function mod:InfectionRemoved(args)
-	if phase == 1 and UnitIsUnit(args.destName, "player") then
+	if phase == 1 and self:Me(args.destGUID) then
 		self:CloseProximity(78941)
 	end
 end

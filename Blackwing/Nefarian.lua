@@ -113,9 +113,9 @@ do
 	local prev = 0
 	function mod:PersonalShadowBlaze(args)
 		local t = GetTime()
-		if (t - prev) > 1 and UnitIsUnit(args.destName, "player") then
+		if (t - prev) > 1 and self:Me(args.destGUID) then
 			prev = t
-			self:LocalMessage(args.spellId, L["shadowblaze_message"], "Personal", args.spellId, "Info")
+			self:Message(args.spellId, L["shadowblaze_message"], "Personal", args.spellId, "Info")
 			self:Flash(args.spellId)
 		end
 	end
@@ -197,7 +197,7 @@ do
 	end
 	function mod:ExplosiveCindersApplied(args)
 		cinderTargets[#cinderTargets + 1] = args.destName
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			self:Flash(args.spellId)
 			self:Say(args.spellId)
 			self:Bar(args.spellId, args.spellName, 8, args.spellId)
@@ -211,7 +211,7 @@ do
 end
 
 function mod:ExplosiveCindersRemoved(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:CloseProximity(args.spellId)
 	end
 end

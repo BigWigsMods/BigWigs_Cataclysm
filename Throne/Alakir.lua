@@ -47,7 +47,7 @@ function mod:GetOptions(CL)
 		87904,
 		"stormling",
 		88301,
-		{89668, "ICON", "FLASH", "WHISPER"}, 89588, 87770, "proximity",
+		{89668, "ICON", "FLASH"}, 89588, 87770, "proximity",
 		87873,
 		88427, "phase", "berserk", "bosskill"
 	}, {
@@ -88,7 +88,7 @@ end
 
 function mod:OnEngage()
 	self:Berserk(600)
-	self:Bar(87770, 87770, 22, 87770) -- Windburst
+	self:Bar(87770, 22) -- Windburst
 	phase, lastWindburst = 1, 0
 	acidRainCounter, acidRainCounted = 1, nil
 	shock = nil
@@ -99,61 +99,61 @@ end
 --
 
 do
-	local function Shocker(spellName)
+	local function Shocker()
 		if phase == 1 then
-			mod:Bar(87873, spellName, 10, 87873)
-			mod:ScheduleTimer(Shocker, 10, spellName)
+			mod:Bar(87873, 10)
+			mod:ScheduleTimer(Shocker, 10)
 		end
 	end
 	function mod:Shock(args)
 		if not shock then
 			--Do we need a looping timer here?
-			Shocker(args.spellName)
+			Shocker()
 			shock = true
 		end
 	end
 end
 
 function mod:Cloud(args)
-	if not UnitIsUnit(args.destName, "player") then return end
-	self:LocalMessage(args.spellId, CL["you"]:format(args.spellName), "Urgent", args.spellId, "Alarm")
+	if self:Me(args.destGUID) then
+		self:Message(args.spellId, "Urgent", "Alarm", CL["you"]:format(args.spellName))
+	end
 end
 
 function mod:LightningRod(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 		self:OpenProximity("proximity", 20)
 	end
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Long")
-	self:Whisper(args.spellId, args.destName, args.spellName)
+	self:TargetMessage(args.spellId, args.destName, "Personal", "Long")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
 function mod:RodRemoved(args)
 	self:PrimaryIcon(args.spellId) -- De-mark
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:CloseProximity()
 	end
 end
 
 function mod:Phase2(args)
 	if phase >= 2 then return end
-	self:Message("phase", CL["phase"]:format(2), "Positive", args.spellId, "Info")
+	self:Message("phase", "Positive", "Info", CL["phase"]:format(2), args.spellId)
 	self:StopBar(87770) -- Windburst
 	phase = 2
 end
 
 local function CloudSpawn(spellId)
-	mod:Bar(spellId, spellId, 10, spellId) -- Lightning Clouds
-	mod:Message(spellId, spellId, "Important", spellId, "Info") -- Lightning Clouds
-	mod:ScheduleTimer(CloudSpawn, 10)
+	mod:Bar(spellId, 10) -- Lightning Clouds
+	mod:Message(spellId, "Important", "Info") -- Lightning Clouds
+	mod:ScheduleTimer(CloudSpawn, 10, spellId)
 end
 
 function mod:Phase3()
 	if phase >= 3 then return end
-	self:Message("phase", CL["phase"]:format(3), "Positive", 88301)
-	self:Bar(87770, 87770, 24, 87770) -- Windburst
-	self:Bar(89588, 89588, 16, 89588) -- Lightning Clouds
+	self:Message("phase", "Positive", nil, CL["phase"]:format(3), 88301)
+	self:Bar(87770, 24) -- Windburst
+	self:Bar(89588, 16) -- Lightning Clouds
 	self:ScheduleTimer(CloudSpawn, 16, 89588)
 	self:StopBar(L["stormling_bar"])
 	self:StopBar(87904) -- Feedback
@@ -164,8 +164,8 @@ end
 function mod:Feedback(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["feedback_message"]:format(buffStack-1))
-	self:Bar(args.spellId, L["feedback_message"]:format(buffStack), self:Heroic() and 20 or 30, args.spellId)
-	self:Message(args.spellId, L["feedback_message"]:format(buffStack), "Positive", args.spellId)
+	self:Bar(args.spellId, self:Heroic() and 20 or 30, L["feedback_message"]:format(buffStack))
+	self:Message(args.spellId, "Positive", nil, L["feedback_message"]:format(buffStack))
 end
 
 do
@@ -176,30 +176,30 @@ do
 		if acidRainCounted then return end
 		acidRainCounter, acidRainCounted = acidRainCounter + 1, true
 		self:ScheduleTimer(clearCount, 12) -- 15 - 3
-		self:Bar(args.spellId, L["acid_rain"]:format(acidRainCounter), 15, args.spellId) -- do we really want counter on bar too?
-		self:Message(args.spellId, L["acid_rain"]:format(acidRainCounter), "Attention", args.spellId)
+		self:Bar(args.spellId, 15, L["acid_rain"]:format(acidRainCounter)) -- do we really want counter on bar too?
+		self:Message(args.spellId, "Attention", nil, L["acid_rain"]:format(acidRainCounter))
 	end
 end
 
 function mod:Electrocute(args)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId)
+	self:TargetMessage(args.spellId, args.destName, "Personal")
 end
 
 function mod:WindBurst1(args)
-	self:Bar(args.spellId, args.spellName, 26, args.spellId)
-	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
+	self:Bar(args.spellId, 26)
+	self:Message(args.spellId, "Important", "Alert")
 end
 
 function mod:WindBurst3(args)
 	if (GetTime() - lastWindburst) > 5 then
-		self:Bar(87770, args.spellName, 19, args.spellId) -- 22 was too long, 19 should work
-		self:Message(87770, args.spellName, "Attention", args.spellId)
+		self:Bar(87770, 19, args.spellName, args.spellId) -- 22 was too long, 19 should work
+		self:Message(87770, "Attention", nil, args.spellName, args.spellId)
 	end
 	lastWindburst = GetTime()
 end
 
 function mod:Stormling()
-	self:Bar("stormling", L["stormling_bar"], 20, 75096)
-	self:Message("stormling", L["stormling_message"], "Important", 75096)
+	self:Bar("stormling", 20, L["stormling_bar"], 75096)
+	self:Message("stormling", "Important", nil, L["stormling_message"], 75096)
 end
 

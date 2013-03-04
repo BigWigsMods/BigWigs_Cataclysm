@@ -144,13 +144,13 @@ do
 		end
 	end
 	function mod:StartFlying(args)
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			self:Bar("flight", flying, 30, 98619)
 			self:RegisterUnitEvent("UNIT_AURA", "FlightCheck", "player")
 		end
 	end
 	function mod:StopFlying(args)
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			self:UnregisterUnitEvent("UNIT_AURA", "player")
 		end
 	end

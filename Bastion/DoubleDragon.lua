@@ -46,8 +46,8 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{86788, "ICON", "FLASH", "WHISPER"}, {88518, "FLASH"}, 86059, 86840,
-		{86622, "FLASH", "SAY", "WHISPER"}, 86408, 86369, 93051,
+		{86788, "ICON", "FLASH"}, {88518, "FLASH"}, 86059, 86840,
+		{86622, "FLASH", "SAY"}, 86408, 86369, 93051,
 		"proximity", "phase_switch", "berserk", "bosskill"
 	}, {
 		[86788] = valiona,
@@ -101,7 +101,7 @@ do
 		local bossId = UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
 		if not UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
 		if UnitIsUnit(bossId, "player") then
-			mod:LocalMessage(spellId, CL["you"]:format(L["blast_message"]), "Personal", spellId, "Long")
+			mod:Message(spellId, CL["you"]:format(L["blast_message"]), "Personal", spellId, "Long")
 		end
 	end
 	function mod:TwilightBlast(args)
@@ -161,14 +161,13 @@ function mod:DeepBreath()
 end
 
 function mod:BlackoutApplied(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	else
 		self:PlaySound(args.spellId, "Alert")
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Alert")
 	self:Bar(args.spellId, args.spellName, 45, args.spellId)
-	self:Whisper(args.spellId, args.destName, args.spellName)
 	self:PrimaryIcon(args.spellId, args.destName)
 	self:CloseProximity()
 end
@@ -188,7 +187,7 @@ do
 	function mod:MeteorCheck(unit)
 		if not markWarned and UnitDebuff(unit, marked) then
 			self:Flash(88518)
-			self:LocalMessage(88518, CL["you"]:format(marked), "Personal", 88518, "Long")
+			self:Message(88518, CL["you"]:format(marked), "Personal", 88518, "Long")
 			markWarned = true
 			self:ScheduleTimer(markRemoved, 7)
 		end
@@ -208,7 +207,7 @@ do
 		scheduled = nil
 	end
 	function mod:EngulfingMagicApplied(args)
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			self:Say(args.spellId, L["engulfingmagic_say"])
 			self:Flash(args.spellId)
 			self:OpenProximity("proximity", 10)
@@ -218,12 +217,11 @@ do
 			scheduled = true
 			self:ScheduleTimer(emWarn, 0.3, args.spellName, args.spellId)
 		end
-		self:Whisper(args.spellId, args.destName, args.spellName)
 	end
 end
 
 function mod:EngulfingMagicRemoved(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:CloseProximity()
 	end
 end

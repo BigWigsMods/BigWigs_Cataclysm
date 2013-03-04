@@ -64,7 +64,7 @@ function mod:GetOptions()
 		-- Heroic
 		{92067, "FLASH", "SAY", "ICON"},
 		{92075, "FLASH", "SAY", "ICON"},
-		{92307, "FLASH", "ICON", "WHISPER"},
+		{92307, "FLASH", "ICON"},
 		-- General
 		"proximity", "switch", "bosskill"
 	}, {
@@ -145,7 +145,7 @@ do
 			scheduled = true
 			self:ScheduleTimer(lrWarn, 0.3, args.spellName, args.spellId)
 		end
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			self:Say(args.spellId)
 			self:Flash(args.spellId)
 			self:OpenProximity("proximity", 10)
@@ -178,13 +178,13 @@ do
 end
 
 function mod:LightningRodRemoved(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:CloseProximity()
 	end
 end
 
 function mod:GravityCore(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Say(args.spellId, L["gravity_core_say"])
 		self:Flash(args.spellId)
 	end
@@ -197,7 +197,7 @@ function mod:GravityCoreRemoved(args)
 end
 
 function mod:StaticOverload(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Say(args.spellId, L["static_overload_say"])
 		self:Flash(args.spellId)
 	end
@@ -210,11 +210,10 @@ function mod:StaticOverloadRemoved(args)
 end
 
 function mod:FrostBeacon(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
-	self:Whisper(args.spellId, args.destName, args.spellName)
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -258,21 +257,21 @@ function mod:Glaciate(args)
 end
 
 function mod:Waterlogged(args)
-	if UnitIsUnit(args.destName, "player") then
-		self:LocalMessage(args.spellId, args.spellName, "Personal", args.spellId, "Long")
+	if self:Me(args.destGUID) then
+		self:Message(args.spellId, args.spellName, "Personal", args.spellId, "Long")
 	end
 end
 
 function mod:HeartofIce(args)
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 end
 
 function mod:BurningBlood(args)
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 end
@@ -296,7 +295,7 @@ do
 			mod:CancelTimer(hardenTimer)
 			return
 		end
-		mod:LocalMessage(83565, L["thundershock_quake_spam"]:format(quake, timeLeft), "Personal", icon, "Info")
+		mod:Message(83565, L["thundershock_quake_spam"]:format(quake, timeLeft), "Personal", icon, "Info")
 		timeLeft = timeLeft - 2
 	end
 
@@ -323,7 +322,7 @@ do
 			mod:CancelTimer(thunderTimer)
 			return
 		end
-		mod:LocalMessage(83067, L["thundershock_quake_spam"]:format(thundershock, timeLeft), "Personal", icon, "Info")
+		mod:Message(83067, L["thundershock_quake_spam"]:format(thundershock, timeLeft), "Personal", icon, "Info")
 		timeLeft = timeLeft - 2
 	end
 

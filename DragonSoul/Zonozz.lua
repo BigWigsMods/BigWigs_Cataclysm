@@ -117,8 +117,8 @@ function mod:ShadowsCast(args)
 end
 
 function mod:ShadowsApplied(args)
-	if not self:LFR() and UnitIsUnit(args.destName, "player") then
-		self:LocalMessage(args.spellId, CL["you"]:format(L["shadows"]), "Personal", args.spellId, "Alert")
+	if not self:LFR() and self:Me(args.destGUID) then
+		self:Message(args.spellId, CL["you"]:format(L["shadows"]), "Personal", args.spellId, "Alert")
 		self:Say(args.spellId, L["shadows"])
 		self:Flash(args.spellId)
 		if self:Heroic() then
@@ -128,7 +128,7 @@ function mod:ShadowsApplied(args)
 end
 
 function mod:ShadowsRemoved(args)
-	if not self:LFR() and UnitIsUnit(args.destName, "player") then
+	if not self:LFR() and self:Me(args.destGUID) then
 		self:CloseProximity(args.spellId)
 	end
 end

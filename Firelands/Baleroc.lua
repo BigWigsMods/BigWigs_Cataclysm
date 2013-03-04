@@ -74,7 +74,7 @@ end
 
 function mod:Countdown(args)
 	countdownTargets[#countdownTargets + 1] = args.destName
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 	if countdownCounter == 1 then
@@ -100,8 +100,8 @@ function mod:Shards(args)
 end
 
 function mod:Torment(args)
-	if UnitIsUnit("focus", args.destName) and args.amount > 1 then
-		self:LocalMessage("torment", L["focus_message"]:format(args.amount), "Personal", args.spellId, args.amount > 5 and "Info")
+	if self:Me(args.destGUID) and args.amount > 1 then
+		self:Message("torment", L["focus_message"]:format(args.amount), "Personal", args.spellId, args.amount > 5 and "Info")
 	end
 end
 

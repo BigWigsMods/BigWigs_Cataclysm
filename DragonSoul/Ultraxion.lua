@@ -135,7 +135,7 @@ do
 	end
 	function mod:FadingLight(args)
 		lightTargets[#lightTargets + 1] = args.destName
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			local _, _, _, _, _, duration = UnitDebuff("player", args.spellName)
 			self:Bar("lightself", L["lightself_bar"], duration, args.spellId)
 			self:Flash("lightself")
@@ -144,7 +144,7 @@ do
 				self:Flash("lighttank")
 				local _, _, _, _, _, duration = UnitDebuff(args.destName, args.spellName)
 				self:Bar("lighttank", L["lighttank_bar"]:format(args.destName), duration, args.spellId)
-				self:LocalMessage("lighttank", L["lighttank_message"], "Attention", args.spellId, args.destName)
+				self:Message("lighttank", L["lighttank_message"], "Attention", args.spellId, args.destName)
 				self:PlaySound("lighttank", "Alarm")
 			end
 		end

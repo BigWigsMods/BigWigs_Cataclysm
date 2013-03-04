@@ -109,8 +109,8 @@ do
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			if UnitIsUnit(args.destName, "player") then
-				self:LocalMessage(args.spellId, L["blaze_message"], "Personal", args.spellId, "Info")
+			if self:Me(args.destGUID) then
+				self:Message(args.spellId, L["blaze_message"], "Personal", args.spellId, "Info")
 				self:Flash(args.spellId)
 			end
 		end
@@ -151,7 +151,7 @@ do
 			local sick = UnitDebuff(unit, sickness)
 			if sick then
 				prev = t
-				self:LocalMessage(82235, L["sickness_message"], "Personal", 81831, "Long")
+				self:Message(82235, L["sickness_message"], "Personal", 81831, "Long")
 				self:OpenProximity(82235, 5)
 				self:Flash(82235)
 			end

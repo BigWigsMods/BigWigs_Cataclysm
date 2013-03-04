@@ -159,7 +159,7 @@ function mod:ScorpionForm(args)
 end
 
 function mod:SearingSeedsRemoved(args)
-	if not UnitIsUnit(args.destName, "player") then return end
+	if not self:Me(args.destGUID) then return end
 	self:StopBar(L["seed_bar"])
 	if form == "cat" then
 		self:OpenProximity(98374, 10)
@@ -176,14 +176,14 @@ end
 
 do
 	local function searingSeed(spellId)
-		mod:LocalMessage(spellId, L["seed_explosion"], "Personal", spellId, "Alarm")
+		mod:Message(spellId, L["seed_explosion"], "Personal", spellId, "Alarm")
 		mod:Flash(spellId)
 		mod:OpenProximity(spellId, 12)
 	end
 
 	function mod:SearingSeeds(args)
 		self:StopBar(98476) -- Leaping Flames
-		if not UnitIsUnit(args.destName, "player") then return end
+		if not self:Me(args.destGUID) then return end
 		local _, _, _, _, _, _, remaining = UnitDebuff("player", args.spellName)
 		remaining = remaining - GetTime()
 		self:Bar(args.spellId, L["seed_bar"], remaining, args.spellId)

@@ -61,8 +61,8 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{77699, "ICON"}, {77760, "FLASH", "WHISPER", "SAY"}, "proximity",
-		{77786, "FLASH", "WHISPER", "ICON"}, 77679,
+		{77699, "ICON"}, {77760, "FLASH", "SAY"}, "proximity",
+		{77786, "FLASH", "ICON"}, 77679,
 		77991, 78194,
 		{"sludge", "FLASH"},
 		"phase", 77912, 77569, 77896, "berserk", "bosskill"
@@ -135,11 +135,11 @@ end
 do
 	local last = 0
 	function mod:DarkSludge(args)
-		if not UnitIsUnit(args.destName, "player") then return end
+		if not self:Me(args.destGUID) then return end
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			self:LocalMessage("sludge", L["sludge_message"], "Personal", args.spellId, "Info")
+			self:Message("sludge", L["sludge_message"], "Personal", args.spellId, "Info")
 			self:Flash("sludge")
 		end
 	end
@@ -240,11 +240,10 @@ do
 end
 
 function mod:ConsumingFlames(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Info")
-	self:Whisper(args.spellId, args.destName, args.spellName)
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -266,7 +265,7 @@ do
 	end
 	function mod:BitingChill(args)
 		chillTargets[#chillTargets + 1] = args.destName
-		if UnitIsUnit(args.destName, "player") then
+		if self:Me(args.destGUID) then
 			self:Say(args.spellId)
 			self:Flash(args.spellId)
 			isChilled = true
@@ -279,7 +278,7 @@ do
 end
 
 function mod:BitingChillRemoved(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		isChilled = nil
 		if currentPhase ~= "blue" then
 			self:CloseProximity()

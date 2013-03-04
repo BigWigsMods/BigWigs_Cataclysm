@@ -111,7 +111,7 @@ do
 			mod:CancelTimer(timer)
 		end
 		if not UnitDebuff("player", tendrils) and not UnitIsDead("player") then -- Grasping Tendrils
-			mod:LocalMessage("roll", L["not_hooked"], "Personal", 105563, "Alert")
+			mod:Message("roll", L["not_hooked"], "Personal", 105563, "Alert")
 		end
 	end
 

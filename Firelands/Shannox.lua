@@ -83,7 +83,7 @@ do
 					mod:Say("crystal", L["crystal_trap"])
 				else
 					mod:Flash("immolationyou")
-					mod:LocalMessage("immolationyou", CL["underyou"]:format(L["immolationyou_message"]), "Personal", spellId, "Alarm")
+					mod:Message("immolationyou", CL["underyou"]:format(L["immolationyou_message"]), "Personal", spellId, "Alarm")
 				end
 			end
 			return

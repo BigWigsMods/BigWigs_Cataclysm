@@ -44,7 +44,7 @@ function mod:GetOptions()
 	return {
 		{79501, "ICON", "FLASH"},
 		{79888, "ICON", "FLASH", "PROXIMITY"},
-		{80161, "FLASH"}, {80157, "FLASH", "SAY"}, 80053, {80094, "FLASH", "WHISPER"},
+		{80161, "FLASH"}, {80157, "FLASH", "SAY"}, 80053, {80094, "FLASH"},
 		"nef", 91849, 91879, {92048, "ICON"}, 92023, {"switch", "ICON"},
 		"berserk", "bosskill"
 	}, {
@@ -137,7 +137,7 @@ function mod:Grip(args)
 end
 
 function mod:ShadowInfusion(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, args.spellName, args.destName, "Urgent", args.spellId)
@@ -151,7 +151,7 @@ function mod:EncasingShadows(args)
 end
 
 function mod:AcquiringTarget(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 	self:TargetMessage(args.spellId, L["acquiring_target"], args.destName, "Urgent", args.spellId, "Alarm")
@@ -159,16 +159,14 @@ function mod:AcquiringTarget(args)
 end
 
 function mod:Fixate(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
-		self:LocalMessage(args.spellId, L["bomb_message"], "Personal", args.spellId, "Alarm")
-	else
-		self:Whisper(args.spellId, args.destName, L["bomb_message"], true)
+		self:Message(args.spellId, L["bomb_message"], "Personal", args.spellId, "Alarm")
 	end
 end
 
 function mod:LightningConductor(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10) --assumed
 	end
@@ -177,7 +175,7 @@ function mod:LightningConductor(args)
 end
 
 function mod:LightningConductorRemoved(args)
-	if not UnitIsUnit(args.destName, "player") then return end
+	if not self:Me(args.destGUID) then return end
 	self:CloseProximity(args.spellId)
 end
 
@@ -192,8 +190,8 @@ do
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			if UnitIsUnit(args.destName, "player") then
-				self:LocalMessage(args.spellId, L["cloud_message"], "Personal", args.spellId, "Info")
+			if self:Me(args.destGUID) then
+				self:Message(args.spellId, L["cloud_message"], "Personal", args.spellId, "Info")
 				self:Flash(args.spellId)
 			end
 		end

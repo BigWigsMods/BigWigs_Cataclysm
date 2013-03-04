@@ -104,7 +104,7 @@ end
 --
 
 function mod:Impale(args)
-	self:LocalMessage("impale", args.spellName, "Urgent", args.spellId, "Alarm")
+	self:Message("impale", args.spellName, "Urgent", args.spellId, "Alarm")
 	self:Bar("impale", args.spellName, 35, args.spellId)
 end
 
@@ -188,9 +188,9 @@ function mod:AgonizingPain()
 end
 
 function mod:Shrapnel(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		local you = CL["you"]:format(args.spellName)
-		self:LocalMessage(106794, you, "Important", args.spellId, "Long")
+		self:Message(106794, you, "Important", args.spellId, "Long")
 		self:Flash(106794)
 		self:Bar(106794, you, 7, args.spellId)
 	end
@@ -200,7 +200,7 @@ function mod:Parasite(args)
 	paraCount = paraCount + 1
 	self:TargetMessage(-4347, L["parasite"], args.destName, "Urgent", args.spellId)
 	self:PrimaryIcon(-4347, args.destName)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Flash(-4347)
 		self:Bar(-4347, CL["you"]:format(L["parasite"]), 10, args.spellId)
 		self:OpenProximity(-4347, 10)
@@ -215,7 +215,7 @@ end
 
 function mod:ParasiteRemoved(args)
 	self:PrimaryIcon(-4347)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:CloseProximity(-4347)
 	end
 end

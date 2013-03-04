@@ -103,7 +103,7 @@ do
 end
 
 function mod:Tracking(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 		self:Say(args.spellId)
 		self:Flash(args.spellId)
 	end

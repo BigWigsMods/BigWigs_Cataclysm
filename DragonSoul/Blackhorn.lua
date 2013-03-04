@@ -126,7 +126,7 @@ do
 			if UnitIsUnit("player", player) then
 				mod:Say(spellId)
 				mod:Flash(spellId)
-				mod:LocalMessage(spellId, spellId, "Personal", spellId, "Long") -- Twilight Flames
+				mod:Message(spellId, spellId, "Personal", spellId, "Long") -- Twilight Flames
 			end
 			mod:PrimaryIcon(spellId, player)
 		end
@@ -179,7 +179,7 @@ function mod:Sunder(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["sunder_message"]:format(args.destName, buffStack - 1))
 	self:Bar("sunder", L["sunder_message"]:format(args.destName, buffStack), 30, args.spellId)
-	self:LocalMessage("sunder", L["sunder_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
+	self:Message("sunder", L["sunder_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
 end
 
 function mod:Roar(args)

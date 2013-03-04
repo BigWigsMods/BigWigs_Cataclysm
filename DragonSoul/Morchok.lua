@@ -150,10 +150,10 @@ do
 	local prev = 0
 	function mod:BlackBloodStacks(args)
 		local t = GetTime()
-		if t-prev > 2 and UnitIsUnit("player", args.destName) then
+		if t-prev > 2 and self:Me(args.destGUID) then
 			prev = t
 			self:Flash(103851)
-			self:LocalMessage(103851, CL["underyou"]:format(L["blood"]), "Personal", args.spellId, "Long")
+			self:Message(103851, CL["underyou"]:format(L["blood"]), "Personal", args.spellId, "Long")
 		end
 	end
 end
@@ -176,6 +176,6 @@ function mod:Crush(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["crush_message"]:format(args.destName, buffStack - 1))
 	self:Bar("crush", L["crush_message"]:format(args.destName, buffStack), 20, args.spellId)
-	self:LocalMessage("crush", L["crush_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
+	self:Message("crush", L["crush_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
 end
 

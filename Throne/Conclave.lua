@@ -71,17 +71,17 @@ function mod:OnEngage()
 	self:Berserk(480)
 	firstWindBlast = true
 	toxicSporesWarned = false
-	self:Bar("full_power", L["full_power"], 90, 86193)
-	self:Bar(86205, 86205, 16.2, 86205) -- Soothing Breeze
+	self:Bar("full_power", 90, L["full_power"], 86193)
+	self:Bar(86205, 16.2) -- Soothing Breeze
 
 	local flag = BigWigs.C.BAR
 	local stormShield, nurture, windBlast = self:SpellName(93059), self:SpellName(85422), self:SpellName(86193)
 	if bit.band(self.db.profile.storm_shield, flag) == flag and bit.band(self.db.profile[nurture], flag) == flag and bit.band(self.db.profile[windBlast], flag) == flag then
-		self:Bar(85422, nurture.."/"..windBlast.."/"..stormShield, 30, "achievement_boss_murmur")
+		self:Bar(85422, 30, nurture.."/"..windBlast.."/"..stormShield, "achievement_boss_murmur")
 	else
-		self:Bar(85422, nurture, 30, 85422)
-		self:Bar(86193, windBlast, 30, 86193)
-		self:Bar("storm_shield", stormShield, 30, 93059)
+		self:Bar(85422, 30) -- Nurture
+		self:Bar(86193, 30) -- Windblast
+		self:Bar("storm_shield", 30, 93059)
 	end
 end
 
@@ -89,61 +89,56 @@ end
 -- Event Handlers
 --
 function mod:FullPower(args)
-	self:Bar("full_power", L["full_power"], 113, args.spellId)
-	self:Message("full_power", L["full_power"], "Attention", args.spellId)
-	self:Bar(86205, 86205, 31.3, 86205) -- Soothing Breeze
+	self:Bar("full_power", 113, L["full_power"], args.spellId)
+	self:Message("full_power", "Attention", nil, L["full_power"], args.spellId)
+	self:Bar(86205, 31.3) -- Soothing Breeze
 end
 
 function mod:WindChill(args)
-	if UnitIsUnit(args.destName, "player") then
+	if self:Me(args.destGUID) then
 	-- probably need to adjust stack numbers
 		if args.amount == 4 then
-			self:LocalMessage(args.spellId, L["wind_chill"]:format(args.amount), "Personal", args.spellId)
+			self:Message(args.spellId, "Personal", nil, L["wind_chill"]:format(args.amount))
 		elseif args.amount == 8 then
-			self:LocalMessage(args.spellId, L["wind_chill"]:format(args.amount), "Personal", args.spellId, "Alarm")
+			self:Message(args.spellId, "Personal", "Alarm", L["wind_chill"]:format(args.amount))
 			self:Flash(args.spellId)
 		end
 	end
 end
 
 function mod:StormShield(args)
-	self:Bar("storm_shield", args.spellName, 113, args.spellId)
-	self:Message("storm_shield", args.spellName, "Urgent", args.spellId)
+	self:Bar("storm_shield", 113, args.spellId)
+	self:Message("storm_shield", "Urgent", nil, args.spellId)
 end
 
 function mod:WindBlast(args)
-	if firstWindBlast then
-		self:Bar(args.spellId, args.spellName, 82, args.spellId)
-		self:Message(args.spellId, args.spellName, "Important", args.spellId)
-		firstWindBlast = false
-	else
-		self:Bar(args.spellId, args.spellName, 60, args.spellId)
-		self:Message(args.spellId, args.spellName, "Important", args.spellId)
-	end
+	self:Bar(args.spellId, firstWindBlast and 82 or 60)
+	self:Message(args.spellId, "Important")
+	firstWindBlast = false
 end
 
 function mod:ToxicSpores(args)
 	if not toxicSporesWarned then
-		self:Bar(args.spellId, args.spellName, 20, args.spellId)
-		self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
+		self:Bar(args.spellId, 20)
+		self:Message(args.spellId, "Urgent")
 		toxicSporesWarned = true
 	end
 end
 
 function mod:SoothingBreeze(args)
-	self:Bar(args.spellId, args.spellName, 32.5, args.spellId)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
+	self:Bar(args.spellId, 32.5)
+	self:Message(args.spellId, "Urgent")
 end
 
 function mod:Nurture(args)
-	self:Bar(args.spellId, args.spellName, 113, args.spellId)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
-	self:Bar(86281, 86281, 23, 86281) -- Toxic Spores
+	self:Bar(args.spellId, 113)
+	self:Message(args.spellId, "Urgent")
+	self:Bar(86281, 23) -- Toxic Spores
 	toxicSporesWarned = false
 end
 
 function mod:GatherStrength(msg, sender)
-	self:Message(86307, L["gather_strength"]:format(sender), "Important", 86307, "Long")
-	self:Bar(86307, L["gather_strength"]:format(sender), 60, 86307)
+	self:Message(86307, "Important", "Long", L["gather_strength"]:format(sender))
+	self:Bar(86307, 60, L["gather_strength"]:format(sender))
 end
 
