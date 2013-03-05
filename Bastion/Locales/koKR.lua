@@ -43,12 +43,12 @@ if L then
 
 	L.valiona_trigger = "테랄리온, 내가 전당에 불을 뿜겠다. 놈들의 퇴로를 막아라!"
 
-	L.twilight_shift = "황혼 이동 x%2$d : %1$s"
+	L.twilight_shift = "황혼 이동"
 end
 
 L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "koKR")
 if L then
-	L.strikes_message = "악의의 일격 x%2$d : %1$s"
+	L.strikes_message = "악의의 일격"
 
 	L.breath_message = "곧 숨결!"
 	L.breath_bar = "~숨결"

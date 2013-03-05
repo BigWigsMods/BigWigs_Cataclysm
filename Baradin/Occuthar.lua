@@ -44,9 +44,9 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	self:Bar(96920, L["eyes_bar"], 25, 96920)
-	self:Bar(96884, L["fire_bar"], 13.1, 96884)
-	self:Bar(96913, L["shadows_bar"], 6.5, 96913)
+	self:Bar(96920, 25, L["eyes_bar"])
+	self:Bar(96884, 13.1, L["fire_bar"])
+	self:Bar(96913, 6.5, L["shadows_bar"])
 	fireCount = 3
 	self:Berserk(300)
 end
@@ -56,24 +56,24 @@ end
 --
 
 function mod:SearingShadows(args)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
-	self:Bar(args.spellId, L["shadows_bar"], 24, args.spellId) --23-26
+	self:TargetMessage(args.spellId, args.destName, "Important")
+	self:Bar(args.spellId, 24, L["shadows_bar"]) --23-26
 end
 
 function mod:Eyes(args)
 	self:Flash(args.spellId)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Alert")
-	self:Bar(args.spellId, L["destruction_bar"], 10, 96968) -- 96968 is Occu'thar's Destruction
-	self:Bar(args.spellId, L["eyes_bar"], 58, args.spellId)
+	self:Message(args.spellId, "Urgent", "Alert")
+	self:Bar(args.spellId, 10, L["destruction_bar"], 96968) -- 96968 is Occu'thar's Destruction
+	self:Bar(args.spellId, 58, L["eyes_bar"])
 	fireCount = 0
-	self:Bar(96884, L["fire_bar"], 18.5, args.spellId) --18.5-19.2
+	self:Bar(96884, 18.5, L["fire_bar"]) --18.5-19.2
 end
 
 function mod:FocusedFire(args)
-	self:Message(args.spellId, L["fire_message"], "Attention", args.spellId)
+	self:Message(args.spellId, "Attention", nil, L["fire_message"])
 	fireCount = fireCount + 1
 	if fireCount < 3 then
-		self:Bar(args.spellId, L["fire_bar"], 15.7, args.spellId) --15.5-16
+		self:Bar(args.spellId, 15.7, L["fire_bar"]) --15.5-16
 	end
 end
 

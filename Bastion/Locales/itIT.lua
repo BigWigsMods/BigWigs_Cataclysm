@@ -44,12 +44,12 @@ if L then
 	L.valiona_trigger = "Theralion, inonderò la sala di fiamme, impedisci che fuggano!"
 	L.win_trigger = "Almeno... Theralion muore con me..."
 
-	L.twilight_shift = "%2$dx cambio su %1$s"
+	L.twilight_shift = "Cambio"
 end
 
 L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "itIT")
 if L then
-	L.strikes_message = "%2$dx Assalti su %1$s"
+	L.strikes_message = "Assalti"
 
 	L.breath_message = "Soffio tra poco!"
 	L.breath_bar = "~Soffio"

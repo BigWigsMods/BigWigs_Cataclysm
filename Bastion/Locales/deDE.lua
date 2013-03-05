@@ -43,12 +43,12 @@ if L then
 
 	L.valiona_trigger = "Theralion, ich werde den Gang einhüllen. Deck ihre Flucht!"
 
-	L.twilight_shift = "%2$dx Verschiebung auf %1$s"
+	L.twilight_shift = "Verschiebung"
 end
 
 L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "deDE")
 if L then
-	L.strikes_message = "%2$dx Stöße auf %1$s"
+	L.strikes_message = "Stöße"
 
 	L.breath_message = "Atem kommt!"
 	L.breath_bar = "~Atem"

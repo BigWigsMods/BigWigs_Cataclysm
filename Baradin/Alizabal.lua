@@ -41,8 +41,8 @@ end
 
 function mod:OnEngage()
 	self:Berserk(300)
-	self:Bar(104936, L["first_ability"], 7, 104936)
-	self:Bar(105784, 105784, 35, 105784) -- Blade Dance
+	self:Bar(104936, 7, L["first_ability"])
+	self:Bar(105784, 35) -- Blade Dance
 	firstAbility = nil
 	danceCount = 0
 end
@@ -54,37 +54,37 @@ end
 function mod:Hate(args)
 	if not firstAbility then
 		firstAbility = true
-		self:Bar(104936, 104936, 8, 104936) -- Skewer
+		self:Bar(104936, 8) -- Skewer
 	end
-	self:Bar(args.spellId, args.spellName, 20, args.spellId)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
+	self:Bar(args.spellId, 20)
+	self:TargetMessage(args.spellId, args.destName, "Important")
 end
 
 function mod:Skewer(args)
 	if not firstAbility then
 		firstAbility = true
-		self:Bar(105067, 105067, 8, 105067) -- Seething Hate
+		self:Bar(105067, 8) -- Seething Hate
 	end
-	self:Bar(args.spellId, args.spellName, 20, args.spellId)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId)
+	self:Bar(args.spellId, 20)
+	self:TargetMessage(args.spellId, args.destName, "Attention")
 end
 
 function mod:BladeDance(args)
 	danceCount = danceCount + 1
-	self:Message(args.spellId, L["dance_message"]:format(danceCount), "Urgent", args.spellId, "Info")
-	self:Bar(args.spellId, CL["cast"]:format(args.spellName), 4, args.spellId)
+	self:Message(args.spellId, "Urgent", "Info", L["dance_message"]:format(danceCount))
+	self:Bar(args.spellId, 4, CL["cast"]:format(args.spellName))
 	if danceCount == 1 then
 		firstAbility = nil
 		-- XXX Fix this up instead of just cancelling the bars
 		self:StopBar(104936) -- Skewer
 		self:StopBar(105067) -- Seething Hate
-		self:Bar(args.spellId, args.spellName, 60, args.spellId)
+		self:Bar(args.spellId, 60)
 	end
 end
 
 function mod:BladeDanceOver()
 	if danceCount == 3 then
-		self:Bar(104936, L["first_ability"], 8, 104936)
+		self:Bar(104936, 8, L["first_ability"])
 		danceCount = 0
 	end
 end

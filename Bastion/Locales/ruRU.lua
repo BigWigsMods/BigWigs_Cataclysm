@@ -44,12 +44,12 @@ if L then
 	L.valiona_trigger = "Тералион, я подожгу коридор. Не дай им уйти!"
 	L.win_trigger = "Одно утешает... Тералион погиб вместе со мной..."
 
-	L.twilight_shift = "%2$dx Сдвиг на |3-5(%1$s)"
+	L.twilight_shift = "Сдвиг"
 end
 
 L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "ruRU")
 if L then
-	L.strikes_message = "%2$dx Удары на |3-5(%1$s)"
+	L.strikes_message = "Удары"
 
 	L.breath_message = "Обжигающее дыхание!"
 	L.breath_bar = "~Дыхание"

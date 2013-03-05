@@ -11,7 +11,6 @@ mod:RegisterEnableMob(45992, 45993)
 --
 
 local phaseCount = 0
-local devouringFlames = "~"..mod:SpellName(86840)
 local theralion = EJ_GetSectionInfo(2994)
 local valiona = EJ_GetSectionInfo(2985)
 local emTargets = mod:NewTargetList()
@@ -36,7 +35,7 @@ if L then
 	L.valiona_trigger = "Theralion, I will engulf the hallway. Cover their escape!"
 	L.win_trigger = "At least... Theralion dies with me..."
 
-	L.twilight_shift = "%2$dx shift on %1$s"
+	L.twilight_shift = "Shift"
 end
 L = mod:GetLocale()
 
@@ -84,9 +83,9 @@ end
 
 function mod:OnEngage()
 	markWarned = false
-	self:Bar(86840, devouringFlames, 25, 86840)
-	self:Bar(86788, 86788, 11, 86788) -- Blackout
-	self:Bar("phase_switch", L["phase_bar"]:format(theralion), 103, 60639)
+	self:CDBar(86840, 25)
+	self:Bar(86788, 11) -- Blackout
+	self:Bar("phase_switch", 103, L["phase_bar"]:format(theralion), 60639)
 	self:OpenProximity("proximity", 8)
 	self:Berserk(600)
 	phaseCount = 0
@@ -101,7 +100,7 @@ do
 		local bossId = UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
 		if not UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
 		if UnitIsUnit(bossId, "player") then
-			mod:Message(spellId, CL["you"]:format(L["blast_message"]), "Personal", spellId, "Long")
+			mod:Message(spellId, "Personal", "Long", CL["you"]:format(L["blast_message"]))
 		end
 	end
 	function mod:TwilightBlast(args)
@@ -110,24 +109,24 @@ do
 end
 
 local function valionaHasLanded()
-	mod:StopBar("~"..mod:SpellName(86622))
-	mod:Message("phase_switch", L["phase_bar"]:format(valiona), "Positive", 60639)
-	mod:Bar(86840, devouringFlames, 26, 86840)
-	mod:Bar(86788, 86788, 11, 86788) -- Blackout
+	mod:StopBar(86622) -- Engulfing Magic
+	mod:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(valiona), 60639)
+	mod:CDBar(86840, 26) -- Devouring Flames
+	mod:Bar(86788, 11) -- Blackout
 	mod:OpenProximity("proximity", 8)
 end
 
 local function theralionHasLanded()
 	mod:StopBar(86788) -- Blackout
-	mod:StopBar(devouringFlames)
-	mod:Bar("phase_switch", L["phase_bar"]:format(valiona), 130, 60639)
+	mod:StopBar(86840) -- Devouring Flames
+	mod:Bar("phase_switch", 130, L["phase_bar"]:format(valiona), 60639)
 	mod:CloseProximity()
 end
 
 function mod:TwilightShift(args)
-	self:Bar(args.spellId, args.spellName, 20, args.spellId)
+	self:Bar(args.spellId, 20)
 	if args.amount > 3 then
-		self:TargetMessage(args.spellId, L["twilight_shift"], args.destName, "Important", args.spellId, nil, args.amount)
+		self:StackMessage(args.spellId, args.destName, args.amount, "Important", nil, L["twilight_shift"])
 	end
 end
 
@@ -135,10 +134,10 @@ end
 function mod:DazzlingDestruction(args)
 	phaseCount = phaseCount + 1
 	if phaseCount == 1 then
-		self:Message(args.spellId, L["dazzling_message"], "Important", args.spellId, "Alarm")
+		self:Message(args.spellId, "Important", "Alarm", L["dazzling_message"])
 	elseif phaseCount == 3 then
 		self:ScheduleTimer(theralionHasLanded, 5)
-		self:Message("phase_switch", L["phase_bar"]:format(theralion), "Positive", 60639)
+		self:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(theralion), 60639)
 		phaseCount = 0
 	end
 end
@@ -146,9 +145,9 @@ end
 -- She emotes 3 times, every time she does a breath
 function mod:DeepBreathCast()
 	phaseCount = phaseCount + 1
-	self:Message(86059, L["breath_message"], "Important", 92194, "Alarm")
+	self:Message(86059, "Important", "Alarm", L["breath_message"], 92194)
 	if phaseCount == 3 then
-		self:Bar("phase_switch", L["phase_bar"]:format(theralion), 105, 60639)
+		self:Bar("phase_switch", 105, L["phase_bar"]:format(theralion), 60639)
 		phaseCount = 0
 	end
 end
@@ -156,18 +155,16 @@ end
 -- Valiona does this when she fires the first deep breath and begins the landing phase
 -- It only triggers once from her yell, not 3 times.
 function mod:DeepBreath()
-	self:Bar("phase_switch", L["phase_bar"]:format(valiona), 40, 60639)
+	self:Bar("phase_switch", 40, L["phase_bar"]:format(valiona), 60639)
 	self:ScheduleTimer(valionaHasLanded, 40)
 end
 
 function mod:BlackoutApplied(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
-	else
-		self:PlaySound(args.spellId, "Alert")
 	end
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Alert")
-	self:Bar(args.spellId, args.spellName, 45, args.spellId)
+	self:TargetMessage(args.spellId, args.destName, "Personal", "Alert", nil, nil, true)
+	self:Bar(args.spellId, 45)
 	self:PrimaryIcon(args.spellId, args.destName)
 	self:CloseProximity()
 end
@@ -175,7 +172,7 @@ end
 function mod:BlackoutRemoved(args)
 	self:OpenProximity("proximity", 8)
 	self:PrimaryIcon(args.spellId)
-	self:Bar(args.spellId, args.spellName, 40, args.spellId) -- make sure to remove bar when it's removed
+	self:Bar(args.spellId, 40) -- make sure to remove bar when it's removed
 end
 
 local function markRemoved()
@@ -187,7 +184,7 @@ do
 	function mod:MeteorCheck(unit)
 		if not markWarned and UnitDebuff(unit, marked) then
 			self:Flash(88518)
-			self:Message(88518, CL["you"]:format(marked), "Personal", 88518, "Long")
+			self:Message(88518, "Personal", "Long", CL["you"]:format(marked))
 			markWarned = true
 			self:ScheduleTimer(markRemoved, 7)
 		end
@@ -195,15 +192,14 @@ do
 end
 
 function mod:DevouringFlames(args)
-	self:Bar(args.spellId, devouringFlames, 42, args.spellId) -- make sure to remove bar when it takes off
-	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
+	self:CDBar(args.spellId, 42) -- make sure to remove bar when it takes off
+	self:Message(args.spellId, "Important", "Alert")
 end
 
 do
 	local scheduled = nil
-	local function emWarn(spellName, spellId)
-		mod:TargetMessage(spellId, spellName, emTargets, "Personal", spellId, "Alarm")
-		mod:Bar(spellId, "~"..spellName, 37, spellId)
+	local function emWarn(spellId)
+		mod:TargetMessage(spellId, emTargets, "Personal", "Alarm")
 		scheduled = nil
 	end
 	function mod:EngulfingMagicApplied(args)
@@ -215,7 +211,8 @@ do
 		emTargets[#emTargets + 1] = args.destName
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(emWarn, 0.3, args.spellName, args.spellId)
+			self:CDBar(args.spellId, 37)
+			self:ScheduleTimer(emWarn, 0.3, args.spellId)
 		end
 	end
 end

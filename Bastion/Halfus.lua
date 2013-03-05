@@ -12,7 +12,7 @@ mod:RegisterEnableMob(44600)
 
 local L = mod:NewLocale("enUS", true)
 if L then
-	L.strikes_message = "%2$dx Strikes on %1$s"
+	L.strikes_message = "Strikes"
 
 	L.breath_message = "Breath incoming!"
 	L.breath_bar = "~Breath"
@@ -50,22 +50,21 @@ end
 --
 
 function mod:FuriousRoar(args)
-	self:Message(args.spellId, args.spellName, "Important", args.spellId)
-	self:Bar(args.spellId, args.spellName, 25, args.spellId)
+	self:Message(args.spellId, "Important")
+	self:Bar(args.spellId, 25)
 end
 
 -- Slate Dragon: Stone Touch (83603), 35 sec internal cd, resulting in Paralysis, 12 sec stun
 -- Next Stone Touch after 23 sec, hence delaying Furious Roar if less then 12 sec left
 function mod:Paralysis(args)
-	self:Message(83603, args.spellName, "Attention", args.spellId)
-	self:Bar(83603, CL["cast"]:format(args.spellName), 12, args.spellId)
-	self:Bar(83603, args.spellName, 35, args.spellId)
+	self:Message(83603, "Attention", nil, args.spellId)
+	self:Bar(83603, 12, CL["cast"]:format(args.spellName), args.spellId)
+	self:Bar(83603, 35, args.spellId)
 end
 
 function mod:MalevolentStrikes(args)
-	local stackWarn = self:Heroic() and 5 or 10 -- 8% in heroic, 6% in normal, announce around 50-60% reduced healing
-	if args.amount > stackWarn then
-		self:TargetMessage(args.spellId, L["strikes_message"], args.destName, "Urgent", args.spellId, "Info", args.amount)
+	if args.amount > (self:Heroic() and 5 or 10) then -- 8% in heroic, 6% in normal, announce around 50-60% reduced healing
+		self:StackMessage(args.spellId, args.destName, args.amount, "Urgent", "Info", L["strikes_message"])
 	end
 end
 

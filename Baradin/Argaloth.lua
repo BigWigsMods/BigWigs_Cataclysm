@@ -43,7 +43,7 @@ end
 
 function mod:OnEngage()
 	self:Berserk(300)
-	self:Bar(88942, "~"..self:SpellName(88942), 10, 88942) -- Meteor Slash
+	self:CDBar(88942, 10) -- Meteor Slash
 	fireStorm = 100
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "FirestormWarn", "boss1")
 end
@@ -53,14 +53,14 @@ end
 --
 
 function mod:MeteorSlash(args)
-	self:Message(args.spellId, args.spellName, "Important", args.spellId)
-	self:Bar(args.spellId, "~"..args.spellName, 17, args.spellId)
+	self:Message(args.spellId, "Important")
+	self:CDBar(args.spellId, 17)
 end
 
 do
 	local scheduled = nil
 	local function consumingWarn(spellId)
-		mod:TargetMessage(spellId, L["darkness_message"], consumingTargets, "Personal", spellId)
+		mod:TargetMessage(spellId, consumingTargets, "Personal", nil, L["darkness_message"])
 		scheduled = nil
 	end
 	function mod:ConsumingDarkness(args)
@@ -73,18 +73,18 @@ end
 
 function mod:FelFirestorm(args)
 	self:StopBar(L["meteor_bar"])
-	self:Message(args.spellId, fireStorm.."% - "..args.spellName, "Urgent", args.spellId, "Alert")
+	self:Message(args.spellId, "Urgent", "Alert", fireStorm.."% - "..args.spellName)
 	self:Flash(args.spellId)
-	self:Bar(88942, "~"..self:SpellName(88942), 32, 88942) -- Meteor Slash
+	self:CDBar(88942, 32) -- Meteor Slash
 end
 
 function mod:FirestormWarn(unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 69 and fireStorm > 70 then
-		self:Message(88972, L["firestorm_message"], "Attention")
+		self:Message(88972, "Attention", nil, L["firestorm_message"], false)
 		fireStorm = 66
 	elseif hp < 36 and fireStorm > 50 then
-		self:Message(88972, L["firestorm_message"], "Attention")
+		self:Message(88972, "Attention", nil, L["firestorm_message"], false)
 		fireStorm = 33
 		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 	end

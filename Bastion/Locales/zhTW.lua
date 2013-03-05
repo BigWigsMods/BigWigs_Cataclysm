@@ -44,12 +44,12 @@ if L then
 	L.valiona_trigger = "瑟拉里恩，我的火會淹沒整個通道。擋住他們的退路!"
 	L.win_trigger = "至少...有瑟拉里恩陪葬..."
 
-	L.twilight_shift = "暮光變換%2$dx：>%1$s<！"
+	L.twilight_shift = "暮光變換"
 end
 
 L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "zhTW")
 if L then
-	L.strikes_message = "致死打擊%2$dx：>%1$s<！"
+	L.strikes_message = "致死打擊"
 
 	L.breath_message = "即將 灼燒之息！"
 	L.breath_bar = "灼燒之息"

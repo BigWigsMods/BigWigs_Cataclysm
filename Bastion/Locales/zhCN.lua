@@ -44,12 +44,12 @@ if L then
 	L.valiona_trigger = "瑟纳利昂，我去包抄门厅。堵住他们的退路！"
 	L.win_trigger = "至少……瑟纳利昂和我一起倒下……"
 
-	L.twilight_shift = "暮光位移%2$dx：>%1$s<！"
+	L.twilight_shift = "暮光位移"
 end
 
 L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "zhCN")
 if L then
-	L.strikes_message = "致伤打击%2$dx：>%1$s<！"
+	L.strikes_message = "致伤打击"
 
 	L.breath_message = "即将 灼热气息！"
 	L.breath_bar = "灼热气息"
