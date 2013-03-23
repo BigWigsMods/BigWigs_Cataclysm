@@ -7,11 +7,6 @@ if L then
 
 	L.acid_rain = "酸雨：>%d<！"
 
-	L.phase3_yell = "夠了!我不要再被束縛住了!"
-
-	L.phase = "階段轉換"
-	L.phase_desc = "當進入不同階段時發出警報。"
-
 	L.feedback_message = "%dx 回饋！"
 end
 

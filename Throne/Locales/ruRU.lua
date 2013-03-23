@@ -6,11 +6,6 @@ if L then
 
 	L.acid_rain = "Кислотный дождь (%d)"
 
-	L.phase3_yell = "Довольно! Меня ничто не в силах сдерживать!"
-
-	L.phase = "Смена фаз"
-	L.phase_desc = "Сообщать о смене фаз."
-
 	L.feedback_message = "%dx Ответная реакция"
 end
 

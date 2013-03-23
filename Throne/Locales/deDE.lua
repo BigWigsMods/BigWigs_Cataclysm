@@ -7,11 +7,6 @@ if L then
 
 	L.acid_rain = "Säureregen (%d)"
 
-	L.phase3_yell = "Genug! Ich werde mich nicht länger zurückhalten!" -- check
-
-	L.phase = "Phasenwechsel"
-	L.phase_desc = "Warnt vor Phasenwechsel."
-
 	L.feedback_message = "%dx Rückkopplung"
 end
 

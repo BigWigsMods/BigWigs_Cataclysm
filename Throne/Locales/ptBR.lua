@@ -7,11 +7,6 @@ if L then
 
 	L.acid_rain = "Chuva ácida (%d)"
 
-	L.phase3_yell = "Chega! Eu não serei mais contido!"
-
-	L.phase = "Troca de fase"
-	L.phase_desc = "Anúncia as trocas de fase."
-
 	L.feedback_message = "%dx Retornado"
 end
 

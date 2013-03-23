@@ -7,11 +7,6 @@ if L then
 
 	L.acid_rain = "산성 비 (%d)"
 
-	L.phase3_yell = "그만!" --check
-
-	L.phase = "단계 변화"
-	L.phase_desc = "단계 변화를 알립니다."
-
 	L.feedback_message = "역순환 x%d"
 end
 
