@@ -145,7 +145,7 @@ end
 -- She emotes 3 times, every time she does a breath
 function mod:DeepBreathCast()
 	phaseCount = phaseCount + 1
-	self:Message(86059, "Important", "Alarm", L["breath_message"], 92194)
+	self:Message(86059, "Important", "Alarm", L["breath_message"], "inv_misc_head_dragon_blue")
 	if phaseCount == 3 then
 		self:Bar("phase_switch", 105, L["phase_bar"]:format(theralion), 60639)
 		phaseCount = 0
