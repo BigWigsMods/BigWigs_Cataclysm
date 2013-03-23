@@ -4,9 +4,6 @@ if not L then return end
 if L then
 	L.stormling = "Tourmentin"
 	L.stormling_desc = "Prévient quand un Tourmentin est invoqué."
-	L.stormling_message = "Arrivée d'un Tourmentin !"
-	L.stormling_bar = "Tourmentin"
-	L.stormling_yell = "Tempêtes ! Je vous invoque à moi !" -- à vérifier
 
 	L.acid_rain = "Pluie acide (%d)"
 

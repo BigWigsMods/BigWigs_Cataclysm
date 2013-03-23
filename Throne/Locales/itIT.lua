@@ -4,9 +4,6 @@ if not L then return end
 if L then
 	L.stormling = "Prole Tempestosa"
 	L.stormling_desc = "Evocazione Prole Tempestosa."
-	L.stormling_message = "Prole Tempestosa in arrivo!"
-	L.stormling_bar = "Prole Tempestosa"
-	L.stormling_yell = "Tempeste! Io vi invoco al mio fianco!"
 
 	L.acid_rain = "Pioggia Acida (%d)"
 

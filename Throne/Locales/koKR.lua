@@ -4,9 +4,6 @@ if not L then return end
 if L then
 	L.stormling = "작은 폭풍 정령"
 	L.stormling_desc = "작은 폭풍 정령 소환을 알립니다."
-	L.stormling_message = "곧 폭풍 정령!"
-	L.stormling_bar = "다음 폭풍 정령"
-	L.stormling_yell = "폭풍이여! 너를 소환하노라!"
 
 	L.acid_rain = "산성 비 (%d)"
 

@@ -4,9 +4,6 @@ if not L then return end
 if L then
 	L.stormling = "Tempestinhas"
 	L.stormling_desc = "Invoca Tempestinha."
-	L.stormling_message = "Tempestinha iminente!"
-	L.stormling_bar = "Tempestinha"
-	L.stormling_yell = "Tempestades! Eu as convoco para me ajudar!"
 
 	L.acid_rain = "Chuva ácida (%d)"
 

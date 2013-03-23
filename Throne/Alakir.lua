@@ -22,9 +22,7 @@ local L = mod:NewLocale("enUS", true)
 if L then
 	L.stormling = "Stormling adds"
 	L.stormling_desc = "Summons Stormling."
-	L.stormling_message = "Stormling incoming!"
-	L.stormling_bar = "Stormling"
-	L.stormling_yell = "Storms! I summon you to my side!"
+	L.stormling_icon = 88272
 
 	L.acid_rain = "Acid Rain (%d)"
 
@@ -70,7 +68,7 @@ function mod:OnBossEnable()
 	-- Acid Rain is applied at P2 transition
 	self:Log("SPELL_AURA_APPLIED", "Phase2", 88301)
 
-	self:Yell("Stormling", L["stormling_yell"])
+	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1")
 	self:Yell("Phase3", L["phase3_yell"])
 
 	self:Log("SPELL_AURA_APPLIED", "LightningRod", 89668)
@@ -198,8 +196,10 @@ function mod:WindBurst3(args)
 	lastWindburst = GetTime()
 end
 
-function mod:Stormling()
-	self:Bar("stormling", 20, L["stormling_bar"], 75096)
-	self:Message("stormling", "Important", nil, L["stormling_message"], 75096)
+function mod:UNIT_SPELLCAST_SUCCEEDED(_,spellName,_,_,spellId)
+	if spellId == 88272 then
+		self:Bar("stormling", 20, spellId)
+		self:Message("stormling", "Important", nil, CL["incoming"]:format(spellName), spellId)
+	end
 end
 
