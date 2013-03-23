@@ -8,8 +8,6 @@ mod:RegisterEnableMob(41570)
 
 local phase = 1
 local isHeadPhase = nil
-local lavaSpew = "~"..mod:SpellName(77690)
-local pillarOfFlame = "~"..mod:SpellName(78006)
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -86,14 +84,14 @@ end
 
 function mod:OnEngage()
 	if self:Heroic() then
-		self:Bar("blazing", L["blazing_bar"], 30, "SPELL_SHADOW_RAISEDEAD")
+		self:Bar("blazing", 30, L["blazing_bar"], "SPELL_SHADOW_RAISEDEAD")
 	end
 	self:Berserk(600)
-	self:Bar("slump", L["slump_bar"], 100, 36702)
-	self:Bar(78006, 78006, 30, 78006) -- Pillar of Flame
-	self:Bar(77690, lavaSpew, 24, 77690)
-	self:Bar(89773, "~"..self:SpellName(89773), 90, 89773) -- Mangle
-	self:DelayedMessage(77690, 24, L["spew_warning"], "Attention")
+	self:Bar("slump", 100, L["slump_bar"], 36702)
+	self:Bar(78006, 30) -- Pillar of Flame
+	self:CDBar(77690, 24) -- Lava Spew
+	self:CDBar(89773, 90) -- Mangle
+	self:DelayedMessage(77690, 24, "Attention", L["spew_warning"])
 	phase = 1
 	isHeadPhase = nil
 end
@@ -104,22 +102,22 @@ end
 
 function mod:Armageddon(args)
 	if not isHeadPhase then return end
-	self:Message(79011, args.spellName, "Important", args.spellId, "Alarm")
-	self:Bar(79011, args.spellName, 8, args.spellId)
+	self:Message(79011, "Important", "Alarm", args.spellId)
+	self:Bar(79011, 8, args.spellId)
 end
 
 do
 	local function rebootTimers()
 		isHeadPhase = nil
-		mod:Bar(78006, pillarOfFlame, 9.5, 78006)
-		mod:Bar(77690, lavaSpew, 4.5, 77690)
+		mod:CDBar(78006, 9.5) -- Pillar of Flame
+		mod:CDBar(77690, 4.5) -- Lava Spew
 	end
 	function mod:Vulnerability()
 		isHeadPhase = true
-		self:Message(79011, L["expose_message"], "Positive", 79011)
-		self:Bar(79011, L["expose_message"], 30, 79011)
-		self:StopBar(pillarOfFlame)
-		self:StopBar(lavaSpew)
+		self:Message(79011, "Positive", nil, L["expose_message"])
+		self:Bar(79011, 30, L["expose_message"])
+		self:StopBar(78006) -- Pillar of Flame
+		self:StopBar(77690) -- Lava Spew
 		self:CancelDelayedMessage(L["spew_warning"])
 		self:ScheduleTimer(rebootTimers, 30)
 	end
@@ -131,33 +129,33 @@ do
 		local time = GetTime()
 		if time - prev > 10 then
 			prev = time
-			self:Message(args.spellId, args.spellName, "Important", args.spellId)
-			self:Bar(args.spellId, lavaSpew, 26, args.spellId)
-			self:DelayedMessage(args.spellId, 24, L["spew_warning"], "Attention")
+			self:Message(args.spellId, "Important")
+			self:CDBar(args.spellId, 26)
+			self:DelayedMessage(args.spellId, 24, "Attention", L["spew_warning"])
 		end
 	end
 end
 
 function mod:BlazingInferno()
-	self:Message("blazing", L["blazing_message"], "Urgent", "SPELL_SHADOW_RAISEDEAD", "Info")
-	self:Bar("blazing", L["blazing_bar"], 35, "SPELL_SHADOW_RAISEDEAD")
+	self:Message("blazing", "Urgent", "Info", L["blazing_message"], "SPELL_SHADOW_RAISEDEAD")
+	self:Bar("blazing", 35, L["blazing_bar"], "SPELL_SHADOW_RAISEDEAD")
 end
 
 function mod:Phase2()
 	phase = 2
-	self:Message("phase2", L["phase2_message"], "Attention", 92195)
+	self:Message("phase2", "Attention", nil, L["phase2_message"], 92195)
 	self:StopBar(L["blazing_bar"])
 	self:OpenProximity("phase2", 8)
 end
 
 function mod:PillarOfFlame(args)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Alert")
-	self:Bar(args.spellId, pillarOfFlame, 32, args.spellId)
+	self:Message(args.spellId, "Urgent", "Alert")
+	self:CDBar(args.spellId, 32)
 end
 
 function mod:Infection(args)
 	if self:Me(args.destGUID) then
-		self:Message(78941, L["infection_message"], "Personal", args.spellId, "Alarm")
+		self:Message(78941, "Personal", "Alarm", L["infection_message"], args.spellId)
 		self:Flash(78941)
 		self:OpenProximity(78941, 8)
 	end
@@ -170,15 +168,15 @@ function mod:InfectionRemoved(args)
 end
 
 function mod:Slump()
-	self:StopBar(pillarOfFlame)
-	self:Bar("slump", L["slump_bar"], 95, 36702)
-	self:Message("slump", L["slump_message"], "Positive", 36702, "Info")
+	self:StopBar(78006) -- Pillar of Flame
+	self:Bar("slump", 95, L["slump_bar"], 36702)
+	self:Message("slump", "Positive", "Info", L["slump_message"], 36702)
 end
 
 function mod:Mangle(args)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Info")
-	self:TargetBar(args.spellId, args.spellName, args.destName, 30, args.spellId)
-	self:Bar(args.spellId, "~"..args.spellName, 95, args.spellId)
+	self:TargetMessage(args.spellId, args.destName, "Personal", "Info")
+	self:TargetBar(args.spellId, 30, args.destName)
+	self:CDBar(args.spellId, 95)
 end
 
 function mod:MangleRemoved(args)

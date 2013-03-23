@@ -18,8 +18,7 @@ L = BigWigs:NewBossLocale("Chimaeron", "deDE")
 if L then
 	L.bileotron_engage = "Der Gall-O-Tron springt an und stößt eine übel riechende Substanz aus."
 
-	L.next_system_failure = "~Systemversagen"
-	L.break_message = "%2$dx Brechen auf %1$s"
+	L.next_system_failure = "Systemversagen"
 
 	L.phase2_message = "Sterblichkeitsphase bald!"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "Phasen"
 	L.phase_desc = "Warnt vor Phasenwechsel."
 
-	L.discharge_bar = "~Blitzentladung"
+	L.discharge_bar = "Blitzentladung"
 
 	L.phase_two_trigger = "Verfluchte Sterbliche! Ein solcher Umgang mit dem Eigentum anderer verlangt nach Gewalt!" -- check
 
@@ -126,15 +125,13 @@ if L then
 
 	L.next_switch = "Nächster Wechsel"
 
-	L.nef_next = "~Fähigkeiten Buff"
-
-	L.acquiring_target = "Zielerfassung"
+	L.nef_next = "Fähigkeiten Buff"
 
 	L.bomb_message = "Blob verfolgt DICH!"
 	L.cloud_message = "Wolke unter DIR!"
 	L.protocol_message = "Blobs kommen!"
 
-	L.iconomnotron = "Symbol auf aktivem Boss"
-	L.iconomnotron_desc = "Plaziert das primäre Schlachtzugssymbol auf dem aktiven Boss (benötigt Assistent oder höher)."
+	L.custom_on_iconomnotron = "Symbol auf aktivem Boss"
+	L.custom_on_iconomnotron_desc = "Plaziert das primäre Schlachtzugssymbol auf dem aktiven Boss (benötigt Assistent oder höher)."
 end
 

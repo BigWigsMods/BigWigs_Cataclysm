@@ -14,8 +14,7 @@ local L = mod:NewLocale("enUS", true)
 if L then
 	L.bileotron_engage = "The Bile-O-Tron springs to life and begins to emit a foul smelling substance."
 
-	L.next_system_failure = "~Next System Failure"
-	L.break_message = "%2$dx Break on %1$s"
+	L.next_system_failure = "Next System Failure"
 
 	L.phase2_message = "Mortality phase soon!"
 
@@ -55,7 +54,7 @@ end
 
 function mod:Warmup(_, msg)
 	if msg == L["bileotron_engage"] then
-		self:Bar("warmup", self.displayName, 30, "achievement_dungeon_blackwingdescent_raid_chimaron")
+		self:Bar("warmup", 30, self.displayName, "achievement_dungeon_blackwingdescent_raid_chimaron")
 		self:OpenProximity("proximity", 6)
 	end
 end
@@ -64,9 +63,9 @@ function mod:OnEngage()
 	self:StopBar(self.displayName)
 	self:Berserk(450)
 	if not self:Heroic() then
-		self:Bar(88853, L["next_system_failure"], 90, 88853) --happens randomly at either 60 or 90 on heroic
+		self:CDBar(88853, 90, L["next_system_failure"]) --happens randomly at either 60 or 90 on heroic
 	end
-	self:Bar(82848, 82848, 30, 82848) --Massacre
+	self:Bar(82848, 30) --Massacre
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "Phase2Warn", "boss1")
 end
 
@@ -76,16 +75,16 @@ end
 
 function mod:SystemFailureStart(args)
 	self:StopBar(L["next_system_failure"])
-	self:Bar(args.spellId, args.spellId, 30, args.spellId)
-	self:Message(args.spellId, args.spellId, "Important", args.spellId, "Alarm")
+	self:Bar(args.spellId, 30)
+	self:Message(args.spellId, "Important", "Alarm")
 	self:Flash(args.spellId)
 	self:CloseProximity()
 end
 
 function mod:SystemFailureEnd(args)
-	if self.isEngaged then --To prevent firing after a wipe
+	if self.isEngaged then -- To prevent firing after a wipe
 		if not self:Heroic() then
-			self:Bar(args.spellId, L["next_system_failure"], 65, args.spellId)
+			self:CDBar(args.spellId, 65, L["next_system_failure"])
 		end
 		self:Flash(args.spellId)
 		self:OpenProximity("proximity", 6)
@@ -93,29 +92,29 @@ function mod:SystemFailureEnd(args)
 end
 
 function mod:Massacre(args)
-	self:Message(args.spellId, args.spellId, "Attention", args.spellId)
-	self:Bar(args.spellId, args.spellId, 30, args.spellId)
-	self:Bar(82935, 82935, 19, 82935) --Caustic Slime
+	self:Message(args.spellId, "Attention")
+	self:Bar(args.spellId, 30)
+	self:Bar(82935, 19) --Caustic Slime
 end
 
 function mod:Mortality(args)
-	self:Message(args.spellId, args.spellId, "Important", args.spellId, "Long")
+	self:Message(args.spellId, "Important", "Long")
 	self:CloseProximity()
 	self:StopBar(L["next_system_failure"])
 end
 
 function mod:Break(args)
-	self:TargetMessage(args.spellId, L["break_message"], args.destName, "Attention", args.spellId, nil, args.amount or 1)
+	self:StackMessage(args.spellId, args.destName, args.amount, "Attention")
 end
 
 function mod:DoubleAttack(args)
-	self:Message(args.spellId, args.spellId, "Urgent", args.spellId)
+	self:Message(args.spellId, "Urgent")
 end
 
 function mod:Phase2Warn(unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 23 then
-		self:Message(82890, L["phase2_message"], "Positive", 82890, "Info")
+		self:Message(82890, "Positive", "Info", L["phase2_message"])
 		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 	end
 end

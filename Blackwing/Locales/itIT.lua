@@ -18,8 +18,7 @@ L = BigWigs:NewBossLocale("Chimaeron", "itIT")
 if L then
 	L.bileotron_engage = "Il BileTron 800 ritorna in vita ed emette una strana sostanza odorosa."
 
-	L.next_system_failure = "~Prossimo Errore di Sistema"
-	L.break_message = "%2$dx Violazione su %1$s"
+	L.next_system_failure = "Prossimo Errore di Sistema"
 
 	L.phase2_message = "Fase Mortalità tra poco!"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "Fasi"
 	L.phase_desc = "Avvisi per il cambio di fase."
 
-	L.discharge_bar = "~Scarica"
+	L.discharge_bar = "Scarica"
 
 	L.phase_two_trigger = "Maledetti mortali! Il disprezzo per la proprietà altri merita l'applicazione di una forza estrema!"
 
@@ -126,15 +125,13 @@ if L then
 
 	L.next_switch = "Prossima Attivazione"
 
-	L.nef_next = "~Beneficio Abilità"
-
-	L.acquiring_target = "Acquisizione nuovo bersaglio"
+	L.nef_next = "Beneficio Abilità"
 
 	L.bomb_message = "La Bomba sta seguendo TE!!!"
 	L.cloud_message = "Nuvola su di TE!!!"
 	L.protocol_message = "Bombe in arrivo!"
 
-	L.iconomnotron = "Icona sul boss attivo"
-	L.iconomnotron_desc = "Metti l'icona primaria dell'incursione sul boss attivo (richiede promozione o capogruppo)."
+	L.custom_on_iconomnotron = "Icona sul boss attivo"
+	L.custom_on_iconomnotron_desc = "Metti l'icona primaria dell'incursione sul boss attivo (richiede promozione o capogruppo)."
 end
 

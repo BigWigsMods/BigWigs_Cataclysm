@@ -138,10 +138,10 @@ do
 		if self:Me(args.destGUID) then
 			local _, _, _, _, _, duration = UnitDebuff("player", args.spellName)
 			self:Bar("lightself", L["lightself_bar"], duration, args.spellId)
-			self:Flash("lightself")
+			self:Flash("lightself", args.spellId)
 		else -- This is mainly a tanking assist
 			if args.spellId == 105925 then
-				self:Flash("lighttank")
+				self:Flash("lighttank", args.spellId)
 				local _, _, _, _, _, duration = UnitDebuff(args.destName, args.spellName)
 				self:Bar("lighttank", L["lighttank_bar"]:format(args.destName), duration, args.spellId)
 				self:Message("lighttank", L["lighttank_message"], "Attention", args.spellId, args.destName)

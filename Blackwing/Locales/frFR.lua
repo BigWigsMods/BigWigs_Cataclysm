@@ -19,7 +19,6 @@ if L then
 	L.bileotron_engage = "Le bile-o-tron s'anime et commence à secréter une substance malodorante."
 
 	L.next_system_failure = "Prochaine Défaillance"
-	L.break_message = "%2$dx Brèche sur %1$s"
 
 	L.phase2_message = "Phase Mortalité imminente !"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "Phases"
 	L.phase_desc = "Prévient quand la rencontre entre dans une nouvelle phase."
 
-	L.discharge_bar = "~Décharge"
+	L.discharge_bar = "Décharge"
 
 	L.phase_two_trigger = "Soyez maudits, mortels ! Un tel mépris pour les possessions d'autrui doit être traité avec une extrême fermeté !"
 
@@ -126,14 +125,12 @@ if L then
 
 	L.next_switch = "Prochaine activation"
 
-	L.nef_next = "~Buff de technique"
-
-	L.acquiring_target = "Acquisition d'une cible"
+	L.nef_next = "Buff de technique"
 
 	L.bomb_message = "Une Bombe de poison VOUS poursuit !"
 	L.cloud_message = "Nuage chimique sur VOUS !"
 	L.protocol_message = "Arrivée de Bombes de poison !"
 
-	L.iconomnotron = "Icône sur le boss actif"
-	L.iconomnotron_desc = "Place l'icône de raid primaire sur le boss actif (nécessite d'être assistant ou mieux)."
+	L.custom_on_iconomnotron = "Icône sur le boss actif"
+	L.custom_on_iconomnotron_desc = "Place l'icône de raid primaire sur le boss actif (nécessite d'être assistant ou mieux)."
 end

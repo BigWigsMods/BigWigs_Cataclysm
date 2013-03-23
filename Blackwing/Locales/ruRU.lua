@@ -18,8 +18,7 @@ L = BigWigs:NewBossLocale("Chimaeron", "ruRU")
 if L then
 	L.bileotron_engage = "Желче-трон оживает и начинает извергать из себя некое вонючее вещество."
 
-	L.next_system_failure = "~Системная ошибка"
-	L.break_message = "%2$dx Разлом на |3-5(%1$s)"
+	L.next_system_failure = "Системная ошибка"
 
 	L.phase2_message = "Скоро фаза Смертности!"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "Фазы"
 	L.phase_desc = "Сообщать о смене фаз."
 
-	L.discharge_bar = "~Искровой разряд"
+	L.discharge_bar = "Искровой разряд"
 
 	L.phase_two_trigger = "Дерзкие смертные! Неуважение к чужой собственности нужно пресекать самым жестоким образом!"
 
@@ -124,15 +123,13 @@ if L then
 
 	L.next_switch = "Новая активация"
 
-	L.nef_next = "~Вливание Тьмы"
-
-	L.acquiring_target = "Выбор цели"
+	L.nef_next = "Вливание Тьмы"
 
 	L.bomb_message = "Слизнюк преследует ТЕБЯ!"
 	L.cloud_message = "Облако под ТОБОЙ!"
 	L.protocol_message = "Химическая бомба!"
 
-	L.iconomnotron = "Метка на активного босса"
-	L.iconomnotron_desc = "Помечает активного босса основной меткой (требуется быть лидером или помощником)."
+	L.custom_on_iconomnotron = "Метка на активного босса"
+	L.custom_on_iconomnotron_desc = "Помечает активного босса основной меткой (требуется быть лидером или помощником)."
 end
 

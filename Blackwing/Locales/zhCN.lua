@@ -19,7 +19,6 @@ if L then
 	L.bileotron_engage = "胆汁喷洒机"
 
 	L.next_system_failure = "下一系统当机"
-	L.break_message = "突破%2$dx：>%1$s<！"
 
 	L.phase2_message = "即将 至死方休阶段！"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "阶段"
 	L.phase_desc = "当进入不同阶段时发出警报。"
 
-	L.discharge_bar = "闪电倾泻 冷却"
+	L.discharge_bar = "闪电倾泻"
 
 	L.phase_two_trigger = "诅咒你们，凡人！你们丝毫不尊重他人财产的行为必须受到严厉处罚！"
 
@@ -128,13 +127,11 @@ if L then
 
 	L.nef_next = "暗影灌注"
 
-	L.acquiring_target = "获取目标"
-
 	L.bomb_message = ">你< 毒液炸弹追击！"
 	L.cloud_message = ">你< 化学云雾！"
 	L.protocol_message = "自动毒弹！"
 
-	L.iconomnotron = "标记激活首领"
-	L.iconomnotron_desc = "为激活的首领打上主团队标记。（需要权限）"
+	L.custom_on_iconomnotron = "标记激活首领"
+	L.custom_on_iconomnotron_desc = "为激活的首领打上主团队标记。（需要权限）"
 end
 

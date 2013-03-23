@@ -18,8 +18,7 @@ L = BigWigs:NewBossLocale("Chimaeron", "koKR")
 if L then
 	L.bileotron_engage = "담즙로봇이 움직이기 시작하더니 고약한 냄새가 나는 물질을 방출합니다."
 
-	L.next_system_failure = "~다음 시스템 오류"
-	L.break_message = "깨부수기 x%2$d : %1$s"
+	L.next_system_failure = "다음 시스템 오류"
 
 	L.phase2_message = "곧 치명상 단계!"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "단계"
 	L.phase_desc = "단계 변화를 알립니다."
 
-	L.discharge_bar = "~번개 방출 대기시간"
+	L.discharge_bar = "번개 방출 대기시간"
 
 	L.phase_two_trigger = "저주받을 필멸자들!"
 
@@ -126,15 +125,13 @@ if L then
 
 	L.next_switch = "다음 활성화"
 
-	L.nef_next = "~기술 버프"
-
-	L.acquiring_target = "대상 획득"
+	L.nef_next = "기술 버프"
 
 	L.bomb_message = "슬라임이 당신을 추적!"
 	L.cloud_message = "당신은 화학 구름!"
 	L.protocol_message = "독 폭탄!"
 
-	L.iconomnotron = "활성화 보스 전술"
-	L.iconomnotron_desc = "활성화된 보스에 공격대 전술을 지정합니다. (공격대장이나 승급된 사람만이 가능합니다)."
+	L.custom_on_iconomnotron = "활성화 보스 전술"
+	L.custom_on_iconomnotron_desc = "활성화된 보스에 공격대 전술을 지정합니다. (공격대장이나 승급된 사람만이 가능합니다)."
 end
 

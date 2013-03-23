@@ -14,8 +14,6 @@ local aberrations = 18
 local phaseCounter = 0
 local chillTargets = mod:NewTargetList()
 local isChilled, currentPhase = nil, nil
-local scorchingBlast = "~"..mod:SpellName(77679)
-local flashFreeze = "~"..mod:SpellName(77699)
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -117,7 +115,7 @@ end
 
 function mod:OnEngage()
 	if self:Heroic() then
-		self:Bar("phase", L["next_phase"], 16, "INV_ELEMENTAL_PRIMAL_SHADOW")
+		self:Bar("phase", 16, L["next_phase"], "INV_ELEMENTAL_PRIMAL_SHADOW")
 		self:Berserk(720)
 	else
 		self:Berserk(420)
@@ -139,8 +137,8 @@ do
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			self:Message("sludge", L["sludge_message"], "Personal", args.spellId, "Info")
-			self:Flash("sludge")
+			self:Message("sludge", "Personal", "Info", L["sludge_message"], args.spellId)
+			self:Flash("sludge", args.spellId)
 		end
 	end
 end
@@ -149,18 +147,18 @@ do
 	local function nextPhase(timeToNext)
 		phaseCounter = phaseCounter + 1
 		if (not mod:Heroic() and phaseCounter == 2) or (mod:Heroic() and phaseCounter == 3) then
-			mod:Bar("phase", L["green_phase_bar"], timeToNext, "INV_POTION_162")
+			mod:Bar("phase", timeToNext, L["green_phase_bar"], "INV_POTION_162")
 		else
-			mod:Bar("phase", L["next_phase"], timeToNext, "INV_ALCHEMY_ELIXIR_EMPTY")
+			mod:Bar("phase", timeToNext, L["next_phase"], "INV_ALCHEMY_ELIXIR_EMPTY")
 		end
 	end
 
 	function mod:Red()
 		if currentPhase == "red" then return end
 		currentPhase = "red"
-		self:StopBar(flashFreeze)
-		self:Bar(77679, scorchingBlast, 25, 77679)
-		self:Message("phase", L["red_phase"], "Positive", "INV_POTION_24", "Long")
+		self:StopBar(77699) -- Flash Freeze
+		self:CDBar(77679, 25) -- Scorching Blast
+		self:Message("phase", "Positive", "Long", L["red_phase"], "INV_POTION_24")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -169,18 +167,18 @@ do
 	function mod:Blue()
 		if currentPhase == "blue" then return end
 		currentPhase = "blue"
-		self:StopBar(scorchingBlast)
-		self:Bar(77699, flashFreeze, 28, 77699)
-		self:Message("phase", L["blue_phase"], "Positive", "INV_POTION_20", "Long")
+		self:StopBar(77679) -- Scorching Blast
+		self:CDBar(77699, 28) -- Flash Freeze
+		self:Message("phase", "Positive", "Long", L["blue_phase"], "INV_POTION_20")
 		self:OpenProximity("proximity", 5)
 		nextPhase(47)
 	end
 	function mod:Green()
 		if currentPhase == "green" then return end
 		currentPhase = "green"
-		self:StopBar(scorchingBlast)
-		self:StopBar(flashFreeze)
-		self:Message("phase", L["green_phase"], "Positive", "INV_POTION_162", "Long")
+		self:StopBar(77679) -- Scorching Blast
+		self:StopBar(77699) -- Flash Freeze
+		self:Message("phase", "Positive", "Long", L["green_phase"], "INV_POTION_162")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -191,7 +189,7 @@ do
 	function mod:Dark()
 		if currentPhase == "dark" then return end
 		currentPhase = "dark"
-		self:Message("phase", L["dark_phase"], "Positive", "INV_ELEMENTAL_PRIMAL_SHADOW", "Long")
+		self:Message("phase", "Positive", "Long", L["dark_phase"], "INV_ELEMENTAL_PRIMAL_SHADOW")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -200,11 +198,11 @@ do
 end
 
 function mod:FlashFreezeTimer(args)
-	self:Bar(args.spellId, flashFreeze, 15, args.spellId)
+	self:CDBar(args.spellId, 15)
 end
 
 function mod:FlashFreeze(args)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Info")
+	self:TargetMessage(args.spellId, args.destName, "Attention", "Info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -214,7 +212,7 @@ end
 
 function mod:Remedy(args)
 	if self:MobId(args.destGUID) == 41378 then
-		self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alarm")
+		self:Message(args.spellId, "Important", "Alarm")
 	end
 end
 
@@ -222,7 +220,7 @@ do
 	local handle = nil
 	local function release()
 		aberrations = aberrations - 3
-		mod:Message(77569, L["release_aberration_message"]:format(aberrations), "Important", 688, "Alert") --Summon Imp Icon
+		mod:Message(77569, "Important", "Alert", L["release_aberration_message"]:format(aberrations), 688) --Summon Imp Icon
 	end
 	function mod:ReleaseAberrations()
 		-- He keeps casting it even if there are no adds left to release...
@@ -243,24 +241,24 @@ function mod:ConsumingFlames(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Personal", args.spellId, "Info")
+	self:TargetMessage(args.spellId, args.destName, "Personal", "Info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
 function mod:ScorchingBlast(args)
-	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
-	self:Bar(args.spellId, scorchingBlast, 10, args.spellId)
+	self:Message(args.spellId, "Attention")
+	self:CDBar(args.spellId, 10)
 end
 
 function mod:ReleaseAll(args)
-	self:Message(args.spellId, L["release_all"]:format(aberrations + 2), "Important", args.spellId, "Alert")
-	self:Bar(args.spellId, "~"..args.spellName, 12.5, args.spellId)
+	self:Message(args.spellId, "Important", "Alert", L["release_all"]:format(aberrations + 2))
+	self:CDBar(args.spellId, 12.5)
 end
 
 do
 	local scheduled = nil
-	local function chillWarn(spellName, spellId)
-		mod:TargetMessage(spellId, spellName, chillTargets, "Attention", spellId, "Info")
+	local function chillWarn(spellId)
+		mod:TargetMessage(spellId, chillTargets, "Attention", "Info")
 		scheduled = nil
 	end
 	function mod:BitingChill(args)
@@ -272,7 +270,7 @@ do
 		end
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(chillWarn, 0.3, args.spellName, args.spellId)
+			self:ScheduleTimer(chillWarn, 0.3, args.spellId)
 		end
 	end
 end
@@ -287,11 +285,11 @@ function mod:BitingChillRemoved(args)
 end
 
 function mod:ArcaneStorm(args)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
+	self:Message(args.spellId, "Urgent")
 end
 
 function mod:Jets(args)
-	self:Bar(args.spellId, args.spellName, 10, args.spellId)
+	self:Bar(args.spellId, 10)
 end
 
 function mod:PhaseWarn(unit)

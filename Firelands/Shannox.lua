@@ -79,10 +79,10 @@ do
 			timer = nil
 			if UnitIsUnit("boss1target", "player") then
 				if spellId == 99836 then
-					mod:Flash("crystal")
+					mod:Flash("crystal", spellId)
 					mod:Say("crystal", L["crystal_trap"])
 				else
-					mod:Flash("immolationyou")
+					mod:Flash("immolationyou", spellId)
 					mod:Message("immolationyou", CL["underyou"]:format(L["immolationyou_message"]), "Personal", spellId, "Alarm")
 				end
 			end

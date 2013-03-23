@@ -19,7 +19,6 @@ if L then
 	L.bileotron_engage = "「好膽」機器人開始活動，並且噴出一種惡臭的物質。"
 
 	L.next_system_failure = "下一系統失效"
-	L.break_message = "破壞%2$dx：>%1$s<！"
 
 	L.phase2_message = "即將 致命性階段！"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "階段"
 	L.phase_desc = "當進入不同階段時發出警報。"
 
-	L.discharge_bar = "閃電釋放 冷卻"
+	L.discharge_bar = "閃電釋放"
 
 	L.phase_two_trigger = "詛咒你們，凡人!如此冷酷地漠視他人的所有物必須受到嚴厲的懲罰!"
 
@@ -128,13 +127,11 @@ if L then
 
 	L.nef_next = "闇能灌注"
 
-	L.acquiring_target = "鎖定目標"
-
 	L.bomb_message = ">你< 毒泥炸彈追擊！"
 	L.cloud_message = ">你< 化學毒霧！"
 	L.protocol_message = "毒殺計畫！"
 
-	L.iconomnotron = "標記啟動首領"
-	L.iconomnotron_desc = "為啟動的首領打上主團隊標記。（需要權限）"
+	L.custom_on_iconomnotron = "標記啟動首領"
+	L.custom_on_iconomnotron_desc = "為啟動的首領打上主團隊標記。（需要權限）"
 end
 

@@ -18,8 +18,7 @@ L = BigWigs:NewBossLocale("Chimaeron", "ptBR")
 if L then
 	L.bileotron_engage = "O Vomitomático é ativado e começa a emitir uma substância de cheiro repelente.."
 
-	L.next_system_failure = "~Próxima falha de sistema"
-	L.break_message = "%2$dx Se quebra em %1$s"
+	L.next_system_failure = "Próxima falha de sistema"
 
 	L.phase2_message = "Fase de mortalidade iminente!"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "Fases"
 	L.phase_desc = "Avisa as trocas de fase."
 
-	L.discharge_bar = "~Descarga elétrica"
+	L.discharge_bar = "Descarga elétrica"
 
 	L.phase_two_trigger = "Malditos sejam, mortais! Um descaso tão grande pelos bens de alguém merece ser recebido violência extrema!"
 
@@ -125,15 +124,13 @@ if L then
 
 	L.next_switch = "Próxima Ativação"
 
-	L.nef_next = "~Bônus de habilidade"
-
-	L.acquiring_target = "Selecionando alvo"
+	L.nef_next = "Bônus de habilidade"
 
 	L.bomb_message = "Uma gosma persegue VOCÊ!"
 	L.cloud_message = "Nuvem abaixo de VOCÊ!"
 	L.protocol_message = "Bomba de veneno iminente!"
 
-	L.iconomnotron = "Icone de chefe ativo"
-	L.iconomnotron_desc = "Coloca o icone principal de raide no chefe ativo (requer ajudante ou lider)."
+	L.custom_on_iconomnotron = "Icone de chefe ativo"
+	L.custom_on_iconomnotron_desc = "Coloca o icone principal de raide no chefe ativo (requer ajudante ou lider)."
 end
 

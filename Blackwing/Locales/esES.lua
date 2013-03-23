@@ -18,8 +18,7 @@ L = BigWigs:NewBossLocale("Chimaeron", "esES") or BigWigs:NewBossLocale("Chimaer
 if L then
 	L.bileotron_engage = "El Bilistrón se activa y empieza a emitir una sustancia de olor asqueroso."
 
-	L.next_system_failure = "~Siguiente fallo del sistema"
-	L.break_message = "%2$dx Romper en %1$s"
+	L.next_system_failure = "Siguiente fallo del sistema"
 
 	L.phase2_message = "¡Fase de Mortalidad pronto!"
 
@@ -96,7 +95,7 @@ if L then
 	L.phase = "Fases"
 	L.phase_desc = "Avisa los cambios de fase."
 
-	L.discharge_bar = "~Descarga"
+	L.discharge_bar = "Descarga"
 
 	L.phase_two_trigger = "¡Os maldigo, mortales! ¡Ese cruel menosprecio por las posesiones de uno debe ser castigado con fuerza extrema!"
 
@@ -125,15 +124,13 @@ if L then
 
 	L.next_switch = "Siguiente activación"
 
-	L.nef_next = "~Bufo de habilidad"
-
-	L.acquiring_target = "Eligiendo objetivo"
+	L.nef_next = "Bufo de habilidad"
 
 	L.bomb_message = "¡Un moco TE persigue!"
 	L.cloud_message = "¡Nube en TI!"
 	L.protocol_message = "¡Bomba de veneno inminente!"
 
-	L.iconomnotron = "Icono en el jefe activo"
-	L.iconomnotron_desc = "Coloca el icono principal de raid en el jefe activo (requiere ayudante o lider)."
+	L.custom_on_iconomnotron = "Icono en el jefe activo"
+	L.custom_on_iconomnotron_desc = "Coloca el icono principal de raid en el jefe activo (requiere ayudante o lider)."
 end
 

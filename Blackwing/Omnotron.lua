@@ -23,16 +23,15 @@ if L then
 
 	L.next_switch = "Next activation"
 
-	L.nef_next = "~Ability buff"
-
-	L.acquiring_target = "Acquiring target"
+	L.nef_next = "Ability buff"
 
 	L.bomb_message = "Blob chasing YOU!"
 	L.cloud_message = "Cloud under YOU!"
 	L.protocol_message = "Blobs incoming!"
 
-	L.iconomnotron = "Icon on active boss"
-	L.iconomnotron_desc = "Place the primary raid icon on the active boss (requires promoted or leader)."
+	L.custom_on_iconomnotron = "Skull on active boss"
+	L.custom_on_iconomnotron_desc = "Place a skull on the active boss (requires promoted or leader)."
+	L.custom_on_iconomnotron_icon = "Interface\\TARGETINGFRAME\\UI-RaidTargetingIcon_8"
 end
 L = mod:GetLocale()
 
@@ -45,7 +44,7 @@ function mod:GetOptions()
 		{79501, "ICON", "FLASH"},
 		{79888, "ICON", "FLASH", "PROXIMITY"},
 		{80161, "FLASH"}, {80157, "FLASH", "SAY"}, 80053, {80094, "FLASH"},
-		"nef", 91849, 91879, {92048, "ICON"}, 92023, {"switch", "ICON"},
+		"nef", 91849, 91879, {92048, "ICON"}, 92023, "switch", "custom_on_iconomnotron",
 		"berserk", "bosskill"
 	}, {
 		[79501] = -3207, -- Electron
@@ -105,9 +104,9 @@ do
 end
 
 function mod:PoolExplosion()
-	self:Message(91879, L["pool"], "Urgent", 91879)
-	self:Bar("nef", L["nef_next"], 35, 69005)
-	self:Bar(91879, L["pool"], 8, 91879)
+	self:Message(91879, "Urgent", nil, L["pool"])
+	self:CDBar("nef", 35, L["nef_next"], 69005)
+	self:Bar(91879, 8, L["pool"])
 end
 
 do
@@ -117,14 +116,16 @@ do
 		local t = GetTime()
 		if (t - prev) > timer then
 			prev = t
-			self:Bar("switch", L["next_switch"], timer+3, args.spellId)
-			self:Message("switch", L["switch_message"]:format(args.destName, args.spellName), "Positive", args.spellId, "Long")
+			self:Bar("switch", timer+3, L["next_switch"], args.spellId)
+			self:Message("switch", "Positive", "Long", L["switch_message"]:format(args.destName, args.spellName), args.spellId)
 			--Using dGUID to avoid issues with names appearing as "UNKNOWN" for a second or so
-			for i = 1, 4 do
-				local bossId = ("boss%d"):format(i)
-				if UnitGUID(bossId) == args.destGUID then
-					self:PrimaryIcon("switch", bossId)
-					break
+			if self.db.profile.custom_on_iconomnotron then
+				for i = 1, 4 do
+					local bossId = ("boss%d"):format(i)
+					if UnitGUID(bossId) == args.destGUID then
+						SetRaidTarget(bossId, 8)
+						break
+					end
 				end
 			end
 		end
@@ -132,36 +133,36 @@ do
 end
 
 function mod:Grip(args)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
-	self:Bar("nef", L["nef_next"], 35, 69005)
+	self:Message(args.spellId, "Urgent")
+	self:CDBar("nef", 35, L["nef_next"], 69005)
 end
 
 function mod:ShadowInfusion(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Urgent", args.spellId)
-	self:Bar("nef", L["nef_next"], 35, 69005)
+	self:TargetMessage(args.spellId, args.destName, "Urgent")
+	self:CDBar("nef", 35, L["nef_next"], 69005)
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
 function mod:EncasingShadows(args)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Urgent", args.spellId)
-	self:Bar("nef", L["nef_next"], 35, 69005)
+	self:TargetMessage(args.spellId, args.destName, "Urgent")
+	self:CDBar("nef", 35, L["nef_next"], 69005)
 end
 
 function mod:AcquiringTarget(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, L["acquiring_target"], args.destName, "Urgent", args.spellId, "Alarm")
+	self:TargetMessage(args.spellId, args.destName, "Urgent", "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
 function mod:Fixate(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
-		self:Message(args.spellId, L["bomb_message"], "Personal", args.spellId, "Alarm")
+		self:Message(args.spellId, "Personal", "Alarm", L["bomb_message"])
 	end
 end
 
@@ -170,7 +171,7 @@ function mod:LightningConductor(args)
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10) --assumed
 	end
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:TargetMessage(args.spellId, args.destName, "Attention", "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
@@ -180,8 +181,8 @@ function mod:LightningConductorRemoved(args)
 end
 
 function mod:PoisonProtocol(args)
-	self:Bar(args.spellId, args.spellName, 45, args.spellId)
-	self:Message(args.spellId, L["protocol_message"], "Important", args.spellId, "Alert")
+	self:Bar(args.spellId, 45)
+	self:Message(args.spellId, "Important", "Alert", L["protocol_message"])
 end
 
 do
@@ -191,7 +192,7 @@ do
 		if (time - last) > 2 then
 			last = time
 			if self:Me(args.destGUID) then
-				self:Message(args.spellId, L["cloud_message"], "Personal", args.spellId, "Info")
+				self:Message(args.spellId, "Personal", "Info", L["cloud_message"])
 				self:Flash(args.spellId)
 			end
 		end
