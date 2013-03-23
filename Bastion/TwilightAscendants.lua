@@ -121,8 +121,8 @@ function mod:OnEngage()
 		self:OpenProximity("proximity", 10)
 	end
 
-	self:Bar(82631, L["shield_bar"], 30, 82631)
-	self:Bar(82746, 82746, 30, 82746) -- Glaciate
+	self:Bar(82631, 30, L["shield_bar"])
+	self:Bar(82746, 30) -- Glaciate
 
 	phase = 1
 	crushMarked = false
@@ -135,15 +135,14 @@ end
 
 do
 	local scheduled = nil
-	local function lrWarn(spellName, spellId)
-		mod:TargetMessage(spellId, spellName, lrTargets, "Important", spellId, "Alert")
+	local function lrWarn(spellId)
+		mod:TargetMessage(spellId, lrTargets, "Important", "Alert")
 		scheduled = nil
 	end
 	function mod:LightningRodApplied(args)
 		lrTargets[#lrTargets + 1] = args.destName
 		if not scheduled then
-			scheduled = true
-			self:ScheduleTimer(lrWarn, 0.3, args.spellName, args.spellId)
+			scheduled = self:ScheduleTimer(lrWarn, 0.3, args.spellId)
 		end
 		if self:Me(args.destGUID) then
 			self:Say(args.spellId)
@@ -155,8 +154,8 @@ end
 
 do
 	local scheduled = nil
-	local function gcWarn(spellName, spellId)
-		mod:TargetMessage(spellId, spellName, gcTargets, "Important", spellId, "Alert")
+	local function gcWarn(spellId)
+		mod:TargetMessage(spellId, gcTargets, "Important", "Alert")
 		scheduled = nil
 	end
 	local function marked()
@@ -170,10 +169,9 @@ do
 			self:ScheduleTimer(marked, 5)
 		end
 		if not scheduled then
-			scheduled = true
-			self:ScheduleTimer(gcWarn, 0.2, args.spellName, args.spellId)
+			scheduled = self:ScheduleTimer(gcWarn, 0.2, args.spellId)
 		end
-		self:Bar(args.spellId, args.spellName, 25, args.spellId)
+		self:Bar(args.spellId, 25)
 	end
 end
 
@@ -188,7 +186,7 @@ function mod:GravityCore(args)
 		self:Say(args.spellId, L["gravity_core_say"])
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:TargetMessage(args.spellId, args.destName, "Attention", "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
@@ -201,7 +199,7 @@ function mod:StaticOverload(args)
 		self:Say(args.spellId, L["static_overload_say"])
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:TargetMessage(args.spellId, args.destName, "Attention", "Alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -213,7 +211,7 @@ function mod:FrostBeacon(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:TargetMessage(args.spellId, args.destName, "Attention", "Alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -224,13 +222,13 @@ do
 		local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 		if phase == 1 then
 			if hp < 30 then
-				self:Message("switch", L["health_report"]:format((UnitName(unit)), hp), "Attention", 26662, "Info")
+				self:Message("switch", "Attention", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
 				phase = 2
 			end
 		elseif phase == 2 then
 			if hp > 1 and hp < 30 and (UnitName(unit) == arion or UnitName(unit) == terrastra) then
 				phase = 3
-				self:Message("switch", L["health_report"]:format((UnitName(unit)), hp), "Attention", 26662, "Info")
+				self:Message("switch", "Attention", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
 				self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1", "boss2", "boss3", "boss4")
 			end
 		end
@@ -238,39 +236,39 @@ do
 end
 
 function mod:FlameShield(args)
-	self:Bar(args.spellId, L["shield_bar"], 62, args.spellId)
-	self:Message(args.spellId, L["shield_up_message"], "Important", args.spellId, "Alert")
+	self:Bar(args.spellId, 62, L["shield_bar"])
+	self:Message(args.spellId, "Important", "Alert", L["shield_up_message"])
 end
 
 function mod:FlameShieldRemoved(args)
-	self:Message(args.spellId, L["shield_down_message"], "Important", args.spellId, "Alert")
+	self:Message(args.spellId, "Important", "Alert", L["shield_down_message"])
 end
 
 function mod:HardenSkinStart(args)
-	self:Bar(args.spellId, args.spellName, 44, args.spellId)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Info")
+	self:Bar(args.spellId, 44)
+	self:Message(args.spellId, "Urgent", "Info")
 end
 
 function mod:Glaciate(args)
-	self:Bar(args.spellId, args.spellName, 33, args.spellId)
-	self:Message(args.spellId, args.spellName, "Attention", args.spellId, "Alert")
+	self:Bar(args.spellId, 33)
+	self:Message(args.spellId, "Attention", "Alert")
 end
 
 function mod:Waterlogged(args)
 	if self:Me(args.destGUID) then
-		self:Message(args.spellId, args.spellName, "Personal", args.spellId, "Long")
+		self:Message(args.spellId, "Personal", "Long")
 	end
 end
 
 function mod:HeartofIce(args)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
+	self:TargetMessage(args.spellId, args.destName, "Important")
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 end
 
 function mod:BurningBlood(args)
-	self:TargetMessage(args.spellId, args.spellName, args.destName, "Important", args.spellId)
+	self:TargetMessage(args.spellId, args.destName, "Important")
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
@@ -279,73 +277,69 @@ end
 function mod:Switch()
 	self:StopBar(L["shield_bar"])
 	self:StopBar(82746) -- Glaciate
-	self:Bar(83565, quake, 33, 83565)
-	self:Bar(83067, thundershock, 70, 83067)
-	self:Bar(83718, 83718, 25.5, 83718) -- Harden Skin
+	self:Bar(83565, 33) -- Quake
+	self:Bar(83067, 70) -- Thundershock
+	self:Bar(83718, 25.5) -- Harden Skin
 	self:CancelAllTimers()
 	-- XXX this needs to be delayed
 end
 
 do
 	local hardenTimer = nil
-	local flying = mod:SpellName(83500)
 	local function quakeIncoming()
-		local name, _, icon = UnitDebuff("player", flying)
-		if name then
+		if UnitDebuff("player", mod:SpellName(83500)) then -- Swirling Winds
 			mod:CancelTimer(hardenTimer)
 			return
 		end
-		mod:Message(83565, L["thundershock_quake_spam"]:format(quake, timeLeft), "Personal", icon, "Info")
+		mod:Message(83565, "Personal", "Info", L["thundershock_quake_spam"]:format(quake, timeLeft), 83500)
 		timeLeft = timeLeft - 2
 	end
 
 	function mod:QuakeTrigger()
-		self:Bar(83565, quake, 10, 83565)
-		self:Message(83565, L["thundershock_quake_soon"]:format(quake), "Important", 83565, "Info")
+		self:Bar(83565, 10)
+		self:Message(83565, "Important", "Info", L["thundershock_quake_soon"]:format(quake))
 		timeLeft = 8
 		hardenTimer = self:ScheduleRepeatingTimer(quakeIncoming, 2)
 	end
 
 	function mod:Quake(args)
-		self:Bar(args.spellId, args.spellName, 68, args.spellId)
-		self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alarm")
+		self:Bar(args.spellId, 68)
+		self:Message(args.spellId, "Important", "Alarm")
 		self:CancelTimer(hardenTimer) -- Should really wait 3 more sec.
 	end
 end
 
 do
 	local thunderTimer = nil
-	local grounded = mod:SpellName(83581)
 	local function thunderShockIncoming()
-		local name, _, icon = UnitDebuff("player", grounded)
-		if name then
+		if UnitDebuff("player", mod:SpellName(83581)) then -- Grounded
 			mod:CancelTimer(thunderTimer)
 			return
 		end
-		mod:Message(83067, L["thundershock_quake_spam"]:format(thundershock, timeLeft), "Personal", icon, "Info")
+		mod:Message(83067, "Personal", "Info", L["thundershock_quake_spam"]:format(thundershock, timeLeft), 83581)
 		timeLeft = timeLeft - 2
 	end
 
 	function mod:ThundershockTrigger()
-		self:Message(83067, L["thundershock_quake_soon"]:format(thundershock), "Important", 83067, "Info")
-		self:Bar(83067, thundershock, 10, 83067)
+		self:Message(83067, "Important", "Info", L["thundershock_quake_soon"]:format(thundershock))
+		self:Bar(83067, 10)
 		timeLeft = 8
 		thunderTimer = self:ScheduleRepeatingTimer(thunderShockIncoming, 2)
 	end
 
 	function mod:Thundershock(args)
-		self:Bar(args.spellId, args.spellName, 65, args.spellId)
-		self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alarm")
+		self:Bar(args.spellId, 65)
+		self:Message(args.spellId, "Important", "Alarm")
 		self:CancelTimer(thunderTimer) -- Should really wait 3 more sec but meh.
 	end
 end
 
 function mod:LastPhase()
-	self:StopBar(quake)
-	self:StopBar(thundershock)
+	self:StopBar(83565) -- Quake
+	self:StopBar(83067) -- Thundershock
 	self:StopBar(83718) -- Harden Skin
 	self:CancelAllTimers()
-	self:Bar(84948, 84948, 43, 84948) -- Gravity Crush
+	self:Bar(84948, 43) -- Gravity Crush
 	self:OpenProximity("proximity", 9)
 	self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1", "boss2", "boss3", "boss4")
 end

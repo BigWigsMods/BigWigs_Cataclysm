@@ -69,7 +69,7 @@ function mod:MalevolentStrikes(args)
 end
 
 function mod:Breath(args)
-	self:Message(args.spellId, L["breath_message"], "Attention", args.spellId)
-	self:Bar(args.spellId, L["breath_bar"], 20, args.spellId)
+	self:Message(args.spellId, "Attention", nil, L["breath_message"])
+	self:Bar(args.spellId, 20, L["breath_bar"])
 end
 

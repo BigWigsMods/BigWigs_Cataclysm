@@ -19,8 +19,8 @@ if L then
 
 	L.egg_vulnerable = "Omelet time!"
 
-	L.whelps_trigger = "Feed, children!  Take your fill from their meaty husks!"
-	L.omelet_trigger = "You mistake this for weakness?  Fool!"
+	L.whelps_trigger = "Feed, children!" -- Feed, children!  Take your fill from their meaty husks!
+	L.omelet_trigger = "You mistake this for weakness?" -- You mistake this for weakness?  Fool!
 
 	L.phase13 = "Phase 1 and 3"
 	L.phase = "Phase"
@@ -32,7 +32,6 @@ L = mod:GetLocale()
 -- Locals
 --
 
-local breath, slicer = mod:SpellName(90125), mod:SpellName(92852)
 local roleCheckWarned = nil
 local eggs = 0
 local orbList = {}
@@ -116,15 +115,15 @@ local function orbWarning(source)
 
 	if source == "spawn" then
 		if #orbList > 0 then
-			mod:TargetMessage(92852, L["slicer_message"], colorize(orbList), "Personal", 92852, "Alarm")
+			mod:TargetMessage(92852, colorize(orbList), "Personal", "Alarm", L["slicer_message"])
 			-- if we could guess orb targets lets wipe the whelpGUIDs in 5 sec
 			-- if not then we might as well just save them for next time
 			mod:ScheduleTimer(wipeWhelpList, 5) -- might need to adjust this
 		else
-			mod:Message(92852, slicer, "Personal", 92852)
+			mod:Message(92852, "Personal")
 		end
 	elseif source == "damage" then
-		mod:TargetMessage(92852, L["slicer_message"], colorize(orbList), "Personal", 92852, "Alarm")
+		mod:TargetMessage(92852, colorize(orbList), "Personal", "Alarm", L["slicer_message"])
 		mod:ScheduleTimer(wipeWhelpList, 10, true) -- might need to adjust this
 	end
 end
@@ -132,7 +131,7 @@ end
 -- this gets run every 30 sec
 -- need to change it once there is a proper trigger for orbs
 local function nextOrbSpawned()
-	mod:Bar(92852, "~"..slicer, 28, 92852)
+	mod:CDBar(92852, 28)
 	populateOrbList()
 	orbWarning("spawn")
 	mod:ScheduleTimer(nextOrbSpawned, 28)
@@ -192,9 +191,9 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	self:Bar(90125, "~"..breath, 24, 90125)
-	self:Bar(92852, "~"..slicer, 29, 92852)
-	self:Bar("whelps", L["whelps"], 16, 69005) -- whelp like icon
+	self:CDBar(90125, 24) -- Slicer
+	self:CDBar(92852, 29) -- Breath
+	self:Bar("whelps", 16, L["whelps"], 69005) -- whelp like icon
 	self:ScheduleTimer(nextOrbSpawned, 29)
 	eggs = 0
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "PhaseWarn", "boss1")
@@ -231,19 +230,19 @@ function mod:OrbDamage()
 end
 
 function mod:Whelps()
-	self:Bar("whelps", L["whelps"], 50, 69005)
-	self:Message("whelps", L["whelps"], "Important", 69005)
+	self:Bar("whelps", 50, L["whelps"], 69005)
+	self:Message("whelps", "Important", nil, L["whelps"], 69005)
 end
 
 function mod:Extinction(args)
-	self:Bar(args.spellId, args.spellName, 15, args.spellId)
+	self:Bar(args.spellId, 15)
 end
 
 do
 	local scheduled = nil
 	local function EggMessage(spellId)
-		mod:Message(spellId, L["egg_vulnerable"], "Important", spellId, "Alert")
-		mod:Bar(spellId, L["egg_vulnerable"], 30, spellId)
+		mod:Message(spellId, "Important", "Alert", L["egg_vulnerable"])
+		mod:Bar(spellId, 30, L["egg_vulnerable"])
 		scheduled = nil
 	end
 	function mod:Egg(args)
@@ -255,11 +254,11 @@ do
 end
 
 function mod:EggTrigger()
-	self:Bar(87654, L["egg_vulnerable"], 5, 87654)
+	self:Bar(87654, 5, L["egg_vulnerable"], 87654)
 end
 
 function mod:Indomitable(args)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
+	self:Message(args.spellId, "Urgent")
 	if self:Dispeller("enrage", true) then
 		self:PlaySound(args.spellId, "Info")
 		self:Flash(args.spellId)
@@ -269,26 +268,26 @@ end
 function mod:PhaseWarn(unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp <= 30.5 then
-		self:Message("phase", CL["phase"]:format(2), "Positive", 86226, "Info")
+		self:Message("phase", "Positive", "Info", CL["phase"]:format(2), 86226)
 		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 		self:CancelAllTimers()
-		self:StopBar("~"..slicer)
-		self:StopBar("~"..breath)
+		self:StopBar(92852) -- Slicer
+		self:StopBar(90125) -- Breath
 	end
 end
 
 function mod:Breath(args)
-	self:Bar(args.spellId, "~"..args.spellName, 24, args.spellId)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId)
+	self:CDBar(args.spellId, 24)
+	self:Message(args.spellId, "Urgent")
 end
 
 function mod:TwilightEggDeaths()
 	eggs = eggs + 1
 	if eggs == 2 then
-		self:Message("phase", CL["phase"]:format(3), "Positive", 51070, "Info") -- broken egg icon
-		self:Bar("whelps", L["whelps"], 50, 69005)
-		self:Bar(92852, "~"..slicer, 30, 92852)
-		self:Bar(90125, "~"..breath, 24, 90125)
+		self:Message("phase", "Positive", "Info", CL["phase"]:format(3), 51070) -- broken egg icon
+		self:Bar("whelps", 50, L["whelps"], 69005)
+		self:CDBar(92852, 30) -- Slicer
+		self:CDBar(90125, 24) -- Breath
 		self:ScheduleTimer(nextOrbSpawned, 30)
 	end
 end
