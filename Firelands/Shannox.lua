@@ -57,7 +57,7 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	self:Bar(100002, 100002, 23, 100002) -- Hurl Spear
+	self:Bar(100002, 23) -- Hurl Spear
 	self:Berserk(600)
 end
 
@@ -73,7 +73,7 @@ do
 		if player and (not UnitDetailedThreatSituation("boss1target", "boss1") or fired > 13) then
 			-- If we've done 14 (0.7s) checks and still not passing the threat check, it's probably being cast on the tank
 			if spellId == 99836 then
-				mod:TargetMessage("crystal", L["crystal_trap"], player, "Urgent", spellId, "Alarm")
+				mod:TargetMessage("crystal", player, "Urgent", "Alarm", L["crystal_trap"], spellId)
 			end
 			mod:CancelTimer(timer)
 			timer = nil
@@ -83,7 +83,7 @@ do
 					mod:Say("crystal", L["crystal_trap"])
 				else
 					mod:Flash("immolationyou", spellId)
-					mod:Message("immolationyou", CL["underyou"]:format(L["immolationyou_message"]), "Personal", spellId, "Alarm")
+					mod:Message("immolationyou", "Personal", "Alarm", CL["underyou"]:format(L["immolationyou_message"]), spellId)
 				end
 			end
 			return
@@ -108,23 +108,23 @@ function mod:WaryDog(args)
 	-- Immolation Trap not a Crystal Trap, which also applies Wary.
 	local creatureId = self:MobId(args.destGUID)
 	if creatureId == 53695 or creatureId == 53694 then
-		self:Message("immolation", L["wary_dog"]:format(args.destName), "Attention", 100167)
-		self:Bar("immolation", L["wary_dog"]:format(args.destName), self:Heroic() and 25 or 15, 100167)
+		self:Message("immolation", "Attention", nil, L["wary_dog"]:format(args.destName), 100167)
+		self:Bar("immolation", self:Heroic() and 25 or 15, L["wary_dog"]:format(args.destName), 100167)
 	end
 end
 
 function mod:HurlSpear(args)
-	self:Message(100002, args.spellName, "Attention", 100002, "Info")
-	self:Bar(100002, args.spellName, 41, 100002)
+	self:Message(100002, "Attention", "Info")
+	self:Bar(100002, 41)
 end
 
 function mod:FaceRage(args)
-	self:TargetMessage(100129, args.spellName, args.destName, "Important", 100129, "Alert")
+	self:TargetMessage(100129, args.destName, "Important", "Alert")
 	self:PrimaryIcon(100129, args.destName)
 end
 
 function mod:FaceRageRemoved(args)
-	self:Message(100129, L["safe"]:format(args.destName), "Positive", 100129)
+	self:Message(100129, "Positive", nil, L["safe"]:format(args.destName))
 	self:PrimaryIcon(100129)
 end
 

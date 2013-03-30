@@ -30,7 +30,6 @@ end
 
 L = BigWigs:NewBossLocale("Alysrazor", "zhTW")
 if L then
-	L.claw_message = "熾炎爪擊%2$d層：>%1$s<！"
 	L.fullpower_soon_message = "即將 完全的力量！"
 	L.halfpower_soon_message = "第四階段！"
 	L.encounter_restart = "完全的力量"

@@ -66,7 +66,7 @@ end
 
 function mod:OnEngage()
 	self:Berserk(self:Heroic() and 300 or 360, nil, nil, 101304)
-	self:Bar(97282, L["stomp"], 15, 97282)
+	self:Bar(97282, 15, L["stomp"])
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
 	lastFragments = GetTime()
 end
@@ -77,50 +77,47 @@ end
 
 function mod:Obsidian(args)
 	if self:MobId(args.destGUID) == 52558 then
-		self:Message("armor", L["armor_gone_message"], "Positive", args.spellId)
+		self:Message("armor", "Positive", nil, L["armor_gone_message"], args.spellId)
 	end
 end
 
 function mod:ObsidianStack(args)
 	if args.amount % 20 == 0 and self:MobId(args.destGUID) == 52558 then -- Only warn every 20
-		self:Message("armor", L["armor_message"]:format(args.amount), "Positive", args.spellId)
+		self:Message("armor", "Positive", nil, L["armor_message"]:format(args.amount), args.spellId)
 	end
 end
 
 function mod:Spark(args)
-	self:Message(98552, L["big_add_message"], "Important", args.spellId, "Alarm")
+	self:Message(args.spellId, "Important", "Alarm", L["big_add_message"])
 end
 
 function mod:Fragments(args)
 	local t = GetTime()
 	if lastFragments and t < (lastFragments + 5) then return end
 	lastFragments = t
-	self:Message(98136, L["small_adds_message"], "Attention", args.spellId, "Info")
+	self:Message(args.spellId, "Attention", "Info", L["small_adds_message"])
 end
 
 function mod:Stomp(args)
-	self:Message(97282, L["stomp_message"], "Urgent", args.spellId, "Alert")
-	self:Bar(97282, L["stomp"], 30, args.spellId)
-	self:Bar(97282, CL["cast"]:format(L["stomp"]), 3, args.spellId)
+	self:Message(args.spellId, "Urgent", "Alert", L["stomp_message"])
+	self:Bar(args.spellId, 30, L["stomp"])
+	self:Bar(args.spellId, 3, CL["cast"]:format(L["stomp"]))
 end
 
 function mod:MoltenArmor(args)
 	if args.amount > 3 and args.amount % 2 == 0 and self:MobId(args.destGUID) == 52558 then
-		self:Message(98255, L["molten_message"]:format(args.amount), "Attention", args.spellId)
+		self:Message(args.spellId, "Attention", nil, L["molten_message"]:format(args.amount))
 	end
 end
 
-do
-	local moltenArmor = mod:SpellName(98255)
-	function mod:UNIT_HEALTH_FREQUENT(unitId)
-		local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
-		if hp < 30 then -- phase starts at 25
-			self:Message(-2537, L["phase2_warning"], "Positive", 99846, "Info")
-			self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unitId)
-			local _, _, _, stack = UnitBuff(unitId, moltenArmor)
-			if stack then
-				self:Message(98255, L["molten_message"]:format(stack), "Important", 98255, "Alarm")
-			end
+function mod:UNIT_HEALTH_FREQUENT(unitId)
+	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+	if hp < 30 then -- phase starts at 25
+		self:Message(-2537, "Positive", "Info", L["phase2_warning"], 99846)
+		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unitId)
+		local _, _, _, stack = UnitBuff(unitId, self:SpellName(98255)) -- Molten Armor
+		if stack then
+			self:Message(98255, "Important", "Alarm", L["molten_message"]:format(stack))
 		end
 	end
 end

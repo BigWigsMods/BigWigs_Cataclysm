@@ -31,7 +31,6 @@ end
 
 L = BigWigs:NewBossLocale("Alysrazor", "koKR")
 if L then
-	L.claw_message = "타오르는 발톱 x%2$d : %1$s"
 	L.fullpower_soon_message = "곧 최대 힘!"
 	L.halfpower_soon_message = "곧 4 단계!"
 	L.encounter_restart = "다시 단계 반복..."

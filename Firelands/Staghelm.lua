@@ -77,14 +77,14 @@ end
 --
 
 function mod:Adrenaline(args)
-	self:Message(args.spellId, L["adrenaline_message"]:format(args.amount or 1), "Attention", args.spellId)
+	self:Message(args.spellId, "Attention", nil, L["adrenaline_message"]:format(args.amount or 1))
 	 -- this is power based, not time. Power regen is affected by adrenaline
 	 -- adrenaline gets stacked every special
 	specialCounter = specialCounter + 1
 	if form == "cat" then
-		self:Bar(98476, 98476, specialCD[specialCounter] or 3.7, 98476) -- Leaping Flames
+		self:Bar(98476, specialCD[specialCounter] or 3.7) -- Leaping Flames
 	elseif form == "scorpion" then
-		self:Bar(98474, 98474, specialCD[specialCounter] or 3.7, 98474) -- Flame Scythe
+		self:Bar(98474, specialCD[specialCounter] or 3.7) -- Flame Scythe
 	end
 end
 
@@ -100,7 +100,7 @@ do
 				mod:Say(spellId, L["leap_say"])
 				mod:Flash(spellId)
 			end
-			mod:TargetMessage(spellId, spellId, player, "Urgent", spellId, "Long") -- Leaping Flames
+			mod:TargetMessage(spellId, player, "Urgent", "Long") -- Leaping Flames
 			mod:PrimaryIcon(spellId, player)
 			return
 		end
@@ -139,9 +139,9 @@ end
 
 function mod:CatForm(args)
 	form = "cat"
-	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
+	self:Message(args.spellId, "Important", "Alert")
 	specialCounter = 1
-	self:Bar(98476, 98476, specialCD[specialCounter], 98476) -- Leaping Flames
+	self:Bar(98476, specialCD[specialCounter]) -- Leaping Flames
 	--Don't open if already opened from seed
 	local hasDebuff, _, _, _, _, _, remaining = UnitDebuff("player", self:SpellName(98450)) -- Searing Seeds
 	if not hasDebuff or (remaining - GetTime() > 6) then
@@ -151,11 +151,11 @@ end
 
 function mod:ScorpionForm(args)
 	form = "scorpion"
-	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Alert")
+	self:Message(args.spellId, "Important", "Alert")
 	self:PrimaryIcon(98476)
 	self:CloseProximity(98374)
 	specialCounter = 1
-	self:Bar(98474, 98474, specialCD[specialCounter], 98474) -- Flame Scythe
+	self:Bar(98474, specialCD[specialCounter]) -- Flame Scythe
 end
 
 function mod:SearingSeedsRemoved(args)
@@ -171,12 +171,12 @@ function mod:SearingSeedsRemoved(args)
 end
 
 function mod:BurningOrbs(args)
-	self:Bar(args.spellId, args.spellName, 64, args.spellId)
+	self:Bar(args.spellId, 64)
 end
 
 do
 	local function searingSeed(spellId)
-		mod:Message(spellId, L["seed_explosion"], "Personal", spellId, "Alarm")
+		mod:Message(spellId, "Personal", "Alarm", L["seed_explosion"])
 		mod:Flash(spellId)
 		mod:OpenProximity(spellId, 12)
 	end
@@ -186,7 +186,7 @@ do
 		if not self:Me(args.destGUID) then return end
 		local _, _, _, _, _, _, remaining = UnitDebuff("player", args.spellName)
 		remaining = remaining - GetTime()
-		self:Bar(args.spellId, L["seed_bar"], remaining, args.spellId)
+		self:Bar(args.spellId, remaining, L["seed_bar"])
 		if remaining < 5 then
 			searingSeed()
 		else

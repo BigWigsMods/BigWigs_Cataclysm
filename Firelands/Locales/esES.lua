@@ -30,7 +30,6 @@ end
 
 L = BigWigs:NewBossLocale("Alysrazor", "esES") or BigWigs:NewBossLocale("Alysrazor", "esMX")
 if L then
-	L.claw_message = "%2$dx Garra en %1$s"
 	L.fullpower_soon_message = "¡Poder máximo inminente!"
 	L.halfpower_soon_message = "¡Fase 4 inminente!"
 	L.encounter_restart = "Aquí vamos otra vez ..."

@@ -31,7 +31,6 @@ end
 
 L = BigWigs:NewBossLocale("Alysrazor", "deDE")
 if L then
-	L.claw_message = "%2$dx Klauen: %1$s"
 	L.fullpower_soon_message = "Volle Kraft bald!"
 	L.halfpower_soon_message = "Phase 4 bald!"
 	L.encounter_restart = "Volle Kraft! Es geht wieder los..."

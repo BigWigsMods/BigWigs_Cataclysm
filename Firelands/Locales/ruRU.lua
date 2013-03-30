@@ -31,7 +31,6 @@ end
 
 L = BigWigs:NewBossLocale("Alysrazor", "ruRU")
 if L then
-	L.claw_message = "%2$dx Коготь на |3-5(%1$s)"
 	L.fullpower_soon_message = "Скоро Полная мощь!"
 	L.halfpower_soon_message = "Скоро 4-я фаза!"
 	L.encounter_restart = "Начинаем заново..."

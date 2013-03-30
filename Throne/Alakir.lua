@@ -61,10 +61,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_DAMAGE", "Shock", 87873) -- [May be wrong since MoP id changes]
 	self:Log("SPELL_MISSED", "Shock", 87873) -- [May be wrong since MoP id changes]
 
-	self:Log("SPELL_AURA_APPLIED", "Phase2", 88301) -- Acid Rain is applied at P2 transition...
-	self:Log("SPELL_AURA_REMOVED", "Phase3", 88301) -- ...and removed in P3
-
-	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "StormlingCast", "boss1")
+	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1")
 
 	self:Log("SPELL_AURA_APPLIED", "LightningRod", 89668)
 	self:Log("SPELL_AURA_REMOVED", "RodRemoved", 89668)
@@ -129,29 +126,10 @@ function mod:RodRemoved(args)
 	end
 end
 
-function mod:Phase2(args)
-	if phase > 1 then return end
-	phase = 2
-	self:Message("stages", "Positive", "Info", CL["phase"]:format(2), args.spellId)
-	self:StopBar(87770) -- Windburst
-end
-
 local function CloudSpawn(spellId)
 	mod:Bar(spellId, 10) -- Lightning Clouds
 	mod:Message(spellId, "Important", "Info") -- Lightning Clouds
 	mod:ScheduleTimer(CloudSpawn, 10, spellId)
-end
-
-function mod:Phase3()
-	if phase > 2 then return end
-	phase = 3
-	self:Message("stages", "Positive", nil, CL["phase"]:format(3), 88301)
-	self:Bar(87770, 24) -- Windburst
-	self:Bar(89588, 16) -- Lightning Clouds
-	self:ScheduleTimer(CloudSpawn, 16, 89588)
-	self:StopBar(L["stormling_bar"])
-	self:StopBar(87904) -- Feedback
-	self:StopBar(L["acid_rain"]:format(acidRainCounter))
 end
 
 function mod:Feedback(args)
@@ -191,10 +169,23 @@ function mod:WindBurst3(args)
 	lastWindburst = GetTime()
 end
 
-function mod:StormlingCast(_,spellName,_,_,spellId)
-	if spellId == 88272 then
+function mod:UNIT_SPELLCAST_SUCCEEDED(_,spellName,_,_,spellId)
+	if spellId == 88272 then -- Stormling
 		self:Bar("stormling", 20, spellId)
 		self:Message("stormling", "Important", nil, CL["incoming"]:format(spellName), spellId)
+	elseif spellId == 88290 then -- Acid Rain
+		phase = 2
+		self:Message("stages", "Positive", "Info", CL["phase"]:format(2), 88301)
+		self:StopBar(87770) -- Windburst
+	elseif spellId == 89528 then -- Relentless Storm Initial Vehicle Ride Trigger
+		phase = 3
+		self:Message("stages", "Positive", nil, CL["phase"]:format(3), 88875)
+		self:Bar(87770, 24) -- Windburst
+		self:Bar(89588, 16) -- Lightning Clouds
+		self:ScheduleTimer(CloudSpawn, 16, 89588)
+		self:StopBar(L["stormling_bar"])
+		self:StopBar(87904) -- Feedback
+		self:StopBar(L["acid_rain"]:format(acidRainCounter))
 	end
 end
 

@@ -54,10 +54,10 @@ end
 
 function mod:OnEngage()
 	self:Berserk(360)
-	self:Bar(99259, 99259, 5, 99259) -- Shard of Torment
-	self:Bar(-2598, L["blade_bar"], 30, 99352)
+	self:Bar(99259, 5) -- Shard of Torment
+	self:Bar(-2598, 30, L["blade_bar"], 99352)
 	if self:Heroic() then
-		self:Bar(99516, L["link_message"], 25, 99516) -- Countdown
+		self:Bar(99516, 25, L["link_message"]) -- Countdown
 		countdownCounter = 1
 	end
 	shardCounter = 0
@@ -68,8 +68,8 @@ end
 --
 
 function mod:Blades(args)
-	self:Message(-2598, args.spellName, "Attention", args.spellId)
-	self:Bar(-2598, L["blade_bar"], 47, args.spellId)
+	self:Message(-2598, "Attention", nil, args.spellId)
+	self:Bar(-2598, 47, L["blade_bar"], args.spellId)
 end
 
 function mod:Countdown(args)
@@ -81,8 +81,8 @@ function mod:Countdown(args)
 		self:PrimaryIcon(args.spellId, args.destName)
 		countdownCounter = 2
 	else
-		self:Bar(args.spellId, L["link_message"], 47.6, args.spellId)
-		self:TargetMessage(args.spellId, L["link_message"], countdownTargets, "Important", args.spellId, "Alarm")
+		self:Bar(args.spellId, 47.6, L["link_message"])
+		self:TargetMessage(args.spellId, countdownTargets, "Important", "Alarm", L["link_message"])
 		self:SecondaryIcon(args.spellId, args.destName)
 		countdownCounter = 1
 	end
@@ -95,13 +95,13 @@ end
 
 function mod:Shards(args)
 	shardCounter = shardCounter + 1
-	self:Message(99259, L["shard_message"]:format(shardCounter), "Urgent", args.spellId, "Alert")
-	self:Bar(99259, args.spellName, 34, args.spellId)
+	self:Message(args.spellId, "Urgent", "Alert", L["shard_message"]:format(shardCounter))
+	self:Bar(args.spellId, 34)
 end
 
 function mod:Torment(args)
 	if self:Me(args.destGUID) and args.amount > 1 then
-		self:Message("torment", L["focus_message"]:format(args.amount), "Personal", args.spellId, args.amount > 5 and "Info")
+		self:Message("torment", "Personal", args.amount > 5 and "Info", L["focus_message"]:format(args.amount), args.spellId)
 	end
 end
 

@@ -70,35 +70,31 @@ function mod:OnBossEnable()
 	self:Death("Win", 52498)
 end
 
-do
-	local scheduled = nil
-	local function droneWarning()
-		mod:Message("drone", L["drone_message"], "Attention", L["drone_icon"], "Info")
-		mod:Bar("drone", L["drone_bar"], 60, L["drone_icon"])
-		scheduled = mod:ScheduleTimer(droneWarning, 60)
-	end
-
-	function mod:OnEngage()
-		devastateCount = 1
-		lastBroodlingTarget = ""
-		local devastate = L["devastate_message"]:format(1)
-		self:Message(99052, CL["custom_start_s"]:format(self.displayName, devastate, 80), "Positive", "inv_misc_monsterspidercarapace_01")
-		self:Bar(99052, devastate, 80, 99052)
-		self:Bar("drone", L["drone_bar"], 45, L["drone_icon"])
-		self:Bar("spinner", L["spinner_warn"]:format(1), 12, L["spinner_icon"])
-		self:Bar("spinner", L["spinner_warn"]:format(2), 24, L["spinner_icon"])
-		self:Bar("spinner", L["spinner_warn"]:format(3), 35, L["spinner_icon"])
-		self:DelayedMessage("spinner", 12, L["spinner_warn"]:format(1), "Positive", L["spinner_icon"])
-		self:DelayedMessage("spinner", 24, L["spinner_warn"]:format(2), "Positive", L["spinner_icon"])
-		self:DelayedMessage("spinner", 35, L["spinner_warn"]:format(3), "Positive", L["spinner_icon"])
-		self:CancelTimer(scheduled)
-		scheduled = self:ScheduleTimer(droneWarning, 45)
-	end
+function mod:OnEngage()
+	devastateCount = 1
+	lastBroodlingTarget = ""
+	local devastate = L["devastate_message"]:format(1)
+	self:Message(99052, "Positive", nil, CL["custom_start_s"]:format(self.displayName, devastate, 80), "inv_misc_monsterspidercarapace_01")
+	self:Bar(99052, 80, devastate)
+	self:Bar("drone", 45, L["drone_bar"], L["drone_icon"])
+	self:Bar("spinner", 12, L["spinner_warn"]:format(1), L["spinner_icon"])
+	self:Bar("spinner", 24, L["spinner_warn"]:format(2), L["spinner_icon"])
+	self:Bar("spinner", 35, L["spinner_warn"]:format(3), L["spinner_icon"])
+	self:DelayedMessage("spinner", 12, "Positive", L["spinner_warn"]:format(1), L["spinner_icon"])
+	self:DelayedMessage("spinner", 24, "Positive", L["spinner_warn"]:format(2), L["spinner_icon"])
+	self:DelayedMessage("spinner", 35, "Positive", L["spinner_warn"]:format(3), L["spinner_icon"])
+	self:ScheduleTimer("DroneLooper", 45)
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
+
+function mod:DroneLooper()
+	self:Message("drone", "Attention", "Info", L["drone_message"], L["drone_icon"])
+	self:Bar("drone", 60, L["drone_bar"], L["drone_icon"])
+	self:ScheduleTimer("DroneLooper", 60)
+end
 
 function mod:BroodlingWatcher()
 	if not self:Heroic() then return end
@@ -106,7 +102,7 @@ function mod:BroodlingWatcher()
 	if broodling and UnitExists(broodling.."target") and UnitExists(lastBroodlingTarget) then
 		if UnitIsUnit(broodling.."target", lastBroodlingTarget) then return end
 		lastBroodlingTarget = UnitName(broodling.."target")
-		self:TargetMessage(99990, 99990, lastBroodlingTarget, "Important", 99990, "Alert") -- Volatile Burst
+		self:TargetMessage(99990, lastBroodlingTarget, "Important", "Alert") -- Volatile Burst
 		if UnitIsUnit(lastBroodlingTarget, "player") then
 			self:Flash(99990)
 			self:Say(99990)
@@ -116,7 +112,7 @@ end
 
 function mod:Fixate(args)
 	if not UnitIsPlayer(args.destName) then return end --Affects the NPC and a player
-	self:TargetMessage(99559, args.spellName, args.destName, "Attention", args.spellId, "Alarm")
+	self:TargetMessage(99559, args.destName, "Attention", "Alarm", args.spellId)
 	if self:Me(args.destGUID) then
 		self:Flash(99559)
 	end
@@ -125,13 +121,12 @@ end
 function mod:Frenzy(args)
 	self:CancelAllTimers()
 	self:StopBar(L["drone_bar"])
-	self:Message(args.spellId, CL["phase"]:format(2), "Positive", args.spellId, "Alarm")
+	self:Message(args.spellId, "Positive", "Alarm", CL["phase"]:format(2))
 end
 
 function mod:Kiss(args)
-	self:TargetMessage(args.spellId, L["kiss_message"], args.destName, "Urgent", args.spellId)
-	self:Bar(args.spellId, L["kiss_message"], 31.5, args.spellId)
-	-- We play the sound manually because TargetMessage strips it unless the target is the player
+	self:TargetMessage(args.spellId, args.destName, "Urgent", nil, L["kiss_message"])
+	self:Bar(args.spellId, 31.5, L["kiss_message"])
 	self:PlaySound(args.spellId, "Info")
 end
 
@@ -139,26 +134,26 @@ function mod:Devastate(args)
 	local hasDebuff = UnitDebuff("player", self:SpellName(100048)) -- Fiery Web Silk
 	if hasDebuff then
 		local devastate = L["devastate_message"]:format(devastateCount)
-		self:Message(args.spellId, devastate, "Important", args.spellId, "Long")
-		self:Bar(args.spellId, CL["cast"]:format(devastate), 8, args.spellId)
+		self:Message(args.spellId, "Important", "Long", devastate)
+		self:Bar(args.spellId, 8, CL["cast"]:format(devastate))
 		self:Flash(args.spellId)
 	else
-		self:Message(args.spellId, L["devastate_message"]:format(devastateCount), "Attention", args.spellId)
+		self:Message(args.spellId, "Attention", nil, L["devastate_message"]:format(devastateCount))
 	end
 	devastateCount = devastateCount + 1
 	-- This timer is only accurate if you dont fail with the Drones
 	-- Might need to use the bosses power bar or something to adjust this
 	if devastateCount > 3 then return end
-	self:Bar(args.spellId, L["devastate_message"]:format(devastateCount), 90, args.spellId)
-	self:Bar("spinner", L["spinner_warn"]:format(1), 20, L["spinner_icon"])
-	self:Bar("spinner", L["spinner_warn"]:format(2), 29, L["spinner_icon"])
-	self:Bar("spinner", L["spinner_warn"]:format(3), 40, L["spinner_icon"])
-	self:DelayedMessage("spinner", 20, L["spinner_warn"]:format(1), "Positive", L["spinner_icon"])
-	self:DelayedMessage("spinner", 29, L["spinner_warn"]:format(2), "Positive", L["spinner_icon"])
-	self:DelayedMessage("spinner", 40, L["spinner_warn"]:format(3), "Positive", L["spinner_icon"])
+	self:Bar(args.spellId, 90, L["devastate_message"]:format(devastateCount))
+	self:Bar("spinner", 20, L["spinner_warn"]:format(1), L["spinner_icon"])
+	self:Bar("spinner", 29, L["spinner_warn"]:format(2), L["spinner_icon"])
+	self:Bar("spinner", 40, L["spinner_warn"]:format(3), L["spinner_icon"])
+	self:DelayedMessage("spinner", 20, "Positive", L["spinner_warn"]:format(1), L["spinner_icon"])
+	self:DelayedMessage("spinner", 29, "Positive", L["spinner_warn"]:format(2), L["spinner_icon"])
+	self:DelayedMessage("spinner", 40, "Positive", L["spinner_warn"]:format(3), L["spinner_icon"])
 end
 
 function mod:Flare(args)
-	self:Bar("flare", args.spellName, 6, args.spellId)
+	self:Bar("flare", 6, args.spellId)
 end
 
