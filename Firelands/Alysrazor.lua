@@ -226,7 +226,7 @@ function mod:FirestormOver(args)
 		self:CDBar(args.spellId, 72)
 	end
 	self:Bar("meteor", meteorCount == 2 and 11.5 or 21.5,  L["meteor"], 100761)
-	self:CDBar("eggs", 22.5, 58542, , L["eggs_icon"]) -- Hatch Eggs
+	self:CDBar("eggs", 22.5, 58542, L["eggs_icon"]) -- Hatch Eggs
 	self:DelayedMessage("eggs", 22, "Positive", 58542, L["eggs_icon"]) -- Hatch Eggs
 end
 
