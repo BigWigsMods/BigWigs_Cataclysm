@@ -35,7 +35,7 @@ if L then
 	L.halfpower_soon_message = "Fase 4 a breve!"
 	L.encounter_restart = "Si ricomincia..."
 	L.no_stacks_message = "Forse non te ne importa, ma non hai piume"
-	L.moonkin_message = "Smetti di scherzare col fuoco e prndi qualche piuma"
+	L.moonkin_message = "Smetti di scherzare col fuoco e prendi qualche piuma"
 	L.molt_bar = "Muta"
 
 	L.meteor = "Meteora"
