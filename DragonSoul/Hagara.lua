@@ -68,7 +68,7 @@ function mod:OnEngage()
 	self:Berserk(480) -- 10 man heroic confirmed
 	-- need to find a way to determine which one is at first after engage
 	-- apart from looking at her weapon enchants
-	self:Bar("nextphase", L["lightning_or_frost"], 30, L["nextphase_icon"])
+	self:Bar("nextphase", 30, L["lightning_or_frost"], L["nextphase_icon"])
 end
 
 --------------------------------------------------------------------------------
@@ -76,15 +76,15 @@ end
 --
 
 function mod:Assault(args)
-	self:Message(-4159, args.spellName, "Urgent", args.spellId)
-	self:Bar(-4159, "~"..args.spellName, 15, args.spellId)
-	self:Bar(-4159, "<"..args.spellName..">", 5, args.spellId)
+	self:Message(-4159, "Urgent")
+	self:CDBar(-4159, 15)
+	self:Bar(-4159, 5, "<"..args.spellName..">")
 end
 
 function mod:FrostFlakeApplied(args)
 	self:PrimaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
-		self:Message(args.spellId, CL["you"]:format(args.spellName), "Personal", args.spellId, "Long")
+		self:Message(args.spellId, "Personal", "Long", CL["you"]:format(args.spellName))
 		self:Say(args.spellId)
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10)
@@ -99,43 +99,43 @@ function mod:FrostFlakeRemoved(args)
 end
 
 function mod:WaterShield(args)
-	self:StopBar("~"..self:SpellName(107851)) -- Focused Assault
-	self:Message(args.spellId, L["lightning_next"], "Attention", args.spellId)
+	self:StopBar(-4159) -- Focused Assault
+	self:Message(args.spellId, "Attention", nil, L["lightning_next"])
 	nextPhase = L["ice_next"]
 	nextPhaseIcon = 105256
 end
 
 function mod:FrozenTempest(args)
-	self:StopBar("~"..self:SpellName(107851)) -- Focused Assault
-	self:Message(args.spellId, L["ice_next"], "Attention", args.spellId)
+	self:StopBar(-4159) -- Focused Assault
+	self:Message(args.spellId, "Attention", nil, L["ice_next"])
 	nextPhase = L["lightning_next"]
 	nextPhaseIcon = 105409
 end
 
 function mod:Feedback(args)
-	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
-	self:Bar(args.spellId, args.spellName, 15, args.spellId)
-	self:Bar("nextphase", nextPhase, 63, nextPhaseIcon)
-	self:Bar(-4159, 107851, 20, 107851) -- Focused Assault
+	self:Message(args.spellId, "Attention")
+	self:Bar(args.spellId, 15)
+	self:Bar("nextphase", 63, nextPhase, nextPhaseIcon)
+	self:Bar(-4159, 20) -- Focused Assault
 end
 
 function mod:IceTombStart(args)
-	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
-	self:Bar(args.spellId, args.spellName, 8, args.spellId)
+	self:Message(args.spellId, "Attention")
+	self:Bar(args.spellId, 8)
 	self:Flash(args.spellId)
 end
 
 do
 	local scheduled = nil
-	local function iceTomb(spellName)
-		mod:TargetMessage(104448, spellName, playerTbl, "Important", 104448)
+	local function iceTomb()
+		mod:TargetMessage(104448, playerTbl, "Important")
 		scheduled = nil
 	end
 	function mod:IceTombApplied(args)
 		playerTbl[#playerTbl + 1] = args.destName
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(iceTomb, 0.1, args.spellName)
+			self:ScheduleTimer(iceTomb, 0.1)
 		end
 	end
 end
@@ -143,7 +143,7 @@ end
 do
 	local scheduled = nil
 	local function iceLance()
-		mod:TargetMessage(105316, 105316, playerTbl, "Urgent", 105316, "Info") -- Ice Lance
+		mod:TargetMessage(105316, playerTbl, "Urgent", "Info") -- Ice Lance
 		scheduled = nil
 	end
 	function mod:IceLanceApplied(args)

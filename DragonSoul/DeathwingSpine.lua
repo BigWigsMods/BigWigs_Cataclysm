@@ -12,7 +12,6 @@ mod:RegisterEnableMob(53879, 56575, 56341, 53891, 56161, 56162)
 --
 
 local gripTargets = mod:NewTargetList()
-local fieryGrip = mod:SpellName(105490)
 local bloodCount = 0
 
 -- Locals for Fiery Grip, described in comments below
@@ -90,10 +89,10 @@ function mod:OnEngage(diff)
 		-- Initial bars for grip since we cannot trigger off of it (pad by -5s)
 		if diff % 2 == 0 then
 			-- 25 man has 2 casts of 8s
-			self:Bar(105490, "~"..fieryGrip, 11, 105490)
+			self:CDBar(105490, 11)
 		else
 			-- 10 man has 4 casts of 8s
-			self:Bar(105490, "~"..fieryGrip, 27, 105490)
+			self:CDBar(105490, 27)
 		end
 	end
 end
@@ -111,25 +110,25 @@ do
 			mod:CancelTimer(timer)
 		end
 		if not UnitDebuff("player", tendrils) and not UnitIsDead("player") then -- Grasping Tendrils
-			mod:Message("roll", L["not_hooked"], "Personal", 105563, "Alert")
+			mod:Message("roll", "Personal", "Alert", L["not_hooked"], 105563)
 		end
 	end
 
 	function mod:AboutToRoll()
-		self:Bar("roll", L["roll"], 5, L["roll_icon"])
-		self:Message("roll", CL["custom_sec"]:format(L["roll"], 5), "Attention", L["roll_icon"], "Long")
+		self:Bar("roll", 5, L["roll"], L["roll_icon"])
+		self:Message("roll", "Attention", "Long", CL["custom_sec"]:format(L["roll"], 5), L["roll_icon"])
 		self:Flash("roll", L["roll_icon"])
 		if timer then self:CancelTimer(timer) end
 		timer = self:ScheduleRepeatingTimer(graspCheck, 0.8)
 	end
 	function mod:Rolls()
-		self:Message("roll", L["roll_message"], "Positive", L["roll_icon"])
-		self:Bar("roll", CL["cast"]:format(L["roll"]), 5, L["roll_icon"])
+		self:Message("roll", "Positive", nil, L["roll_message"], L["roll_icon"])
+		self:Bar("roll", 5, CL["cast"]:format(L["roll"]), L["roll_icon"])
 		self:CancelTimer(timer)
 		timer = nil
 	end
 	function mod:Level()
-		self:Message("roll", L["level_message"], "Positive", L["roll_icon"])
+		self:Message("roll", "Positive", nil, L["level_message"], L["roll_icon"])
 		self:StopBar(L["roll"])
 		self:CancelTimer(timer)
 		timer = nil
@@ -147,7 +146,7 @@ do
 
 		-- Create closure to retain stack count, spell name, and GUID
 		local printStacks = function(level)
-			self:Message(args.spellId, ("%s (%d)"):format(args.spellName, args.amount), level, args.spellId)
+			self:Message(args.spellId, level, ("%s (%d)"):format(args.spellName, args.amount), args.spellId)
 			timers[args.destGUID] = nil
 		end
 
@@ -176,7 +175,7 @@ function mod:FieryGripCast(args)
 	corruptionStatus[args.sourceGUID] = nil
 	if lastBar == args.sourceGUID or lastBar == true then
 		lastBar = nil
-		self:StopBar(fieryGrip)
+		self:StopBar(105490) -- Fiery Grip
 	end
 end
 
@@ -203,7 +202,7 @@ function mod:SearingPlasmaCast(args)
 	if not lastBar or (lastBar == args.sourceGUID and math.abs(nextGrip - nextGripNew) > 0.5) then
 		lastBar = args.sourceGUID
 		nextGrip = nextGripNew
-		self:Bar(105490, fieryGrip, gripTime, 105490)
+		self:Bar(105490, gripTime)
 	end
 end
 
@@ -212,7 +211,7 @@ function mod:CorruptionDeath(args)
 		-- Cancel bar
 		corruptionStatus[args.destGUID] = nil
 		lastBar = nil
-		self:StopBar(fieryGrip)
+		self:StopBar(105490) -- Fiery Grip
 	end
 end
 
@@ -221,7 +220,7 @@ do
 	-- many are up to prevent spamming when the mob picks up a bunch
 	local scheduled = nil
 	local function reportBloods()
-		mod:Message("residue", L["residue_message"]:format(bloodCount), "Attention", 105223)
+		mod:Message("residue", "Attention", nil, L["residue_message"]:format(bloodCount), 105223)
 		scheduled = nil
 	end
 	local haltPrinting = true
@@ -281,27 +280,27 @@ do
 end
 
 function mod:Nuclear(args)
-	self:Message(args.spellId, args.spellName, "Important", args.spellId, "Info")
-	self:Bar(args.spellId, args.spellName, 5, args.spellId)
+	self:Message(args.spellId, "Important", "Info")
+	self:Bar(args.spellId, 5)
 	self:Flash(args.spellId)
 end
 
 function mod:Seal(args)
-	self:Message(105848, L["exposed"], "Important", args.spellId)
-	self:Bar(105848, L["exposed"], self:LFR() and 33 or 23, args.spellId) -- 33 is a guess
+	self:Message(105848, "Important", nil, L["exposed"])
+	self:Bar(105848, self:LFR() and 33 or 23, L["exposed"]) -- 33 is a guess
 end
 
 do
 	local scheduled = nil
-	local function grip(spellName, spellId)
-		mod:TargetMessage(spellId, spellName, gripTargets, "Urgent", spellId)
+	local function grip(spellId)
+		mod:TargetMessage(spellId, gripTargets, "Urgent")
 		scheduled = nil
 	end
 	function mod:FieryGripApplied(args)
 		gripTargets[#gripTargets + 1] = args.destName
 		if not scheduled then
 			scheduled = true
-			self:ScheduleTimer(grip, 0.2, args.spellName, args.spellId)
+			self:ScheduleTimer(grip, 0.2, args.spellId)
 		end
 	end
 end

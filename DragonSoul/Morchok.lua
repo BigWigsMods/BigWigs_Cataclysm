@@ -77,9 +77,9 @@ end
 
 function mod:OnEngage()
 	self:Berserk(420) -- confirmed
-	self:Bar("stomp_boss", L["stomp_boss"], 11, L["stomp_boss_icon"])
-	self:Bar("crystal_boss", L["crystal"], 16, L["crystal_boss_icon"])
-	self:Bar(103851, "~"..L["blood"], 56, 103851)
+	self:Bar("stomp_boss", 11, L["stomp_boss"], L["stomp_boss_icon"])
+	self:Bar("crystal_boss", 16, L["crystal"], L["crystal_boss_icon"])
+	self:CDBar(103851, 56, L["blood"])
 	crystalCount, stompCount = 0, 1
 end
 
@@ -88,50 +88,50 @@ end
 --
 
 function mod:SummonKohcrom(args)
-	self:Bar("stomp_boss", "~"..self.displayName.." - "..L["stomp_boss"], 6, L["stomp_boss_icon"]) -- 6-12s
-	self:Message(args.spellId, args.spellName, "Positive", args.spellId)
+	self:CDBar("stomp_boss", 6, self.displayName.." - "..L["stomp_boss"], L["stomp_boss_icon"]) -- 6-12s
+	self:Message(args.spellId, "Positive")
 	self:StopBar(L["crystal"])
-	self:StopBar("~"..L["stomp_boss"])
+	self:StopBar(L["stomp_boss"])
 end
 
--- I know it's ugly to use this, but if we were to start bars at :BlackBlood then we are subject to BlackBlood duration changes
+-- If we were to start bars at :BlackBlood then we are subject to BlackBlood duration changes
 function mod:BloodOver(_, _, _, _, spellId)
 	if spellId == 103851 then
-		self:Bar(spellId, L["blood"], 75, spellId)
+		self:Bar(spellId, 75, L["blood"])
 		crystalCount, stompCount = 0, 1
 		if self:Heroic() then
-			self:Bar("stomp_boss", "~"..self.displayName.." - "..L["stomp_boss"], 15, L["stomp_boss_icon"])
-			self:Bar("crystal_boss", "~"..self.displayName.." - "..L["crystal"], 22, L["crystal_boss_icon"])
+			self:CDBar("stomp_boss", 15, self.displayName.." - "..L["stomp_boss"], L["stomp_boss_icon"])
+			self:CDBar("crystal_boss", 22, self.displayName.." - "..L["crystal"], L["crystal_boss_icon"])
 		else
-			self:Bar("stomp_boss", "~"..L["stomp_boss"], 5, L["stomp_boss_icon"])
-			self:Bar("crystal_boss", L["crystal"], 29, L["crystal_boss_icon"])
+			self:Bar("stomp_boss", 5, L["stomp_boss"], L["stomp_boss_icon"])
+			self:Bar("crystal_boss", 29, L["crystal"], L["crystal_boss_icon"])
 		end
 	end
 end
 
 function mod:Stomp(args)
-	if self:Heroic() and UnitExists("boss2") then -- Check if heroic and if kohncrom has spawned yet.
+	if self:Heroic() and UnitExists("boss2") then -- Check if heroic and if kohcrom has spawned yet.
 		if args.sourceName == kohcrom then
-			self:Message("stomp_add", args.sourceName.." - "..args.spellName, "Important", args.spellId)
+			self:Message("stomp_add", "Important", nil, args.sourceName.." - "..args.spellName, args.spellId)
 		else -- Since we trigger bars off morchok casts, we gotta make sure kohcrom isn't caster to avoid bad timers.
-			self:Bar("stomp_add", "~"..kohcrom.." - "..args.spellName, (self:Difficulty() == 5) and 6 or 5, args.spellId) -- 6sec after on 10 man hc, 5 sec on 25
-			self:Message("stomp_boss", args.sourceName.." - "..args.spellName, "Important", args.spellId)
+			self:CDBar("stomp_add", self:Difficulty() == 5 and 6 or 5, kohcrom.." - "..args.spellName, args.spellId) -- 6sec after on 10 man hc, 5 sec on 25
+			self:Message("stomp_boss", "Important", nil, args.sourceName.." - "..args.spellName, args.spellId)
 			if stompCount < 4 then
-				self:Bar("stomp_boss", "~"..args.sourceName.." - "..args.spellName, 12, args.spellId)
+				self:CDBar("stomp_boss", 12, args.sourceName.." - "..args.spellName, args.spellId)
 			end
 			stompCount = stompCount + 1
 		end
 	else -- Not heroic, or Kohcrom isn't out yet, just do normal bar.
 		if stompCount < 4 then
-			self:Bar("stomp_boss", "~"..args.spellName, 12, args.spellId)
-			self:Message("stomp_boss", args.spellName, "Important", args.spellId)
+			self:CDBar("stomp_boss", 12, args.spellId)
+			self:Message("stomp_boss", "Important", nil, args.spellId)
 			stompCount = stompCount + 1
 		end
 	end
 end
 
 function mod:Furious(args)
-	self:Message(args.spellId, args.spellName, "Positive", args.spellId) -- Positive?
+	self:Message(args.spellId, "Positive")
 end
 
 do
@@ -140,8 +140,8 @@ do
 		local t = GetTime()
 		if t-prev > 5 then
 			prev = t
-			self:Message(args.spellId, args.spellName, "Personal", args.spellId, "Long") -- not really personal, but we tend to associate personal with fns
-			self:Bar(args.spellId, CL["cast"]:format(L["blood"]), 17, args.spellId)
+			self:Message(args.spellId, "Personal", "Long") -- not really personal, but we tend to associate personal with fns
+			self:Bar(args.spellId, 17, CL["cast"]:format(L["blood"]))
 		end
 	end
 end
@@ -153,7 +153,7 @@ do
 		if t-prev > 2 and self:Me(args.destGUID) then
 			prev = t
 			self:Flash(103851)
-			self:Message(103851, CL["underyou"]:format(L["blood"]), "Personal", args.spellId, "Long")
+			self:Message(103851, "Personal", "Long", CL["underyou"]:format(L["blood"]), args.spellId)
 		end
 	end
 end
@@ -161,14 +161,14 @@ end
 function mod:ResonatingCrystal(args)
 	if args.sourceName == self.displayName then crystalCount = crystalCount + 1 end -- Only increment count off morchok casts.
 	if self:Heroic() then
-		self:Message((args.sourceName == kohcrom) and "crystal_add" or "crystal_boss", args.sourceName.." - "..L["crystal"], "Urgent", args.spellId, "Alarm")
-		self:Bar((args.sourceName == kohcrom) and "crystal_add" or "crystal_boss", args.sourceName.." - "..(L["explosion"]), 12, args.spellId)
+		self:Message((args.sourceName == kohcrom) and "crystal_add" or "crystal_boss", "Urgent", "Alarm", args.sourceName.." - "..L["crystal"], args.spellId)
+		self:Bar((args.sourceName == kohcrom) and "crystal_add" or "crystal_boss", 12, args.sourceName.." - "..(L["explosion"]), args.spellId)
 		if UnitExists("boss2") and crystalCount > 1 and args.sourceName == self.displayName then -- The CD bar will only start off morchok's 2nd crystal, if kohcrom is already summoned.
-			self:Bar("crystal_add", "~"..kohcrom.." - "..L["crystal"], (self:Difficulty() == 5) and 6 or 5, args.spellId) -- Same as stomp, 6/5
+			self:CDBar("crystal_add", self:Difficulty() == 5 and 6 or 5, kohcrom.." - "..L["crystal"], args.spellId) -- Same as stomp, 6/5
 		end
 	else
-		self:Message("crystal_boss", args.spellName, "Urgent", args.spellId, "Alarm")
-		self:Bar("crystal_boss", L["explosion"], 12, args.spellId)
+		self:Message("crystal_boss", "Urgent", "Alarm", args.spellId)
+		self:Bar("crystal_boss", 12, L["explosion"], args.spellId)
 	end
 end
 
@@ -176,6 +176,6 @@ function mod:Crush(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["crush_message"]:format(args.destName, buffStack - 1))
 	self:Bar("crush", L["crush_message"]:format(args.destName, buffStack), 20, args.spellId)
-	self:Message("crush", L["crush_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
+	self:StackMessage("crush", args.destName, buffStack, "Urgent", buffStack > 2 and "Info", 50234, args.spellId) -- 50234 == Crush
 end
 

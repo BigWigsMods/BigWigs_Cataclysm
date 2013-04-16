@@ -74,13 +74,13 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	self:Bar(107588, 107588, 47, 107588) -- Twilight Onslaught
+	self:Bar(107588, 47) -- Twilight Onslaught
 	if not self:LFR() then
-		self:Bar("sapper", L["sapper"], 70, L["sapper_icon"])
+		self:Bar("sapper", 70, L["sapper"], L["sapper_icon"])
 	end
 	onslaughtCounter = 1
-	self:Bar("warmup", _G["COMBAT"], 20, L["warmup_icon"])
-	self:DelayedMessage("warmup", 20, CL["phase"]:format(1), "Positive", L["warmup_icon"])
+	self:Bar("warmup", 20, _G["COMBAT"], L["warmup_icon"])
+	self:DelayedMessage("warmup", 20, "Positive", CL["phase"]:format(1), L["warmup_icon"])
 	warned = false
 end
 
@@ -93,24 +93,24 @@ end
 --
 
 function mod:Sapper()
-	self:Message("sapper", L["sapper"], "Important", L["sapper_icon"], "Info")
+	self:Message("sapper", "Important", "Info", L["sapper"], L["sapper_icon"])
 	if warned then return end
-	self:Bar("sapper", L["sapper"], 40, L["sapper_icon"])
+	self:Bar("sapper", 40, L["sapper"], L["sapper_icon"])
 end
 
 do
 	function mod:PreStage2()
 		if not warned then
 			warned = true
-			self:Bar("warmup", self.displayName, 9, L["warmup_icon"])
-			self:Message("warmup", CL["custom_sec"]:format(self.displayName, 9), "Positive", L["warmup_icon"])
+			self:Bar("warmup", 9, self.displayName, L["warmup_icon"])
+			self:Message("warmup", "Positive", nil, CL["custom_sec"]:format(self.displayName, 9), L["warmup_icon"])
 		end
 	end
 	function mod:Stage2()
 		self:StopBar(107588) -- Twilight Onslaught
 		self:StopBar(L["sapper"])
-		self:Bar(108046, "~"..self:SpellName(108046), 14, 108046) -- Shockwave
-		self:Message("warmup", CL["phase"]:format(2) .. ": " .. self.displayName, "Positive", L["warmup_icon"])
+		self:CDBar(108046, 14) -- Shockwave
+		self:Message("warmup", "Positive", nil, CL["phase"]:format(2) .. ": " .. self.displayName, L["warmup_icon"])
 		if not self:LFR() then
 			self:Berserk(240, true)
 		end
@@ -126,7 +126,7 @@ do
 			if UnitIsUnit("player", player) then
 				mod:Say(spellId)
 				mod:Flash(spellId)
-				mod:Message(spellId, spellId, "Personal", spellId, "Long") -- Twilight Flames
+				mod:Message(spellId, "Personal", "Long") -- Twilight Flames
 			end
 			mod:PrimaryIcon(spellId, player)
 		end
@@ -137,10 +137,10 @@ do
 end
 
 function mod:TwilightOnslaught(args)
-	self:Message(args.spellId, args.spellName, "Urgent", args.spellId, "Alarm")
+	self:Message(args.spellId, "Urgent", "Alarm")
 	onslaughtCounter = onslaughtCounter + 1
 	if warned then return end
-	self:Bar(args.spellId, ("%s (%d)"):format(args.spellName, onslaughtCounter), 35, args.spellId)
+	self:Bar(args.spellId, 35, ("%s (%d)"):format(args.spellName, onslaughtCounter))
 end
 
 do
@@ -150,10 +150,10 @@ do
 		local player = UnitName("boss2target")
 		if player and (not UnitDetailedThreatSituation("boss2target", "boss2") or fired > 11) then
 			-- If we've done 12 (0.6s) checks and still not passing the threat check, it's probably being cast on the tank
-			mod:TargetMessage(spellId, spellId, player, "Attention", spellId, "Alarm") -- Shockwave
+			mod:TargetMessage(spellId, player, "Attention", "Alarm") -- Shockwave
 			mod:CancelTimer(timer)
 			timer = nil
-			if UnitIsUnit("boss2target", "player") then
+			if mod:Me(UnitGUID("boss2target")) then
 				mod:Flash(spellId)
 				mod:Say(spellId)
 			end
@@ -167,7 +167,7 @@ do
 		end
 	end
 	function mod:Shockwave(args)
-		self:Bar(args.spellId, "~"..args.spellName, 23, args.spellId) -- 23-26
+		self:CDBar(args.spellId, 23) -- 23-26
 		fired = 0
 		if not timer then
 			timer = self:ScheduleRepeatingTimer(shockWarn, 0.05, args.spellId)
@@ -178,12 +178,12 @@ end
 function mod:Sunder(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["sunder_message"]:format(args.destName, buffStack - 1))
-	self:Bar("sunder", L["sunder_message"]:format(args.destName, buffStack), 30, args.spellId)
-	self:Message("sunder", L["sunder_message"], "Urgent", args.spellId, buffStack > 2 and "Info" or nil, args.destName, buffStack)
+	self:Bar("sunder", 30, L["sunder_message"]:format(args.destName, buffStack), args.spellId)
+	self:StackMessage("sunder", args.destName, buffStack, "Urgent", buffStack > 2 and "Info", args.spellId)
 end
 
 function mod:Roar(args)
-	self:Bar(args.spellId, "~"..args.spellName, 20, args.spellId) -- 20-23
-	self:Message(args.spellId, args.spellName, "Positive", args.spellId, "Alert")
+	self:CDBar(args.spellId, 20) -- 20-23
+	self:Message(args.spellId, "Positive", "Alert")
 end
 

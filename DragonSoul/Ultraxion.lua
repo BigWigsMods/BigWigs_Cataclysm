@@ -85,13 +85,13 @@ function mod:OnBossEnable()
 end
 
 function mod:Warmup()
-	self:Bar("warmup", self.displayName, 30, "achievment_boss_ultraxion")
+	self:Bar("warmup", 30, self.displayName, "achievment_boss_ultraxion")
 end
 
 function mod:OnEngage()
 	self:Berserk(360)
-	self:Bar(106371, 106371, 45, 106371) -- Hour of Twilight
-	self:Bar("crystal", L["crystal_red"], 80, L["crystal_icon"])
+	self:Bar(106371, 45) -- Hour of Twilight
+	self:Bar("crystal", 80, L["crystal_red"], L["crystal_icon"])
 	hourCounter = 1
 end
 
@@ -100,57 +100,55 @@ end
 --
 
 function mod:Gift()
-	self:Bar("crystal", L["crystal_green"], 75, L["crystal_green_icon"])
-	self:Message("crystal", L["crystal_red"], "Positive", L["crystal_icon"], "Info")
+	self:Bar("crystal", 75, L["crystal_green"], L["crystal_green_icon"])
+	self:Message("crystal", "Positive", "Info", L["crystal_red"], L["crystal_icon"])
 end
 
 function mod:Dreams()
-	self:Bar("crystal", L["crystal_blue"], 60, L["crystal_blue_icon"])
-	self:Message("crystal", L["crystal_green"], "Positive", L["crystal_green_icon"], "Info")
+	self:Bar("crystal", 60, L["crystal_blue"], L["crystal_blue_icon"])
+	self:Message("crystal", "Positive", "Info", L["crystal_green"], L["crystal_green_icon"])
 end
 
 function mod:Magic()
-	self:Bar("crystal", 105984, 75, L["crystal_bronze_icon"]) -- Timeloop
-	self:Message("crystal", L["crystal_blue"], "Positive", L["crystal_blue_icon"], "Info")
+	self:Bar("crystal", 75, 105984, L["crystal_bronze_icon"]) -- Timeloop
+	self:Message("crystal", "Positive", "Info", L["crystal_blue"], L["crystal_blue_icon"])
 end
 
 function mod:Loop()
-	self:Message("crystal", 105984, "Positive", L["crystal_bronze_icon"], "Info") -- Timeloop
+	self:Message("crystal", "Positive", "Info", 105984, L["crystal_bronze_icon"]) -- Timeloop
 end
 
 function mod:HourofTwilight(args)
-	self:Message(106371, ("%s (%d)"):format(args.spellName, hourCounter), "Important", args.spellId, "Alert")
+	self:Message(106371, "Important", "Alert", ("%s (%d)"):format(args.spellName, hourCounter), args.spellId)
 	hourCounter = hourCounter + 1
-	self:Bar(106371, ("%s (%d)"):format(args.spellName, hourCounter), 45, args.spellId)
-	self:Bar("cast", CL["cast"]:format(L["twilight"]), self:Heroic() and 3 or 5, args.spellId)
+	self:Bar(106371, 45, ("%s (%d)"):format(args.spellName, hourCounter), args.spellId)
+	self:Bar("cast", self:Heroic() and 3 or 5, CL["cast"]:format(L["twilight"]), args.spellId)
 	self:Flash(106371)
 end
 
 do
 	local scheduled = nil
 	local lightTargets = mod:NewTargetList()
-	local function fadingLight(spellName)
-		mod:TargetMessage(105925, spellName, lightTargets, "Attention", 105925, "Alarm")
+	local function fadingLight()
+		mod:TargetMessage(105925, lightTargets, "Attention", "Alarm")
 		scheduled = nil
 	end
 	function mod:FadingLight(args)
 		lightTargets[#lightTargets + 1] = args.destName
 		if self:Me(args.destGUID) then
 			local _, _, _, _, _, duration = UnitDebuff("player", args.spellName)
-			self:Bar("lightself", L["lightself_bar"], duration, args.spellId)
+			self:Bar("lightself", duration, L["lightself_bar"], args.spellId)
 			self:Flash("lightself", args.spellId)
 		else -- This is mainly a tanking assist
 			if args.spellId == 105925 then
 				self:Flash("lighttank", args.spellId)
 				local _, _, _, _, _, duration = UnitDebuff(args.destName, args.spellName)
-				self:Bar("lighttank", L["lighttank_bar"]:format(args.destName), duration, args.spellId)
-				self:Message("lighttank", L["lighttank_message"], "Attention", args.spellId, args.destName)
-				self:PlaySound("lighttank", "Alarm")
+				self:Bar("lighttank", duration, L["lighttank_bar"]:format(args.destName), args.spellId)
+				self:TargetMessage("lighttank", args.destName, "Attention", "Alarm", L["lighttank_message"], args.spellId, true)
 			end
 		end
 		if not scheduled then
-			scheduled = true
-			self:ScheduleTimer(fadingLight, 0.2, args.spellName)
+			scheduled = self:ScheduleTimer(fadingLight, 0.2)
 		end
 	end
 end

@@ -70,9 +70,9 @@ function mod:OnEngage()
 	if not self:LFR() then
 		self:Berserk(360) -- confirmed 10 man heroic
 	end
-	self:Bar("ball", L["ball"], 6, L["ball_icon"])
-	self:Bar(103434, "~"..self:SpellName(103434), 23, 103434) -- Shadows
-	self:Bar("drain", L["drain"], 17, 104322)
+	self:Bar("ball", 6, L["ball"], L["ball_icon"])
+	self:CDBar(103434, 23) -- Shadows
+	self:Bar("drain", 17, L["drain"], 104322)
 	ballTimer = 0
 end
 
@@ -82,43 +82,43 @@ end
 
 function mod:Darkness(unit, spellName, _, _, spellId)
 	if spellId == 109413 then
-		self:Bar("darkness", L["darkness"], 30, spellId)
-		self:Message("darkness", L["darkness"], "Important", spellId, "Info")
-		self:Bar(103434, "~"..self:SpellName(103434), 37, 103434) -- Shadows
+		self:Bar("darkness", 30, L["darkness"], spellId)
+		self:Message("darkness", "Important", "Info", L["darkness"], spellId)
+		self:CDBar(103434, 37) -- Shadows
 		local isHC = self:Heroic() and 45 or 54
 		if (GetTime() - ballTimer) > isHC then
-			self:Bar("ball", L["ball"], isHC == 45 and isHC or 36, L["ball_icon"])
+			self:Bar("ball", isHC == 45 and isHC or 36, L["ball"], L["ball_icon"])
 		end
-		self:StopBar("~"..L["drain"])
+		self:StopBar(L["drain"])
 	end
 end
 
 function mod:VoidDiffusion(args)
-	self:Message("bounce", ("%s (%d)"):format(L["bounce"], args.amount or 1), "Important", args.spellId)
+	self:Message("bounce", "Important", nil, ("%s (%d)"):format(L["bounce"], args.amount or 1), args.spellId)
 end
 
 function mod:PsychicDrain(args)
-	self:Bar("drain", "~"..args.spellName, 20, args.spellId)
-	self:Message("drain", args.spellName, "Urgent", args.spellId)
+	self:CDBar("drain", 20, args.spellId)
+	self:Message("drain", "Urgent", nil, args.spellId)
 end
 
 function mod:VoidoftheUnmaking()
 	if ballTimer ~= 0 then
-		self:Bar("drain", L["drain"], 8.3, L["drain_icon"])
+		self:Bar("drain", 8.3, L["drain"], L["drain_icon"])
 	end
 	ballTimer = GetTime()
-	self:Bar("ball", L["ball"], 90, L["ball_icon"])
-	self:Message("ball", L["ball"], "Urgent", L["ball_icon"], "Alarm")
+	self:Bar("ball", 90, L["ball"], L["ball_icon"])
+	self:Message("ball", "Urgent", "Alarm", L["ball"], L["ball_icon"])
 end
 
 function mod:ShadowsCast(args)
-	self:Message(args.spellId, args.spellName, "Attention", args.spellId)
-	self:Bar(args.spellId, "~"..args.spellName, 26, args.spellId) -- 26-29
+	self:Message(args.spellId, "Attention")
+	self:CDBar(args.spellId, 26) -- 26-29
 end
 
 function mod:ShadowsApplied(args)
 	if not self:LFR() and self:Me(args.destGUID) then
-		self:Message(args.spellId, CL["you"]:format(L["shadows"]), "Personal", args.spellId, "Alert")
+		self:Message(args.spellId, "Personal", "Alert", CL["you"]:format(L["shadows"]), args.spellId)
 		self:Say(args.spellId, L["shadows"])
 		self:Flash(args.spellId)
 		if self:Heroic() then
