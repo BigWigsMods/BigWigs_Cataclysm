@@ -295,7 +295,7 @@ end
 function mod:PhaseWarn(unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 29 then --Switches at 25%
-		self:Message("phase", L["final_phase_soon"], "Positive", 77991, "Info")
+		self:Message("phase", "Positive", "Info", L["final_phase_soon"])
 		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
 	end
 end
