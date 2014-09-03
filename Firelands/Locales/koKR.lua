@@ -109,9 +109,5 @@ if L then
 	L.engulfing_far = "먼 지역에 휘몰아치는 불길"
 	L.hand_bar = "넉백"
 	L.ragnaros_back_message = "라그 돌아옴, 파티 정비!"
-
-	L.wound = "불타는 상처"
-	L.wound_desc = "불타는 상처의 지속바와 중첩 횟수를 표시합니다."
-	L.wound_message = "상처 x%2$d : %1$s"
 end
 

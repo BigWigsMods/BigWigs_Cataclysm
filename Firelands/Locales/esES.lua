@@ -108,9 +108,5 @@ if L then
 	L.engulfing_far = "¡Sección lejana sumergida"
 	L.hand_bar = "Rebote"
 	L.ragnaros_back_message = "¡Raggy ha vuelto, fiesta!"
-
-	L.wound = "Herida ardiente"
-	L.wound_desc = "Cuenta los stacs de herida ardiente y muestra una barra con su duración."
-	L.wound_message = "%2$dx Herida en %1$s"
 end
 

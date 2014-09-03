@@ -108,9 +108,5 @@ if L then
 	L.engulfing_far = "Parte mais longe submergida"
 	L.hand_bar = "Rebote"
 	L.ragnaros_back_message = "Raggy voltou, se preparem!"
-
-	L.wound = "Ferida de Queimadura"
-	L.wound_desc = "Conta os stacks de ferida de queimadura e mostra uma barra com sua duração."
-	L.wound_message = "%2$dx Ferida em %1$s"
 end
 

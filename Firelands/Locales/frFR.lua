@@ -109,8 +109,4 @@ if L then
 	L.engulfing_far = "Section éloignée engloutie !"
 	L.hand_bar = "\"Knockback\""
 	L.ragnaros_back_message = "Ragnaros est de retour !"
-
-	L.wound = "Blessure brûlante"
-	L.wound_desc = "Compte les cumuls de blessure brûlante et affiche une barre de durée."
-	L.wound_message = "%2$dx Blessure sur %1$s"
 end

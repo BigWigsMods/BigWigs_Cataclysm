@@ -108,9 +108,5 @@ if L then
 	L.engulfing_far = "侵噬烈焰：>遠場<！"
 	L.hand_bar = "拉格納羅斯之手"
 	L.ragnaros_back_message = "拉格納羅斯返回，集合！"
-
-	L.wound = "燃燒傷口"
-	L.wound_desc = "燃燒傷口堆疊計數並顯示持續計時條。"
-	L.wound_message = "燃燒傷口%2$d層：>%1$s<！"
 end
 

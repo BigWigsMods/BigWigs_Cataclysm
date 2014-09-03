@@ -39,11 +39,6 @@ if L then
 	L.engulfing_far = "Far side Engulfed!"
 	L.hand_bar = "Knockback"
 	L.ragnaros_back_message = "Raggy is back, parry on!" -- yeah thats right PARRY ON!
-
-	L.wound = "Burning Wound"
-	L.wound_desc = "Count the stacks of burning wound and show a duration bar."
-	L.wound_icon = 99399
-	L.wound_message = "%2$dx Wound on %1$s"
 end
 L = mod:GetLocale()
 
@@ -58,7 +53,7 @@ function mod:GetOptions()
 		98498, 99172,
 		99317, {99849, "FLASH", "SAY"},
 		100171, 100479, 100646, 100714, 100604, 100675,
-		98710, {"wound", "TANK"}, "proximity", "berserk", "bosskill"
+		98710, {99399, "TANK"}, "proximity", "berserk", "bosskill"
 	}, {
 		[98237] = -2629,
 		[98953] = L["intermission_bar"],
@@ -172,9 +167,9 @@ function mod:BreadthofFrost(args)
 end
 
 function mod:Wound(args)
-	self:StopBar(L["wound_message"], args.destName)
-	self:TargetBar("wound", 21, args.destName, L["wound_message"], args.spellId)
-	self:StackMessage("wound", args.destName, args.amount, "Urgent", args.amount and args.amount > 2 and "Info", L["wound_message"], args.spellId)
+	local wound = self:SpellName(18107) -- "Wound"
+	self:TargetBar(args.spellId, 21, args.destName, wound)
+	self:StackMessage(args.spellId, args.destName, args.amount, "Urgent", args.amount and args.amount > 2 and "Info", wound)
 end
 
 function mod:MagmaTrap(args)

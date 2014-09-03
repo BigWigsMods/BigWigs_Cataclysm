@@ -109,9 +109,5 @@ if L then
 	L.engulfing_far = "Mondo in Fiamme Lontano!"
 	L.hand_bar = "Knockback"
 	L.ragnaros_back_message = "Raggy è tornato, dateci dentro!" -- yeah thats right PARRY ON!
-
-	L.wound = "Ferita Bruciante"
-	L.wound_desc = "Conta gli accumuli di Ferita Bruciante e mostra una barra per la durata."
-	L.wound_message = "%2$dx Ferita on %1$s"
 end
 

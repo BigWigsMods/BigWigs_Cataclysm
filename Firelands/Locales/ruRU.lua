@@ -109,9 +109,5 @@ if L then
 	L.engulfing_far = "Пламя с краю!"
 	L.hand_bar = "Отбрасывание"
 	L.ragnaros_back_message = "Рагнарос вернулся!"
-
-	L.wound = "Жгучая рана"
-	L.wound_desc = "Считает стаки жгучей раны и показывает их таймер."
-	L.wound_message = "%2$dx Рана на |3-5(%1$s)"
 end
 
