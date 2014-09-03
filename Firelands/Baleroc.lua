@@ -100,7 +100,7 @@ function mod:Shards(args)
 end
 
 function mod:Torment(args)
-	if self:Me(args.destGUID) and args.amount > 1 then
+	if UnitGUID("focus") == args.destGUID and args.amount > 1 then
 		self:Message("torment", "Personal", args.amount > 5 and "Info", L["focus_message"]:format(args.amount), args.spellId)
 	end
 end
