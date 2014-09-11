@@ -88,8 +88,8 @@ function mod:OnBossEnable()
 	self:Log("SPELL_SUMMON", "LivingMeteor", 99317)
 	self:Emote("Dreadflame", dreadflame)
 
-	self:Log("SPELL_AURA_APPLIED", "Wound", 99399)
-	self:Log("SPELL_AURA_APPLIED_DOSE", "Wound", 99399)
+	self:Log("SPELL_AURA_APPLIED", "BurningWound", 99399)
+	self:Log("SPELL_AURA_APPLIED_DOSE", "BurningWound", 99399)
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
@@ -166,9 +166,9 @@ function mod:BreadthofFrost(args)
 	self:Bar(args.spellId, 45)
 end
 
-function mod:Wound(args)
+function mod:BurningWound(args)
 	local wound = self:SpellName(18107) -- "Wound"
-	self:TargetBar(args.spellId, 21, args.destName, wound)
+	self:Bar(args.spellId, 6, wound)
 	self:StackMessage(args.spellId, args.destName, args.amount, "Urgent", args.amount and args.amount > 2 and "Info", wound)
 end
 
