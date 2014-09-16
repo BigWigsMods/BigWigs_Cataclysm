@@ -2,8 +2,10 @@
 
 ## Title: Big Wigs [|cffeda55fCataclysm|r]
 ## Title-itIT: Big Wigs [|cffeda55fCataclysm|r]
+## Title-zhCN: Big Wigs [|cffeda55f大地的裂变|r]
 ## Notes: A collection of Big Wigs modules from the Cataclysm era.
 ## Notes-itIT: Una collezione di moduli Big Wigs dell'era di Cataclysm.
+## Notes-zhCN: Big Wigs 大地的裂变模块。
 
 ## LoadOnDemand: 1
 ## Dependencies: BigWigs
