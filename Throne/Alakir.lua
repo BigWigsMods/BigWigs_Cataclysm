@@ -66,8 +66,8 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "LightningRod", 89668)
 	self:Log("SPELL_AURA_REMOVED", "RodRemoved", 89668)
 
-	self:Log("SPELL_DAMAGE", "WindBurst3", 93286) -- Wrong id
-	self:Log("SPELL_MISSED", "WindBurst3", 93286)
+	self:Log("SPELL_DAMAGE", "WindBurst3", 88858) -- Wrong id
+	self:Log("SPELL_MISSED", "WindBurst3", 88858)
 
 	self:Log("SPELL_DAMAGE", "Cloud", 89588)
 	self:Log("SPELL_MISSED", "Cloud", 89588)
