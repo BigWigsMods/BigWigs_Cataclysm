@@ -143,7 +143,7 @@ end
 
 function mod:Phase2()
 	phase = 2
-	self:Message("phase2", "Attention", nil, L["phase2_message"], 92195)
+	self:Message("phase2", "Attention", nil, L["phase2_message"], false)
 	self:StopBar(L["blazing_bar"])
 	self:OpenProximity("phase2", 8)
 end
