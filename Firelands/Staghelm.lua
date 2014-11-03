@@ -122,17 +122,8 @@ end
 
 do
 	local function checkTarget(guid)
-		for i=1, GetNumGroupMembers() do
-			local leapTarget
-			if IsInRaid() then
-				leapTarget = ("raid%dtarget"):format(i)
-			else
-				if i == 1 then
-					leapTarget = "playertarget"
-				else
-					leapTarget = ("party%dtarget"):format(i-1)
-				end
-			end
+		for unit in mod:IterateGroup() do
+			local leapTarget = unit.."target"
 			if UnitGUID(leapTarget) == guid and UnitIsUnit("player", leapTarget.."target") then
 				mod:Say(98476, L["leap_say"])
 				mod:Flash(98476)

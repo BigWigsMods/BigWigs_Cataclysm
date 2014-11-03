@@ -68,17 +68,19 @@ end
 
 local function populateOrbList()
 	wipe(orbList)
-	for i = 1, GetNumGroupMembers() do
-		local n, _, g = GetRaidRosterInfo(i)
-		-- do some checks for 25/10 man raid size so we don't warn for ppl who are not in the instance
-		if (mod:Difficulty() == 5 and g < 3) or (mod:Difficulty() == 6 and g < 6) then
+	local _, _, _, zone = UnitPosition("player")
+	for unit in mod:IterateGroup() do
+		local _, _, _, targetZone = UnitPosition(unit)
+		if zone == targetZone then -- Don't warn for ppl who are not in the instance
 			-- Tanking something, but not a tank (aka not tanking Sinestra or Whelps)
-			if UnitThreatSituation(n) == 3 and isTargetableByOrb(n) then
-				if UnitIsUnit(n, "player") then playerInList = true end
+			if UnitThreatSituation(unit) == 3 and isTargetableByOrb(unit) then
+				if UnitIsUnit(unit, "player") then
+					playerInList = true
+				end
 				-- orbList is not created by :NewTargetList
 				-- so we don't have to decolorize when we set icons,
 				-- instead we colorize targets in the module
-				orbList[#orbList + 1] = n
+				orbList[#orbList + 1] = mod:UnitName(unit)
 			end
 		end
 	end
