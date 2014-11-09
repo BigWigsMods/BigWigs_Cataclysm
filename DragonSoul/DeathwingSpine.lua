@@ -115,11 +115,12 @@ do
 	end
 
 	function mod:AboutToRoll()
-		self:Bar("roll", 5, L["roll"], L["roll_icon"])
-		self:Message("roll", "Attention", "Long", CL["custom_sec"]:format(L["roll"], 5), L["roll_icon"])
+		local rollTime = self:Solo() and 10 or 5
+		self:Bar("roll", rollTime, L["roll"], L["roll_icon"])
+		self:Message("roll", "Attention", "Long", CL["custom_sec"]:format(L["roll"], rollTime), L["roll_icon"])
 		self:Flash("roll", L["roll_icon"])
 		if timer then self:CancelTimer(timer) end
-		timer = self:ScheduleRepeatingTimer(graspCheck, 0.8)
+		timer = self:ScheduleRepeatingTimer(graspCheck, rollTime == 10 and 1 or 0.7)
 	end
 	function mod:Rolls()
 		self:Message("roll", "Positive", nil, L["roll_message"], L["roll_icon"])
