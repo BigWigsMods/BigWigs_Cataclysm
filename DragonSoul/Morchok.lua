@@ -175,7 +175,7 @@ end
 function mod:Crush(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["crush_message"]:format(args.destName, buffStack - 1))
-	self:Bar("crush", L["crush_message"]:format(args.destName, buffStack), 20, args.spellId)
+	self:Bar("crush", 20, L["crush_message"]:format(args.destName, buffStack), args.spellId)
 	self:StackMessage("crush", args.destName, buffStack, "Urgent", buffStack > 2 and "Info", 50234, args.spellId) -- 50234 == Crush
 end
 
