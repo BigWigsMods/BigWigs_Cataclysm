@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "你妄想阻止雪崩。我只会埋葬你。"
 
-	L.crush = "破甲"
 	L.crush_desc = "破甲堆叠计数并显示持续条。"
-	L.crush_message = "%2$d层破甲：>%1$s<！"
 
 	L.blood = "大地黑血"
 

@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "State cercando di fermare una valanga. Io vi seppelliro'."
 
-	L.crush = "Spacca Armatura"
 	L.crush_desc = "Conta gli accumuli di Spacca Armatura e mostra una barra di durata."
-	L.crush_message = "%2$dx Spacca Armatura su %1$s"
 
 	L.blood = "Sangue Nero della Terra"
 

@@ -31,7 +31,7 @@ if L then
 
 	L.shadows = "Shadows"
 
-	L.drain, L.drain_desc = EJ_GetSectionInfo(3971)
+	L.drain = -3971 -- Psychic Drain
 	L.drain_icon = 104322
 end
 L = mod:GetLocale()

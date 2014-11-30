@@ -24,7 +24,8 @@ local corruptionStatus, lastBar, nextGrip = {}, true, 0
 local L = mod:NewLocale("enUS", true)
 if L then
 	L.engage_trigger = "The plates! He's coming apart! Tear up the plates and we've got a shot at bringing him down!"
-	L.roll, L.roll_desc = EJ_GetSectionInfo(4050)
+
+	L.roll = -4050 -- Roll
 	L.roll_icon = "achievement_bg_returnxflags_def_wsg"
 
 	L.about_to_roll = "about to roll"
@@ -38,7 +39,7 @@ if L then
 
 	L.residue = "Unabsorbed Residue"
 	L.residue_desc = "Messages informing you of how much blood residue is remaining on the floor, waiting to be absorbed."
-	L.residue_icon = 105223
+	L.residue_icon = "Spell_Fire_Fire"
 	L.residue_message = "Residue: %d"
 end
 L = mod:GetLocale()

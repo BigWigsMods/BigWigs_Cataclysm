@@ -11,8 +11,6 @@ mod:RegisterEnableMob(45992, 45993)
 --
 
 local phaseCount = 0
-local theralion = EJ_GetSectionInfo(2994)
-local valiona = EJ_GetSectionInfo(2985)
 local emTargets = mod:NewTargetList()
 local markWarned = false
 
@@ -49,8 +47,8 @@ function mod:GetOptions()
 		{86622, "FLASH", "SAY"}, 86408, 86369, 93051,
 		"proximity", "phase_switch", "berserk", "bosskill"
 	}, {
-		[86788] = valiona,
-		[86622] = theralion,
+		[86788] = -2985, -- Valiona
+		[86622] = -2994, -- Theralion
 		[93051] = "heroic",
 		proximity = "general",
 	}
@@ -85,7 +83,7 @@ function mod:OnEngage()
 	markWarned = false
 	self:CDBar(86840, 25)
 	self:Bar(86788, 11) -- Blackout
-	self:Bar("phase_switch", 103, L["phase_bar"]:format(theralion), 60639)
+	self:Bar("phase_switch", 103, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 	self:OpenProximity("proximity", 8)
 	self:Berserk(600)
 	phaseCount = 0
@@ -110,7 +108,7 @@ end
 
 local function valionaHasLanded()
 	mod:StopBar(86622) -- Engulfing Magic
-	mod:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(valiona), 60639)
+	mod:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(self:SpellName(-2985)), 60639) -- Valiona
 	mod:CDBar(86840, 26) -- Devouring Flames
 	mod:Bar(86788, 11) -- Blackout
 	mod:OpenProximity("proximity", 8)
@@ -119,7 +117,7 @@ end
 local function theralionHasLanded()
 	mod:StopBar(86788) -- Blackout
 	mod:StopBar(86840) -- Devouring Flames
-	mod:Bar("phase_switch", 130, L["phase_bar"]:format(valiona), 60639)
+	mod:Bar("phase_switch", 130, L["phase_bar"]:format(self:SpellName(-2985)), 60639) -- Valiona
 	mod:CloseProximity()
 end
 
@@ -137,7 +135,7 @@ function mod:DazzlingDestruction(args)
 		self:Message(args.spellId, "Important", "Alarm", L["dazzling_message"])
 	elseif phaseCount == 3 then
 		self:ScheduleTimer(theralionHasLanded, 5)
-		self:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(theralion), 60639)
+		self:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
 	end
 end
@@ -147,7 +145,7 @@ function mod:DeepBreathCast()
 	phaseCount = phaseCount + 1
 	self:Message(86059, "Important", "Alarm", L["breath_message"], "inv_misc_head_dragon_blue")
 	if phaseCount == 3 then
-		self:Bar("phase_switch", 105, L["phase_bar"]:format(theralion), 60639)
+		self:Bar("phase_switch", 105, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
 	end
 end
@@ -155,7 +153,7 @@ end
 -- Valiona does this when she fires the first deep breath and begins the landing phase
 -- It only triggers once from her yell, not 3 times.
 function mod:DeepBreath()
-	self:Bar("phase_switch", 40, L["phase_bar"]:format(valiona), 60639)
+	self:Bar("phase_switch", 40, L["phase_bar"]:format(self:SpellName(-2985)), 60639) -- Valiona
 	self:ScheduleTimer(valionaHasLanded, 40)
 end
 

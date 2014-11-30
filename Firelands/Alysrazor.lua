@@ -46,7 +46,7 @@ if L then
 	L.initiate_west = "West Initiate"
 	L.initiate_east = "East Initiate"
 
-	L.eggs, L.eggs_desc = EJ_GetSectionInfo(2836)
+	L.eggs = -2836 -- Voracious Hatchling
 	L.eggs_icon = "inv_trinket_firelands_02"
 end
 L = mod:GetLocale()
@@ -155,9 +155,8 @@ end
 
 do
 	local initiateLocation = {L["initiate_both"], L["initiate_east"], L["initiate_west"], L["initiate_east"], L["initiate_west"]}
-	local initiate = EJ_GetSectionInfo(2834)
 	function mod:Initiates(_, _, unit)
-		if unit == initiate then
+		if unit == self:SpellName(-2834) then -- Blazing Talon Initiate
 			initiateCount = initiateCount + 1
 			if initiateCount > 5 then return end
 			self:Bar("initiate", initiateTimes[initiateCount], initiateLocation[initiateCount], 97062) --Night Elf head

@@ -23,10 +23,10 @@ if L then
 	L.flare_desc = "Show a timer bar for AoE flare."
 	L.flare_icon = 99859
 
-	L.drone, L.drone_desc = EJ_GetSectionInfo(2773)
+	L.drone = -2773 -- Cinderweb Drone
 	L.drone_icon = "INV_Misc_Head_Nerubian_01"
 
-	L.spinner, L.spinner_desc = EJ_GetSectionInfo(2770)
+	L.spinner = -2770 -- Cinderweb Spinner
 	L.spinner_icon = "spell_fire_moltenblood"
 
 	L.devastate_message = "Devastate #%d"

@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "Vous cherchez à arrêter l'avalanche. Je vais vous ensevelir."
 
-	L.crush = "Ecraser armure"
 	L.crush_desc = "Compte les cumuls d'Ecraser armure et affiche une barre de durée."
-	L.crush_message = "%2$dx Ecraser sur %1$s"
 
 	L.blood = "Sang noir"
 

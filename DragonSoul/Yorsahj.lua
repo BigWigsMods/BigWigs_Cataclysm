@@ -31,7 +31,7 @@ if L then
 	L.blobs_desc = "Blobs moving towards the boss"
 	L.blobs_icon = "achievement_doublerainbow"
 
-	L.acid, L.acid_desc = EJ_GetSectionInfo(4320)
+	L.acid = -4320 -- Digestive Acid
 	L.acid_icon = "spell_nature_corrosivebreath"
 end
 L = mod:GetLocale()

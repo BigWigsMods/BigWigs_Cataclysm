@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "Ihr versucht, eine Lawine aufzuhalten. Ich werde Euch begraben."
 
-	L.crush = "Rüstung zerschmettern"
 	L.crush_desc = "Zählt die Stapel von Rüstung zerschmettern und zeigt eine Timerleiste an."
-	L.crush_message = "%2$dx Rüstung zerschmettern: %1$s"
 
 	L.blood = "Schwarzes Blut"
 

@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "Попробуйте остановить лавину и умрете."
 
-	L.crush = "Сокрушение доспеха"
 	L.crush_desc = "Считает стаки сокрушения доспеха и показывает таймер."
-	L.crush_message = "%2$dx Сокрушение на |3-5(%1$s)"
 
 	L.blood = "Черная кровь"
 

@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "계란으로 바위를 치려 드는군. 내가 널 묻어주마."
 
-	L.crush = "갑옷 으깨기"
 	L.crush_desc = "갑옷 으깨기의 지속시간 바와 중첩 횟수를 표시합니다."
-	L.crush_message = "으깨기 x%2$d : %1$s"
 
 	L.blood = "검은 피"
 

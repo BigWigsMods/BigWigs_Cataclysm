@@ -215,18 +215,19 @@ function mod:FrostBeacon(args)
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
-do
-	local terrastra = EJ_GetSectionInfo(3125)
-	local arion = EJ_GetSectionInfo(3123)
-	function mod:UNIT_HEALTH_FREQUENT(unit)
-		local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
-		if phase == 1 then
-			if hp < 30 then
-				self:Message("switch", "Attention", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
-				phase = 2
-			end
-		elseif phase == 2 then
-			if hp > 1 and hp < 30 and (UnitName(unit) == arion or UnitName(unit) == terrastra) then
+function mod:UNIT_HEALTH_FREQUENT(unit)
+	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+	if phase == 1 then
+		if hp < 30 then
+			self:Message("switch", "Attention", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
+			phase = 2
+		end
+	elseif phase == 2 then
+		if hp > 1 and hp < 30 then
+			local arion = self:SpellName(-3123)
+			local terrastra = self:SpellName(-3125)
+			local name = UnitName(unit)
+			if name == arion or name == terrastra then
 				phase = 3
 				self:Message("switch", "Attention", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
 				self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1", "boss2", "boss3", "boss4")

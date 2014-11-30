@@ -216,15 +216,12 @@ function mod:ExplosiveCindersRemoved(args)
 	end
 end
 
-do
-	local onyxia = EJ_GetSectionInfo(3283)
-	function mod:PowerCheck(unit)
-		if UnitName(unit) == onyxia then
-			local power = UnitPower(unit, ALTERNATE_POWER_INDEX)
-			if power > 80 then
-				self:Message(78999, "Attention", nil, L["onyxia_power_message"])
-				self:UnregisterUnitEvent("UNIT_POWER_FREQUENT", "boss1", "boss2")
-			end
+function mod:PowerCheck(unit)
+	if UnitName(unit) == self:SpellName(-3283) then -- Onyxia
+		local power = UnitPower(unit, ALTERNATE_POWER_INDEX)
+		if power > 80 then
+			self:Message(78999, "Attention", nil, L["onyxia_power_message"])
+			self:UnregisterUnitEvent("UNIT_POWER_FREQUENT", "boss1", "boss2")
 		end
 	end
 end

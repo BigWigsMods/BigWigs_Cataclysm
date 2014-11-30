@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "Vocês querem deter uma avalanche. Mas eu vou soterrar vocês."
 
-	L.crush = "Esmagar armadura"
 	L.crush_desc = "Mostra os stacks de Esmagar armadura e uma barra com sua duração."
-	L.crush_message = "%2$dx Esmagar em %1$s"
 
 	L.blood = "Sangue"
 

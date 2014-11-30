@@ -19,28 +19,28 @@ local L = mod:NewLocale("enUS", true)
 if L then
 	L.engage_trigger = "You have done NOTHING. I will tear your world APART."
 
-	L.impale, L.impale_desc = EJ_GetSectionInfo(4114)
-	L.impale_icon = 106400
+	L.impale = -4114 -- Impale
+	L.impale_icon = "Ability_SearingArrow"
 
-	L.last_phase = mod:SpellName(106708)
-	L.last_phase_desc = EJ_GetSectionInfo(4046)
-	L.last_phase_icon = 106834
+	L.last_phase = 106708 -- Slump
+	L.last_phase_desc = -4046
+	L.last_phase_icon = "Spell_DeathKnight_BloodBoil"
 
-	L.bigtentacle, L.bigtentacle_desc = EJ_GetSectionInfo(4112)
-	L.bigtentacle_icon = 105563
+	L.bigtentacle = -4112 -- Mutated Corruption
+	L.bigtentacle_icon = "ability_deathwing_grasping_tendrils"
 
-	L.smalltentacles = EJ_GetSectionInfo(4103)
+	L.smalltentacles = -4103 -- Blistering Tentacle
 	-- Copy & Paste from Encounter Journal with correct health percentages (type '/dump EJ_GetSectionInfo(4103)' in the game)
 	L.smalltentacles_desc = "At 70% and 40% remaining health the Limb Tentacle sprouts several Blistering Tentacles that are immune to Area of Effect abilities."
-	L.smalltentacles_icon = 105444
+	L.smalltentacles_icon = "Ability_Warrior_BloodNova"
 
-	L.hemorrhage, L.hemorrhage_desc = EJ_GetSectionInfo(4108)
-	L.hemorrhage_icon = "SPELL_FIRE_MOLTENBLOOD"
+	L.hemorrhage = -4108 -- Hemorrhage
+	L.hemorrhage_icon = "spell_fire_moltenblood"
 
-	L.fragment, L.fragment_desc = EJ_GetSectionInfo(4115)
-	L.fragment_icon = 105563
+	L.fragment = -4115 -- Elementium Fragment
+	L.fragment_icon = "ability_deathwing_grasping_tendrils"
 
-	L.terror, L.terror_desc = EJ_GetSectionInfo(4117)
+	L.terror = -4117 -- Elementium Terror
 	L.terror_icon = "ability_tetanus"
 
 	L.bolt_explode = "<Bolt Explodes>"
@@ -60,8 +60,8 @@ function mod:GetOptions()
 		{-4347, "FLASH", "ICON", "PROXIMITY", "SAY"}, -4351,
 		"berserk", "bosskill",
 	}, {
-		bigtentacle = -4040,
-		last_phase = -4046,
+		bigtentacle = -4040, -- Stage One: The Final Assault
+		last_phase = -4046, -- Stage Two: The Last Stand
 		[-4347] = "heroic",
 		berserk = "general",
 	}

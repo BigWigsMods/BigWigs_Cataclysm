@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "你想要阻止山崩。我會埋葬你。"
 
-	L.crush = "擊碎護甲"
 	L.crush_desc = "擊碎護甲堆疊計數並顯示持續條。"
-	L.crush_message = "%2$d層擊碎護甲：>%1$s<！"
 
 	L.blood = "大地黑血"
 

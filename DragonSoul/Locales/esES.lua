@@ -3,9 +3,7 @@ if not L then return end
 if L then
 	L.engage_trigger = "Pretendéis detener una avalancha. Os sepultaré."
 
-	L.crush = "Machacar armadura"
 	L.crush_desc = "Muestra los stacs de Machacar armadura y una barra con su duración."
-	L.crush_message = "%2$dx Machacar en %1$s"
 
 	L.blood = "Sangre"
 
