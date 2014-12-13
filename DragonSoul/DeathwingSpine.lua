@@ -111,27 +111,28 @@ do
 			mod:CancelTimer(timer)
 		end
 		if not UnitDebuff("player", tendrils) and not UnitIsDead("player") then -- Grasping Tendrils
-			mod:Message("roll", "Personal", "Alert", L["not_hooked"], 105563)
+			mod:Message("roll", "Personal", "Alert", L.not_hooked, 105563)
 		end
 	end
 
 	function mod:AboutToRoll()
 		local rollTime = self:Solo() and 10 or 5
-		self:Bar("roll", rollTime, L["roll"], L["roll_icon"])
-		self:Message("roll", "Attention", "Long", CL["custom_sec"]:format(L["roll"], rollTime), L["roll_icon"])
-		self:Flash("roll", L["roll_icon"])
+		local rollMsg = self:SpellName(L.roll)
+		self:Bar("roll", rollTime, rollMsg, L.roll_icon)
+		self:Message("roll", "Attention", "Long", CL.custom_sec:format(rollMsg, rollTime), L.roll_icon)
+		self:Flash("roll", L.roll_icon)
 		if timer then self:CancelTimer(timer) end
 		timer = self:ScheduleRepeatingTimer(graspCheck, rollTime == 10 and 1 or 0.7)
 	end
 	function mod:Rolls()
-		self:Message("roll", "Positive", nil, L["roll_message"], L["roll_icon"])
-		self:Bar("roll", 5, CL["cast"]:format(L["roll"]), L["roll_icon"])
+		self:Message("roll", "Positive", nil, L.roll_message, L.roll_icon)
+		self:Bar("roll", 5, CL.cast:format(self:SpellName(L.roll)), L.roll_icon)
 		self:CancelTimer(timer)
 		timer = nil
 	end
 	function mod:Level()
-		self:Message("roll", "Positive", nil, L["level_message"], L["roll_icon"])
-		self:StopBar(L["roll"])
+		self:Message("roll", "Positive", nil, L.level_message, L.roll_icon)
+		self:StopBar(self:SpellName(L.roll))
 		self:CancelTimer(timer)
 		timer = nil
 	end
