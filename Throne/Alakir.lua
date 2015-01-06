@@ -183,7 +183,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_,spellName,_,_,spellId)
 		self:Bar(87770, 24) -- Windburst
 		self:Bar(89588, 16) -- Lightning Clouds
 		self:ScheduleTimer(CloudSpawn, 16, 89588)
-		self:StopBar(L["stormling_bar"])
+		self:StopBar(88272) -- Stormling
 		self:StopBar(87904) -- Feedback
 		self:StopBar(L["acid_rain"]:format(acidRainCounter))
 	end
