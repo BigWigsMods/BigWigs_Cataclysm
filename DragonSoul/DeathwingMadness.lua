@@ -121,7 +121,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(unit, spellName, _, _, spellId)
 		self:Bar("fragment", 90, L["fragment"], L["fragment_icon"])
 	elseif spellId == 105551 then
 		local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
-		self:Message("smalltentacles", "Urgent", "Alarm", ("%d%% - %s"):format(hp > 50 and 70 or 40, self:SpellInfo(L.smalltentacles)), L.smalltentacles_icon)
+		self:Message("smalltentacles", "Urgent", "Alarm", ("%d%% - %s"):format(hp > 50 and 70 or 40, self:SpellName(L.smalltentacles)), L.smalltentacles_icon)
 	elseif spellId == 106765 then
 		self:Message("terror", "Important", nil, L["terror"], L["terror_icon"])
 		self:Bar("terror", 90, L["terror"], L["terror_icon"])
