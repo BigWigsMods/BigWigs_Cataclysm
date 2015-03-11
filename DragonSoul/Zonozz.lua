@@ -7,6 +7,7 @@ if not mod then return end
 mod:RegisterEnableMob(55308)
 
 local ballTimer = 0
+local shadowsMarkCounter = 1
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -23,16 +24,20 @@ if L then
 
 	L.bounce = "Void ball bounce"
 	L.bounce_desc = "Counter for the void ball bounces."
-	L.bounce_icon = 73981 -- some bouncing bullet like icon
+	L.bounce_icon = 132563 -- inv_misc_soccerball / Kick Foot Ball
 
 	L.darkness = "Tentacle disco party!"
-	L.darkness_desc = "This phase starts, when the void ball hits the boss."
+	L.darkness_desc = "This phase starts when the void ball hits the boss."
 	L.darkness_icon = 109413
 
 	L.shadows = "Shadows"
 
 	L.drain = -3971 -- Psychic Drain
 	L.drain_icon = 104322
+
+	L.custom_off_shadows_marker = "Disrupting Shadows marker"
+	L.custom_off_shadows_marker_desc = "Mark Disrupting Shadows targets with {rt1}{rt2}{rt3}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
+	L.custom_off_shadows_marker_icon = 1
 end
 L = mod:GetLocale()
 
@@ -43,7 +48,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		"ball", "bounce", "darkness",
-		"drain", {103434, "FLASH", "SAY", "PROXIMITY"},
+		"drain", {103434, "FLASH", "SAY", "PROXIMITY"}, "custom_off_shadows_marker",
 		"berserk", "bosskill",
 	}, {
 		ball = -3973,
@@ -74,6 +79,7 @@ function mod:OnEngage()
 	self:CDBar(103434, 23) -- Shadows
 	self:Bar("drain", 17, L["drain"], 104322)
 	ballTimer = 0
+	shadowsMarkCounter = 1
 end
 
 --------------------------------------------------------------------------------
@@ -94,7 +100,7 @@ function mod:Darkness(unit, spellName, _, _, spellId)
 end
 
 function mod:VoidDiffusion(args)
-	self:Message("bounce", "Important", nil, ("%s (%d)"):format(L["bounce"], args.amount or 1), args.spellId)
+	self:Message("bounce", "Important", nil, ("%s (%d)"):format(L["bounce"], args.amount or 1), L.bounce_icon)
 end
 
 function mod:PsychicDrain(args)
@@ -114,6 +120,7 @@ end
 function mod:ShadowsCast(args)
 	self:Message(args.spellId, "Attention")
 	self:CDBar(args.spellId, 26) -- 26-29
+	shadowsMarkCounter = 1
 end
 
 function mod:ShadowsApplied(args)
@@ -125,11 +132,18 @@ function mod:ShadowsApplied(args)
 			self:OpenProximity(args.spellId, 10)
 		end
 	end
+	if self.db.profile.custom_off_shadows_marker then
+		SetRaidTarget(args.destName, shadowsMarkCounter)
+		shadowsMarkCounter = shadowsMarkCounter + 1
+	end
 end
 
 function mod:ShadowsRemoved(args)
 	if not self:LFR() and self:Me(args.destGUID) then
 		self:CloseProximity(args.spellId)
+	end
+	if self.db.profile.custom_off_shadows_marker then
+		SetRaidTarget(args.destName, 0)
 	end
 end
 

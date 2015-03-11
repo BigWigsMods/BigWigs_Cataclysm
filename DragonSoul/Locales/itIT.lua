@@ -26,6 +26,9 @@ if L then
 	L.darkness_desc = "Questa fase comincia quando la Sfera di Energia colpisce il Boss."
 
 	L.shadows = "Ombre d'Interruzione"
+
+	L.custom_off_shadows_marker = "Disrupting Shadows marker"
+	L.custom_off_shadows_marker_desc = "Mark Disrupting Shadows targets with {rt1}{rt2}{rt3}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
 end
 
 L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "itIT")

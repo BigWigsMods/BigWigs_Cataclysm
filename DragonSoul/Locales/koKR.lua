@@ -26,6 +26,9 @@ if L then
 	L.darkness_desc = "구슬이 보스에게 닿으면 이 단계가 시작 됩니다."
 
 	L.shadows = "그림자"
+
+	L.custom_off_shadows_marker = "Disrupting Shadows marker"
+	L.custom_off_shadows_marker_desc = "Mark Disrupting Shadows targets with {rt1}{rt2}{rt3}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
 end
 
 L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "koKR")
