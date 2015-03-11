@@ -63,7 +63,7 @@ function mod:GetOptions()
 		{77786, "FLASH", "ICON"}, 77679,
 		77991, 78194,
 		{"sludge", "FLASH"},
-		"phase", 77912, 77569, 77896, "berserk", "bosskill"
+		"phase", 77912, 77569, 77896, "berserk"
 	}, {
 		[77699] = L["blue_phase"],
 		[77786] = L["red_phase"],

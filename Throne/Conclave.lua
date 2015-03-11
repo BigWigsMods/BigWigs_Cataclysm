@@ -41,7 +41,7 @@ function mod:GetOptions()
 		86193, "storm_shield",
 		{84645, "FLASH"},
 		85422, 86281, 86205,
-		86307, "full_power", "berserk", "bosskill"
+		86307, "full_power", "berserk"
 	}, {
 		[86193] = -3172, -- Rohash
 		[84645] = -3178, -- Nezir

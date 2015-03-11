@@ -53,7 +53,7 @@ function mod:GetOptions()
 		98498, 99172,
 		99317, {99849, "FLASH", "SAY"},
 		100171, 100479, 100646, 100714, 100604, 100675,
-		98710, {99399, "TANK"}, "proximity", "berserk", "bosskill"
+		98710, {99399, "TANK"}, "proximity", "berserk"
 	}, {
 		[98237] = -2629,
 		[98953] = L["intermission_bar"],

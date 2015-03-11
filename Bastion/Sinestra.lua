@@ -157,7 +157,6 @@ function mod:GetOptions(CL)
 
 	-- General
 		"phase",
-		"bosskill",
 	}, {
 		[90125] = L["phase13"],
 		[87654] = CL["phase"]:format(2),

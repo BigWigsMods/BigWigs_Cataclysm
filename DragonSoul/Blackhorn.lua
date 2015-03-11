@@ -46,7 +46,7 @@ function mod:GetOptions(CL)
 	return {
 		107588, "sapper",
 		{"sunder", "TANK"}, {108046, "SAY", "FLASH"}, {108076, "SAY", "FLASH", "ICON"}, 108044,
-		"warmup", "berserk", "bosskill",
+		"warmup", "berserk",
 	}, {
 		[107588] = -4027,
 		sunder = -4033,

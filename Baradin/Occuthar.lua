@@ -28,7 +28,7 @@ L = mod:GetLocale()
 --
 
 function mod:GetOptions()
-	return {96913, {96920, "FLASH"}, 96884, "berserk", "bosskill"}
+	return {96913, {96920, "FLASH"}, 96884, "berserk"}
 end
 
 function mod:OnBossEnable()

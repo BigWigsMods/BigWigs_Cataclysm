@@ -46,12 +46,10 @@ function mod:GetOptions()
 		{99052, "FLASH"}, "drone", "spinner",
 		99506, 99497, "flare",
 		{99559, "FLASH"}, {99990, "FLASH", "SAY"},
-		"bosskill"
 	}, {
 		[99052] = -2764,
 		[99506] = -2782,
 		[99559] = "heroic",
-		bosskill = "general"
 	}
 end
 

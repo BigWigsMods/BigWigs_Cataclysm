@@ -42,7 +42,7 @@ function mod:GetOptions(CL)
 		88301,
 		{89668, "ICON", "FLASH"}, 89588, 87770, "proximity",
 		87873,
-		88427, "stages", "berserk", "bosskill"
+		88427, "stages", "berserk"
 	}, {
 		[87770] = CL["phase"]:format(1),
 		[87904] = CL["phase"]:format(2),

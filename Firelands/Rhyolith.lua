@@ -44,7 +44,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		98552, 98136,
-		"armor", 97282, 98255, -2537, 101304, "bosskill"
+		"armor", 97282, 98255, -2537, 101304
 	}, {
 		[98552] = L["adds_header"],
 		["armor"] = "general"

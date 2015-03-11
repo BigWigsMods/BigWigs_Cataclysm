@@ -45,7 +45,7 @@ function mod:GetOptions()
 		{79888, "ICON", "FLASH", "PROXIMITY"},
 		{80161, "FLASH"}, {80157, "FLASH", "SAY"}, 80053, {80094, "FLASH"},
 		"nef", 91849, 91879, {92048, "ICON"}, 92023, "switch", "custom_on_iconomnotron",
-		"berserk", "bosskill"
+		"berserk"
 	}, {
 		[79501] = -3207, -- Electron
 		[79888] = -3201, -- Magmatron

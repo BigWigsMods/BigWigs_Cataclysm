@@ -53,11 +53,11 @@ function mod:GetOptions()
 	return {
 		"slump", 79011, 89773, 78006, {78941, "FLASH", "PROXIMITY"}, 77690,
 		"blazing", "armageddon", {"phase2", "PROXIMITY"},
-		"berserk", "bosskill"
+		"berserk"
 	}, {
 		slump = "normal",
 		blazing = "heroic",
-		bosskill = "general"
+		berserk = "general"
 	}
 end
 

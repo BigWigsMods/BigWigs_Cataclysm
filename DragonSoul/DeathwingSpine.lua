@@ -51,7 +51,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		105248, "residue", 105490, {105845, "FLASH"}, {"roll", "FLASH"},
-		105848, "bosskill",
+		105848
 	}
 end
 

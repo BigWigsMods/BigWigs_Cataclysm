@@ -45,7 +45,7 @@ function mod:GetOptions()
 	return {
 		{86788, "ICON", "FLASH"}, {88518, "FLASH"}, 86059, 86840,
 		{86622, "FLASH", "SAY"}, 86408, 86369, 93051,
-		"proximity", "phase_switch", "berserk", "bosskill"
+		"proximity", "phase_switch", "berserk"
 	}, {
 		[86788] = -2985, -- Valiona
 		[86622] = -2994, -- Theralion

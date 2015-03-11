@@ -33,7 +33,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		99259, "torment", -2598, --Blades of Baleroc
-		"berserk", "bosskill",
+		"berserk"
 		{99516, "FLASH", "ICON"}
 	}, {
 		[99259] = "general",

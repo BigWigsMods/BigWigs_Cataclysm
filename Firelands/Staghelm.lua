@@ -40,7 +40,7 @@ function mod:GetOptions()
 		98379, 98474,
 		{98374, "PROXIMITY"}, {98476, "FLASH", "ICON", "SAY"},
 		{98450, "FLASH", "PROXIMITY"}, 98451,
-		97238, "berserk", "bosskill"
+		97238, "berserk"
 	}, {
 		[98379] = 98379,
 		[98374] = 98374,

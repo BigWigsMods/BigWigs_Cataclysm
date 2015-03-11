@@ -59,7 +59,7 @@ function mod:GetOptions(CL)
 	return {
 		91303, {81538, "FLASH"}, {81685, "FLASH", "ICON", "SAY"}, 81571, 82524, 81628, 82299,
 		82630, 82414,
-		"orders", {82235, "FLASH", "PROXIMITY"}, "berserk", "bosskill"
+		"orders", {82235, "FLASH", "PROXIMITY"}, "berserk"
 	}, {
 		[91303] = CL.phase:format(1),
 		[82630] = CL.phase:format(2),

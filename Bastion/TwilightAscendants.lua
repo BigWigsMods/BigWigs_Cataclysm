@@ -66,7 +66,7 @@ function mod:GetOptions()
 		{92075, "FLASH", "SAY", "ICON"},
 		{92307, "FLASH", "ICON"},
 		-- General
-		"proximity", "switch", "bosskill"
+		"proximity", "switch"
 	}, {
 		[82631] = -3118, -- Ignacious
 		[82746] = -3110, -- Feludius

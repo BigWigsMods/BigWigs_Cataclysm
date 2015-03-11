@@ -34,7 +34,7 @@ function mod:GetOptions()
 		"ground_phase", 78075, 77840,
 		"air_phase",
 		{92677, "ICON", "SAY"},
-		{78092, "FLASH", "ICON", "SAY"}, "berserk", "bosskill"
+		{78092, "FLASH", "ICON", "SAY"}, "berserk"
 	}, {
 		ground_phase = L["ground_phase"],
 		air_phase = L["air_phase"],

@@ -62,14 +62,12 @@ function mod:GetOptions()
 		99432,
 		99844, 99925,
 		{100744, "FLASH"}, "meteor",
-		"bosskill"
 	}, {
 		[99362] = -2820, --Stage 1: Flight
 		[99816] = -2821, --Stage 2: Tornadoes
 		[99432] = -2822, --Stage 3: Burnout
 		[99844] = -2823, --Stage 4: Re-Ignite
 		[100744] = "heroic",
-		bosskill = "general"
 	}
 end
 

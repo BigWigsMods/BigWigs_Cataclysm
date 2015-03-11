@@ -56,7 +56,7 @@ local colorCombinations = {
 
 function mod:GetOptions()
 	return {
-		"blobs", {"bolt", "TANK"}, "acid", -4321, "proximity", "berserk", "bosskill"
+		"blobs", {"bolt", "TANK"}, "acid", -4321, "proximity", "berserk"
 	}
 end
 

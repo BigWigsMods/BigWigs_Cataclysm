@@ -58,7 +58,7 @@ function mod:GetOptions()
 		"bigtentacle", "impale", "smalltentacles", {105651, "FLASH"}, "hemorrhage", 106523,
 		"last_phase", "fragment", {106794, "FLASH"}, "terror",
 		{-4347, "FLASH", "ICON", "PROXIMITY", "SAY"}, -4351,
-		"berserk", "bosskill",
+		"berserk"
 	}, {
 		bigtentacle = -4040, -- Stage One: The Final Assault
 		last_phase = -4046, -- Stage Two: The Last Stand

@@ -49,7 +49,7 @@ function mod:GetOptions()
 	return {
 		"ball", "bounce", "darkness",
 		"drain", {103434, "FLASH", "SAY", "PROXIMITY"}, "custom_off_shadows_marker",
-		"berserk", "bosskill",
+		"berserk",
 	}, {
 		ball = -3973,
 		drain = "general",

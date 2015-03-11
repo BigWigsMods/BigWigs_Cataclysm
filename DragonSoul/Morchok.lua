@@ -45,7 +45,7 @@ function mod:GetOptions()
 	return {
 		"stomp_boss", "crystal_boss",
 		"stomp_add", "crystal_add",
-		109017, {103851, "FLASH"}, {"crush", "TANK"}, 103846, "berserk", "bosskill",
+		109017, {103851, "FLASH"}, {"crush", "TANK"}, 103846, "berserk"
 	}, {
 		stomp_boss = self.displayName,
 		stomp_add = -4262, -- Kohcrom

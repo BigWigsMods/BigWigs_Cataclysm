@@ -61,7 +61,7 @@ function mod:GetOptions(CL)
 	return {
 		{106371, "FLASH"}, "cast",
 		105925, {"lightself", "FLASH"}, {"lighttank", "FLASH", "TANK"},
-		"warmup", "crystal", "berserk", "bosskill",
+		"warmup", "crystal", "berserk"
 	}, {
 		[106371] = L["twilight"],
 		[105925] = mod:SpellName(105925),

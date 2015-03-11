@@ -30,7 +30,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		"warmup", 82848, 88826, 82881, {88853, "FLASH"}, 82935, 82890,
-		"proximity", "berserk", "bosskill"
+		"proximity", "berserk"
 	}, {
 		warmup = "normal",
 		proximity = "general"
