@@ -74,9 +74,8 @@ function mod:OnEngage()
 	self:Bar("full_power", 90, L["full_power"], 86193)
 	self:Bar(86205, 16.2) -- Soothing Breeze
 
-	local flag = BigWigs.C.BAR
-	local stormShield, nurture, windBlast = self:SpellName(93059), self:SpellName(85422), self:SpellName(86193)
-	if bit.band(self.db.profile.storm_shield, flag) == flag and bit.band(self.db.profile[nurture], flag) == flag and bit.band(self.db.profile[windBlast], flag) == flag then
+	if self:CheckOption("storm_shield", "BAR") and self:CheckOption(85422, "BAR") and self:CheckOption(86193, "BAR") then
+		local stormShield, nurture, windBlast = self:SpellName(93059), self:SpellName(85422), self:SpellName(86193)
 		self:Bar(85422, 30, nurture.."/"..windBlast.."/"..stormShield, "achievement_boss_murmur")
 	else
 		self:Bar(85422, 30) -- Nurture
