@@ -13,6 +13,7 @@ mod:RegisterEnableMob(53879, 56575, 56341, 53891, 56161, 56162)
 
 local gripTargets = mod:NewTargetList()
 local bloodCount = 0
+local bloodTimers = {}
 
 -- Locals for Fiery Grip, described in comments below
 local corruptionStatus, lastBar, nextGrip = {}, true, 0
@@ -83,6 +84,7 @@ end
 -- Note: Engage is not called as early as you may expect. It is about 4s from the start of combat
 function mod:OnEngage(diff)
 	wipe(corruptionStatus)
+	wipe(bloodTimers)
 	lastBar = true
 	bloodCount = 0
 
@@ -139,25 +141,23 @@ do
 end
 
 do
-	local timers = {}
+	local printStacks = function(self, spellId, color, spellName, amount, destGUID)
+		self:Message(spellId, color, nil, CL.count:format(spellName, amount))
+		bloodTimers[destGUID] = nil
+	end
+
 	function mod:AbsorbedBlood(args)
 		-- Cancel old timer
-		if timers[args.destGUID] ~= nil then
-			self:CancelTimer(timers[args.destGUID])
-			timers[args.destGUID] = nil
+		if bloodTimers[args.destGUID] then
+			self:CancelTimer(bloodTimers[args.destGUID])
+			bloodTimers[args.destGUID] = nil
 		end
 
-		-- Create closure to retain stack count, spell name, and GUID
-		local printStacks = function(level)
-			self:Message(args.spellId, level, ("%s (%d)"):format(args.spellName, args.amount), args.spellId)
-			timers[args.destGUID] = nil
-		end
-
-		-- Throttle message by 0.5s, or print immediately if we hit 9 stacks
+		-- Throttle message by 0.5s, or print immediately if we hit 9+ stacks
 		if args.amount < 9 then
-			timers[args.destGUID] = self:ScheduleTimer(printStacks, 0.5, "Urgent")
+			bloodTimers[args.destGUID] = self:ScheduleTimer(printStacks, 0.5, self, args.spellId, "Urgent", args.spellName, args.amount, args.destGUID)
 		else
-			printStacks("Important")
+			printStacks(self, args.spellId, "Important", args.spellName, args.amount, args.destGUID)
 		end
 	end
 end
