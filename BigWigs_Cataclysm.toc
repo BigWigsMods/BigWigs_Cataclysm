@@ -1,4 +1,4 @@
-## Interface: 60200
+## Interface: 70000
 
 ## Title: Big Wigs [|cffeda55fCataclysm|r]
 ## Title-itIT: Big Wigs [|cffeda55fCataclysm|r]
