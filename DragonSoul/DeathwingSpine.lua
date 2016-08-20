@@ -108,24 +108,27 @@ end
 do
 	local tendrils = mod:SpellName(105563)
 	local timer = nil
-	local function graspCheck()
-		if not mod.isEngaged then
+	local function graspCheck(self)
+		if not self.isEngaged then
 			-- Timer should not be spamming
-			mod:CancelTimer(timer)
+			self:CancelTimer(timer)
 		end
 		if not UnitDebuff("player", tendrils) and not UnitIsDead("player") then -- Grasping Tendrils
-			mod:Message("roll", "Personal", "Alert", L.not_hooked, 105563)
+			self:Message("roll", "Personal", not self:Solo() and "Alert", L.not_hooked, 105563)
 		end
 	end
 
 	function mod:AboutToRoll()
+		local solo = self:Solo()
 		local rollTime = self:Solo() and 10 or 5
 		local rollMsg = self:SpellName(L.roll)
 		self:Bar("roll", rollTime, rollMsg, L.roll_icon)
-		self:Message("roll", "Attention", "Long", CL.custom_sec:format(rollMsg, rollTime), L.roll_icon)
-		self:Flash("roll", L.roll_icon)
+		self:Message("roll", "Attention", not solo and "Long", CL.custom_sec:format(rollMsg, rollTime), L.roll_icon)
+		if not solo then
+			self:Flash("roll", L.roll_icon)
+		end
 		if timer then self:CancelTimer(timer) end
-		timer = self:ScheduleRepeatingTimer(graspCheck, rollTime == 10 and 1 or 0.7)
+		timer = self:ScheduleRepeatingTimer(graspCheck, 2, self)
 	end
 	function mod:Rolls()
 		self:Message("roll", "Positive", nil, L.roll_message, L.roll_icon)
