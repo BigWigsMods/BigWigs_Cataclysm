@@ -1,16 +1,36 @@
 ## Interface: 70000
 
 ## Title: Big Wigs [|cffeda55fCataclysm|r]
-## Title-itIT: Big Wigs [|cffeda55fCataclysm|r]
-## Title-zhCN: Big Wigs [|cffeda55f大地的裂变|r]
+## Title-zhCN: BigWigs [|cffeda55f大地的裂变|r]
+## Title-zhTW: BigWigs [|cffeda55fCataclysm|r]
+## Title-deDE: BigWigs [|cffeda55fCataclysm|r]
+## Title-frFR: BigWigs [|cffeda55fCataclysm|r]
+## Title-itIT: BigWigs [|cffeda55fCataclysm|r]
+## Title-koKR: BigWigs [|cffeda55fCataclysm|r]
+## Title-ruRU: BigWigs [|cffeda55fCataclysm|r]
+## Title-ptBR: BigWigs [|cffeda55fCataclysm|r]
+## Title-esES: BigWigs [|cffeda55fCataclysm|r]
+## Title-esMX: BigWigs [|cffeda55fCataclysm|r]
 ## Notes: A collection of Big Wigs modules from the Cataclysm era.
-## Notes-itIT: Una collezione di moduli Big Wigs dell'era di Cataclysm.
-## Notes-zhCN: Big Wigs 大地的裂变模块。
+## Notes-zhCN: BigWigs 大地的裂变模块。
+## Notes-zhTW: A collection of BigWigs modules from the Cataclysm era.
+## Notes-deDE: A collection of BigWigs modules from the Cataclysm era.
+## Notes-frFR: A collection of BigWigs modules from the Cataclysm era.
+## Notes-itIT: Una collezione di moduli BigWigs dell'era di Cataclysm.
+## Notes-koKR: A collection of BigWigs modules from the Cataclysm era.
+## Notes-ruRU: A collection of BigWigs modules from the Cataclysm era.
+## Notes-ptBR: A collection of BigWigs modules from the Cataclysm era.
+## Notes-esES: A collection of BigWigs modules from the Cataclysm era.
+## Notes-esMX: A collection of BigWigs modules from the Cataclysm era.
 
 ## LoadOnDemand: 1
 ## Dependencies: BigWigs
+## Version: @project-revision@
 
 ## X-Category: Raid
+## X-License: All Rights Reserved: You are free to fork and modify on GitHub, please ask us about anything else.
+## X-Curse-Project-ID: bigwigs_cataclysm
+## X-WoWI-ID: 21755
 ## X-BigWigs-LoadOn-ZoneId: 752, 758, 754, 824, 800, 773
 
 modules.xml
