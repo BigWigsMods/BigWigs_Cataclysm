@@ -6,7 +6,7 @@ local mod, CL = BigWigs:NewBoss("Spine of Deathwing", 824, 318)
 if not mod then return end
 -- Deathwing, Burning Tendons, Burning Tendons, Corruption, Corruption, Corruption
 mod:RegisterEnableMob(53879, 56575, 56341, 53891, 56161, 56162)
---mod.engageId = 1291
+mod.engageId = 1291
 
 --------------------------------------------------------------------------------
 -- Locales
@@ -75,10 +75,8 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "Nuclear", 105845)
 	self:Log("SPELL_CAST_START", "Seal", 105847, 105848) -- Left, Right
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 	self:Yell("Engage", L["engage_trigger"])
 
-	self:Death("Win", 53879)
 	self:Death("BurningTendonDeaths", 56575, 56341) -- Burning Tendons
 end
 
