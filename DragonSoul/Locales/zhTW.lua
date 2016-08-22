@@ -27,7 +27,7 @@ if L then
 
 	L.shadows = "崩解之影"
 
-	L.custom_off_shadows_marker = "Disrupting Shadows marker"
+	L.custom_off_shadows_marker = "崩解之影標記"
 	L.custom_off_shadows_marker_desc = "Mark Disrupting Shadows targets with {rt1}{rt2}{rt3}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
 end
 

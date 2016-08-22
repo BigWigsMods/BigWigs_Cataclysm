@@ -27,8 +27,8 @@ if L then
 
 	L.shadows = "干扰之影"
 
-	L.custom_off_shadows_marker = "Disrupting Shadows marker"
-	L.custom_off_shadows_marker_desc = "Mark Disrupting Shadows targets with {rt1}{rt2}{rt3}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
+	L.custom_off_shadows_marker = "干扰之影标记"
+	L.custom_off_shadows_marker_desc = "使用 {rt1}{rt2}{rt3} 标记干扰之影目标，需要权限。\n|cFFFF0000团队中只有1名应该启用此选项以防止标记冲突。|r"
 end
 
 L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "zhCN")
