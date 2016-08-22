@@ -27,8 +27,8 @@ if L then
 
 	L.shadows = "崩解之影"
 
-	L.custom_off_shadows_marker = "Disrupting Shadows marker"
-	L.custom_off_shadows_marker_desc = "Mark Disrupting Shadows targets with {rt1}{rt2}{rt3}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
+	L.custom_off_shadows_marker = "崩解之影標記"
+	L.custom_off_shadows_marker_desc = "使用 {rt1}{rt2}{rt3} 標記崩解之影目標，需要權限。\n|cFFFF0000團隊中只需一人啟用此選項以防止標記衝突。|r"
 end
 
 L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "zhTW")
