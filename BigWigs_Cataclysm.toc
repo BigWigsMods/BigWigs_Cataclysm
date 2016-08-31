@@ -14,7 +14,7 @@
 ## Notes: A collection of BigWigs modules from the Cataclysm era.
 ## Notes-zhCN: BigWigs 大地的裂变模块。
 ## Notes-zhTW: A collection of BigWigs modules from the Cataclysm era.
-## Notes-deDE: A collection of BigWigs modules from the Cataclysm era.
+## Notes-deDE: Eine Sammlung von BigWigs-Modulen aus der Ära Cataclysm.
 ## Notes-frFR: A collection of BigWigs modules from the Cataclysm era.
 ## Notes-itIT: Una collezione di moduli BigWigs dell'era di Cataclysm.
 ## Notes-koKR: A collection of BigWigs modules from the Cataclysm era.
