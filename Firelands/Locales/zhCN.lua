@@ -102,7 +102,7 @@ if L then
 	L.seed_explosion = "熔火之种爆炸！"
 	L.intermission_bar = "中场"
 	L.intermission_message = "中场！"
-	L.sons_left = ">%d< 烈焰之子剩餘！"
+	L.sons_left = ">%d< 烈焰之子剩余！"
 	L.engulfing_close = "噬体烈焰：>近场<！"
 	L.engulfing_middle = "噬体烈焰：>中场<！"
 	L.engulfing_far = "噬体烈焰：>远场<！"
