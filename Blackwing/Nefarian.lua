@@ -218,7 +218,7 @@ end
 
 function mod:PowerCheck(unit)
 	if UnitName(unit) == self:SpellName(-3283) then -- Onyxia
-		local power = UnitPower(unit, ALTERNATE_POWER_INDEX)
+		local power = UnitPower(unit, 10) -- Enum.PowerType.Alternate = 10
 		if power > 80 then
 			self:Message(78999, "Attention", nil, L["onyxia_power_message"])
 			self:UnregisterUnitEvent("UNIT_POWER_FREQUENT", "boss1", "boss2")
