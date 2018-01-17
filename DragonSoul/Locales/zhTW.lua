@@ -128,7 +128,7 @@ L = BigWigs:NewBossLocale("Madness of Deathwing", "zhTW")
 if L then
 	L.engage_trigger = "你們都徒勞無功。我會撕裂你們的世界。"
 
-	-- Copy & Paste from Encounter Journal with correct health percentages (type '/dump EJ_GetSectionInfo(4103)' in the game)
+	-- Copy & Paste from Encounter Journal with correct health percentages (type '/dump (C_EncounterJournal.GetSectionInfo(4103)).title' in the game)
 	L.smalltentacles_desc = "生命力降低為70%與40% 時，肢體觸手將會生長出數隻免疫範圍效果的極熾觸手。"
 
 	L.bolt_explode = "<源質箭爆炸>"

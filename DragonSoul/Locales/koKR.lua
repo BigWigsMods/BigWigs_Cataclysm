@@ -128,7 +128,7 @@ L = BigWigs:NewBossLocale("Madness of Deathwing", "koKR")
 if L then
 	L.engage_trigger = "넌 아무것도 못 했다. 내가 이 세상을 조각내주마."
 
-	-- Copy & Paste from Encounter Journal with correct health percentages (type '/dump EJ_GetSectionInfo(4103)' in the game)
+	-- Copy & Paste from Encounter Journal with correct health percentages (type '/dump (C_EncounterJournal.GetSectionInfo(4103)).title' in the game)
 	L.smalltentacles_desc = "체력이 70% 그리고 40% 가 남았을시 촉수에 대하여 알립니다."
 
 	L.bolt_explode = "<화살 폭발>"
