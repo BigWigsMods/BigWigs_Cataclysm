@@ -127,7 +127,7 @@ function mod:Phase4()
 		self:StopBar(moltenSeed)
 		phase = 4
 		 -- not sure if we want a different option key or different icon
-		self:Message(98953, CL["phase"]:format(phase), "Positive", 98953)
+		self:Message(98953, "Positive", nil, CL["phase"]:format(phase))
 		self:Bar(100479, 34) -- Breadth of Frost
 		self:Bar(100714, 51) -- Cloudburst
 		self:Bar(100646, 68) -- Entraping Roots

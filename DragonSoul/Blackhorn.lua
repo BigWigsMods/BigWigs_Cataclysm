@@ -144,34 +144,17 @@ function mod:TwilightOnslaught(args)
 end
 
 do
-	local timer, fired = nil, 0
-	local function shockWarn(spellId)
-		fired = fired + 1
-		local player = UnitName("boss2target")
-		if player and (not UnitDetailedThreatSituation("boss2target", "boss2") or fired > 11) then
-			-- If we've done 12 (0.6s) checks and still not passing the threat check, it's probably being cast on the tank
-			mod:TargetMessage(spellId, player, "Attention", "Alarm") -- Shockwave
-			mod:CancelTimer(timer)
-			timer = nil
-			if mod:Me(UnitGUID("boss2target")) then
-				mod:Flash(spellId)
-				mod:Say(spellId)
-			end
-			return
-		end
-		-- 19 == 0.95sec
-		-- Safety check if the unit doesn't exist
-		if fired > 18 then
-			mod:CancelTimer(timer)
-			timer = nil
+	local function printTarget(self, name, guid)
+		self:TargetMessage(108046, name, "Attention", "Alarm")
+		if self:Me(guid) then
+			self:Flash(108046)
+			self:Say(108046)
 		end
 	end
+
 	function mod:Shockwave(args)
+		self:GetBossTarget(printTarget, 0.7, args.sourceGUID)
 		self:CDBar(args.spellId, 23) -- 23-26
-		fired = 0
-		if not timer then
-			timer = self:ScheduleRepeatingTimer(shockWarn, 0.05, args.spellId)
-		end
 	end
 end
 

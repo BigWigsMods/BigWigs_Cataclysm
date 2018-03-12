@@ -126,10 +126,10 @@ function mod:RodRemoved(args)
 	end
 end
 
-local function CloudSpawn(spellId)
-	mod:Bar(spellId, 10) -- Lightning Clouds
-	mod:Message(spellId, "Important", "Info") -- Lightning Clouds
-	mod:ScheduleTimer(CloudSpawn, 10, spellId)
+local function CloudSpawn(self)
+	self:Bar(89588, 10) -- Lightning Clouds
+	self:Message(89588, "Important", "Info") -- Lightning Clouds
+	self:ScheduleTimer(CloudSpawn, 10, self)
 end
 
 function mod:Feedback(args)
@@ -182,7 +182,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_,spellName,_,_,spellId)
 		self:Message("stages", "Positive", nil, CL["phase"]:format(3), 88875)
 		self:Bar(87770, 24) -- Windburst
 		self:Bar(89588, 16) -- Lightning Clouds
-		self:ScheduleTimer(CloudSpawn, 16, 89588)
+		self:ScheduleTimer(CloudSpawn, 16, self)
 		self:StopBar(88272) -- Stormling
 		self:StopBar(87904) -- Feedback
 		self:StopBar(L["acid_rain"]:format(acidRainCounter))
