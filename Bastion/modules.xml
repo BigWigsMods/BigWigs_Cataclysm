@@ -7,5 +7,6 @@
 <Script file="Chogall.lua" />
 <Script file="Sinestra.lua" />
 
-</Ui>
+<Include file="Options\options.xml"/>
 
+</Ui>

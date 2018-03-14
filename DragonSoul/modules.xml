@@ -10,4 +10,6 @@
 <Script file="DeathwingSpine.lua" />
 <Script file="DeathwingMadness.lua" />
 
+<Include file="Options\options.xml"/>
+
 </Ui>
