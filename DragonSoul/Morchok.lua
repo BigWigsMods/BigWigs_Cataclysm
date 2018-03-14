@@ -159,7 +159,7 @@ end
 function mod:ResonatingCrystal(args)
 	if args.sourceName == self.displayName then crystalCount = crystalCount + 1 end -- Only increment count off morchok casts.
 	if self:Heroic() then
-		self:Message((args.sourceName == self:SpellName(-4262)) and "crystal_add" or "crystal_boss", "Urgent", "Alarm", args.sourceName.." - "..L["crystal"], args.spellId) -- -4262 == Kohcrom
+		self:Message(args.sourceName == self:SpellName(-4262) and "crystal_add" or "crystal_boss", "Urgent", "Alarm", args.sourceName.." - "..L["crystal"], args.spellId) -- -4262 == Kohcrom
 		self:Bar((args.sourceName == self:SpellName(-4262)) and "crystal_add" or "crystal_boss", 12, args.sourceName.." - "..(L["explosion"]), args.spellId) -- -4262 == Kohcrom
 		if UnitExists("boss2") and crystalCount > 1 and args.sourceName == self.displayName then -- The CD bar will only start off morchok's 2nd crystal, if kohcrom is already summoned.
 			self:CDBar("crystal_add", self:Difficulty() == 5 and 6 or 5, self:SpellName(-4262).." - "..L["crystal"], args.spellId) -- "Kohcrom - Crystal" Same as stomp, 6/5
