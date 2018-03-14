@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Omnotron Defense System", 754, 169)
+local mod, CL = BigWigs:NewBoss("Omnotron Defense System", 669, 169)
 if not mod then return end
 mod:RegisterEnableMob(42166, 42179, 42178, 42180, 49226) -- Arcanotron, Electron, Magmatron, Toxitron, Lord Victor Nefarius
 

@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod = BigWigs:NewBoss("Yor'sahj the Unsleeping", 824, 325)
+local mod = BigWigs:NewBoss("Yor'sahj the Unsleeping", 967, 325)
 if not mod then return end
 mod:RegisterEnableMob(55312)
 

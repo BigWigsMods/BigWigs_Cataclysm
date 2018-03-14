@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Halfus Wyrmbreaker", 758, 156)
+local mod, CL = BigWigs:NewBoss("Halfus Wyrmbreaker", 671, 156)
 if not mod then return end
 mod:RegisterEnableMob(44600)
 

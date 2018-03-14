@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Ragnaros", 800, 198)
+local mod, CL = BigWigs:NewBoss("Ragnaros", 720, 198)
 if not mod then return end
 mod:RegisterEnableMob(52409, 53231) --Ragnaros, Lava Scion
 

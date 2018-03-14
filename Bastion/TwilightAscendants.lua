@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Ascendant Council", 758, 158)
+local mod, CL = BigWigs:NewBoss("Ascendant Council", 671, 158)
 if not mod then return end
 mod:RegisterEnableMob(43686, 43687, 43688, 43689, 43735) --Ignacious, Feludius, Arion, Terrastra, Elementium Monstrosity
 

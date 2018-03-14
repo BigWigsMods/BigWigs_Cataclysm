@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod = BigWigs:NewBoss("Chimaeron", 754, 172)
+local mod = BigWigs:NewBoss("Chimaeron", 669, 172)
 if not mod then return end
 mod:RegisterEnableMob(43296)
 

@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Warmaster Blackhorn", 824, 332)
+local mod, CL = BigWigs:NewBoss("Warmaster Blackhorn", 967, 332)
 if not mod then return end
 -- Goriona, Blackhorn, The Skyfire, Ka'anu Reevs, Sky Captain Swayze
 mod:RegisterEnableMob(56781, 56427, 56598, 42288, 55870)

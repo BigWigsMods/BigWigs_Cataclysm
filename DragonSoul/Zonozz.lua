@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Warlord Zon'ozz", 824, 324)
+local mod, CL = BigWigs:NewBoss("Warlord Zon'ozz", 967, 324)
 if not mod then return end
 mod:RegisterEnableMob(55308)
 

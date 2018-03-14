@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Ultraxion", 824, 331)
+local mod, CL = BigWigs:NewBoss("Ultraxion", 967, 331)
 if not mod then return end
 mod:RegisterEnableMob(55294, 56667) -- Ultraxion, Thrall
 

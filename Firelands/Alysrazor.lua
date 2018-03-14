@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Alysrazor", 800, 194)
+local mod, CL = BigWigs:NewBoss("Alysrazor", 720, 194)
 if not mod then return end
 mod:RegisterEnableMob(52530, 53898, 54015, 53089) --Alysrazor, Voracious Hatchling, Majordomo Staghelm, Molten Feather
 

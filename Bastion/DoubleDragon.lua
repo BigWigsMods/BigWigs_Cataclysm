@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Valiona and Theralion", 758, 157)
+local mod, CL = BigWigs:NewBoss("Valiona and Theralion", 671, 157)
 if not mod then return end
 mod:RegisterEnableMob(45992, 45993)
 

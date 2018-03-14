@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod = BigWigs:NewBoss("Majordomo Staghelm", 800, 197)
+local mod = BigWigs:NewBoss("Majordomo Staghelm", 720, 197)
 if not mod then return end
 mod:RegisterEnableMob(52571, 53619) --Staghelm, Druid of the Flame
 

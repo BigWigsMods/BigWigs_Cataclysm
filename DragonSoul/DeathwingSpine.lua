@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Spine of Deathwing", 824, 318)
+local mod, CL = BigWigs:NewBoss("Spine of Deathwing", 967, 318)
 if not mod then return end
 -- Deathwing, Burning Tendons, Burning Tendons, Corruption, Corruption, Corruption
 mod:RegisterEnableMob(53879, 56575, 56341, 53891, 56161, 56162)

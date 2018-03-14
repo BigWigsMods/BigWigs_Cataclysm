@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Shannox", 800, 195)
+local mod, CL = BigWigs:NewBoss("Shannox", 720, 195)
 if not mod then return end
 mod:RegisterEnableMob(53691, 53695, 53694) --Shannox, Rageface, Riplimb
 

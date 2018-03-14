@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Madness of Deathwing", 824, 333)
+local mod, CL = BigWigs:NewBoss("Madness of Deathwing", 967, 333)
 if not mod then return end
 -- Thrall, Deathwing, Arm Tentacle, Arm Tentacle, Wing Tentacle, Mutated Corruption
 mod:RegisterEnableMob(56103, 56173, 56167, 56846, 56168, 56471)

@@ -2,7 +2,7 @@
 -- Module Declaration
 --
 
-local mod, CL = BigWigs:NewBoss("Hagara the Stormbinder", 824, 317)
+local mod, CL = BigWigs:NewBoss("Hagara the Stormbinder", 967, 317)
 if not mod then return end
 mod:RegisterEnableMob(55689)
 
