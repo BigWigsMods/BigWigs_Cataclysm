@@ -132,7 +132,7 @@ end
 do
 	local lastCheck = 0
 	function mod:FlightCheck(unit)
-		local _, _, _, _, _, _, expires = UnitBuff(unit, self:SpellName(98619)) -- Wings of Flame
+		local _, _, _, expires = self:UnitBuff(unit, self:SpellName(98619)) -- Wings of Flame
 		if expires ~= lastCheck then
 			lastCheck = expires
 			self:Bar("flight", expires-GetTime(), 98619)
@@ -166,9 +166,9 @@ do
 	local feather = mod:SpellName(97128)
 	local moonkin = mod:SpellName(24858)
 	function mod:BuffCheck()
-		local name = UnitBuff("player", feather)
+		local name = self:UnitBuff("player", feather)
 		if not name then
-			if UnitBuff("player", moonkin) then
+			if self:UnitBuff("player", moonkin) then
 				self:Message(97128, "Personal", nil, L["moonkin_message"])
 			else
 				self:Message(97128, "Personal", nil, L["no_stacks_message"])

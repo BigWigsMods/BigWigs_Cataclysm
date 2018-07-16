@@ -111,7 +111,7 @@ do
 			-- Timer should not be spamming
 			self:CancelTimer(timer)
 		end
-		if not UnitDebuff("player", tendrils) and not UnitIsDead("player") then -- Grasping Tendrils
+		if not self:UnitDebuff("player", tendrils) and not UnitIsDead("player") then -- Grasping Tendrils
 			self:Message("roll", "Personal", not self:Solo() and "Alert", L.not_hooked, 105563)
 		end
 	end

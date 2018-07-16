@@ -129,7 +129,7 @@ function mod:Kiss(args)
 end
 
 function mod:Devastate(args)
-	local hasDebuff = UnitDebuff("player", self:SpellName(100048)) -- Fiery Web Silk
+	local hasDebuff = self:UnitDebuff("player", self:SpellName(100048)) -- Fiery Web Silk
 	if hasDebuff then
 		local devastate = L["devastate_message"]:format(devastateCount)
 		self:Message(args.spellId, "Important", "Long", devastate)

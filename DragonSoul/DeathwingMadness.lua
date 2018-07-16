@@ -170,7 +170,7 @@ end
 function mod:ElementiumBolt(args)
 	self:Flash(args.spellId)
 	self:Message(args.spellId, "Important", "Long")
-	self:Bar(args.spellId, UnitBuff("player", self:SpellName(110628)) and 18 or 8, L["bolt_explode"])
+	self:Bar(args.spellId, self:UnitBuff("player", self:SpellName(110628)) and 18 or 8, L["bolt_explode"])
 end
 
 function mod:Cataclysm(args)

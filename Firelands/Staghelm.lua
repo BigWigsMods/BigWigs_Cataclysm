@@ -143,7 +143,7 @@ function mod:CatForm(args)
 	specialCounter = 1
 	self:Bar(98476, specialCD[specialCounter]) -- Leaping Flames
 	--Don't open if already opened from seed
-	local hasDebuff, _, _, _, _, _, remaining = UnitDebuff("player", self:SpellName(98450)) -- Searing Seeds
+	local hasDebuff, _, _, remaining = self:UnitDebuff("player", self:SpellName(98450)) -- Searing Seeds
 	if not hasDebuff or (remaining - GetTime() > 6) then
 		self:OpenProximity(args.spellId, 10)
 	end
@@ -184,7 +184,7 @@ do
 	function mod:SearingSeeds(args)
 		self:StopBar(98476) -- Leaping Flames
 		if not self:Me(args.destGUID) then return end
-		local _, _, _, _, _, _, remaining = UnitDebuff("player", args.spellName)
+		local _, _, _, remaining = self:UnitDebuff("player", args.spellName)
 		remaining = remaining - GetTime()
 		self:Bar(args.spellId, remaining, L["seed_bar"])
 		if remaining < 5 then

@@ -180,7 +180,7 @@ end
 do
 	local marked = mod:SpellName(88518)
 	function mod:MeteorCheck(unit)
-		if not markWarned and UnitDebuff(unit, marked) then
+		if not markWarned and self:UnitDebuff(unit, marked) then
 			self:Flash(88518)
 			self:Message(88518, "Personal", "Long", CL["you"]:format(marked))
 			markWarned = true

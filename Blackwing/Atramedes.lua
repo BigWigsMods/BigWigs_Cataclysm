@@ -90,7 +90,7 @@ end
 do
 	local pestered = mod:SpellName(92685)
 	function mod:UNIT_AURA(_, unit)
-		if UnitDebuff(unit, pestered) then
+		if self:UnitDebuff(unit, pestered) then
 			if unit == "player" then
 				self:Say(92677)
 			end

@@ -138,7 +138,7 @@ function mod:Phase4()
 end
 
 function mod:Dreadflame()
-	if not UnitDebuff("player", self:SpellName(100757)) then return end -- No Deluge on you = you don't care
+	if not self:UnitDebuff("player", self:SpellName(100757)) then return end -- No Deluge on you = you don't care
 	self:Message(100675, "Important", "Alarm")
 	self:Bar(100675, dreadflameCD)
 	if dreadflameCD > 10 then
@@ -190,7 +190,7 @@ do
 end
 
 function mod:FixatedCheck(unit)
-	local fixated = UnitDebuff(unit, fixate)
+	local fixated = self:UnitDebuff(unit, fixate)
 	if fixated and not fixateWarned then
 		fixateWarned = true
 		self:Message(99849, "Personal", "Long", CL["you"]:format(fixate))
