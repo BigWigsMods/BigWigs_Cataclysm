@@ -288,7 +288,7 @@ end
 do
 	local hardenTimer = nil
 	local function quakeIncoming()
-		if self:UnitDebuff("player", mod:SpellName(83500)) then -- Swirling Winds
+		if mod:UnitDebuff("player", mod:SpellName(83500)) then -- Swirling Winds
 			mod:CancelTimer(hardenTimer)
 			return
 		end
@@ -313,7 +313,7 @@ end
 do
 	local thunderTimer = nil
 	local function thunderShockIncoming()
-		if self:UnitDebuff("player", mod:SpellName(83581)) then -- Grounded
+		if mod:UnitDebuff("player", mod:SpellName(83581)) then -- Grounded
 			mod:CancelTimer(thunderTimer)
 			return
 		end

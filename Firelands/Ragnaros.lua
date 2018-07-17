@@ -10,7 +10,7 @@ mod:RegisterEnableMob(52409, 53231) --Ragnaros, Lava Scion
 -- Locals
 --
 
-local intermissionwarned, infernoWarned, fixateWarned = false, false, false
+local fixateWarned = nil
 local blazingHeatTargets = mod:NewTargetList()
 local sons = 8
 local phase = 1
@@ -18,7 +18,6 @@ local lavaWavesCD, engulfingCD, dreadflameCD = 30, 40, 40
 local moltenSeed, lavaWaves, fixate, livingMeteor, wrathOfRagnaros = mod:SpellName(98498), mod:SpellName(98928), mod:SpellName(99849), mod:SpellName(99317), mod:SpellName(98263)
 local dreadflame, cloudburst, worldInFlames = mod:SpellName(100675), mod:SpellName(100714), mod:SpellName(100171)
 local meteorCounter, meteorNumber = 1, {1, 2, 4, 6, 8}
-local intermissionHandle = nil
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -108,11 +107,10 @@ function mod:OnEngage()
 	else
 		engulfingCD = 40
 	end
-	intermissionwarned, infernoWarned, fixateWarned = false, false, false
+	fixateWarned = nil
 	sons = 8
 	phase = 1
 	meteorCounter = 1
-	intermissionHandle = nil
 end
 
 --------------------------------------------------------------------------------

@@ -108,37 +108,6 @@ local function colorize(tbl)
 	return tbl
 end
 
-local function orbWarning(source)
-	if playerInList then mod:Flash(92852) end
-
-	-- this is why orbList can't be created by :NewTargetList
-	if orbList[1] then mod:PrimaryIcon(92852, orbList[1]) end
-	if orbList[2] then mod:SecondaryIcon(92852, orbList[2]) end
-
-	if source == "spawn" then
-		if #orbList > 0 then
-			mod:TargetMessage(92852, colorize(orbList), "Personal", "Alarm", L["slicer_message"])
-			-- if we could guess orb targets lets wipe the whelpGUIDs in 5 sec
-			-- if not then we might as well just save them for next time
-			mod:ScheduleTimer(wipeWhelpList, 5) -- might need to adjust this
-		else
-			mod:Message(92852, "Personal")
-		end
-	elseif source == "damage" then
-		mod:TargetMessage(92852, colorize(orbList), "Personal", "Alarm", L["slicer_message"])
-		mod:ScheduleTimer(wipeWhelpList, 10, true) -- might need to adjust this
-	end
-end
-
--- this gets run every 30 sec
--- need to change it once there is a proper trigger for orbs
-local function nextOrbSpawned()
-	mod:CDBar(92852, 28)
-	populateOrbList()
-	orbWarning("spawn")
-	mod:ScheduleTimer(nextOrbSpawned, 28)
-end
-
 --------------------------------------------------------------------------------
 -- Initialization
 --
@@ -195,7 +164,7 @@ function mod:OnEngage()
 	self:CDBar(90125, 24) -- Slicer
 	self:CDBar(92852, 29) -- Breath
 	self:Bar("whelps", 16, L["whelps"], 69005) -- whelp like icon
-	self:ScheduleTimer(nextOrbSpawned, 29)
+	self:ScheduleTimer("NextOrbSpawned", 29)
 	eggs = 0
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "PhaseWarn", "boss1")
 	wipe(whelpGUIDs)
@@ -223,11 +192,43 @@ do
 	end
 end
 
+
+function mod:OrbWarning(source)
+	if playerInList then mod:Flash(92852) end
+
+	-- this is why orbList can't be created by :NewTargetList
+	if orbList[1] then mod:PrimaryIcon(92852, orbList[1]) end
+	if orbList[2] then mod:SecondaryIcon(92852, orbList[2]) end
+
+	if source == "spawn" then
+		if #orbList > 0 then
+			mod:TargetMessage(92852, colorize(orbList), "Personal", "Alarm", L["slicer_message"])
+			-- if we could guess orb targets lets wipe the whelpGUIDs in 5 sec
+			-- if not then we might as well just save them for next time
+			mod:ScheduleTimer(wipeWhelpList, 5) -- might need to adjust this
+		else
+			mod:Message(92852, "Personal")
+		end
+	elseif source == "damage" then
+		mod:TargetMessage(92852, colorize(orbList), "Personal", "Alarm", L["slicer_message"])
+		mod:ScheduleTimer(wipeWhelpList, 10, true) -- might need to adjust this
+	end
+end
+
+-- this gets run every 30 sec
+-- need to change it once there is a proper trigger for orbs
+function mod:NextOrbSpawned()
+	self:CDBar(92852, 28)
+	populateOrbList()
+	self:OrbWarning("spawn")
+	self:ScheduleTimer("NextOrbSpawned", 28)
+end
+
 function mod:OrbDamage()
 	populateOrbList()
 	if orbWarned then return end
 	orbWarned = true
-	orbWarning("damage")
+	self:OrbWarnin("damage")
 end
 
 function mod:Whelps()
@@ -289,7 +290,7 @@ function mod:TwilightEggDeaths()
 		self:Bar("whelps", 50, L["whelps"], 69005)
 		self:CDBar(92852, 30) -- Slicer
 		self:CDBar(90125, 24) -- Breath
-		self:ScheduleTimer(nextOrbSpawned, 30)
+		self:ScheduleTimer("NextOrbSpawned", 30)
 	end
 end
 

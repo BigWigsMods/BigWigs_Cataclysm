@@ -164,15 +164,15 @@ do
 	end
 end
 
---[[ 
+--[[
 	Notes on Fiery Grip:
-	* corruptionStatus is a map from Corruption GUID to a number. We set the 
-	  number to 0 initially and increment it with each cast until it is reset 
-	  at the grip. A timer is shown (or readjusted) at every cast. 
+	* corruptionStatus is a map from Corruption GUID to a number. We set the
+	  number to 0 initially and increment it with each cast until it is reset
+	  at the grip. A timer is shown (or readjusted) at every cast.
 	* lastBar holds the GUID of the Corruption that triggered the bar. This
 	  way, if it dies, we can kill the bar. This also serves as a throttle so
 	  that we have at most one bar up at any time, which should be good enough.
-	  We set it to true initially because we miss the first plasma cast for some 
+	  We set it to true initially because we miss the first plasma cast for some
 	  reason (likely because of the zone change).
 ]]
 function mod:FieryGripCast(args)
@@ -241,7 +241,7 @@ do
 			if scheduled then
 				mod:CancelTimer(scheduled)
 			end
-			scheduled = mod:ScheduleTimer(reportBloods, 1) 
+			scheduled = mod:ScheduleTimer(reportBloods, 1)
 		end
 
 		-- once we reach 0, we will hold until we pass the threshold again

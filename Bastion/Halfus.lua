@@ -25,7 +25,9 @@ L = mod:GetLocale()
 -- Initialization
 --
 
-function mod:GetOptions() return {83908, 83603, 83707, 83710, "berserk"} end
+function mod:GetOptions()
+	return {83908, 83603, 83707, 83710, "berserk"}
+end
 
 function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "FuriousRoar", 83710)

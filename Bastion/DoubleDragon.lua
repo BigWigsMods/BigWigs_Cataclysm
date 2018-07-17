@@ -108,7 +108,7 @@ end
 
 local function valionaHasLanded()
 	mod:StopBar(86622) -- Engulfing Magic
-	mod:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(self:SpellName(-2985)), 60639) -- Valiona
+	mod:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
 	mod:CDBar(86840, 26) -- Devouring Flames
 	mod:Bar(86788, 11) -- Blackout
 	mod:OpenProximity("proximity", 8)
@@ -117,7 +117,7 @@ end
 local function theralionHasLanded()
 	mod:StopBar(86788) -- Blackout
 	mod:StopBar(86840) -- Devouring Flames
-	mod:Bar("phase_switch", 130, L["phase_bar"]:format(self:SpellName(-2985)), 60639) -- Valiona
+	mod:Bar("phase_switch", 130, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
 	mod:CloseProximity()
 end
 
