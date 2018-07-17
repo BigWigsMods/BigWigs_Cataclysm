@@ -4,42 +4,42 @@ BigWigs:AddSounds("Halfus Wyrmbreaker", {
 })
 
 BigWigs:AddSounds("Valiona and Theralion", {
+	[86059] = "Alarm",
 	[86369] = "Long",
 	[86408] = "Alarm",
 	[86622] = "Alarm",
-	[86059] = "Alarm",
-	[86840] = "Alert",
 	[86788] = "Alert",
+	[86840] = "Alert",
 	[88518] = "Long",
 })
 
 BigWigs:AddSounds("Ascendant Council", {
-	[92307] = "Alarm",
-	[83099] = "Alert",
-	[83565] = {"Info","Alarm"},
-	[84948] = "Alert",
-	[92075] = "Alarm",
+	[82631] = "Alert",
 	[82746] = "Alert",
 	[82762] = "Long",
-	[83067] = {"Info","Alarm"},
-	["switch"] = "Info",
-	[92067] = "Alarm",
-	[82631] = "Alert",
+	[83067] = {"Alarm","Info"},
+	[83099] = "Alert",
+	[83565] = {"Alarm","Info"},
 	[83718] = "Info",
+	[84948] = "Alert",
+	[92067] = "Alarm",
+	[92075] = "Alarm",
+	[92307] = "Alarm",
+	["switch"] = "Info",
 })
 
 BigWigs:AddSounds("Cho'gall", {
-	[82299] = "Alert",
-	[91303] = "Alarm",
-	[82630] = "Info",
 	[81538] = "Info",
-	[82235] = "Long",
 	[81685] = "Long",
+	[82235] = "Long",
+	[82299] = "Alert",
+	[82630] = "Info",
+	[91303] = "Alarm",
 })
 
 BigWigs:AddSounds("Sinestra", {
 	[87654] = "Alert",
-	["phase"] = "Info",
-	[92852] = "Alarm",
 	[90045] = "Info",
+	[92852] = "Alarm",
+	["phase"] = "Info",
 })

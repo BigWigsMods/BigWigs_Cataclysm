@@ -2,8 +2,8 @@
 BigWigs:AddSounds("Morchok", {
 	[103851] = "Long",
 	["crush"] = "Info",
-	["crystal_boss"] = "Alarm",
 	["crystal_add"] = "Alarm",
+	["crystal_boss"] = "Alarm",
 })
 
 BigWigs:AddSounds("Warlord Zon'ozz", {
@@ -13,44 +13,44 @@ BigWigs:AddSounds("Warlord Zon'ozz", {
 })
 
 BigWigs:AddSounds("Yor'sahj the Unsleeping", {
-	["blobs"] = "Alarm",
 	[-4321] = "Alert",
+	["blobs"] = "Alarm",
 	["bolt"] = "Info",
 })
 
 BigWigs:AddSounds("Hagara the Stormbinder", {
-	[109325] = "Long",
 	[105316] = "Info",
+	[109325] = "Long",
 })
 
 BigWigs:AddSounds("Ultraxion", {
-	[106371] = "Alert",
 	[105925] = "Alarm",
+	[106371] = "Alert",
 	["crystal"] = "Info",
 	["lighttank"] = "Alarm",
 })
 
 BigWigs:AddSounds("Warmaster Blackhorn", {
+	[107588] = "Alarm",
+	[108044] = "Alert",
+	[108046] = "Alarm",
 	[108076] = "Long",
 	["sapper"] = "Info",
-	[108046] = "Alarm",
-	[107588] = "Alarm",
 	["sunder"] = "Info",
-	[108044] = "Alert",
 })
 
 BigWigs:AddSounds("Spine of Deathwing", {
-	["roll"] = {"Alert","Long"},
 	[105845] = "Info",
+	["roll"] = {"Alert","Long"},
 })
 
 BigWigs:AddSounds("Madness of Deathwing", {
 	[-4351] = "Info",
-	["fragment"] = "Alarm",
-	["bigtentacle"] = "Alert",
-	["smalltentacles"] = "Alarm",
-	["impale"] = "Alarm",
-	[106794] = "Long",
-	["hemorrhage"] = "Alarm",
 	[105651] = "Long",
+	[106794] = "Long",
+	["bigtentacle"] = "Alert",
+	["fragment"] = "Alarm",
+	["hemorrhage"] = "Alarm",
+	["impale"] = "Alarm",
+	["smalltentacles"] = "Alarm",
 })
