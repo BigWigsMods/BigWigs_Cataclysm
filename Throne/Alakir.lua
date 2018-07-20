@@ -169,10 +169,10 @@ function mod:WindBurst3(args)
 	lastWindburst = GetTime()
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(_,spellName,_,_,spellId)
+function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
 	if spellId == 88272 then -- Stormling
 		self:Bar("stormling", 20, spellId)
-		self:Message("stormling", "Important", nil, CL["incoming"]:format(spellName), spellId)
+		self:Message("stormling", "Important", nil, CL["incoming"]:format(self:SpellName(spellId)), spellId)
 	elseif spellId == 88290 then -- Acid Rain
 		phase = 2
 		self:Message("stages", "Positive", "Info", CL["phase"]:format(2), 88301)

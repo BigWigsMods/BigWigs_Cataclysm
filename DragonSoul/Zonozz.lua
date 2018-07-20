@@ -86,7 +86,7 @@ end
 -- Event Handlers
 --
 
-function mod:Darkness(unit, spellName, _, _, spellId)
+function mod:Darkness(_, _, _, spellId)
 	if spellId == 109413 then
 		self:Bar("darkness", 30, L["darkness"], spellId)
 		self:Message("darkness", "Important", "Info", L["darkness"], spellId)

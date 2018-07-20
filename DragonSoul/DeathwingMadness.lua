@@ -113,10 +113,11 @@ function mod:TentacleKilled()
 	self:StopBar(L["parasite"])
 end
 
-function mod:UNIT_SPELLCAST_SUCCEEDED(unit, spellName, _, _, spellId)
-	if spellName == self:SpellName(105863) then -- hemorrhage
-		self:Message("hemorrhage", "Urgent", "Alarm", spellName, L["hemorrhage_icon"])
-	elseif spellName == self:SpellName(106775) then -- fragment
+-- XXX BROKEN CHECKS FIXME
+function mod:UNIT_SPELLCAST_SUCCEEDED(_, unit, _, spellId)
+	if spellId == self:SpellName(105863) then -- hemorrhage
+		self:Message("hemorrhage", "Urgent", "Alarm", spellId, L["hemorrhage_icon"])
+	elseif spellId == self:SpellName(106775) then -- fragment
 		self:Message("fragment", "Urgent", "Alarm", L["fragment"], L["fragment_icon"])
 		self:Bar("fragment", 90, L["fragment"], L["fragment_icon"])
 	elseif spellId == 105551 then
@@ -214,7 +215,7 @@ function mod:ParasiteRemoved(args)
 	end
 end
 
-function mod:BlobsWarn(unitId)
+function mod:BlobsWarn(event, unitId)
 	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
 	if hp > 14.9 and hp < 16 and curPercent == 20 then
 		self:Message(-4351, "Positive", "Info", L["blobs_soon"]:format(15), "ability_deathwing_bloodcorruption_earth")
@@ -225,7 +226,7 @@ function mod:BlobsWarn(unitId)
 	elseif hp > 4.9 and hp < 6 and curPercent == 10 then
 		self:Message(-4351, "Positive", "Info", L["blobs_soon"]:format(5), "ability_deathwing_bloodcorruption_earth")
 		curPercent = 5
-		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unitId)
+		self:UnregisterUnitEvent(event, unitId)
 	end
 end
 

@@ -292,11 +292,11 @@ function mod:Jets(args)
 	self:Bar(args.spellId, 10)
 end
 
-function mod:PhaseWarn(unit)
+function mod:PhaseWarn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 29 then --Switches at 25%
 		self:Message("phase", "Positive", "Info", L["final_phase_soon"], false)
-		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
+		self:UnregisterUnitEvent(event, unit)
 	end
 end
 

@@ -111,11 +111,11 @@ function mod:DoubleAttack(args)
 	self:Message(args.spellId, "Urgent")
 end
 
-function mod:Phase2Warn(unit)
+function mod:Phase2Warn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 23 then
 		self:Message(82890, "Positive", "Info", L["phase2_message"])
-		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
+		self:UnregisterUnitEvent(event, unit)
 	end
 end
 

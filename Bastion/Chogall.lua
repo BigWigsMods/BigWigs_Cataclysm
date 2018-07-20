@@ -145,7 +145,7 @@ end
 do
 	local sickness = mod:SpellName(82235)
 	local prev = 0
-	function mod:SicknessCheck(unit)
+	function mod:SicknessCheck(event, unit)
 		local t = GetTime()
 		if (t - prev) > 7 then
 			local sick = self:UnitDebuff(unit, sickness)
@@ -201,14 +201,14 @@ function mod:FesterBlood(args)
 	oozecount = oozecount + 1
 end
 
-function mod:UNIT_HEALTH_FREQUENT(unit)
+function mod:UNIT_HEALTH_FREQUENT(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if firstFury == 0 and hp > 86 and hp < 89 then
 		self:Message(82524, "Attention", nil, L["first_fury_soon"])
 		firstFury = 1
 	elseif hp < 30 then
 		self:Message(82630, "Attention", "Info", L["phase2_soon"], false)
-		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
+		self:UnregisterUnitEvent(event, unit)
 	end
 end
 

@@ -110,11 +110,11 @@ function mod:MoltenArmor(args)
 	end
 end
 
-function mod:UNIT_HEALTH_FREQUENT(unitId)
+function mod:UNIT_HEALTH_FREQUENT(event, unitId)
 	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
 	if hp < 30 then -- phase starts at 25
 		self:Message(-2537, "Positive", "Info", L["phase2_warning"], 99846)
-		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unitId)
+		self:UnregisterUnitEvent(event, unitId)
 		local _, stack = self:UnitBuff(unitId, 98255) -- Molten Armor
 		if stack then
 			self:Message(98255, "Important", "Alarm", L["molten_message"]:format(stack))

@@ -93,7 +93,7 @@ function mod:SummonKohcrom(args)
 end
 
 -- If we were to start bars at :BlackBlood then we are subject to BlackBlood duration changes
-function mod:BloodOver(_, _, _, _, spellId)
+function mod:BloodOver(_, _, _, spellId)
 	if spellId == 103851 then
 		self:Bar(spellId, 75, L["blood"])
 		crystalCount, stompCount = 0, 1

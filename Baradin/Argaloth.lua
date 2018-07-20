@@ -78,7 +78,7 @@ function mod:FelFirestorm(args)
 	self:CDBar(88942, 32) -- Meteor Slash
 end
 
-function mod:FirestormWarn(unit)
+function mod:FirestormWarn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 69 and fireStorm > 70 then
 		self:Message(88972, "Attention", nil, L["firestorm_message"], false)
@@ -86,7 +86,7 @@ function mod:FirestormWarn(unit)
 	elseif hp < 36 and fireStorm > 50 then
 		self:Message(88972, "Attention", nil, L["firestorm_message"], false)
 		fireStorm = 33
-		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
+		self:UnregisterUnitEvent(event, unit)
 	end
 end
 

@@ -267,11 +267,11 @@ function mod:Indomitable(args)
 	end
 end
 
-function mod:PhaseWarn(unit)
+function mod:PhaseWarn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp <= 30.5 then
 		self:Message("phase", "Positive", "Info", CL["phase"]:format(2), 86226)
-		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", unit)
+		self:UnregisterUnitEvent(event, unit)
 		self:CancelAllTimers()
 		self:StopBar(92852) -- Slicer
 		self:StopBar(90125) -- Breath

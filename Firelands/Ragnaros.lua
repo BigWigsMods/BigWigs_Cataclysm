@@ -122,7 +122,7 @@ function mod:Phase4()
 	if self:Heroic() then
 		self:StopBar(livingMeteor)
 		self:StopBar(lavaWaves)
-		self:StopBar(moltenSeed)
+		self:StopBar(98498) -- Molten Seed
 		phase = 4
 		 -- not sure if we want a different option key or different icon
 		self:Message(98953, "Positive", nil, CL["phase"]:format(phase))
@@ -187,7 +187,7 @@ do
 	end
 end
 
-function mod:FixatedCheck(unit)
+function mod:FixatedCheck(_, unit)
 	local fixated = self:UnitDebuff(unit, fixate)
 	if fixated and not fixateWarned then
 		fixateWarned = true
@@ -308,8 +308,8 @@ end
 
 do
 	local prev = 0
-	function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, spellName, _, _, spellId)
-		if spellName == moltenSeed then
+	function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
+		if spellId == moltenSeed then -- XXX BROKEN
 			local t = GetTime()
 			if t-prev > 5 then
 				prev = t
