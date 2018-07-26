@@ -89,7 +89,7 @@ end
 --
 function mod:FullPower(args)
 	self:Bar("full_power", 113, L["full_power"], args.spellId)
-	self:Message("full_power", "Attention", nil, L["full_power"], args.spellId)
+	self:Message("full_power", "yellow", nil, L["full_power"], args.spellId)
 	self:Bar(86205, 31.3) -- Soothing Breeze
 end
 
@@ -97,9 +97,9 @@ function mod:WindChill(args)
 	if self:Me(args.destGUID) then
 	-- probably need to adjust stack numbers
 		if args.amount == 4 then
-			self:Message(args.spellId, "Personal", nil, L["wind_chill"]:format(args.amount))
+			self:Message(args.spellId, "blue", nil, L["wind_chill"]:format(args.amount))
 		elseif args.amount == 8 then
-			self:Message(args.spellId, "Personal", "Alarm", L["wind_chill"]:format(args.amount))
+			self:Message(args.spellId, "blue", "Alarm", L["wind_chill"]:format(args.amount))
 			self:Flash(args.spellId)
 		end
 	end
@@ -107,37 +107,37 @@ end
 
 function mod:StormShield(args)
 	self:Bar("storm_shield", 113, args.spellId)
-	self:Message("storm_shield", "Urgent", nil, args.spellId)
+	self:Message("storm_shield", "orange", nil, args.spellId)
 end
 
 function mod:WindBlast(args)
 	self:Bar(args.spellId, firstWindBlast and 82 or 60)
-	self:Message(args.spellId, "Important")
+	self:Message(args.spellId, "red")
 	firstWindBlast = false
 end
 
 function mod:ToxicSpores(args)
 	if not toxicSporesWarned then
 		self:Bar(args.spellId, 20)
-		self:Message(args.spellId, "Urgent")
+		self:Message(args.spellId, "orange")
 		toxicSporesWarned = true
 	end
 end
 
 function mod:SoothingBreeze(args)
 	self:Bar(args.spellId, 32.5)
-	self:Message(args.spellId, "Urgent")
+	self:Message(args.spellId, "orange")
 end
 
 function mod:Nurture(args)
 	self:Bar(args.spellId, 113)
-	self:Message(args.spellId, "Urgent")
+	self:Message(args.spellId, "orange")
 	self:Bar(86281, 23) -- Toxic Spores
 	toxicSporesWarned = false
 end
 
 function mod:GatherStrength(msg, sender)
-	self:Message(86307, "Important", "Long", L["gather_strength"]:format(sender))
+	self:Message(86307, "red", "Long", L["gather_strength"]:format(sender))
 	self:Bar(86307, 60, L["gather_strength"]:format(sender))
 end
 

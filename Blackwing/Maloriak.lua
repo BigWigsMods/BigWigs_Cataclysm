@@ -137,7 +137,7 @@ do
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			self:Message("sludge", "Personal", "Info", L["sludge_message"], args.spellId)
+			self:Message("sludge", "blue", "Info", L["sludge_message"], args.spellId)
 			self:Flash("sludge", args.spellId)
 		end
 	end
@@ -158,7 +158,7 @@ do
 		currentPhase = "red"
 		self:StopBar(77699) -- Flash Freeze
 		self:CDBar(77679, 25) -- Scorching Blast
-		self:Message("phase", "Positive", "Long", L["red_phase"], "INV_POTION_24")
+		self:Message("phase", "green", "Long", L["red_phase"], "INV_POTION_24")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -169,7 +169,7 @@ do
 		currentPhase = "blue"
 		self:StopBar(77679) -- Scorching Blast
 		self:CDBar(77699, 28) -- Flash Freeze
-		self:Message("phase", "Positive", "Long", L["blue_phase"], "INV_POTION_20")
+		self:Message("phase", "green", "Long", L["blue_phase"], "INV_POTION_20")
 		self:OpenProximity("proximity", 5)
 		nextPhase(47)
 	end
@@ -178,7 +178,7 @@ do
 		currentPhase = "green"
 		self:StopBar(77679) -- Scorching Blast
 		self:StopBar(77699) -- Flash Freeze
-		self:Message("phase", "Positive", "Long", L["green_phase"], "INV_POTION_162")
+		self:Message("phase", "green", "Long", L["green_phase"], "INV_POTION_162")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -189,7 +189,7 @@ do
 	function mod:Dark()
 		if currentPhase == "dark" then return end
 		currentPhase = "dark"
-		self:Message("phase", "Positive", "Long", L["dark_phase"], "INV_ELEMENTAL_PRIMAL_SHADOW")
+		self:Message("phase", "green", "Long", L["dark_phase"], "INV_ELEMENTAL_PRIMAL_SHADOW")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -202,7 +202,7 @@ function mod:FlashFreezeTimer(args)
 end
 
 function mod:FlashFreeze(args)
-	self:TargetMessage(args.spellId, args.destName, "Attention", "Info")
+	self:TargetMessage(args.spellId, args.destName, "yellow", "Info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -212,7 +212,7 @@ end
 
 function mod:Remedy(args)
 	if self:MobId(args.destGUID) == 41378 then
-		self:Message(args.spellId, "Important", "Alarm")
+		self:Message(args.spellId, "red", "Alarm")
 	end
 end
 
@@ -220,7 +220,7 @@ do
 	local handle = nil
 	local function release()
 		aberrations = aberrations - 3
-		mod:Message(77569, "Important", "Alert", L["release_aberration_message"]:format(aberrations), 688) --Summon Imp Icon
+		mod:Message(77569, "red", "Alert", L["release_aberration_message"]:format(aberrations), 688) --Summon Imp Icon
 	end
 	function mod:ReleaseAberrations()
 		-- He keeps casting it even if there are no adds left to release...
@@ -241,24 +241,24 @@ function mod:ConsumingFlames(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "Personal", "Info")
+	self:TargetMessage(args.spellId, args.destName, "blue", "Info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
 function mod:ScorchingBlast(args)
-	self:Message(args.spellId, "Attention")
+	self:Message(args.spellId, "yellow")
 	self:CDBar(args.spellId, 10)
 end
 
 function mod:ReleaseAll(args)
-	self:Message(args.spellId, "Important", "Alert", L["release_all"]:format(aberrations + 2))
+	self:Message(args.spellId, "red", "Alert", L["release_all"]:format(aberrations + 2))
 	self:CDBar(args.spellId, 12.5)
 end
 
 do
 	local scheduled = nil
 	local function chillWarn(spellId)
-		mod:TargetMessage(spellId, chillTargets, "Attention", "Info")
+		mod:TargetMessage(spellId, chillTargets, "yellow", "Info")
 		scheduled = nil
 	end
 	function mod:BitingChill(args)
@@ -285,7 +285,7 @@ function mod:BitingChillRemoved(args)
 end
 
 function mod:ArcaneStorm(args)
-	self:Message(args.spellId, "Urgent")
+	self:Message(args.spellId, "orange")
 end
 
 function mod:Jets(args)
@@ -295,7 +295,7 @@ end
 function mod:PhaseWarn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 29 then --Switches at 25%
-		self:Message("phase", "Positive", "Info", L["final_phase_soon"], false)
+		self:Message("phase", "green", "Info", L["final_phase_soon"], false)
 		self:UnregisterUnitEvent(event, unit)
 	end
 end

@@ -87,7 +87,7 @@ end
 
 function mod:SummonKohcrom(args)
 	self:CDBar("stomp_boss", 6, self.displayName.." - "..L["stomp_boss"], L["stomp_boss_icon"]) -- 6-12s
-	self:Message(args.spellId, "Positive")
+	self:Message(args.spellId, "green")
 	self:StopBar(L["crystal"])
 	self:StopBar(L["stomp_boss"])
 end
@@ -110,10 +110,10 @@ end
 function mod:Stomp(args)
 	if self:Heroic() and UnitExists("boss2") then -- Check if heroic and if kohcrom has spawned yet.
 		if args.sourceName == self:SpellName(-4262) then -- Kohcrom
-			self:Message("stomp_add", "Important", nil, args.sourceName.." - "..args.spellName, args.spellId)
+			self:Message("stomp_add", "red", nil, args.sourceName.." - "..args.spellName, args.spellId)
 		else -- Since we trigger bars off morchok casts, we gotta make sure kohcrom isn't caster to avoid bad timers.
 			self:CDBar("stomp_add", self:Difficulty() == 5 and 6 or 5, self:SpellName(-4262).." - "..args.spellName, args.spellId) -- "Kohcrom - Stomp" 6sec after on 10 man hc, 5 sec on 25
-			self:Message("stomp_boss", "Important", nil, args.sourceName.." - "..args.spellName, args.spellId)
+			self:Message("stomp_boss", "red", nil, args.sourceName.." - "..args.spellName, args.spellId)
 			if stompCount < 4 then
 				self:CDBar("stomp_boss", 12, args.sourceName.." - "..args.spellName, args.spellId)
 			end
@@ -122,14 +122,14 @@ function mod:Stomp(args)
 	else -- Not heroic, or Kohcrom isn't out yet, just do normal bar.
 		if stompCount < 4 then
 			self:CDBar("stomp_boss", 12, args.spellId)
-			self:Message("stomp_boss", "Important", nil, args.spellId)
+			self:Message("stomp_boss", "red", nil, args.spellId)
 			stompCount = stompCount + 1
 		end
 	end
 end
 
 function mod:Furious(args)
-	self:Message(args.spellId, "Positive")
+	self:Message(args.spellId, "green")
 end
 
 do
@@ -138,7 +138,7 @@ do
 		local t = GetTime()
 		if t-prev > 5 then
 			prev = t
-			self:Message(args.spellId, "Personal", "Long") -- not really personal, but we tend to associate personal with fns
+			self:Message(args.spellId, "blue", "Long") -- not really personal, but we tend to associate personal with fns
 			self:Bar(args.spellId, 17, CL["cast"]:format(L["blood"]))
 		end
 	end
@@ -151,7 +151,7 @@ do
 		if t-prev > 2 and self:Me(args.destGUID) then
 			prev = t
 			self:Flash(103851)
-			self:Message(103851, "Personal", "Long", CL["underyou"]:format(L["blood"]), args.spellId)
+			self:Message(103851, "blue", "Long", CL["underyou"]:format(L["blood"]), args.spellId)
 		end
 	end
 end
@@ -160,10 +160,10 @@ function mod:ResonatingCrystal(args)
 	if args.sourceName == self.displayName then crystalCount = crystalCount + 1 end -- Only increment count off morchok casts.
 	if self:Heroic() then
 		if args.sourceName == self:SpellName(-4262) then -- -4262 == Kohcrom
-			self:Message("crystal_add" , "Urgent", "Alarm", args.sourceName.." - "..L["crystal"], args.spellId)
+			self:Message("crystal_add" , "orange", "Alarm", args.sourceName.." - "..L["crystal"], args.spellId)
 			self:Bar("crystal_add", 12, args.sourceName.." - "..L["explosion"], args.spellId)
 		else -- if args.sourceName == self.displayName then
-			self:Message("crystal_boss", "Urgent", "Alarm", args.sourceName.." - "..L["crystal"], args.spellId)
+			self:Message("crystal_boss", "orange", "Alarm", args.sourceName.." - "..L["crystal"], args.spellId)
 			self:Bar("crystal_boss", 12, args.sourceName.." - "..L["explosion"], args.spellId)
 			if UnitExists("boss2") and crystalCount > 1 then
 				-- The CD bar will only start off morchok's 2nd crystal, if kohcrom is already summoned.
@@ -171,7 +171,7 @@ function mod:ResonatingCrystal(args)
 			end
 		end
 	else
-		self:Message("crystal_boss", "Urgent", "Alarm", args.spellId)
+		self:Message("crystal_boss", "orange", "Alarm", args.spellId)
 		self:Bar("crystal_boss", 12, L["explosion"], args.spellId)
 	end
 end
@@ -179,6 +179,6 @@ end
 function mod:Crush(args)
 	local buffStack = args.amount or 1
 	self:TargetBar("crush", 20, args.destName, 50234, args.spellId) -- 50234 == Crush
-	self:StackMessage("crush", args.destName, buffStack, "Urgent", buffStack > 2 and "Info", 50234, args.spellId) -- 50234 == Crush
+	self:StackMessage("crush", args.destName, buffStack, "orange", buffStack > 2 and "Info", 50234, args.spellId) -- 50234 == Crush
 end
 

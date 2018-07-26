@@ -88,16 +88,16 @@ function mod:Bolt(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["bolt_message"]:format(args.destName, buffStack - 1))
 	self:Bar("bolt", 12, L["bolt_message"]:format(args.destName, buffStack), args.spellId)
-	self:StackMessage("bolt", args.destName, buffStack, "Urgent", buffStack > 2 and "Info", args.spellId)
+	self:StackMessage("bolt", args.destName, buffStack, "orange", buffStack > 2 and "Info", args.spellId)
 end
 
 function mod:Blobs(_, _, _, spellId)
 	if colorCombinations[spellId] then
 		if self:Heroic() then
-			self:Message("blobs", "Urgent", "Alarm", ("%s %s %s %s"):format(colorCombinations[spellId][1], colorCombinations[spellId][2], colorCombinations[spellId][4], colorCombinations[spellId][3]), L["blobs_icon"])
+			self:Message("blobs", "orange", "Alarm", ("%s %s %s %s"):format(colorCombinations[spellId][1], colorCombinations[spellId][2], colorCombinations[spellId][4], colorCombinations[spellId][3]), L["blobs_icon"])
 			self:Bar("blobs", 75, L["blobs_bar"], L["blobs_icon"])
 		else
-			self:Message("blobs", "Urgent", "Alarm", ("%s %s %s"):format(colorCombinations[spellId][1], colorCombinations[spellId][2], colorCombinations[spellId][3]), L["blobs_icon"])
+			self:Message("blobs", "orange", "Alarm", ("%s %s %s"):format(colorCombinations[spellId][1], colorCombinations[spellId][2], colorCombinations[spellId][3]), L["blobs_icon"])
 			self:Bar("blobs", 90, L["blobs_bar"], L["blobs_icon"])
 		end
 	end
@@ -116,7 +116,7 @@ function mod:AcidicRemoved()
 end
 
 function mod:DeepCorruption(args)
-	self:Message(-4321, "Personal", "Alert", 23401, args.spellId) -- Corrupted Healing
+	self:Message(-4321, "blue", "Alert", 23401, args.spellId) -- Corrupted Healing
 end
 
 do

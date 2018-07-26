@@ -52,26 +52,26 @@ end
 --
 
 function mod:FuriousRoar(args)
-	self:Message(args.spellId, "Important")
+	self:Message(args.spellId, "red")
 	self:Bar(args.spellId, 25)
 end
 
 -- Slate Dragon: Stone Touch (83603), 35 sec internal cd, resulting in Paralysis, 12 sec stun
 -- Next Stone Touch after 23 sec, hence delaying Furious Roar if less then 12 sec left
 function mod:Paralysis(args)
-	self:Message(83603, "Attention", nil, args.spellId)
+	self:Message(83603, "yellow", nil, args.spellId)
 	self:Bar(83603, 12, CL["cast"]:format(args.spellName), args.spellId)
 	self:Bar(83603, 35, args.spellId)
 end
 
 function mod:MalevolentStrikes(args)
 	if args.amount > (self:Heroic() and 5 or 10) then -- 8% in heroic, 6% in normal, announce around 50-60% reduced healing
-		self:StackMessage(args.spellId, args.destName, args.amount, "Urgent", "Info", L["strikes_message"])
+		self:StackMessage(args.spellId, args.destName, args.amount, "orange", "Info", L["strikes_message"])
 	end
 end
 
 function mod:Breath(args)
-	self:Message(args.spellId, "Attention", nil, L["breath_message"])
+	self:Message(args.spellId, "yellow", nil, L["breath_message"])
 	self:Bar(args.spellId, 20, L["breath_bar"])
 end
 

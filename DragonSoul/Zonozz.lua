@@ -89,7 +89,7 @@ end
 function mod:Darkness(_, _, _, spellId)
 	if spellId == 109413 then
 		self:Bar("darkness", 30, L["darkness"], spellId)
-		self:Message("darkness", "Important", "Info", L["darkness"], spellId)
+		self:Message("darkness", "red", "Info", L["darkness"], spellId)
 		self:CDBar(103434, 37) -- Shadows
 		local isHC = self:Heroic() and 45 or 54
 		if (GetTime() - ballTimer) > isHC then
@@ -100,12 +100,12 @@ function mod:Darkness(_, _, _, spellId)
 end
 
 function mod:VoidDiffusion(args)
-	self:Message("bounce", "Important", nil, ("%s (%d)"):format(L["bounce"], args.amount or 1), L.bounce_icon)
+	self:Message("bounce", "red", nil, ("%s (%d)"):format(L["bounce"], args.amount or 1), L.bounce_icon)
 end
 
 function mod:PsychicDrain(args)
 	self:CDBar("drain", 20, args.spellId)
-	self:Message("drain", "Urgent", nil, args.spellId)
+	self:Message("drain", "orange", nil, args.spellId)
 end
 
 function mod:VoidoftheUnmaking()
@@ -114,18 +114,18 @@ function mod:VoidoftheUnmaking()
 	end
 	ballTimer = GetTime()
 	self:Bar("ball", 90, L["ball"], L["ball_icon"])
-	self:Message("ball", "Urgent", "Alarm", L["ball"], L["ball_icon"])
+	self:Message("ball", "orange", "Alarm", L["ball"], L["ball_icon"])
 end
 
 function mod:ShadowsCast(args)
-	self:Message(args.spellId, "Attention")
+	self:Message(args.spellId, "yellow")
 	self:CDBar(args.spellId, 26) -- 26-29
 	shadowsMarkCounter = 1
 end
 
 function mod:ShadowsApplied(args)
 	if not self:LFR() and self:Me(args.destGUID) then
-		self:Message(args.spellId, "Personal", "Alert", CL["you"]:format(L["shadows"]), args.spellId)
+		self:Message(args.spellId, "blue", "Alert", CL["you"]:format(L["shadows"]), args.spellId)
 		self:Say(args.spellId, L["shadows"])
 		self:Flash(args.spellId)
 		if self:Heroic() then

@@ -108,19 +108,19 @@ function mod:OnEngage()
 	meteorCount, moltCount, burnCount, initiateCount = 0, 0, 0, 0
 	if self:Heroic() then
 		initiateTimes = {22, 63, 21, 21, 40}
-		self:Message(99816, "Attention", nil, L["engage_message"]:format(4), "inv_misc_pheonixpet_01")
+		self:Message(99816, "yellow", nil, L["engage_message"]:format(4), "inv_misc_pheonixpet_01")
 		self:Bar(99816, 250, L["stage_message"]:format(2))
 		self:Bar(100744, 95) -- Firestorm
 		self:CDBar("meteor", 30, L["meteor"], 100761)
 		self:CDBar("eggs", 42, 58542, L["eggs_icon"]) -- Hatch Eggs
-		self:DelayedMessage("eggs", 41.5, "Positive", 58542, L["eggs_icon"]) -- Hatch Eggs
+		self:DelayedMessage("eggs", 41.5, "green", 58542, L["eggs_icon"]) -- Hatch Eggs
 	else
 		initiateTimes = {31, 31, 21, 21, 21}
-		self:Message(99816, "Attention", nil, L["engage_message"]:format(3), "inv_misc_pheonixpet_01")
+		self:Message(99816, "yellow", nil, L["engage_message"]:format(3), "inv_misc_pheonixpet_01")
 		self:Bar(99816, 188.5, L["stage_message"]:format(2))
 		self:Bar(99464, 12.5, L["molt_bar"])
 		--self:Bar("eggs", "~"..self:SpellName(58542), 42, L["eggs_icon"]) -- Hatch Eggs
-		--self:DelayedMessage("eggs", 41.5, 58542, "Positive", L["eggs_icon"]) -- Hatch Eggs
+		--self:DelayedMessage("eggs", 41.5, 58542, "green", L["eggs_icon"]) -- Hatch Eggs
 	end
 	self:Bar("initiate", 27, L["initiate_both"], 97062)
 end
@@ -169,9 +169,9 @@ do
 		local name = self:UnitBuff("player", feather)
 		if not name then
 			if self:UnitBuff("player", moonkin) then
-				self:Message(97128, "Personal", nil, L["moonkin_message"])
+				self:Message(97128, "blue", nil, L["moonkin_message"])
 			else
-				self:Message(97128, "Personal", nil, L["no_stacks_message"])
+				self:Message(97128, "blue", nil, L["no_stacks_message"])
 			end
 		end
 	end
@@ -180,7 +180,7 @@ end
 do
 	local scheduled = nil
 	local function woundWarn()
-		mod:TargetMessage(100024, woundTargets, "Personal")
+		mod:TargetMessage(100024, woundTargets, "blue")
 		scheduled = nil
 	end
 	function mod:Wound(args)
@@ -197,14 +197,14 @@ function mod:Tantrum(args)
 	local target = UnitGUID("target")
 	if not target or args.sourceGUID ~= target then return end
 	-- Just warn for the tank
-	self:Message(args.spellId, "Important")
+	self:Message(args.spellId, "red")
 end
 
 -- don't need molting warning for heroic because molting happens at every firestorm
 function mod:Molting(args)
 	if not self:Heroic() then
 		moltCount = moltCount + 1
-		self:Message(99464, "Positive", nil, args.spellId)
+		self:Message(99464, "green", nil, args.spellId)
 		if moltCount < 3 then
 			self:Bar(99464, 60, L["molt_bar"], args.spellId)
 		end
@@ -213,7 +213,7 @@ end
 
 function mod:Firestorm(args)
 	self:Flash(args.spellId)
-	self:Message(args.spellId, "Urgent", "Alert")
+	self:Message(args.spellId, "orange", "Alert")
 	self:Bar(args.spellId, 10, CL["cast"]:format(args.spellName))
 end
 
@@ -224,11 +224,11 @@ function mod:FirestormOver(args)
 	end
 	self:Bar("meteor", meteorCount == 2 and 11.5 or 21.5,  L["meteor"], 100761)
 	self:CDBar("eggs", 22.5, 58542, L["eggs_icon"]) -- Hatch Eggs
-	self:DelayedMessage("eggs", 22, "Positive", 58542, L["eggs_icon"]) -- Hatch Eggs
+	self:DelayedMessage("eggs", 22, "green", 58542, L["eggs_icon"]) -- Hatch Eggs
 end
 
 function mod:Meteor(args)
-	self:Message("meteor", "Attention", "Alarm", L["meteor_message"], args.spellId)
+	self:Message("meteor", "yellow", "Alarm", L["meteor_message"], args.spellId)
 	-- Only show a bar if this is the first or third meteor this phase
 	meteorCount = meteorCount + 1
 	if meteorCount == 1 or meteorCount == 3 then
@@ -240,12 +240,12 @@ function mod:FieryTornado()
 	self:BuffCheck()
 	self:StopBar(100744) -- Firestorm
 	self:Bar(99816, 35) -- Fiery Tornado
-	self:Message(99816, "Important", "Alarm", (L["stage_message"]:format(2))..": "..self:SpellName(99816))
+	self:Message(99816, "red", "Alarm", (L["stage_message"]:format(2))..": "..self:SpellName(99816))
 end
 
 function mod:BlazingClaw(args)
 	if args.amount > 4 then -- 50% extra fire and physical damage taken on tank
-		self:StackMessage(args.spellId, args.destName, args.amount, "Urgent", "Info", 16827, args.spellId) -- 16827 = "Claw"
+		self:StackMessage(args.spellId, args.destName, args.amount, "orange", "Info", 16827, args.spellId) -- 16827 = "Claw"
 	end
 end
 
@@ -255,7 +255,7 @@ do
 
 	-- Alysrazor crashes to the ground
 	function mod:Burnout(args)
-		self:Message(args.spellId, "Positive", "Alert", (L["stage_message"]:format(3))..": "..args.spellName)
+		self:Message(args.spellId, "green", "Alert", (L["stage_message"]:format(3))..": "..args.spellName)
 		self:CDBar(args.spellId, 33)
 		halfWarned, fullWarned = false, false
 		burnCount = burnCount + 1
@@ -267,13 +267,13 @@ do
 	function mod:UNIT_POWER_FREQUENT(event, unit)
 		local power = UnitPower(unit, 0)
 		if power > 40 and not halfWarned then
-			self:Message(99925, "Urgent", nil, L["halfpower_soon_message"])
+			self:Message(99925, "orange", nil, L["halfpower_soon_message"])
 			halfWarned = true
 		elseif power > 80 and not fullWarned then
-			self:Message(99925, "Attention", nil, L["fullpower_soon_message"])
+			self:Message(99925, "yellow", nil, L["fullpower_soon_message"])
 			fullWarned = true
 		elseif power == 100 then
-			self:Message(99925, "Positive", "Alert", (L["stage_message"]:format(1))..": "..(L["encounter_restart"]))
+			self:Message(99925, "green", "Alert", (L["stage_message"]:format(1))..": "..(L["encounter_restart"]))
 			self:UnregisterUnitEvent(event, unit)
 			initiateCount = 0
 			self:Bar("initiate", 13.5, L["initiate_both"], 97062)
@@ -283,23 +283,23 @@ do
 				self:Bar(100744, 72) -- Firestorm
 				self:Bar(99816, 225, L["stage_message"]:format(2)) -- Just adding 60s like OnEngage
 				self:CDBar("eggs", 30, 58542, L["eggs_icon"]) -- Hatch Eggs
-				self:DelayedMessage("eggs", 29.5, "Positive", L["eggs_icon"], 58542) -- Hatch Eggs
+				self:DelayedMessage("eggs", 29.5, "green", L["eggs_icon"], 58542) -- Hatch Eggs
 			else
 				self:Bar(99816, 165, L["stage_message"]:format(2))
 				moltCount = 1
 				self:Bar(99464, 55, L["molt_bar"])
 				--self:Bar("eggs", "~"..self:SpellName(58542), 22.5, L["eggs_icon"]) -- Hatch Eggs
-				--self:DelayedMessage("eggs", 22, 58542, "Positive", L["eggs_icon"]) -- Hatch Eggs
+				--self:DelayedMessage("eggs", 22, 58542, "green", L["eggs_icon"]) -- Hatch Eggs
 			end
 		end
 	end
 
 	function mod:ReIgnite()
 		if burnCount < 3 then
-			self:Message(99925, "Positive", "Alert", (L["stage_message"]:format(4))..": "..self:SpellName(99922))
+			self:Message(99925, "green", "Alert", (L["stage_message"]:format(4))..": "..self:SpellName(99922))
 			self:Bar(99925, 25) -- Full Power
 		else
-			self:Message(99925, "Positive", "Alert", L["kill_message"], 99922)
+			self:Message(99925, "green", "Alert", L["kill_message"], 99922)
 		end
 		self:StopBar(99432) -- Burnout
 	end

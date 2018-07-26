@@ -115,14 +115,14 @@ do
 		local t = GetTime()
 		if (t - prev) > 1 and self:Me(args.destGUID) then
 			prev = t
-			self:Message(args.spellId, "Personal", "Info", L["shadowblaze_message"])
+			self:Message(args.spellId, "blue", "Info", L["shadowblaze_message"])
 			self:Flash(args.spellId)
 		end
 	end
 end
 
 function mod:Electrocute()
-	self:Message(81272, "Urgent", "Alert", L["crackle_message"])
+	self:Message(81272, "orange", "Alert", L["crackle_message"])
 	self:Bar(81272, 5) -- Electrocute
 end
 
@@ -131,20 +131,20 @@ function mod:PrototypeDeaths()
 	if self:Heroic() and not phase3warned then
 		self:StopBar(CL["phase"]:format(phase))
 		phase = 3
-		self:Message("phase", "Attention", nil, CL["phase"]:format(phase), 81007)
+		self:Message("phase", "yellow", nil, CL["phase"]:format(phase), 81007)
 		phase3warned = true
 	end
 	if deadAdds == 3 and not phase3warned then
 		self:StopBar(CL["phase"]:format(phase))
 		phase = 3
-		self:Message("phase", "Attention", nil, CL["phase"]:format(phase), 81007)
+		self:Message("phase", "yellow", nil, CL["phase"]:format(phase), 81007)
 		phase3warned = true
 	end
 end
 
 function mod:PhaseTwo()
 	phase = 2
-	self:Message("phase", "Attention", nil, CL["phase"]:format(phase), 78621)
+	self:Message("phase", "yellow", nil, CL["phase"]:format(phase), 78621)
 	if self:Difficulty() == 6 then
 		-- Heroic 25man (diff 4) probably 4 minutes
 		self:Bar("phase", 240, CL["phase"]:format(phase), 78621) -- random guessed number
@@ -162,7 +162,7 @@ local function nextBlaze()
 	elseif shadowBlazeTimer > 15 and not mod:Heroic() then
 		shadowBlazeTimer = shadowBlazeTimer - 5
 	end
-	mod:Message(81007, "Important", "Alarm") -- Shadowblaze
+	mod:Message(81007, "red", "Alarm") -- Shadowblaze
 	mod:Bar(81007, shadowBlazeTimer) -- Shadowblaze
 	lastBlaze = GetTime()
 	shadowblazeHandle = mod:ScheduleTimer(nextBlaze, shadowBlazeTimer)
@@ -182,7 +182,7 @@ function mod:PhaseThree()
 	self:StopBar(CL["phase"]:format(phase))
 	if not phase3warned then
 		phase = 3
-		self:Message("phase", "Attention", nil, CL["phase"]:format(phase), 78621)
+		self:Message("phase", "yellow", nil, CL["phase"]:format(phase), 78621)
 		phase3warned = true
 	end
 	self:Bar(81007, 12) -- Shadowblaze
@@ -192,7 +192,7 @@ end
 do
 	local scheduled = nil
 	local function cinderWarn(spellId)
-		mod:TargetMessage(spellId, cinderTargets, "Urgent", "Info")
+		mod:TargetMessage(spellId, cinderTargets, "orange", "Info")
 		scheduled = nil
 	end
 	function mod:ExplosiveCindersApplied(args)
@@ -220,7 +220,7 @@ function mod:PowerCheck(event, unit)
 	if UnitName(unit) == self:SpellName(-3283) then -- Onyxia
 		local power = UnitPower(unit, 10) -- Enum.PowerType.Alternate = 10
 		if power > 80 then
-			self:Message(78999, "Attention", nil, L["onyxia_power_message"])
+			self:Message(78999, "yellow", nil, L["onyxia_power_message"])
 			self:UnregisterUnitEvent(event, "boss1", "boss2")
 		end
 	end

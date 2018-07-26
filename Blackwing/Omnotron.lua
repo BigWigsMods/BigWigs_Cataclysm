@@ -104,7 +104,7 @@ do
 end
 
 function mod:PoolExplosion()
-	self:Message(91879, "Urgent", nil, L["pool"])
+	self:Message(91879, "orange", nil, L["pool"])
 	self:CDBar("nef", 35, L["nef_next"], 69005)
 	self:Bar(91879, 8, L["pool"])
 end
@@ -117,7 +117,7 @@ do
 		if (t - prev) > timer then
 			prev = t
 			self:Bar("switch", timer+3, L["next_switch"], args.spellId)
-			self:Message("switch", "Positive", "Long", L["switch_message"]:format(args.destName, args.spellName), args.spellId)
+			self:Message("switch", "green", "Long", L["switch_message"]:format(args.destName, args.spellName), args.spellId)
 			--Using dGUID to avoid issues with names appearing as "UNKNOWN" for a second or so
 			if self.db.profile.custom_on_iconomnotron then
 				for i = 1, 4 do
@@ -133,7 +133,7 @@ do
 end
 
 function mod:Grip(args)
-	self:Message(args.spellId, "Urgent")
+	self:Message(args.spellId, "orange")
 	self:CDBar("nef", 35, L["nef_next"], 69005)
 end
 
@@ -141,13 +141,13 @@ function mod:ShadowInfusion(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "Urgent")
+	self:TargetMessage(args.spellId, args.destName, "orange")
 	self:CDBar("nef", 35, L["nef_next"], 69005)
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
 function mod:EncasingShadows(args)
-	self:TargetMessage(args.spellId, args.destName, "Urgent")
+	self:TargetMessage(args.spellId, args.destName, "orange")
 	self:CDBar("nef", 35, L["nef_next"], 69005)
 end
 
@@ -155,14 +155,14 @@ function mod:AcquiringTarget(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "Urgent", "Alarm")
+	self:TargetMessage(args.spellId, args.destName, "orange", "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
 function mod:Fixate(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
-		self:Message(args.spellId, "Personal", "Alarm", L["bomb_message"])
+		self:Message(args.spellId, "blue", "Alarm", L["bomb_message"])
 	end
 end
 
@@ -171,7 +171,7 @@ function mod:LightningConductor(args)
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10) --assumed
 	end
-	self:TargetMessage(args.spellId, args.destName, "Attention", "Alarm")
+	self:TargetMessage(args.spellId, args.destName, "yellow", "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
@@ -182,7 +182,7 @@ end
 
 function mod:PoisonProtocol(args)
 	self:Bar(args.spellId, 45)
-	self:Message(args.spellId, "Important", "Alert", L["protocol_message"])
+	self:Message(args.spellId, "red", "Alert", L["protocol_message"])
 end
 
 do
@@ -192,7 +192,7 @@ do
 		if (time - last) > 2 then
 			last = time
 			if self:Me(args.destGUID) then
-				self:Message(args.spellId, "Personal", "Info", L["cloud_message"])
+				self:Message(args.spellId, "blue", "Info", L["cloud_message"])
 				self:Flash(args.spellId)
 			end
 		end

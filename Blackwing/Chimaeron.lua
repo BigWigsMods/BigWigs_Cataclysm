@@ -76,7 +76,7 @@ end
 function mod:SystemFailureStart(args)
 	self:StopBar(L["next_system_failure"])
 	self:Bar(args.spellId, 30)
-	self:Message(args.spellId, "Important", "Alarm")
+	self:Message(args.spellId, "red", "Alarm")
 	self:Flash(args.spellId)
 	self:CloseProximity()
 end
@@ -92,29 +92,29 @@ function mod:SystemFailureEnd(args)
 end
 
 function mod:Massacre(args)
-	self:Message(args.spellId, "Attention")
+	self:Message(args.spellId, "yellow")
 	self:Bar(args.spellId, 30)
 	self:Bar(82935, 19) --Caustic Slime
 end
 
 function mod:Mortality(args)
-	self:Message(args.spellId, "Important", "Long")
+	self:Message(args.spellId, "red", "Long")
 	self:CloseProximity()
 	self:StopBar(L["next_system_failure"])
 end
 
 function mod:Break(args)
-	self:StackMessage(args.spellId, args.destName, args.amount, "Attention")
+	self:StackMessage(args.spellId, args.destName, args.amount, "yellow")
 end
 
 function mod:DoubleAttack(args)
-	self:Message(args.spellId, "Urgent")
+	self:Message(args.spellId, "orange")
 end
 
 function mod:Phase2Warn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 23 then
-		self:Message(82890, "Positive", "Info", L["phase2_message"])
+		self:Message(82890, "green", "Info", L["phase2_message"])
 		self:UnregisterUnitEvent(event, unit)
 	end
 end

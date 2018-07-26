@@ -59,7 +59,7 @@ end
 function mod:OnEngage()
 	self:CDBar(78075, 23) -- Sonic Breath
 	self:Bar(77840, 45) -- Searing Flame
-	self:DelayedMessage(77840, 35, "Attention", L["searing_soon"], 77840)
+	self:DelayedMessage(77840, 35, "yellow", L["searing_soon"], 77840)
 	self:Bar("air_phase", 92, L["air_phase"], 5740) -- Rain of Fire Icon
 	if self:Heroic() then
 		self:RegisterEvent("UNIT_AURA")
@@ -81,7 +81,7 @@ do
 		end
 	end
 	function mod:ObnoxiousPhaseShift(args)
-		self:Message(92677, "Attention", nil, L["obnoxious_soon"]) -- do we really need this?
+		self:Message(92677, "yellow", nil, L["obnoxious_soon"]) -- do we really need this?
 		FiendCheck(args.destGUID)
 		self:RegisterEvent("UNIT_AURA")
 	end
@@ -94,7 +94,7 @@ do
 			if unit == "player" then
 				self:Say(92677)
 			end
-			self:TargetMessage(92677, UnitName(unit), "Attention", "Long") -- Obnoxious
+			self:TargetMessage(92677, UnitName(unit), "yellow", "Long") -- Obnoxious
 			self:UnregisterEvent("UNIT_AURA")
 		end
 	end
@@ -105,7 +105,7 @@ function mod:Tracking(args)
 		self:Say(args.spellId)
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "Personal", "Alarm")
+	self:TargetMessage(args.spellId, args.destName, "blue", "Alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -114,21 +114,21 @@ function mod:SonicBreath(args)
 end
 
 function mod:SearingFlame(args)
-	self:Message(args.spellId, "Important", "Alert")
+	self:Message(args.spellId, "red", "Alert")
 end
 
 do
 	local function groundPhase()
-		mod:Message("ground_phase", "Attention", nil, L["ground_phase"], 61882) -- Earthquake Icon
+		mod:Message("ground_phase", "yellow", nil, L["ground_phase"], 61882) -- Earthquake Icon
 		mod:Bar("air_phase", 90, L["air_phase"], 5740) -- Rain of Fire Icon
 		mod:CDBar(78075, 25)
 		-- XXX need a good trigger for ground phase start to make this even more accurate
 		mod:Bar(77840, 48.5) -- Searing Flame
-		mod:DelayedMessage(77840, 38.5, "Attention", L["searing_soon"], 77840)
+		mod:DelayedMessage(77840, 38.5, "yellow", L["searing_soon"], 77840)
 	end
 	function mod:AirPhase()
 		self:StopBar(78075) -- Sonic Breath
-		self:Message("air_phase", "Attention", nil, L["air_phase"], 5740) -- Rain of Fire Icon
+		self:Message("air_phase", "yellow", nil, L["air_phase"], 5740) -- Rain of Fire Icon
 		self:Bar("ground_phase", 30, L["ground_phase"], 61882) -- Earthquake Icon
 		self:ScheduleTimer(groundPhase, 30)
 	end

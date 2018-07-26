@@ -77,47 +77,47 @@ end
 
 function mod:Obsidian(args)
 	if self:MobId(args.destGUID) == 52558 then
-		self:Message("armor", "Positive", nil, L["armor_gone_message"], args.spellId)
+		self:Message("armor", "green", nil, L["armor_gone_message"], args.spellId)
 	end
 end
 
 function mod:ObsidianStack(args)
 	if args.amount % 20 == 0 and self:MobId(args.destGUID) == 52558 then -- Only warn every 20
-		self:Message("armor", "Positive", nil, L["armor_message"]:format(args.amount), args.spellId)
+		self:Message("armor", "green", nil, L["armor_message"]:format(args.amount), args.spellId)
 	end
 end
 
 function mod:Spark(args)
-	self:Message(args.spellId, "Important", "Alarm", L["big_add_message"])
+	self:Message(args.spellId, "red", "Alarm", L["big_add_message"])
 end
 
 function mod:Fragments(args)
 	local t = GetTime()
 	if lastFragments and t < (lastFragments + 5) then return end
 	lastFragments = t
-	self:Message(args.spellId, "Attention", "Info", L["small_adds_message"])
+	self:Message(args.spellId, "yellow", "Info", L["small_adds_message"])
 end
 
 function mod:Stomp(args)
-	self:Message(args.spellId, "Urgent", "Alert", L["stomp_message"])
+	self:Message(args.spellId, "orange", "Alert", L["stomp_message"])
 	self:Bar(args.spellId, 30, L["stomp"])
 	self:Bar(args.spellId, 3, CL["cast"]:format(L["stomp"]))
 end
 
 function mod:MoltenArmor(args)
 	if args.amount > 3 and args.amount % 2 == 0 and self:MobId(args.destGUID) == 52558 then
-		self:Message(args.spellId, "Attention", nil, L["molten_message"]:format(args.amount))
+		self:Message(args.spellId, "yellow", nil, L["molten_message"]:format(args.amount))
 	end
 end
 
 function mod:UNIT_HEALTH_FREQUENT(event, unitId)
 	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
 	if hp < 30 then -- phase starts at 25
-		self:Message(-2537, "Positive", "Info", L["phase2_warning"], 99846)
+		self:Message(-2537, "green", "Info", L["phase2_warning"], 99846)
 		self:UnregisterUnitEvent(event, unitId)
 		local _, stack = self:UnitBuff(unitId, 98255) -- Molten Armor
 		if stack then
-			self:Message(98255, "Important", "Alarm", L["molten_message"]:format(stack))
+			self:Message(98255, "red", "Alarm", L["molten_message"]:format(stack))
 		end
 	end
 end

@@ -1,18 +1,18 @@
 
 BigWigs:AddColors("Argaloth", {
-	[88942] = "Important",
-	[88954] = "Personal",
-	[88972] = {"Attention","Urgent"},
+	[88942] = "red",
+	[88954] = "blue",
+	[88972] = {"yellow","orange"},
 })
 
 BigWigs:AddColors("Occu'thar", {
-	[96884] = "Attention",
-	[96913] = {"Important","Personal"},
-	[96920] = "Urgent",
+	[96884] = "yellow",
+	[96913] = {"red","blue"},
+	[96920] = "orange",
 })
 
 BigWigs:AddColors("Alizabal", {
-	[104936] = {"Attention","Personal"},
-	[105067] = {"Important","Personal"},
-	[105784] = "Urgent",
+	[104936] = {"yellow","blue"},
+	[105067] = {"red","blue"},
+	[105784] = "orange",
 })

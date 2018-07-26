@@ -98,7 +98,7 @@ do
 		local bossId = UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
 		if not UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
 		if UnitIsUnit(bossId, "player") then
-			mod:Message(spellId, "Personal", "Long", CL["you"]:format(L["blast_message"]))
+			mod:Message(spellId, "blue", "Long", CL["you"]:format(L["blast_message"]))
 		end
 	end
 	function mod:TwilightBlast(args)
@@ -108,7 +108,7 @@ end
 
 local function valionaHasLanded()
 	mod:StopBar(86622) -- Engulfing Magic
-	mod:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
+	mod:Message("phase_switch", "green", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
 	mod:CDBar(86840, 26) -- Devouring Flames
 	mod:Bar(86788, 11) -- Blackout
 	mod:OpenProximity("proximity", 8)
@@ -124,7 +124,7 @@ end
 function mod:TwilightShift(args)
 	self:Bar(args.spellId, 20)
 	if args.amount > 3 then
-		self:StackMessage(args.spellId, args.destName, args.amount, "Important", nil, L["twilight_shift"])
+		self:StackMessage(args.spellId, args.destName, args.amount, "red", nil, L["twilight_shift"])
 	end
 end
 
@@ -132,10 +132,10 @@ end
 function mod:DazzlingDestruction(args)
 	phaseCount = phaseCount + 1
 	if phaseCount == 1 then
-		self:Message(args.spellId, "Important", "Alarm", L["dazzling_message"])
+		self:Message(args.spellId, "red", "Alarm", L["dazzling_message"])
 	elseif phaseCount == 3 then
 		self:ScheduleTimer(theralionHasLanded, 5)
-		self:Message("phase_switch", "Positive", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
+		self:Message("phase_switch", "green", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
 	end
 end
@@ -143,7 +143,7 @@ end
 -- She emotes 3 times, every time she does a breath
 function mod:DeepBreathCast()
 	phaseCount = phaseCount + 1
-	self:Message(86059, "Important", "Alarm", L["breath_message"], "inv_misc_head_dragon_blue")
+	self:Message(86059, "red", "Alarm", L["breath_message"], "inv_misc_head_dragon_blue")
 	if phaseCount == 3 then
 		self:Bar("phase_switch", 105, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
@@ -161,7 +161,7 @@ function mod:BlackoutApplied(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "Personal", "Alert", nil, nil, true)
+	self:TargetMessage(args.spellId, args.destName, "blue", "Alert", nil, nil, true)
 	self:Bar(args.spellId, 45)
 	self:PrimaryIcon(args.spellId, args.destName)
 	self:CloseProximity()
@@ -182,7 +182,7 @@ do
 	function mod:MeteorCheck(_, unit)
 		if not markWarned and self:UnitDebuff(unit, marked) then
 			self:Flash(88518)
-			self:Message(88518, "Personal", "Long", CL["you"]:format(marked))
+			self:Message(88518, "blue", "Long", CL["you"]:format(marked))
 			markWarned = true
 			self:SimpleTimer(markRemoved, 7)
 		end
@@ -191,13 +191,13 @@ end
 
 function mod:DevouringFlames(args)
 	self:CDBar(args.spellId, 42) -- make sure to remove bar when it takes off
-	self:Message(args.spellId, "Important", "Alert")
+	self:Message(args.spellId, "red", "Alert")
 end
 
 do
 	local scheduled = nil
 	local function emWarn(spellId)
-		mod:TargetMessage(spellId, emTargets, "Personal", "Alarm")
+		mod:TargetMessage(spellId, emTargets, "blue", "Alarm")
 		scheduled = nil
 	end
 	function mod:EngulfingMagicApplied(args)

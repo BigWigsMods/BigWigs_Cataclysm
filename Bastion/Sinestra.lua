@@ -202,15 +202,15 @@ function mod:OrbWarning(source)
 
 	if source == "spawn" then
 		if #orbList > 0 then
-			mod:TargetMessage(92852, colorize(orbList), "Personal", "Alarm", L["slicer_message"])
+			mod:TargetMessage(92852, colorize(orbList), "blue", "Alarm", L["slicer_message"])
 			-- if we could guess orb targets lets wipe the whelpGUIDs in 5 sec
 			-- if not then we might as well just save them for next time
 			mod:ScheduleTimer(wipeWhelpList, 5) -- might need to adjust this
 		else
-			mod:Message(92852, "Personal")
+			mod:Message(92852, "blue")
 		end
 	elseif source == "damage" then
-		mod:TargetMessage(92852, colorize(orbList), "Personal", "Alarm", L["slicer_message"])
+		mod:TargetMessage(92852, colorize(orbList), "blue", "Alarm", L["slicer_message"])
 		mod:ScheduleTimer(wipeWhelpList, 10, true) -- might need to adjust this
 	end
 end
@@ -233,7 +233,7 @@ end
 
 function mod:Whelps()
 	self:Bar("whelps", 50, L["whelps"], 69005)
-	self:Message("whelps", "Important", nil, L["whelps"], 69005)
+	self:Message("whelps", "red", nil, L["whelps"], 69005)
 end
 
 function mod:Extinction(args)
@@ -243,7 +243,7 @@ end
 do
 	local scheduled = nil
 	local function EggMessage(spellId)
-		mod:Message(spellId, "Important", "Alert", L["egg_vulnerable"])
+		mod:Message(spellId, "red", "Alert", L["egg_vulnerable"])
 		mod:Bar(spellId, 30, L["egg_vulnerable"])
 		scheduled = nil
 	end
@@ -260,7 +260,7 @@ function mod:EggTrigger()
 end
 
 function mod:Indomitable(args)
-	self:Message(args.spellId, "Urgent")
+	self:Message(args.spellId, "orange")
 	if self:Dispeller("enrage", true) then
 		self:PlaySound(args.spellId, "Info")
 		self:Flash(args.spellId)
@@ -270,7 +270,7 @@ end
 function mod:PhaseWarn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp <= 30.5 then
-		self:Message("phase", "Positive", "Info", CL["phase"]:format(2), 86226)
+		self:Message("phase", "green", "Info", CL["phase"]:format(2), 86226)
 		self:UnregisterUnitEvent(event, unit)
 		self:CancelAllTimers()
 		self:StopBar(92852) -- Slicer
@@ -280,13 +280,13 @@ end
 
 function mod:Breath(args)
 	self:CDBar(args.spellId, 24)
-	self:Message(args.spellId, "Urgent")
+	self:Message(args.spellId, "orange")
 end
 
 function mod:TwilightEggDeaths()
 	eggs = eggs + 1
 	if eggs == 2 then
-		self:Message("phase", "Positive", "Info", CL["phase"]:format(3), 51070) -- broken egg icon
+		self:Message("phase", "green", "Info", CL["phase"]:format(3), 51070) -- broken egg icon
 		self:Bar("whelps", 50, L["whelps"], 69005)
 		self:CDBar(92852, 30) -- Slicer
 		self:CDBar(90125, 24) -- Breath
