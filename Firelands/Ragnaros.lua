@@ -76,7 +76,7 @@ function mod:OnBossEnable()
 	-- Normal
 	self:Yell("IntermissionEnd", L["intermission_end_trigger1"], L["intermission_end_trigger2"], L["intermission_end_trigger3"])
 
-	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1")
 	self:Log("SPELL_CAST_START", "EngulfingFlames", 99236, 99172, 99235)
 	self:Log("SPELL_CAST_SUCCESS", "HandofRagnaros", 98237)
 	self:Log("SPELL_CAST_SUCCESS", "WrathofRagnaros", 98263)
@@ -188,7 +188,7 @@ do
 end
 
 function mod:FixatedCheck(_, unit)
-	local fixated = self:UnitDebuff(unit, fixate)
+	local fixated = self:UnitDebuff(unit, fixate, 99849)
 	if fixated and not fixateWarned then
 		fixateWarned = true
 		self:Message(99849, "blue", "Long", CL["you"]:format(fixate))
@@ -220,7 +220,7 @@ function mod:IntermissionEnd()
 		self:CDBar(99317, 52) -- Living Meteor
 		self:Bar(98710, 55, lavaWaves)
 		self:RegisterUnitEvent("UNIT_AURA", "FixatedCheck", "player")
-		self:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+		self:UnregisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "boss1")
 	end
 	phase = phase + 1
 	self:Message(98953, "green", nil, L["ragnaros_back_message"], 100593) -- ragnaros icon
@@ -309,14 +309,16 @@ end
 do
 	local prev = 0
 	function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
-		if spellId == moltenSeed then -- XXX BROKEN
+		if spellId == 98333 then -- Molten Seed
 			local t = GetTime()
 			if t-prev > 5 then
 				prev = t
-				self:Message(98498, "orange", "Alarm", spellId)
-				self:Bar(98498, 12, L["seed_explosion"], spellId)
-				self:Bar(98498, 60, spellId)
+				self:Message(98498, "orange", "Alarm")
+				self:Bar(98498, 12, L["seed_explosion"])
+				self:Bar(98498, 60)
 			end
+		elseif self:SpellName(spellId) == self:SpellName(98333) then
+			BigWigs:Error(("Found new id %d"):format(spellId)) -- XXX 98333 is the id on hc25, check normal
 		end
 	end
 end
