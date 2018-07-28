@@ -132,7 +132,7 @@ end
 do
 	local lastCheck = 0
 	function mod:FlightCheck(_, unit)
-		local _, _, _, expires = self:UnitBuff(unit, self:SpellName(98619)) -- Wings of Flame
+		local _, _, _, expires = self:UnitBuff(unit, self:SpellName(98619), 98619) -- Wings of Flame
 		if expires ~= lastCheck then
 			lastCheck = expires
 			self:Bar("flight", expires-GetTime(), 98619)
