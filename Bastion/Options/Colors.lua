@@ -14,24 +14,24 @@ BigWigs:AddColors("Valiona and Theralion", {
 	[86788] = "blue",
 	[86840] = "red",
 	[88518] = "blue",
-	[93051] = {"red","blue"},
+	[93051] = {"blue","red"},
 	["phase_switch"] = "green",
 })
 
 BigWigs:AddColors("Ascendant Council", {
 	[82631] = "red",
-	[82660] = {"red","blue"},
-	[82665] = {"red","blue"},
+	[82660] = {"blue","red"},
+	[82665] = {"blue","red"},
 	[82746] = "yellow",
 	[82762] = "blue",
-	[83067] = {"red","blue"},
-	[83099] = {"red","blue"},
-	[83565] = {"red","blue"},
+	[83067] = {"blue","red"},
+	[83099] = {"blue","red"},
+	[83565] = {"blue","red"},
 	[83718] = "orange",
-	[84948] = {"red","blue"},
-	[92067] = {"yellow","blue"},
-	[92075] = {"yellow","blue"},
-	[92307] = {"yellow","blue"},
+	[84948] = {"blue","red"},
+	[92067] = {"blue","yellow"},
+	[92075] = {"blue","yellow"},
+	[92307] = {"blue","yellow"},
 	["switch"] = "yellow",
 })
 
@@ -43,8 +43,8 @@ BigWigs:AddColors("Cho'gall", {
 	[82299] = "yellow",
 	[82414] = "orange",
 	[82524] = "yellow",
-	[82630] = {"yellow","green"},
-	[91303] = {"red","blue"},
+	[82630] = {"green","yellow"},
+	[91303] = {"blue","red"},
 	["orders"] = "orange",
 })
 

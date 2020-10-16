@@ -2,17 +2,17 @@
 BigWigs:AddColors("Argaloth", {
 	[88942] = "red",
 	[88954] = "blue",
-	[88972] = {"yellow","orange"},
+	[88972] = {"orange","yellow"},
 })
 
 BigWigs:AddColors("Occu'thar", {
 	[96884] = "yellow",
-	[96913] = {"red","blue"},
+	[96913] = {"blue","red"},
 	[96920] = "orange",
 })
 
 BigWigs:AddColors("Alizabal", {
-	[104936] = {"yellow","blue"},
-	[105067] = {"red","blue"},
+	[104936] = {"blue","yellow"},
+	[105067] = {"blue","red"},
 	[105784] = "orange",
 })

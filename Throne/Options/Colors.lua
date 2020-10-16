@@ -11,11 +11,11 @@ BigWigs:AddColors("Conclave of Wind", {
 })
 
 BigWigs:AddColors("Al'Akir", {
-	[87770] = {"yellow","red"},
+	[87770] = {"red","yellow"},
 	[87904] = "green",
 	[88301] = "yellow",
 	[88427] = "blue",
-	[89588] = {"red","orange"},
+	[89588] = {"orange","red"},
 	[89668] = "blue",
 	["stages"] = "green",
 	["stormling"] = "red",

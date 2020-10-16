@@ -11,7 +11,7 @@ BigWigs:AddColors("Morchok", {
 })
 
 BigWigs:AddColors("Warlord Zon'ozz", {
-	[103434] = {"yellow","blue"},
+	[103434] = {"blue","yellow"},
 	["ball"] = "orange",
 	["bounce"] = "red",
 	["darkness"] = "red",
@@ -26,7 +26,7 @@ BigWigs:AddColors("Yor'sahj the Unsleeping", {
 
 BigWigs:AddColors("Hagara the Stormbinder", {
 	[-4159] = "orange",
-	[104448] = {"yellow","red","blue"},
+	[104448] = {"blue","red","yellow"},
 	[105256] = "yellow",
 	[105316] = {"blue","orange"},
 	[105409] = "yellow",
@@ -35,16 +35,16 @@ BigWigs:AddColors("Hagara the Stormbinder", {
 })
 
 BigWigs:AddColors("Ultraxion", {
-	[105925] = {"yellow","blue"},
+	[105925] = {"blue","yellow"},
 	[106371] = "red",
 	["crystal"] = "green",
-	["lighttank"] = {"yellow","blue"},
+	["lighttank"] = {"blue","yellow"},
 })
 
 BigWigs:AddColors("Warmaster Blackhorn", {
 	[107588] = "orange",
 	[108044] = "green",
-	[108046] = {"yellow","blue"},
+	[108046] = {"blue","yellow"},
 	[108076] = "blue",
 	["sapper"] = "red",
 	["sunder"] = {"blue","orange"},
@@ -52,12 +52,12 @@ BigWigs:AddColors("Warmaster Blackhorn", {
 })
 
 BigWigs:AddColors("Spine of Deathwing", {
-	[105248] = {"red","orange"},
+	[105248] = {"orange","red"},
 	[105490] = {"blue","orange"},
 	[105845] = "red",
 	[105848] = "red",
 	["residue"] = "yellow",
-	["roll"] = {"yellow","blue","green"},
+	["roll"] = {"blue","green","yellow"},
 })
 
 BigWigs:AddColors("Madness of Deathwing", {
