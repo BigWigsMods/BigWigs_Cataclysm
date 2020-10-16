@@ -44,7 +44,7 @@ function mod:GetOptions()
 		{79501, "ICON", "FLASH"},
 		{79888, "ICON", "FLASH", "PROXIMITY"},
 		{80161, "FLASH"}, {80157, "FLASH", "SAY"}, 80053, {80094, "FLASH"},
-		"nef", 91849, 91879, {92048, "ICON"}, 92023, "switch", "custom_on_iconomnotron",
+		"nef", 91849, 91879, {92048, "ICON", "FLASH"}, 92023, "switch", "custom_on_iconomnotron",
 		"berserk"
 	}, {
 		[79501] = -3207, -- Electron
