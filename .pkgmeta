@@ -1,5 +1,2 @@
 package-as: BigWigs_Cataclysm
 wowi-archive-previous: no
-
-ignore:
-  - README.md
