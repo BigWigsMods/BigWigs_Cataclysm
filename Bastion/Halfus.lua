@@ -37,7 +37,7 @@ function mod:OnBossEnable()
 
 	--No CheckBossStatus() here as event does not fire, GM confirms "known" issue.
 	--It's more likely to be because there isn't enough frames for all bosses on heroic.
-	self:Yell("Engage", L["engage_yell"])
+	self:BossYell("Engage", L["engage_yell"])
 	self:RegisterEvent("PLAYER_REGEN_ENABLED", "CheckForWipe")
 
 	self:Death("Win", 44600)

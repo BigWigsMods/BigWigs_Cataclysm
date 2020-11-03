@@ -47,7 +47,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "SonicBreath", 78075)
 	self:Log("SPELL_AURA_APPLIED", "Tracking", 78092)
 	self:Log("SPELL_AURA_APPLIED", "SearingFlame", 77840)
-	self:Yell("AirPhase", L["air_phase_trigger"])
+	self:BossYell("AirPhase", L["air_phase_trigger"])
 
 	self:Log("SPELL_AURA_APPLIED", "ObnoxiousPhaseShift", 92681)
 

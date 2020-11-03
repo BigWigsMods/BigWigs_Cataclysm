@@ -66,7 +66,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED_DOSE", "VoidDiffusion", 106836)
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-	self:Yell("VoidoftheUnmaking", L["ball_yell"])
+	self:BossYell("VoidoftheUnmaking", L["ball_yell"])
 
 	self:Death("Win", 55308)
 end

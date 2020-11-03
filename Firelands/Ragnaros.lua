@@ -67,14 +67,14 @@ function mod:OnBossEnable()
 	-- Heroic
 	self:Log("SPELL_AURA_APPLIED", "WorldInFlames", 100171)
 
-	self:Yell("Phase4", L["phase4_trigger"])
+	self:BossYell("Phase4", L["phase4_trigger"])
 	self:Log("SPELL_CAST_START", "BreadthofFrost", 100479)
 	self:Log("SPELL_CAST_START", "EntrappingRoots", 100646)
 	self:Log("SPELL_CAST_START", "Cloudburst", 100714)
 	self:Log("SPELL_CAST_SUCCESS", "EmpowerSulfuras", 100604)
 
 	-- Normal
-	self:Yell("IntermissionEnd", L["intermission_end_trigger1"], L["intermission_end_trigger2"], L["intermission_end_trigger3"])
+	self:BossYell("IntermissionEnd", L["intermission_end_trigger1"], L["intermission_end_trigger2"], L["intermission_end_trigger3"])
 
 	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1")
 	self:Log("SPELL_CAST_START", "EngulfingFlames", 99236, 99172, 99235)

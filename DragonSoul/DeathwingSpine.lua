@@ -75,7 +75,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "Nuclear", 105845)
 	self:Log("SPELL_CAST_START", "Seal", 105847, 105848) -- Left, Right
 
-	self:Yell("Engage", L["engage_trigger"])
+	self:BossYell("Engage", L["engage_trigger"])
 
 	self:Death("BurningTendonDeaths", 56575, 56341) -- Burning Tendons
 end

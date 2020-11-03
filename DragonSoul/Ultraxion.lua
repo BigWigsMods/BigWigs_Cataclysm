@@ -75,7 +75,7 @@ function mod:OnBossEnable()
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
-	self:Yell("Warmup", L["warmup_trigger"])
+	self:BossYell("Warmup", L["warmup_trigger"])
 	self:Emote("Gift", L["crystal_icon"])
 	self:Emote("Dreams", L["crystal_green_icon"])
 	self:Emote("Magic", L["crystal_blue_icon"])

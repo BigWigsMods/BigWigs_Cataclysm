@@ -85,7 +85,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "Parasite", 108649)
 	self:Log("SPELL_AURA_REMOVED", "ParasiteRemoved", 108649)
 
-	self:Yell("Engage", L["engage_trigger"])
+	self:BossYell("Engage", L["engage_trigger"])
 	self:Log("SPELL_CAST_SUCCESS", "Win", 110063) -- Astral Recall
 	self:Death("TentacleKilled", 56471)
 end

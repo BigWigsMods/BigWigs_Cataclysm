@@ -105,10 +105,10 @@ function mod:OnBossEnable()
 
 	-- We keep the yell triggers around because sometimes he does them far ahead
 	-- of the emote.
-	self:Yell("Red", L["red_phase_trigger"])
-	self:Yell("Blue", L["blue_phase_trigger"])
-	self:Yell("Green", L["green_phase_trigger"])
-	self:Yell("Dark", L["dark_phase_trigger"])
+	self:BossYell("Red", L["red_phase_trigger"])
+	self:BossYell("Blue", L["blue_phase_trigger"])
+	self:BossYell("Green", L["green_phase_trigger"])
+	self:BossYell("Dark", L["dark_phase_trigger"])
 
 	self:Death("Win", 41378)
 end

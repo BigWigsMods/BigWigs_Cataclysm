@@ -64,7 +64,7 @@ end
 function mod:OnBossEnable()
 	--heroic
 	self:Log("SPELL_SUMMON", "BlazingInferno", 92154)
-	self:Yell("Phase2", L["phase2_yell"])
+	self:BossYell("Phase2", L["phase2_yell"])
 
 	--normal
 	self:Log("SPELL_AURA_APPLIED", "Infection", 78097, 78941)

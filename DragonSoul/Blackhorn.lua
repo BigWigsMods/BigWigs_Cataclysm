@@ -67,7 +67,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED_DOSE", "Sunder", 108043)
 	self:Log("SPELL_CAST_SUCCESS", "Roar", 108044)
 	self:Emote("Sapper", L["sapper_trigger"])
-	self:Yell("Stage2", L["stage2_trigger"])
+	self:BossYell("Stage2", L["stage2_trigger"])
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 	self:Death("Win", 56427)

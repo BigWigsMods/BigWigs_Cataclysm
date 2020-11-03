@@ -101,7 +101,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "BurningBlood", 82660)
 	self:Log("SPELL_AURA_APPLIED", "GravityCrush", 84948)
 
-	self:Yell("Switch", L["switch_trigger"])
+	self:BossYell("Switch", L["switch_trigger"])
 
 	self:Log("SPELL_CAST_START", "Quake", 83565)
 	self:Log("SPELL_CAST_START", "Thundershock", 83067)
@@ -111,7 +111,7 @@ function mod:OnBossEnable()
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
-	self:Yell("LastPhase", L["last_phase_trigger"])
+	self:BossYell("LastPhase", L["last_phase_trigger"])
 
 	self:Death("Win", 43735) -- Elementium Monstrosity
 end

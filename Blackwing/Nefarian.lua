@@ -61,9 +61,9 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	self:Yell("PhaseTwo", L["phase_two_trigger"])
-	self:Yell("PhaseThree", L["phase_three_trigger"])
-	self:Yell("ShadowblazeCorrection", L["shadowblaze_trigger"])
+	self:BossYell("PhaseTwo", L["phase_two_trigger"])
+	self:BossYell("PhaseThree", L["phase_three_trigger"])
+	self:BossYell("ShadowblazeCorrection", L["shadowblaze_trigger"])
 
 	--Not bad enough that there is no cast trigger, there's also OVER NINE THOUSAND id's
 	self:Log("SPELL_DAMAGE", "LightningDischarge", "*")

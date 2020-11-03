@@ -151,8 +151,8 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "Indomitable", 90045)
 	self:Log("SPELL_CAST_START", "Extinction", 86227)
 
-	self:Yell("EggTrigger", L["omelet_trigger"])
-	self:Yell("Whelps", L["whelps_trigger"])
+	self:BossYell("EggTrigger", L["omelet_trigger"])
+	self:BossYell("Whelps", L["whelps_trigger"])
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 

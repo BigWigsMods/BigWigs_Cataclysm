@@ -60,7 +60,7 @@ function mod:OnBossEnable()
 
 	-- Phase Switch -- should be able to do this easier once we get Transcriptor logs
 	self:Log("SPELL_CAST_START", "DazzlingDestruction", 86408)
-	self:Yell("DeepBreath", L["valiona_trigger"])
+	self:BossYell("DeepBreath", L["valiona_trigger"])
 	self:Emote("DeepBreathCast", self:SpellName(86059)) -- Deep Breath
 
 	self:Log("SPELL_AURA_APPLIED", "BlackoutApplied", 86788)
