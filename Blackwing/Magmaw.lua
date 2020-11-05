@@ -174,7 +174,7 @@ function mod:Slump()
 end
 
 function mod:Mangle(args)
-	self:TargetMessage(args.spellId, args.destName, "blue", "Info")
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "Info")
 	self:TargetBar(args.spellId, 30, args.destName)
 	self:CDBar(args.spellId, 95)
 end

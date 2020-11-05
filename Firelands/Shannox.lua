@@ -73,7 +73,7 @@ do
 		if player and (not UnitDetailedThreatSituation("boss1target", "boss1") or fired > 13) then
 			-- If we've done 14 (0.7s) checks and still not passing the threat check, it's probably being cast on the tank
 			if spellId == 99836 then
-				mod:TargetMessage("crystal", player, "orange", "Alarm", L["crystal_trap"], spellId)
+				mod:TargetMessageOld("crystal", player, "orange", "Alarm", L["crystal_trap"], spellId)
 			end
 			mod:CancelTimer(timer)
 			timer = nil
@@ -119,7 +119,7 @@ function mod:HurlSpear(args)
 end
 
 function mod:FaceRage(args)
-	self:TargetMessage(100129, args.destName, "red", "Alert")
+	self:TargetMessageOld(100129, args.destName, "red", "Alert")
 	self:PrimaryIcon(100129, args.destName)
 end
 

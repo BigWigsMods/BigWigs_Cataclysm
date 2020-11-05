@@ -180,7 +180,7 @@ end
 do
 	local scheduled = nil
 	local function woundWarn()
-		mod:TargetMessage(100024, woundTargets, "blue")
+		mod:TargetMessageOld(100024, woundTargets, "blue")
 		scheduled = nil
 	end
 	function mod:Wound(args)

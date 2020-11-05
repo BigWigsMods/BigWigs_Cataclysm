@@ -202,7 +202,7 @@ function mod:OrbWarning(source)
 
 	if source == "spawn" then
 		if #orbList > 0 then
-			mod:TargetMessage(92852, colorize(orbList), "blue", "Alarm", L["slicer_message"])
+			mod:TargetMessageOld(92852, colorize(orbList), "blue", "Alarm", L["slicer_message"])
 			-- if we could guess orb targets lets wipe the whelpGUIDs in 5 sec
 			-- if not then we might as well just save them for next time
 			mod:ScheduleTimer(wipeWhelpList, 5) -- might need to adjust this
@@ -210,7 +210,7 @@ function mod:OrbWarning(source)
 			mod:Message(92852, "blue")
 		end
 	elseif source == "damage" then
-		mod:TargetMessage(92852, colorize(orbList), "blue", "Alarm", L["slicer_message"])
+		mod:TargetMessageOld(92852, colorize(orbList), "blue", "Alarm", L["slicer_message"])
 		mod:ScheduleTimer(wipeWhelpList, 10, true) -- might need to adjust this
 	end
 end

@@ -127,7 +127,7 @@ do
 				mod:Say(spellId, L["crash_say"])
 				mod:Flash(spellId)
 			end
-			mod:TargetMessage(spellId, player, "orange", "Long") -- Corrupting Crash
+			mod:TargetMessageOld(spellId, player, "orange", "Long") -- Corrupting Crash
 			if counter == 1 then
 				mod:PrimaryIcon(spellId, player)
 			else
@@ -228,7 +228,7 @@ end
 do
 	local scheduled = nil
 	local function worshipWarn(spellName)
-		mod:TargetMessage(91303, worshipTargets, "red", "Alarm", spellName, 91303, true)
+		mod:TargetMessageOld(91303, worshipTargets, "red", "Alarm", spellName, 91303, true)
 		scheduled = nil
 	end
 	function mod:Worship(args)

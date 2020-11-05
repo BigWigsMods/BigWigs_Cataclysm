@@ -128,7 +128,7 @@ end
 do
 	local scheduled = nil
 	local function iceTomb()
-		mod:TargetMessage(104448, playerTbl, "red")
+		mod:TargetMessageOld(104448, playerTbl, "red")
 		scheduled = nil
 	end
 	function mod:IceTombApplied(args)
@@ -143,7 +143,7 @@ end
 do
 	local scheduled = nil
 	local function iceLance()
-		mod:TargetMessage(105316, playerTbl, "orange", "Info") -- Ice Lance
+		mod:TargetMessageOld(105316, playerTbl, "orange", "Info") -- Ice Lance
 		scheduled = nil
 	end
 	function mod:IceLanceApplied(args)

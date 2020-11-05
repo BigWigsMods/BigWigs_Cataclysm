@@ -202,7 +202,7 @@ function mod:FlashFreezeTimer(args)
 end
 
 function mod:FlashFreeze(args)
-	self:TargetMessage(args.spellId, args.destName, "yellow", "Info")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -241,7 +241,7 @@ function mod:ConsumingFlames(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "blue", "Info")
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "Info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -258,7 +258,7 @@ end
 do
 	local scheduled = nil
 	local function chillWarn(spellId)
-		mod:TargetMessage(spellId, chillTargets, "yellow", "Info")
+		mod:TargetMessageOld(spellId, chillTargets, "yellow", "Info")
 		scheduled = nil
 	end
 	function mod:BitingChill(args)

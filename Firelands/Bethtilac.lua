@@ -100,7 +100,7 @@ function mod:BroodlingWatcher()
 	if broodling and UnitExists(broodling.."target") and UnitExists(lastBroodlingTarget) then
 		if UnitIsUnit(broodling.."target", lastBroodlingTarget) then return end
 		lastBroodlingTarget = UnitName(broodling.."target")
-		self:TargetMessage(99990, lastBroodlingTarget, "red", "Alert") -- Volatile Burst
+		self:TargetMessageOld(99990, lastBroodlingTarget, "red", "Alert") -- Volatile Burst
 		if UnitIsUnit(lastBroodlingTarget, "player") then
 			self:Flash(99990)
 			self:Say(99990)
@@ -110,7 +110,7 @@ end
 
 function mod:Fixate(args)
 	if not UnitIsPlayer(args.destName) then return end --Affects the NPC and a player
-	self:TargetMessage(99559, args.destName, "yellow", "Alarm", args.spellId)
+	self:TargetMessageOld(99559, args.destName, "yellow", "Alarm", args.spellId)
 	if self:Me(args.destGUID) then
 		self:Flash(99559)
 	end
@@ -123,7 +123,7 @@ function mod:Frenzy(args)
 end
 
 function mod:Kiss(args)
-	self:TargetMessage(args.spellId, args.destName, "orange", nil, L["kiss_message"])
+	self:TargetMessageOld(args.spellId, args.destName, "orange", nil, L["kiss_message"])
 	self:Bar(args.spellId, 31.5, L["kiss_message"])
 	self:PlaySound(args.spellId, "Info")
 end

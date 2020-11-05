@@ -94,7 +94,7 @@ do
 			if unit == "player" then
 				self:Say(92677)
 			end
-			self:TargetMessage(92677, UnitName(unit), "yellow", "Long") -- Obnoxious
+			self:TargetMessageOld(92677, UnitName(unit), "yellow", "Long") -- Obnoxious
 			self:UnregisterEvent("UNIT_AURA")
 		end
 	end
@@ -105,7 +105,7 @@ function mod:Tracking(args)
 		self:Say(args.spellId)
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "blue", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "Alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 

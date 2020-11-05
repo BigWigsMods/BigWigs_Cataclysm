@@ -141,13 +141,13 @@ function mod:ShadowInfusion(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "orange")
+	self:TargetMessageOld(args.spellId, args.destName, "orange")
 	self:CDBar("nef", 35, L["nef_next"], 69005)
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
 function mod:EncasingShadows(args)
-	self:TargetMessage(args.spellId, args.destName, "orange")
+	self:TargetMessageOld(args.spellId, args.destName, "orange")
 	self:CDBar("nef", 35, L["nef_next"], 69005)
 end
 
@@ -155,7 +155,7 @@ function mod:AcquiringTarget(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "orange", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "orange", "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
@@ -171,7 +171,7 @@ function mod:LightningConductor(args)
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10) --assumed
 	end
-	self:TargetMessage(args.spellId, args.destName, "yellow", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 

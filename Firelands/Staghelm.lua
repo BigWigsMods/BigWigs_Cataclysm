@@ -100,7 +100,7 @@ do
 				mod:Say(spellId, L["leap_say"])
 				mod:Flash(spellId)
 			end
-			mod:TargetMessage(spellId, player, "orange", "Long") -- Leaping Flames
+			mod:TargetMessageOld(spellId, player, "orange", "Long") -- Leaping Flames
 			mod:PrimaryIcon(spellId, player)
 			return
 		end

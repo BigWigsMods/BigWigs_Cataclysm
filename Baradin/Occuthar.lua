@@ -56,7 +56,7 @@ end
 --
 
 function mod:SearingShadows(args)
-	self:TargetMessage(args.spellId, args.destName, "red")
+	self:TargetMessageOld(args.spellId, args.destName, "red")
 	self:Bar(args.spellId, 24, L["shadows_bar"]) --23-26
 end
 

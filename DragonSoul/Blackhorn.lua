@@ -145,7 +145,7 @@ end
 
 do
 	local function printTarget(self, name, guid)
-		self:TargetMessage(108046, name, "yellow", "Alarm")
+		self:TargetMessageOld(108046, name, "yellow", "Alarm")
 		if self:Me(guid) then
 			self:Flash(108046)
 			self:Say(108046)

@@ -136,7 +136,7 @@ end
 do
 	local scheduled = nil
 	local function lrWarn(spellId)
-		mod:TargetMessage(spellId, lrTargets, "red", "Alert")
+		mod:TargetMessageOld(spellId, lrTargets, "red", "Alert")
 		scheduled = nil
 	end
 	function mod:LightningRodApplied(args)
@@ -155,7 +155,7 @@ end
 do
 	local scheduled = nil
 	local function gcWarn(spellId)
-		mod:TargetMessage(spellId, gcTargets, "red", "Alert")
+		mod:TargetMessageOld(spellId, gcTargets, "red", "Alert")
 		scheduled = nil
 	end
 	local function marked()
@@ -186,7 +186,7 @@ function mod:GravityCore(args)
 		self:Say(args.spellId, L["gravity_core_say"])
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "yellow", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
@@ -199,7 +199,7 @@ function mod:StaticOverload(args)
 		self:Say(args.spellId, L["static_overload_say"])
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "yellow", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -211,7 +211,7 @@ function mod:FrostBeacon(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "yellow", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -262,14 +262,14 @@ function mod:Waterlogged(args)
 end
 
 function mod:HeartofIce(args)
-	self:TargetMessage(args.spellId, args.destName, "red")
+	self:TargetMessageOld(args.spellId, args.destName, "red")
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
 end
 
 function mod:BurningBlood(args)
-	self:TargetMessage(args.spellId, args.destName, "red")
+	self:TargetMessageOld(args.spellId, args.destName, "red")
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end

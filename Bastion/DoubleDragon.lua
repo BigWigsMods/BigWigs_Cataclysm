@@ -161,7 +161,7 @@ function mod:BlackoutApplied(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessage(args.spellId, args.destName, "blue", "Alert", nil, nil, true)
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "Alert", nil, nil, true)
 	self:Bar(args.spellId, 45)
 	self:PrimaryIcon(args.spellId, args.destName)
 	self:CloseProximity()
@@ -197,7 +197,7 @@ end
 do
 	local scheduled = nil
 	local function emWarn(spellId)
-		mod:TargetMessage(spellId, emTargets, "blue", "Alarm")
+		mod:TargetMessageOld(spellId, emTargets, "blue", "Alarm")
 		scheduled = nil
 	end
 	function mod:EngulfingMagicApplied(args)

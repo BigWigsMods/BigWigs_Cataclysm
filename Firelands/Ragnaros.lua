@@ -283,7 +283,7 @@ do
 	local scheduled = nil
 	local iconCounter = 1
 	local function blazingHeatWarn(spellId)
-		mod:TargetMessage(spellId, blazingHeatTargets, "yellow", "Info")
+		mod:TargetMessageOld(spellId, blazingHeatTargets, "yellow", "Info")
 		scheduled = nil
 	end
 	function mod:BlazingHeat(args)

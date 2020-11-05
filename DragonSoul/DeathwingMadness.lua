@@ -195,7 +195,7 @@ end
 
 function mod:Parasite(args)
 	paraCount = paraCount + 1
-	self:TargetMessage(-4347, args.destName, "orange", nil, L["parasite"], args.spellId)
+	self:TargetMessageOld(-4347, args.destName, "orange", nil, L["parasite"], args.spellId)
 	self:TargetBar(-4347, 10, args.destName, L["parasite"], args.spellId)
 	self:PrimaryIcon(-4347, args.destName)
 	if self:Me(args.destGUID) then

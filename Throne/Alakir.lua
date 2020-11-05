@@ -115,7 +115,7 @@ function mod:LightningRod(args)
 		self:Flash(args.spellId)
 		self:OpenProximity("proximity", 20)
 	end
-	self:TargetMessage(args.spellId, args.destName, "blue", "Long")
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "Long")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -153,7 +153,7 @@ do
 end
 
 function mod:Electrocute(args)
-	self:TargetMessage(args.spellId, args.destName, "blue")
+	self:TargetMessageOld(args.spellId, args.destName, "blue")
 end
 
 function mod:WindBurst1(args)

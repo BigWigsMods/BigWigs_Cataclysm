@@ -130,7 +130,7 @@ do
 	local scheduled = nil
 	local lightTargets = mod:NewTargetList()
 	local function fadingLight()
-		mod:TargetMessage(105925, lightTargets, "yellow", "Alarm")
+		mod:TargetMessageOld(105925, lightTargets, "yellow", "Alarm")
 		scheduled = nil
 	end
 	function mod:FadingLight(args)
@@ -144,7 +144,7 @@ do
 				self:Flash("lighttank", args.spellId)
 				local _, _, duration = self:UnitDebuff(args.destName, args.spellName)
 				self:Bar("lighttank", duration, L["lighttank_bar"]:format(args.destName), args.spellId)
-				self:TargetMessage("lighttank", args.destName, "yellow", "Alarm", L["lighttank_message"], args.spellId, true)
+				self:TargetMessageOld("lighttank", args.destName, "yellow", "Alarm", L["lighttank_message"], args.spellId, true)
 			end
 		end
 		if not scheduled then

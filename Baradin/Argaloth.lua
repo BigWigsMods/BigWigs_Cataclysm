@@ -60,7 +60,7 @@ end
 do
 	local scheduled = nil
 	local function consumingWarn(spellId)
-		mod:TargetMessage(spellId, consumingTargets, "blue", nil, L["darkness_message"])
+		mod:TargetMessageOld(spellId, consumingTargets, "blue", nil, L["darkness_message"])
 		scheduled = nil
 	end
 	function mod:ConsumingDarkness(args)

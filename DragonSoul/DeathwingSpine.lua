@@ -298,7 +298,7 @@ end
 do
 	local scheduled = nil
 	local function grip(spellId)
-		mod:TargetMessage(spellId, gripTargets, "orange")
+		mod:TargetMessageOld(spellId, gripTargets, "orange")
 		scheduled = nil
 	end
 	function mod:FieryGripApplied(args)

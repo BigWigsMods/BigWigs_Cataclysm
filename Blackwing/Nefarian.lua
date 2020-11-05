@@ -192,7 +192,7 @@ end
 do
 	local scheduled = nil
 	local function cinderWarn(spellId)
-		mod:TargetMessage(spellId, cinderTargets, "orange", "Info")
+		mod:TargetMessageOld(spellId, cinderTargets, "orange", "Info")
 		scheduled = nil
 	end
 	function mod:ExplosiveCindersApplied(args)

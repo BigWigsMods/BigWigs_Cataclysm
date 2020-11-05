@@ -82,7 +82,7 @@ function mod:Countdown(args)
 		countdownCounter = 2
 	else
 		self:Bar(args.spellId, 47.6, L["link_message"])
-		self:TargetMessage(args.spellId, countdownTargets, "red", "Alarm", L["link_message"])
+		self:TargetMessageOld(args.spellId, countdownTargets, "red", "Alarm", L["link_message"])
 		self:SecondaryIcon(args.spellId, args.destName)
 		countdownCounter = 1
 	end
