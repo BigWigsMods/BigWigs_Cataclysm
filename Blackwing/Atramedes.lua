@@ -81,7 +81,7 @@ do
 		end
 	end
 	function mod:ObnoxiousPhaseShift(args)
-		self:Message(92677, "yellow", nil, L["obnoxious_soon"]) -- do we really need this?
+		self:MessageOld(92677, "yellow", nil, L["obnoxious_soon"]) -- do we really need this?
 		FiendCheck(args.destGUID)
 		self:RegisterEvent("UNIT_AURA")
 	end
@@ -114,12 +114,12 @@ function mod:SonicBreath(args)
 end
 
 function mod:SearingFlame(args)
-	self:Message(args.spellId, "red", "Alert")
+	self:MessageOld(args.spellId, "red", "Alert")
 end
 
 do
 	local function groundPhase()
-		mod:Message("ground_phase", "yellow", nil, L["ground_phase"], 61882) -- Earthquake Icon
+		mod:MessageOld("ground_phase", "yellow", nil, L["ground_phase"], 61882) -- Earthquake Icon
 		mod:Bar("air_phase", 90, L["air_phase"], 5740) -- Rain of Fire Icon
 		mod:CDBar(78075, 25)
 		-- XXX need a good trigger for ground phase start to make this even more accurate
@@ -128,7 +128,7 @@ do
 	end
 	function mod:AirPhase()
 		self:StopBar(78075) -- Sonic Breath
-		self:Message("air_phase", "yellow", nil, L["air_phase"], 5740) -- Rain of Fire Icon
+		self:MessageOld("air_phase", "yellow", nil, L["air_phase"], 5740) -- Rain of Fire Icon
 		self:Bar("ground_phase", 30, L["ground_phase"], 61882) -- Earthquake Icon
 		self:ScheduleTimer(groundPhase, 30)
 	end

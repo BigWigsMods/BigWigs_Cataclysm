@@ -112,7 +112,7 @@ do
 			self:CancelTimer(timer)
 		end
 		if not self:UnitDebuff("player", tendrils, 105563) and not UnitIsDead("player") then -- Grasping Tendrils
-			self:Message("roll", "blue", not self:Solo() and "Alert", L.not_hooked, 105563)
+			self:MessageOld("roll", "blue", not self:Solo() and "Alert", L.not_hooked, 105563)
 		end
 	end
 
@@ -121,7 +121,7 @@ do
 		local rollTime = self:Solo() and 10 or 5
 		local rollMsg = self:SpellName(L.roll)
 		self:Bar("roll", rollTime, rollMsg, L.roll_icon)
-		self:Message("roll", "yellow", not solo and "Long", CL.custom_sec:format(rollMsg, rollTime), L.roll_icon)
+		self:MessageOld("roll", "yellow", not solo and "Long", CL.custom_sec:format(rollMsg, rollTime), L.roll_icon)
 		if not solo then
 			self:Flash("roll", L.roll_icon)
 		end
@@ -129,13 +129,13 @@ do
 		timer = self:ScheduleRepeatingTimer(graspCheck, 2, self)
 	end
 	function mod:Rolls()
-		self:Message("roll", "green", nil, L.roll_message, L.roll_icon)
+		self:MessageOld("roll", "green", nil, L.roll_message, L.roll_icon)
 		self:Bar("roll", 5, CL.cast:format(self:SpellName(L.roll)), L.roll_icon)
 		self:CancelTimer(timer)
 		timer = nil
 	end
 	function mod:Level()
-		self:Message("roll", "green", nil, L.level_message, L.roll_icon)
+		self:MessageOld("roll", "green", nil, L.level_message, L.roll_icon)
 		self:StopBar(self:SpellName(L.roll))
 		self:CancelTimer(timer)
 		timer = nil
@@ -144,7 +144,7 @@ end
 
 do
 	local function printStacks(self, spellId, spellName, amount, destGUID)
-		self:Message(spellId, amount < 9 and "orange" or "red", nil, CL.count:format(spellName, amount))
+		self:MessageOld(spellId, amount < 9 and "orange" or "red", nil, CL.count:format(spellName, amount))
 		bloodTimers[destGUID] = nil
 	end
 
@@ -225,7 +225,7 @@ do
 	-- many are up to prevent spamming when the mob picks up a bunch
 	local scheduled = nil
 	local function reportBloods()
-		mod:Message("residue", "yellow", nil, L["residue_message"]:format(bloodCount), 105223)
+		mod:MessageOld("residue", "yellow", nil, L["residue_message"]:format(bloodCount), 105223)
 		scheduled = nil
 	end
 	local haltPrinting = true
@@ -285,13 +285,13 @@ do
 end
 
 function mod:Nuclear(args)
-	self:Message(args.spellId, "red", "Info")
+	self:MessageOld(args.spellId, "red", "Info")
 	self:Bar(args.spellId, 5)
 	self:Flash(args.spellId)
 end
 
 function mod:Seal(args)
-	self:Message(105848, "red", nil, L["exposed"])
+	self:MessageOld(105848, "red", nil, L["exposed"])
 	self:Bar(105848, self:LFR() and 33 or 23, L["exposed"]) -- 33 is a guess
 end
 

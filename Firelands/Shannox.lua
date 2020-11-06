@@ -83,7 +83,7 @@ do
 					mod:Say("crystal", L["crystal_trap"])
 				else
 					mod:Flash("immolationyou", spellId)
-					mod:Message("immolationyou", "blue", "Alarm", CL["underyou"]:format(L["immolationyou_message"]), spellId)
+					mod:MessageOld("immolationyou", "blue", "Alarm", CL["underyou"]:format(L["immolationyou_message"]), spellId)
 				end
 			end
 			return
@@ -108,13 +108,13 @@ function mod:WaryDog(args)
 	-- Immolation Trap not a Crystal Trap, which also applies Wary.
 	local creatureId = self:MobId(args.destGUID)
 	if creatureId == 53695 or creatureId == 53694 then
-		self:Message("immolation", "yellow", nil, L["wary_dog"]:format(args.destName), 100167)
+		self:MessageOld("immolation", "yellow", nil, L["wary_dog"]:format(args.destName), 100167)
 		self:Bar("immolation", self:Heroic() and 25 or 15, L["wary_dog"]:format(args.destName), 100167)
 	end
 end
 
 function mod:HurlSpear(args)
-	self:Message(100002, "yellow", "Info")
+	self:MessageOld(100002, "yellow", "Info")
 	self:Bar(100002, 41)
 end
 
@@ -124,7 +124,7 @@ function mod:FaceRage(args)
 end
 
 function mod:FaceRageRemoved(args)
-	self:Message(100129, "green", nil, L["safe"]:format(args.destName))
+	self:MessageOld(100129, "green", nil, L["safe"]:format(args.destName))
 	self:PrimaryIcon(100129)
 end
 

@@ -62,7 +62,7 @@ end
 
 function mod:Eyes(args)
 	self:Flash(args.spellId)
-	self:Message(args.spellId, "orange", "Alert")
+	self:MessageOld(args.spellId, "orange", "Alert")
 	self:Bar(args.spellId, 10, L["destruction_bar"], 96968) -- 96968 is Occu'thar's Destruction
 	self:Bar(args.spellId, 58, L["eyes_bar"])
 	fireCount = 0
@@ -70,7 +70,7 @@ function mod:Eyes(args)
 end
 
 function mod:FocusedFire(args)
-	self:Message(args.spellId, "yellow", nil, L["fire_message"])
+	self:MessageOld(args.spellId, "yellow", nil, L["fire_message"])
 	fireCount = fireCount + 1
 	if fireCount < 3 then
 		self:Bar(args.spellId, 15.7, L["fire_bar"]) --15.5-16

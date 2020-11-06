@@ -101,25 +101,25 @@ end
 
 function mod:Gift()
 	self:Bar("crystal", 75, L["crystal_green"], L["crystal_green_icon"])
-	self:Message("crystal", "green", "Info", L["crystal_red"], L["crystal_icon"])
+	self:MessageOld("crystal", "green", "Info", L["crystal_red"], L["crystal_icon"])
 end
 
 function mod:Dreams()
 	self:Bar("crystal", 60, L["crystal_blue"], L["crystal_blue_icon"])
-	self:Message("crystal", "green", "Info", L["crystal_green"], L["crystal_green_icon"])
+	self:MessageOld("crystal", "green", "Info", L["crystal_green"], L["crystal_green_icon"])
 end
 
 function mod:Magic()
 	self:Bar("crystal", 75, 105984, L["crystal_bronze_icon"]) -- Timeloop
-	self:Message("crystal", "green", "Info", L["crystal_blue"], L["crystal_blue_icon"])
+	self:MessageOld("crystal", "green", "Info", L["crystal_blue"], L["crystal_blue_icon"])
 end
 
 function mod:Loop()
-	self:Message("crystal", "green", "Info", 105984, L["crystal_bronze_icon"]) -- Timeloop
+	self:MessageOld("crystal", "green", "Info", 105984, L["crystal_bronze_icon"]) -- Timeloop
 end
 
 function mod:HourofTwilight(args)
-	self:Message(106371, "red", "Alert", ("%s (%d)"):format(args.spellName, hourCounter), args.spellId)
+	self:MessageOld(106371, "red", "Alert", ("%s (%d)"):format(args.spellName, hourCounter), args.spellId)
 	hourCounter = hourCounter + 1
 	self:Bar(106371, 45, ("%s (%d)"):format(args.spellName, hourCounter), args.spellId)
 	self:Bar("cast", self:Heroic() and 3 or 5, CL["cast"]:format(L["twilight"]), args.spellId)

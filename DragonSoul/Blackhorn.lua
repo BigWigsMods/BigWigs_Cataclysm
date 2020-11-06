@@ -93,7 +93,7 @@ end
 --
 
 function mod:Sapper()
-	self:Message("sapper", "red", "Info", L["sapper"], L["sapper_icon"])
+	self:MessageOld("sapper", "red", "Info", L["sapper"], L["sapper_icon"])
 	if warned then return end
 	self:Bar("sapper", 40, L["sapper"], L["sapper_icon"])
 end
@@ -103,14 +103,14 @@ do
 		if not warned then
 			warned = true
 			self:Bar("warmup", 9, self.displayName, L["warmup_icon"])
-			self:Message("warmup", "green", nil, CL["custom_sec"]:format(self.displayName, 9), L["warmup_icon"])
+			self:MessageOld("warmup", "green", nil, CL["custom_sec"]:format(self.displayName, 9), L["warmup_icon"])
 		end
 	end
 	function mod:Stage2()
 		self:StopBar(107588) -- Twilight Onslaught
 		self:StopBar(L["sapper"])
 		self:CDBar(108046, 14) -- Shockwave
-		self:Message("warmup", "green", nil, CL["phase"]:format(2) .. ": " .. self.displayName, L["warmup_icon"])
+		self:MessageOld("warmup", "green", nil, CL["phase"]:format(2) .. ": " .. self.displayName, L["warmup_icon"])
 		if not self:LFR() then
 			self:Berserk(240, true)
 		end
@@ -126,7 +126,7 @@ do
 			if UnitIsUnit("player", player) then
 				mod:Say(spellId)
 				mod:Flash(spellId)
-				mod:Message(spellId, "blue", "Long") -- Twilight Flames
+				mod:MessageOld(spellId, "blue", "Long") -- Twilight Flames
 			end
 			mod:PrimaryIcon(spellId, player)
 		end
@@ -137,7 +137,7 @@ do
 end
 
 function mod:TwilightOnslaught(args)
-	self:Message(args.spellId, "orange", "Alarm")
+	self:MessageOld(args.spellId, "orange", "Alarm")
 	onslaughtCounter = onslaughtCounter + 1
 	if warned then return end
 	self:Bar(args.spellId, 35, ("%s (%d)"):format(args.spellName, onslaughtCounter))
@@ -167,6 +167,6 @@ end
 
 function mod:Roar(args)
 	self:CDBar(args.spellId, 20) -- 20-23
-	self:Message(args.spellId, "green", "Alert")
+	self:MessageOld(args.spellId, "green", "Alert")
 end
 

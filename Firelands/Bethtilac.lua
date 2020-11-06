@@ -72,7 +72,7 @@ function mod:OnEngage()
 	devastateCount = 1
 	lastBroodlingTarget = ""
 	local devastate = L["devastate_message"]:format(1)
-	self:Message(99052, "green", nil, CL["custom_start_s"]:format(self.displayName, devastate, 80), "inv_misc_monsterspidercarapace_01")
+	self:MessageOld(99052, "green", nil, CL["custom_start_s"]:format(self.displayName, devastate, 80), "inv_misc_monsterspidercarapace_01")
 	self:Bar(99052, 80, devastate)
 	self:Bar("drone", 45, L["drone_bar"], L["drone_icon"])
 	self:Bar("spinner", 12, L["spinner_warn"]:format(1), L["spinner_icon"])
@@ -89,7 +89,7 @@ end
 --
 
 function mod:DroneLooper()
-	self:Message("drone", "yellow", "Info", L["drone_message"], L["drone_icon"])
+	self:MessageOld("drone", "yellow", "Info", L["drone_message"], L["drone_icon"])
 	self:Bar("drone", 60, L["drone_bar"], L["drone_icon"])
 	self:ScheduleTimer("DroneLooper", 60)
 end
@@ -119,7 +119,7 @@ end
 function mod:Frenzy(args)
 	self:CancelAllTimers()
 	self:StopBar(L["drone_bar"])
-	self:Message(args.spellId, "green", "Alarm", CL["phase"]:format(2))
+	self:MessageOld(args.spellId, "green", "Alarm", CL["phase"]:format(2))
 end
 
 function mod:Kiss(args)
@@ -132,11 +132,11 @@ function mod:Devastate(args)
 	local hasDebuff = self:UnitDebuff("player", self:SpellName(100048), 100048) -- Fiery Web Silk
 	if hasDebuff then
 		local devastate = L["devastate_message"]:format(devastateCount)
-		self:Message(args.spellId, "red", "Long", devastate)
+		self:MessageOld(args.spellId, "red", "Long", devastate)
 		self:Bar(args.spellId, 8, CL["cast"]:format(devastate))
 		self:Flash(args.spellId)
 	else
-		self:Message(args.spellId, "yellow", nil, L["devastate_message"]:format(devastateCount))
+		self:MessageOld(args.spellId, "yellow", nil, L["devastate_message"]:format(devastateCount))
 	end
 	devastateCount = devastateCount + 1
 	-- This timer is only accurate if you dont fail with the Drones

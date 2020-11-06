@@ -53,7 +53,7 @@ end
 --
 
 function mod:MeteorSlash(args)
-	self:Message(args.spellId, "red")
+	self:MessageOld(args.spellId, "red")
 	self:CDBar(args.spellId, 17)
 end
 
@@ -73,7 +73,7 @@ end
 
 function mod:FelFirestorm(args)
 	self:StopBar(L["meteor_bar"])
-	self:Message(args.spellId, "orange", "Alert", fireStorm.."% - "..args.spellName)
+	self:MessageOld(args.spellId, "orange", "Alert", fireStorm.."% - "..args.spellName)
 	self:Flash(args.spellId)
 	self:CDBar(88942, 32) -- Meteor Slash
 end
@@ -81,10 +81,10 @@ end
 function mod:FirestormWarn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 69 and fireStorm > 70 then
-		self:Message(88972, "yellow", nil, L["firestorm_message"], false)
+		self:MessageOld(88972, "yellow", nil, L["firestorm_message"], false)
 		fireStorm = 66
 	elseif hp < 36 and fireStorm > 50 then
-		self:Message(88972, "yellow", nil, L["firestorm_message"], false)
+		self:MessageOld(88972, "yellow", nil, L["firestorm_message"], false)
 		fireStorm = 33
 		self:UnregisterUnitEvent(event, unit)
 	end

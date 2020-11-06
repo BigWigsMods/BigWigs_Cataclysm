@@ -98,7 +98,7 @@ do
 		local bossId = UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
 		if not UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
 		if UnitIsUnit(bossId, "player") then
-			mod:Message(spellId, "blue", "Long", CL["you"]:format(L["blast_message"]))
+			mod:MessageOld(spellId, "blue", "Long", CL["you"]:format(L["blast_message"]))
 		end
 	end
 	function mod:TwilightBlast(args)
@@ -108,7 +108,7 @@ end
 
 local function valionaHasLanded()
 	mod:StopBar(86622) -- Engulfing Magic
-	mod:Message("phase_switch", "green", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
+	mod:MessageOld("phase_switch", "green", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
 	mod:CDBar(86840, 26) -- Devouring Flames
 	mod:Bar(86788, 11) -- Blackout
 	mod:OpenProximity("proximity", 8)
@@ -132,10 +132,10 @@ end
 function mod:DazzlingDestruction(args)
 	phaseCount = phaseCount + 1
 	if phaseCount == 1 then
-		self:Message(args.spellId, "red", "Alarm", L["dazzling_message"])
+		self:MessageOld(args.spellId, "red", "Alarm", L["dazzling_message"])
 	elseif phaseCount == 3 then
 		self:ScheduleTimer(theralionHasLanded, 5)
-		self:Message("phase_switch", "green", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
+		self:MessageOld("phase_switch", "green", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
 	end
 end
@@ -143,7 +143,7 @@ end
 -- She emotes 3 times, every time she does a breath
 function mod:DeepBreathCast()
 	phaseCount = phaseCount + 1
-	self:Message(86059, "red", "Alarm", L["breath_message"], "inv_misc_head_dragon_blue")
+	self:MessageOld(86059, "red", "Alarm", L["breath_message"], "inv_misc_head_dragon_blue")
 	if phaseCount == 3 then
 		self:Bar("phase_switch", 105, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
@@ -182,7 +182,7 @@ do
 	function mod:MeteorCheck(_, unit)
 		if not markWarned and self:UnitDebuff(unit, marked) then
 			self:Flash(88518)
-			self:Message(88518, "blue", "Long", CL["you"]:format(marked))
+			self:MessageOld(88518, "blue", "Long", CL["you"]:format(marked))
 			markWarned = true
 			self:SimpleTimer(markRemoved, 7)
 		end
@@ -191,7 +191,7 @@ end
 
 function mod:DevouringFlames(args)
 	self:CDBar(args.spellId, 42) -- make sure to remove bar when it takes off
-	self:Message(args.spellId, "red", "Alert")
+	self:MessageOld(args.spellId, "red", "Alert")
 end
 
 do

@@ -102,7 +102,7 @@ end
 
 function mod:Armageddon(args)
 	if not isHeadPhase then return end
-	self:Message(79011, "red", "Alarm", args.spellId)
+	self:MessageOld(79011, "red", "Alarm", args.spellId)
 	self:Bar(79011, 8, args.spellId)
 end
 
@@ -114,7 +114,7 @@ do
 	end
 	function mod:Vulnerability()
 		isHeadPhase = true
-		self:Message(79011, "green", nil, L["expose_message"])
+		self:MessageOld(79011, "green", nil, L["expose_message"])
 		self:Bar(79011, 30, L["expose_message"])
 		self:StopBar(78006) -- Pillar of Flame
 		self:StopBar(77690) -- Lava Spew
@@ -129,7 +129,7 @@ do
 		local time = GetTime()
 		if time - prev > 10 then
 			prev = time
-			self:Message(args.spellId, "red")
+			self:MessageOld(args.spellId, "red")
 			self:CDBar(args.spellId, 26)
 			self:DelayedMessage(args.spellId, 24, "yellow", L["spew_warning"])
 		end
@@ -137,25 +137,25 @@ do
 end
 
 function mod:BlazingInferno()
-	self:Message("blazing", "orange", "Info", L["blazing_message"], "SPELL_SHADOW_RAISEDEAD")
+	self:MessageOld("blazing", "orange", "Info", L["blazing_message"], "SPELL_SHADOW_RAISEDEAD")
 	self:Bar("blazing", 35, L["blazing_bar"], "SPELL_SHADOW_RAISEDEAD")
 end
 
 function mod:Phase2()
 	phase = 2
-	self:Message("phase2", "yellow", nil, L["phase2_message"], "ability_warlock_shadowflame") -- Shadow Breath (Heroic)
+	self:MessageOld("phase2", "yellow", nil, L["phase2_message"], "ability_warlock_shadowflame") -- Shadow Breath (Heroic)
 	self:StopBar(L["blazing_bar"])
 	self:OpenProximity("phase2", 8)
 end
 
 function mod:PillarOfFlame(args)
-	self:Message(args.spellId, "orange", "Alert")
+	self:MessageOld(args.spellId, "orange", "Alert")
 	self:CDBar(args.spellId, 32)
 end
 
 function mod:Infection(args)
 	if self:Me(args.destGUID) then
-		self:Message(78941, "blue", "Alarm", L["infection_message"], args.spellId)
+		self:MessageOld(78941, "blue", "Alarm", L["infection_message"], args.spellId)
 		self:Flash(78941)
 		self:OpenProximity(78941, 8)
 	end
@@ -170,7 +170,7 @@ end
 function mod:Slump()
 	self:StopBar(78006) -- Pillar of Flame
 	self:Bar("slump", 95, L["slump_bar"], 36702)
-	self:Message("slump", "green", "Info", L["slump_message"], 36702)
+	self:MessageOld("slump", "green", "Info", L["slump_message"], 36702)
 end
 
 function mod:Mangle(args)

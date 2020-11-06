@@ -219,7 +219,7 @@ function mod:UNIT_HEALTH_FREQUENT(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if phase == 1 then
 		if hp < 30 then
-			self:Message("switch", "yellow", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
+			self:MessageOld("switch", "yellow", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
 			phase = 2
 		end
 	elseif phase == 2 then
@@ -229,7 +229,7 @@ function mod:UNIT_HEALTH_FREQUENT(event, unit)
 			local name = UnitName(unit)
 			if name == arion or name == terrastra then
 				phase = 3
-				self:Message("switch", "yellow", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
+				self:MessageOld("switch", "yellow", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
 				self:UnregisterUnitEvent(event, "boss1", "boss2", "boss3", "boss4")
 			end
 		end
@@ -238,26 +238,26 @@ end
 
 function mod:FlameShield(args)
 	self:Bar(args.spellId, 62, L["shield_bar"])
-	self:Message(args.spellId, "red", "Alert", L["shield_up_message"])
+	self:MessageOld(args.spellId, "red", "Alert", L["shield_up_message"])
 end
 
 function mod:FlameShieldRemoved(args)
-	self:Message(args.spellId, "red", "Alert", L["shield_down_message"])
+	self:MessageOld(args.spellId, "red", "Alert", L["shield_down_message"])
 end
 
 function mod:HardenSkinStart(args)
 	self:Bar(args.spellId, 44)
-	self:Message(args.spellId, "orange", "Info")
+	self:MessageOld(args.spellId, "orange", "Info")
 end
 
 function mod:Glaciate(args)
 	self:Bar(args.spellId, 33)
-	self:Message(args.spellId, "yellow", "Alert")
+	self:MessageOld(args.spellId, "yellow", "Alert")
 end
 
 function mod:Waterlogged(args)
 	if self:Me(args.destGUID) then
-		self:Message(args.spellId, "blue", "Long")
+		self:MessageOld(args.spellId, "blue", "Long")
 	end
 end
 
@@ -292,20 +292,20 @@ do
 			mod:CancelTimer(hardenTimer)
 			return
 		end
-		mod:Message(83565, "blue", "Info", L["thundershock_quake_spam"]:format(quake, timeLeft), 83500)
+		mod:MessageOld(83565, "blue", "Info", L["thundershock_quake_spam"]:format(quake, timeLeft), 83500)
 		timeLeft = timeLeft - 2
 	end
 
 	function mod:QuakeTrigger()
 		self:Bar(83565, 10)
-		self:Message(83565, "red", "Info", L["thundershock_quake_soon"]:format(quake))
+		self:MessageOld(83565, "red", "Info", L["thundershock_quake_soon"]:format(quake))
 		timeLeft = 8
 		hardenTimer = self:ScheduleRepeatingTimer(quakeIncoming, 2)
 	end
 
 	function mod:Quake(args)
 		self:Bar(args.spellId, 68)
-		self:Message(args.spellId, "red", "Alarm")
+		self:MessageOld(args.spellId, "red", "Alarm")
 		self:CancelTimer(hardenTimer) -- Should really wait 3 more sec.
 	end
 end
@@ -317,12 +317,12 @@ do
 			mod:CancelTimer(thunderTimer)
 			return
 		end
-		mod:Message(83067, "blue", "Info", L["thundershock_quake_spam"]:format(thundershock, timeLeft), 83581)
+		mod:MessageOld(83067, "blue", "Info", L["thundershock_quake_spam"]:format(thundershock, timeLeft), 83581)
 		timeLeft = timeLeft - 2
 	end
 
 	function mod:ThundershockTrigger()
-		self:Message(83067, "red", "Info", L["thundershock_quake_soon"]:format(thundershock))
+		self:MessageOld(83067, "red", "Info", L["thundershock_quake_soon"]:format(thundershock))
 		self:Bar(83067, 10)
 		timeLeft = 8
 		thunderTimer = self:ScheduleRepeatingTimer(thunderShockIncoming, 2)
@@ -330,7 +330,7 @@ do
 
 	function mod:Thundershock(args)
 		self:Bar(args.spellId, 65)
-		self:Message(args.spellId, "red", "Alarm")
+		self:MessageOld(args.spellId, "red", "Alarm")
 		self:CancelTimer(thunderTimer) -- Should really wait 3 more sec but meh.
 	end
 end
