@@ -100,7 +100,7 @@ do
 				mod:Say(spellId, L["leap_say"])
 				mod:Flash(spellId)
 			end
-			mod:TargetMessageOld(spellId, player, "orange", "Long") -- Leaping Flames
+			mod:TargetMessageOld(spellId, player, "orange", "long") -- Leaping Flames
 			mod:PrimaryIcon(spellId, player)
 			return
 		end
@@ -139,7 +139,7 @@ end
 
 function mod:CatForm(args)
 	form = "cat"
-	self:MessageOld(args.spellId, "red", "Alert")
+	self:MessageOld(args.spellId, "red", "alert")
 	specialCounter = 1
 	self:Bar(98476, specialCD[specialCounter]) -- Leaping Flames
 	--Don't open if already opened from seed
@@ -151,7 +151,7 @@ end
 
 function mod:ScorpionForm(args)
 	form = "scorpion"
-	self:MessageOld(args.spellId, "red", "Alert")
+	self:MessageOld(args.spellId, "red", "alert")
 	self:PrimaryIcon(98476)
 	self:CloseProximity(98374)
 	specialCounter = 1
@@ -176,7 +176,7 @@ end
 
 do
 	local function searingSeed(spellId)
-		mod:MessageOld(spellId, "blue", "Alarm", L["seed_explosion"])
+		mod:MessageOld(spellId, "blue", "alarm", L["seed_explosion"])
 		mod:Flash(spellId)
 		mod:OpenProximity(spellId, 12)
 	end

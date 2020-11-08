@@ -115,14 +115,14 @@ do
 		local t = GetTime()
 		if (t - prev) > 1 and self:Me(args.destGUID) then
 			prev = t
-			self:MessageOld(args.spellId, "blue", "Info", L["shadowblaze_message"])
+			self:MessageOld(args.spellId, "blue", "info", L["shadowblaze_message"])
 			self:Flash(args.spellId)
 		end
 	end
 end
 
 function mod:Electrocute()
-	self:MessageOld(81272, "orange", "Alert", L["crackle_message"])
+	self:MessageOld(81272, "orange", "alert", L["crackle_message"])
 	self:Bar(81272, 5) -- Electrocute
 end
 
@@ -162,7 +162,7 @@ local function nextBlaze()
 	elseif shadowBlazeTimer > 15 and not mod:Heroic() then
 		shadowBlazeTimer = shadowBlazeTimer - 5
 	end
-	mod:MessageOld(81007, "red", "Alarm") -- Shadowblaze
+	mod:MessageOld(81007, "red", "alarm") -- Shadowblaze
 	mod:Bar(81007, shadowBlazeTimer) -- Shadowblaze
 	lastBlaze = GetTime()
 	shadowblazeHandle = mod:ScheduleTimer(nextBlaze, shadowBlazeTimer)
@@ -192,7 +192,7 @@ end
 do
 	local scheduled = nil
 	local function cinderWarn(spellId)
-		mod:TargetMessageOld(spellId, cinderTargets, "orange", "Info")
+		mod:TargetMessageOld(spellId, cinderTargets, "orange", "info")
 		scheduled = nil
 	end
 	function mod:ExplosiveCindersApplied(args)

@@ -89,7 +89,7 @@ end
 function mod:Darkness(_, _, _, spellId)
 	if spellId == 109413 then
 		self:Bar("darkness", 30, L["darkness"], spellId)
-		self:MessageOld("darkness", "red", "Info", L["darkness"], spellId)
+		self:MessageOld("darkness", "red", "info", L["darkness"], spellId)
 		self:CDBar(103434, 37) -- Shadows
 		local isHC = self:Heroic() and 45 or 54
 		if (GetTime() - ballTimer) > isHC then
@@ -114,7 +114,7 @@ function mod:VoidoftheUnmaking()
 	end
 	ballTimer = GetTime()
 	self:Bar("ball", 90, L["ball"], L["ball_icon"])
-	self:MessageOld("ball", "orange", "Alarm", L["ball"], L["ball_icon"])
+	self:MessageOld("ball", "orange", "alarm", L["ball"], L["ball_icon"])
 end
 
 function mod:ShadowsCast(args)
@@ -125,7 +125,7 @@ end
 
 function mod:ShadowsApplied(args)
 	if not self:LFR() and self:Me(args.destGUID) then
-		self:MessageOld(args.spellId, "blue", "Alert", CL["you"]:format(L["shadows"]), args.spellId)
+		self:MessageOld(args.spellId, "blue", "alert", CL["you"]:format(L["shadows"]), args.spellId)
 		self:Say(args.spellId, L["shadows"])
 		self:Flash(args.spellId)
 		if self:Heroic() then

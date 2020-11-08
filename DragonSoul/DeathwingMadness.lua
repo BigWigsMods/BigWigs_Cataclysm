@@ -104,7 +104,7 @@ end
 --
 
 function mod:Impale(args)
-	self:MessageOld("impale", "orange", "Alarm", args.spellId)
+	self:MessageOld("impale", "orange", "alarm", args.spellId)
 	self:Bar("impale", 35, args.spellId)
 end
 
@@ -116,13 +116,13 @@ end
 -- XXX BROKEN CHECKS FIXME
 function mod:UNIT_SPELLCAST_SUCCEEDED(_, unit, _, spellId)
 	if spellId == self:SpellName(105863) then -- hemorrhage
-		self:MessageOld("hemorrhage", "orange", "Alarm", spellId, L["hemorrhage_icon"])
+		self:MessageOld("hemorrhage", "orange", "alarm", spellId, L["hemorrhage_icon"])
 	elseif spellId == self:SpellName(106775) then -- fragment
-		self:MessageOld("fragment", "orange", "Alarm", L["fragment"], L["fragment_icon"])
+		self:MessageOld("fragment", "orange", "alarm", L["fragment"], L["fragment_icon"])
 		self:Bar("fragment", 90, L["fragment"], L["fragment_icon"])
 	elseif spellId == 105551 then
 		local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
-		self:MessageOld("smalltentacles", "orange", "Alarm", ("%d%% - %s"):format(hp > 50 and 70 or 40, self:SpellName(L.smalltentacles)), L.smalltentacles_icon)
+		self:MessageOld("smalltentacles", "orange", "alarm", ("%d%% - %s"):format(hp > 50 and 70 or 40, self:SpellName(L.smalltentacles)), L.smalltentacles_icon)
 	elseif spellId == 106765 then
 		self:MessageOld("terror", "red", nil, L["terror"], L["terror_icon"])
 		self:Bar("terror", 90, L["terror"], L["terror_icon"])
@@ -152,7 +152,7 @@ function mod:AssaultAspects()
 		end
 		self:Bar(106523, 175) -- Cataclysm
 		self:Bar("bigtentacle", 11.2, L["bigtentacle"], L["bigtentacle_icon"])
-		self:DelayedMessage("bigtentacle", 11.2, "orange", L["bigtentacle"], L["bigtentacle_icon"], "Alert")
+		self:DelayedMessage("bigtentacle", 11.2, "orange", L["bigtentacle"], L["bigtentacle_icon"], "alert")
 	else
 		self:Bar("impale", 27.5, 106400) -- Impale
 		self:Bar(105651, 55.5) -- Elementium Bolt
@@ -164,13 +164,13 @@ function mod:AssaultAspects()
 		end
 		self:Bar(106523, 190) -- Cataclysm
 		self:Bar("bigtentacle", 16.7, L["bigtentacle"], L["bigtentacle_icon"])
-		self:DelayedMessage("bigtentacle", 16.7, "orange", L["bigtentacle"], L["bigtentacle_icon"], "Alert")
+		self:DelayedMessage("bigtentacle", 16.7, "orange", L["bigtentacle"], L["bigtentacle_icon"], "alert")
 	end
 end
 
 function mod:ElementiumBolt(args)
 	self:Flash(args.spellId)
-	self:MessageOld(args.spellId, "red", "Long")
+	self:MessageOld(args.spellId, "red", "long")
 	self:Bar(args.spellId, self:UnitBuff("player", self:SpellName(110628)) and 18 or 8, L["bolt_explode"])
 end
 
@@ -187,7 +187,7 @@ end
 function mod:Shrapnel(args)
 	if self:Me(args.destGUID) then
 		local you = CL["you"]:format(args.spellName)
-		self:MessageOld(args.spellId, "red", "Long", you)
+		self:MessageOld(args.spellId, "red", "long", you)
 		self:Flash(args.spellId)
 		self:Bar(args.spellId, 7, you)
 	end
@@ -218,13 +218,13 @@ end
 function mod:BlobsWarn(event, unitId)
 	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
 	if hp > 14.9 and hp < 16 and curPercent == 20 then
-		self:MessageOld(-4351, "green", "Info", L["blobs_soon"]:format(15), "ability_deathwing_bloodcorruption_earth")
+		self:MessageOld(-4351, "green", "info", L["blobs_soon"]:format(15), "ability_deathwing_bloodcorruption_earth")
 		curPercent = 15
 	elseif hp > 9.9 and hp < 11 and curPercent == 15 then
-		self:MessageOld(-4351, "green", "Info", L["blobs_soon"]:format(10), "ability_deathwing_bloodcorruption_earth")
+		self:MessageOld(-4351, "green", "info", L["blobs_soon"]:format(10), "ability_deathwing_bloodcorruption_earth")
 		curPercent = 10
 	elseif hp > 4.9 and hp < 6 and curPercent == 10 then
-		self:MessageOld(-4351, "green", "Info", L["blobs_soon"]:format(5), "ability_deathwing_bloodcorruption_earth")
+		self:MessageOld(-4351, "green", "info", L["blobs_soon"]:format(5), "ability_deathwing_bloodcorruption_earth")
 		curPercent = 5
 		self:UnregisterUnitEvent(event, unitId)
 	end

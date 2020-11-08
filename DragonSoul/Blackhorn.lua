@@ -93,7 +93,7 @@ end
 --
 
 function mod:Sapper()
-	self:MessageOld("sapper", "red", "Info", L["sapper"], L["sapper_icon"])
+	self:MessageOld("sapper", "red", "info", L["sapper"], L["sapper_icon"])
 	if warned then return end
 	self:Bar("sapper", 40, L["sapper"], L["sapper_icon"])
 end
@@ -126,7 +126,7 @@ do
 			if UnitIsUnit("player", player) then
 				mod:Say(spellId)
 				mod:Flash(spellId)
-				mod:MessageOld(spellId, "blue", "Long") -- Twilight Flames
+				mod:MessageOld(spellId, "blue", "long") -- Twilight Flames
 			end
 			mod:PrimaryIcon(spellId, player)
 		end
@@ -137,7 +137,7 @@ do
 end
 
 function mod:TwilightOnslaught(args)
-	self:MessageOld(args.spellId, "orange", "Alarm")
+	self:MessageOld(args.spellId, "orange", "alarm")
 	onslaughtCounter = onslaughtCounter + 1
 	if warned then return end
 	self:Bar(args.spellId, 35, ("%s (%d)"):format(args.spellName, onslaughtCounter))
@@ -145,7 +145,7 @@ end
 
 do
 	local function printTarget(self, name, guid)
-		self:TargetMessageOld(108046, name, "yellow", "Alarm")
+		self:TargetMessageOld(108046, name, "yellow", "alarm")
 		if self:Me(guid) then
 			self:Flash(108046)
 			self:Say(108046)
@@ -162,11 +162,11 @@ function mod:Sunder(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["sunder_message"]:format(args.destName, buffStack - 1))
 	self:Bar("sunder", 30, L["sunder_message"]:format(args.destName, buffStack), args.spellId)
-	self:StackMessage("sunder", args.destName, buffStack, "orange", buffStack > 2 and "Info", args.spellId)
+	self:StackMessage("sunder", args.destName, buffStack, "orange", buffStack > 2 and "info", args.spellId)
 end
 
 function mod:Roar(args)
 	self:CDBar(args.spellId, 20) -- 20-23
-	self:MessageOld(args.spellId, "green", "Alert")
+	self:MessageOld(args.spellId, "green", "alert")
 end
 

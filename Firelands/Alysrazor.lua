@@ -213,7 +213,7 @@ end
 
 function mod:Firestorm(args)
 	self:Flash(args.spellId)
-	self:MessageOld(args.spellId, "orange", "Alert")
+	self:MessageOld(args.spellId, "orange", "alert")
 	self:Bar(args.spellId, 10, CL["cast"]:format(args.spellName))
 end
 
@@ -228,7 +228,7 @@ function mod:FirestormOver(args)
 end
 
 function mod:Meteor(args)
-	self:MessageOld("meteor", "yellow", "Alarm", L["meteor_message"], args.spellId)
+	self:MessageOld("meteor", "yellow", "alarm", L["meteor_message"], args.spellId)
 	-- Only show a bar if this is the first or third meteor this phase
 	meteorCount = meteorCount + 1
 	if meteorCount == 1 or meteorCount == 3 then
@@ -240,12 +240,12 @@ function mod:FieryTornado()
 	self:BuffCheck()
 	self:StopBar(100744) -- Firestorm
 	self:Bar(99816, 35) -- Fiery Tornado
-	self:MessageOld(99816, "red", "Alarm", (L["stage_message"]:format(2))..": "..self:SpellName(99816))
+	self:MessageOld(99816, "red", "alarm", (L["stage_message"]:format(2))..": "..self:SpellName(99816))
 end
 
 function mod:BlazingClaw(args)
 	if args.amount > 4 then -- 50% extra fire and physical damage taken on tank
-		self:StackMessage(args.spellId, args.destName, args.amount, "orange", "Info", 16827, args.spellId) -- 16827 = "Claw"
+		self:StackMessage(args.spellId, args.destName, args.amount, "orange", "info", 16827, args.spellId) -- 16827 = "Claw"
 	end
 end
 
@@ -255,7 +255,7 @@ do
 
 	-- Alysrazor crashes to the ground
 	function mod:Burnout(args)
-		self:MessageOld(args.spellId, "green", "Alert", (L["stage_message"]:format(3))..": "..args.spellName)
+		self:MessageOld(args.spellId, "green", "alert", (L["stage_message"]:format(3))..": "..args.spellName)
 		self:CDBar(args.spellId, 33)
 		halfWarned, fullWarned = false, false
 		burnCount = burnCount + 1
@@ -273,7 +273,7 @@ do
 			self:MessageOld(99925, "yellow", nil, L["fullpower_soon_message"])
 			fullWarned = true
 		elseif power == 100 then
-			self:MessageOld(99925, "green", "Alert", (L["stage_message"]:format(1))..": "..(L["encounter_restart"]))
+			self:MessageOld(99925, "green", "alert", (L["stage_message"]:format(1))..": "..(L["encounter_restart"]))
 			self:UnregisterUnitEvent(event, unit)
 			initiateCount = 0
 			self:Bar("initiate", 13.5, L["initiate_both"], 97062)
@@ -296,10 +296,10 @@ do
 
 	function mod:ReIgnite()
 		if burnCount < 3 then
-			self:MessageOld(99925, "green", "Alert", (L["stage_message"]:format(4))..": "..self:SpellName(99922))
+			self:MessageOld(99925, "green", "alert", (L["stage_message"]:format(4))..": "..self:SpellName(99922))
 			self:Bar(99925, 25) -- Full Power
 		else
-			self:MessageOld(99925, "green", "Alert", L["kill_message"], 99922)
+			self:MessageOld(99925, "green", "alert", L["kill_message"], 99922)
 		end
 		self:StopBar(99432) -- Burnout
 	end

@@ -84,7 +84,7 @@ end
 function mod:FrostFlakeApplied(args)
 	self:PrimaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
-		self:MessageOld(args.spellId, "blue", "Long", CL["you"]:format(args.spellName))
+		self:MessageOld(args.spellId, "blue", "long", CL["you"]:format(args.spellName))
 		self:Say(args.spellId)
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10)
@@ -143,7 +143,7 @@ end
 do
 	local scheduled = nil
 	local function iceLance()
-		mod:TargetMessageOld(105316, playerTbl, "orange", "Info") -- Ice Lance
+		mod:TargetMessageOld(105316, playerTbl, "orange", "info") -- Ice Lance
 		scheduled = nil
 	end
 	function mod:IceLanceApplied(args)

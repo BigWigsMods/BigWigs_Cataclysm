@@ -89,7 +89,7 @@ end
 --
 
 function mod:DroneLooper()
-	self:MessageOld("drone", "yellow", "Info", L["drone_message"], L["drone_icon"])
+	self:MessageOld("drone", "yellow", "info", L["drone_message"], L["drone_icon"])
 	self:Bar("drone", 60, L["drone_bar"], L["drone_icon"])
 	self:ScheduleTimer("DroneLooper", 60)
 end
@@ -100,7 +100,7 @@ function mod:BroodlingWatcher()
 	if broodling and UnitExists(broodling.."target") and UnitExists(lastBroodlingTarget) then
 		if UnitIsUnit(broodling.."target", lastBroodlingTarget) then return end
 		lastBroodlingTarget = UnitName(broodling.."target")
-		self:TargetMessageOld(99990, lastBroodlingTarget, "red", "Alert") -- Volatile Burst
+		self:TargetMessageOld(99990, lastBroodlingTarget, "red", "alert") -- Volatile Burst
 		if UnitIsUnit(lastBroodlingTarget, "player") then
 			self:Flash(99990)
 			self:Say(99990)
@@ -110,7 +110,7 @@ end
 
 function mod:Fixate(args)
 	if not UnitIsPlayer(args.destName) then return end --Affects the NPC and a player
-	self:TargetMessageOld(99559, args.destName, "yellow", "Alarm", args.spellId)
+	self:TargetMessageOld(99559, args.destName, "yellow", "alarm", args.spellId)
 	if self:Me(args.destGUID) then
 		self:Flash(99559)
 	end
@@ -119,20 +119,20 @@ end
 function mod:Frenzy(args)
 	self:CancelAllTimers()
 	self:StopBar(L["drone_bar"])
-	self:MessageOld(args.spellId, "green", "Alarm", CL["phase"]:format(2))
+	self:MessageOld(args.spellId, "green", "alarm", CL["phase"]:format(2))
 end
 
 function mod:Kiss(args)
 	self:TargetMessageOld(args.spellId, args.destName, "orange", nil, L["kiss_message"])
 	self:Bar(args.spellId, 31.5, L["kiss_message"])
-	self:PlaySound(args.spellId, "Info")
+	self:PlaySound(args.spellId, "info")
 end
 
 function mod:Devastate(args)
 	local hasDebuff = self:UnitDebuff("player", self:SpellName(100048), 100048) -- Fiery Web Silk
 	if hasDebuff then
 		local devastate = L["devastate_message"]:format(devastateCount)
-		self:MessageOld(args.spellId, "red", "Long", devastate)
+		self:MessageOld(args.spellId, "red", "long", devastate)
 		self:Bar(args.spellId, 8, CL["cast"]:format(devastate))
 		self:Flash(args.spellId)
 	else

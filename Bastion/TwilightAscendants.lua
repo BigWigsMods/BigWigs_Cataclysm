@@ -136,7 +136,7 @@ end
 do
 	local scheduled = nil
 	local function lrWarn(spellId)
-		mod:TargetMessageOld(spellId, lrTargets, "red", "Alert")
+		mod:TargetMessageOld(spellId, lrTargets, "red", "alert")
 		scheduled = nil
 	end
 	function mod:LightningRodApplied(args)
@@ -155,7 +155,7 @@ end
 do
 	local scheduled = nil
 	local function gcWarn(spellId)
-		mod:TargetMessageOld(spellId, gcTargets, "red", "Alert")
+		mod:TargetMessageOld(spellId, gcTargets, "red", "alert")
 		scheduled = nil
 	end
 	local function marked()
@@ -186,7 +186,7 @@ function mod:GravityCore(args)
 		self:Say(args.spellId, L["gravity_core_say"])
 		self:Flash(args.spellId)
 	end
-	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
@@ -199,7 +199,7 @@ function mod:StaticOverload(args)
 		self:Say(args.spellId, L["static_overload_say"])
 		self:Flash(args.spellId)
 	end
-	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -211,7 +211,7 @@ function mod:FrostBeacon(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -219,7 +219,7 @@ function mod:UNIT_HEALTH_FREQUENT(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if phase == 1 then
 		if hp < 30 then
-			self:MessageOld("switch", "yellow", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
+			self:MessageOld("switch", "yellow", "info", L["health_report"]:format((UnitName(unit)), hp), 26662)
 			phase = 2
 		end
 	elseif phase == 2 then
@@ -229,7 +229,7 @@ function mod:UNIT_HEALTH_FREQUENT(event, unit)
 			local name = UnitName(unit)
 			if name == arion or name == terrastra then
 				phase = 3
-				self:MessageOld("switch", "yellow", "Info", L["health_report"]:format((UnitName(unit)), hp), 26662)
+				self:MessageOld("switch", "yellow", "info", L["health_report"]:format((UnitName(unit)), hp), 26662)
 				self:UnregisterUnitEvent(event, "boss1", "boss2", "boss3", "boss4")
 			end
 		end
@@ -238,26 +238,26 @@ end
 
 function mod:FlameShield(args)
 	self:Bar(args.spellId, 62, L["shield_bar"])
-	self:MessageOld(args.spellId, "red", "Alert", L["shield_up_message"])
+	self:MessageOld(args.spellId, "red", "alert", L["shield_up_message"])
 end
 
 function mod:FlameShieldRemoved(args)
-	self:MessageOld(args.spellId, "red", "Alert", L["shield_down_message"])
+	self:MessageOld(args.spellId, "red", "alert", L["shield_down_message"])
 end
 
 function mod:HardenSkinStart(args)
 	self:Bar(args.spellId, 44)
-	self:MessageOld(args.spellId, "orange", "Info")
+	self:MessageOld(args.spellId, "orange", "info")
 end
 
 function mod:Glaciate(args)
 	self:Bar(args.spellId, 33)
-	self:MessageOld(args.spellId, "yellow", "Alert")
+	self:MessageOld(args.spellId, "yellow", "alert")
 end
 
 function mod:Waterlogged(args)
 	if self:Me(args.destGUID) then
-		self:MessageOld(args.spellId, "blue", "Long")
+		self:MessageOld(args.spellId, "blue", "long")
 	end
 end
 
@@ -292,20 +292,20 @@ do
 			mod:CancelTimer(hardenTimer)
 			return
 		end
-		mod:MessageOld(83565, "blue", "Info", L["thundershock_quake_spam"]:format(quake, timeLeft), 83500)
+		mod:MessageOld(83565, "blue", "info", L["thundershock_quake_spam"]:format(quake, timeLeft), 83500)
 		timeLeft = timeLeft - 2
 	end
 
 	function mod:QuakeTrigger()
 		self:Bar(83565, 10)
-		self:MessageOld(83565, "red", "Info", L["thundershock_quake_soon"]:format(quake))
+		self:MessageOld(83565, "red", "info", L["thundershock_quake_soon"]:format(quake))
 		timeLeft = 8
 		hardenTimer = self:ScheduleRepeatingTimer(quakeIncoming, 2)
 	end
 
 	function mod:Quake(args)
 		self:Bar(args.spellId, 68)
-		self:MessageOld(args.spellId, "red", "Alarm")
+		self:MessageOld(args.spellId, "red", "alarm")
 		self:CancelTimer(hardenTimer) -- Should really wait 3 more sec.
 	end
 end
@@ -317,12 +317,12 @@ do
 			mod:CancelTimer(thunderTimer)
 			return
 		end
-		mod:MessageOld(83067, "blue", "Info", L["thundershock_quake_spam"]:format(thundershock, timeLeft), 83581)
+		mod:MessageOld(83067, "blue", "info", L["thundershock_quake_spam"]:format(thundershock, timeLeft), 83581)
 		timeLeft = timeLeft - 2
 	end
 
 	function mod:ThundershockTrigger()
-		self:MessageOld(83067, "red", "Info", L["thundershock_quake_soon"]:format(thundershock))
+		self:MessageOld(83067, "red", "info", L["thundershock_quake_soon"]:format(thundershock))
 		self:Bar(83067, 10)
 		timeLeft = 8
 		thunderTimer = self:ScheduleRepeatingTimer(thunderShockIncoming, 2)
@@ -330,7 +330,7 @@ do
 
 	function mod:Thundershock(args)
 		self:Bar(args.spellId, 65)
-		self:MessageOld(args.spellId, "red", "Alarm")
+		self:MessageOld(args.spellId, "red", "alarm")
 		self:CancelTimer(thunderTimer) -- Should really wait 3 more sec but meh.
 	end
 end

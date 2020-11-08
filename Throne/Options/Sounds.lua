@@ -1,12 +1,12 @@
 
 BigWigs:AddSounds("Conclave of Wind", {
-	[84645] = "Alarm",
-	[86307] = "Long",
+	[84645] = "alarm",
+	[86307] = "long",
 })
 
 BigWigs:AddSounds("Al'Akir", {
-	[87770] = "Alert",
-	[89588] = {"Alarm","Info"},
-	[89668] = "Long",
-	["stages"] = "Info",
+	[87770] = "alert",
+	[89588] = {"alarm","info"},
+	[89668] = "long",
+	["stages"] = "info",
 })

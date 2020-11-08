@@ -110,7 +110,7 @@ do
 		if (time - last) > 2 then
 			last = time
 			if self:Me(args.destGUID) then
-				self:MessageOld(args.spellId, "blue", "Info", L["blaze_message"])
+				self:MessageOld(args.spellId, "blue", "info", L["blaze_message"])
 				self:Flash(args.spellId)
 			end
 		end
@@ -127,7 +127,7 @@ do
 				mod:Say(spellId, L["crash_say"])
 				mod:Flash(spellId)
 			end
-			mod:TargetMessageOld(spellId, player, "orange", "Long") -- Corrupting Crash
+			mod:TargetMessageOld(spellId, player, "orange", "long") -- Corrupting Crash
 			if counter == 1 then
 				mod:PrimaryIcon(spellId, player)
 			else
@@ -151,7 +151,7 @@ do
 			local sick = self:UnitDebuff(unit, sickness)
 			if sick then
 				prev = t
-				self:MessageOld(82235, "blue", "Long", L["sickness_message"], 81831)
+				self:MessageOld(82235, "blue", "long", L["sickness_message"], 81831)
 				self:OpenProximity(82235, 5)
 				self:Flash(82235)
 			end
@@ -197,7 +197,7 @@ do
 end
 
 function mod:FesterBlood(args)
-	self:MessageOld(args.spellId, "yellow", "Alert", L["ooze_message"]:format(oozecount))
+	self:MessageOld(args.spellId, "yellow", "alert", L["ooze_message"]:format(oozecount))
 	oozecount = oozecount + 1
 end
 
@@ -207,7 +207,7 @@ function mod:UNIT_HEALTH_FREQUENT(event, unit)
 		self:MessageOld(82524, "yellow", nil, L["first_fury_soon"])
 		firstFury = 1
 	elseif hp < 30 then
-		self:MessageOld(82630, "yellow", "Info", L["phase2_soon"], false)
+		self:MessageOld(82630, "yellow", "info", L["phase2_soon"], false)
 		self:UnregisterUnitEvent(event, unit)
 	end
 end
@@ -228,7 +228,7 @@ end
 do
 	local scheduled = nil
 	local function worshipWarn(spellName)
-		mod:TargetMessageOld(91303, worshipTargets, "red", "Alarm", spellName, 91303, true)
+		mod:TargetMessageOld(91303, worshipTargets, "red", "alarm", spellName, 91303, true)
 		scheduled = nil
 	end
 	function mod:Worship(args)

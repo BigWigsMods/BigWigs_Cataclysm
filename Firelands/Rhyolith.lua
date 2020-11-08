@@ -88,18 +88,18 @@ function mod:ObsidianStack(args)
 end
 
 function mod:Spark(args)
-	self:MessageOld(args.spellId, "red", "Alarm", L["big_add_message"])
+	self:MessageOld(args.spellId, "red", "alarm", L["big_add_message"])
 end
 
 function mod:Fragments(args)
 	local t = GetTime()
 	if lastFragments and t < (lastFragments + 5) then return end
 	lastFragments = t
-	self:MessageOld(args.spellId, "yellow", "Info", L["small_adds_message"])
+	self:MessageOld(args.spellId, "yellow", "info", L["small_adds_message"])
 end
 
 function mod:Stomp(args)
-	self:MessageOld(args.spellId, "orange", "Alert", L["stomp_message"])
+	self:MessageOld(args.spellId, "orange", "alert", L["stomp_message"])
 	self:Bar(args.spellId, 30, L["stomp"])
 	self:Bar(args.spellId, 3, CL["cast"]:format(L["stomp"]))
 end
@@ -113,11 +113,11 @@ end
 function mod:UNIT_HEALTH_FREQUENT(event, unitId)
 	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
 	if hp < 30 then -- phase starts at 25
-		self:MessageOld(-2537, "green", "Info", L["phase2_warning"], 99846)
+		self:MessageOld(-2537, "green", "info", L["phase2_warning"], 99846)
 		self:UnregisterUnitEvent(event, unitId)
 		local _, stack = self:UnitBuff(unitId, 98255) -- Molten Armor
 		if stack then
-			self:MessageOld(98255, "red", "Alarm", L["molten_message"]:format(stack))
+			self:MessageOld(98255, "red", "alarm", L["molten_message"]:format(stack))
 		end
 	end
 end

@@ -76,7 +76,7 @@ end
 function mod:SystemFailureStart(args)
 	self:StopBar(L["next_system_failure"])
 	self:Bar(args.spellId, 30)
-	self:MessageOld(args.spellId, "red", "Alarm")
+	self:MessageOld(args.spellId, "red", "alarm")
 	self:Flash(args.spellId)
 	self:CloseProximity()
 end
@@ -98,7 +98,7 @@ function mod:Massacre(args)
 end
 
 function mod:Mortality(args)
-	self:MessageOld(args.spellId, "red", "Long")
+	self:MessageOld(args.spellId, "red", "long")
 	self:CloseProximity()
 	self:StopBar(L["next_system_failure"])
 end
@@ -114,7 +114,7 @@ end
 function mod:Phase2Warn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 23 then
-		self:MessageOld(82890, "green", "Info", L["phase2_message"])
+		self:MessageOld(82890, "green", "info", L["phase2_message"])
 		self:UnregisterUnitEvent(event, unit)
 	end
 end

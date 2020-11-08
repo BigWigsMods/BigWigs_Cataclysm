@@ -98,7 +98,7 @@ do
 		local bossId = UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
 		if not UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
 		if UnitIsUnit(bossId, "player") then
-			mod:MessageOld(spellId, "blue", "Long", CL["you"]:format(L["blast_message"]))
+			mod:MessageOld(spellId, "blue", "long", CL["you"]:format(L["blast_message"]))
 		end
 	end
 	function mod:TwilightBlast(args)
@@ -132,7 +132,7 @@ end
 function mod:DazzlingDestruction(args)
 	phaseCount = phaseCount + 1
 	if phaseCount == 1 then
-		self:MessageOld(args.spellId, "red", "Alarm", L["dazzling_message"])
+		self:MessageOld(args.spellId, "red", "alarm", L["dazzling_message"])
 	elseif phaseCount == 3 then
 		self:ScheduleTimer(theralionHasLanded, 5)
 		self:MessageOld("phase_switch", "green", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
@@ -143,7 +143,7 @@ end
 -- She emotes 3 times, every time she does a breath
 function mod:DeepBreathCast()
 	phaseCount = phaseCount + 1
-	self:MessageOld(86059, "red", "Alarm", L["breath_message"], "inv_misc_head_dragon_blue")
+	self:MessageOld(86059, "red", "alarm", L["breath_message"], "inv_misc_head_dragon_blue")
 	if phaseCount == 3 then
 		self:Bar("phase_switch", 105, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
@@ -161,7 +161,7 @@ function mod:BlackoutApplied(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessageOld(args.spellId, args.destName, "blue", "Alert", nil, nil, true)
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "alert", nil, nil, true)
 	self:Bar(args.spellId, 45)
 	self:PrimaryIcon(args.spellId, args.destName)
 	self:CloseProximity()
@@ -182,7 +182,7 @@ do
 	function mod:MeteorCheck(_, unit)
 		if not markWarned and self:UnitDebuff(unit, marked) then
 			self:Flash(88518)
-			self:MessageOld(88518, "blue", "Long", CL["you"]:format(marked))
+			self:MessageOld(88518, "blue", "long", CL["you"]:format(marked))
 			markWarned = true
 			self:SimpleTimer(markRemoved, 7)
 		end
@@ -191,13 +191,13 @@ end
 
 function mod:DevouringFlames(args)
 	self:CDBar(args.spellId, 42) -- make sure to remove bar when it takes off
-	self:MessageOld(args.spellId, "red", "Alert")
+	self:MessageOld(args.spellId, "red", "alert")
 end
 
 do
 	local scheduled = nil
 	local function emWarn(spellId)
-		mod:TargetMessageOld(spellId, emTargets, "blue", "Alarm")
+		mod:TargetMessageOld(spellId, emTargets, "blue", "alarm")
 		scheduled = nil
 	end
 	function mod:EngulfingMagicApplied(args)

@@ -99,7 +99,7 @@ function mod:WindChill(args)
 		if args.amount == 4 then
 			self:MessageOld(args.spellId, "blue", nil, L["wind_chill"]:format(args.amount))
 		elseif args.amount == 8 then
-			self:MessageOld(args.spellId, "blue", "Alarm", L["wind_chill"]:format(args.amount))
+			self:MessageOld(args.spellId, "blue", "alarm", L["wind_chill"]:format(args.amount))
 			self:Flash(args.spellId)
 		end
 	end
@@ -137,7 +137,7 @@ function mod:Nurture(args)
 end
 
 function mod:GatherStrength(msg, sender)
-	self:MessageOld(86307, "red", "Long", L["gather_strength"]:format(sender))
+	self:MessageOld(86307, "red", "long", L["gather_strength"]:format(sender))
 	self:Bar(86307, 60, L["gather_strength"]:format(sender))
 end
 

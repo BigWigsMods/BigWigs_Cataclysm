@@ -137,7 +137,7 @@ do
 		local time = GetTime()
 		if (time - last) > 2 then
 			last = time
-			self:MessageOld("sludge", "blue", "Info", L["sludge_message"], args.spellId)
+			self:MessageOld("sludge", "blue", "info", L["sludge_message"], args.spellId)
 			self:Flash("sludge", args.spellId)
 		end
 	end
@@ -158,7 +158,7 @@ do
 		currentPhase = "red"
 		self:StopBar(77699) -- Flash Freeze
 		self:CDBar(77679, 25) -- Scorching Blast
-		self:MessageOld("phase", "green", "Long", L["red_phase"], "INV_POTION_24")
+		self:MessageOld("phase", "green", "long", L["red_phase"], "INV_POTION_24")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -169,7 +169,7 @@ do
 		currentPhase = "blue"
 		self:StopBar(77679) -- Scorching Blast
 		self:CDBar(77699, 28) -- Flash Freeze
-		self:MessageOld("phase", "green", "Long", L["blue_phase"], "INV_POTION_20")
+		self:MessageOld("phase", "green", "long", L["blue_phase"], "INV_POTION_20")
 		self:OpenProximity("proximity", 5)
 		nextPhase(47)
 	end
@@ -178,7 +178,7 @@ do
 		currentPhase = "green"
 		self:StopBar(77679) -- Scorching Blast
 		self:StopBar(77699) -- Flash Freeze
-		self:MessageOld("phase", "green", "Long", L["green_phase"], "INV_POTION_162")
+		self:MessageOld("phase", "green", "long", L["green_phase"], "INV_POTION_162")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -189,7 +189,7 @@ do
 	function mod:Dark()
 		if currentPhase == "dark" then return end
 		currentPhase = "dark"
-		self:MessageOld("phase", "green", "Long", L["dark_phase"], "INV_ELEMENTAL_PRIMAL_SHADOW")
+		self:MessageOld("phase", "green", "long", L["dark_phase"], "INV_ELEMENTAL_PRIMAL_SHADOW")
 		if not isChilled then
 			self:CloseProximity()
 		end
@@ -202,7 +202,7 @@ function mod:FlashFreezeTimer(args)
 end
 
 function mod:FlashFreeze(args)
-	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Info")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -212,7 +212,7 @@ end
 
 function mod:Remedy(args)
 	if self:MobId(args.destGUID) == 41378 then
-		self:MessageOld(args.spellId, "red", "Alarm")
+		self:MessageOld(args.spellId, "red", "alarm")
 	end
 end
 
@@ -220,7 +220,7 @@ do
 	local handle = nil
 	local function release()
 		aberrations = aberrations - 3
-		mod:MessageOld(77569, "red", "Alert", L["release_aberration_message"]:format(aberrations), 688) --Summon Imp Icon
+		mod:MessageOld(77569, "red", "alert", L["release_aberration_message"]:format(aberrations), 688) --Summon Imp Icon
 	end
 	function mod:ReleaseAberrations()
 		-- He keeps casting it even if there are no adds left to release...
@@ -241,7 +241,7 @@ function mod:ConsumingFlames(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessageOld(args.spellId, args.destName, "blue", "Info")
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -251,14 +251,14 @@ function mod:ScorchingBlast(args)
 end
 
 function mod:ReleaseAll(args)
-	self:MessageOld(args.spellId, "red", "Alert", L["release_all"]:format(aberrations + 2))
+	self:MessageOld(args.spellId, "red", "alert", L["release_all"]:format(aberrations + 2))
 	self:CDBar(args.spellId, 12.5)
 end
 
 do
 	local scheduled = nil
 	local function chillWarn(spellId)
-		mod:TargetMessageOld(spellId, chillTargets, "yellow", "Info")
+		mod:TargetMessageOld(spellId, chillTargets, "yellow", "info")
 		scheduled = nil
 	end
 	function mod:BitingChill(args)
@@ -295,7 +295,7 @@ end
 function mod:PhaseWarn(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if hp < 29 then --Switches at 25%
-		self:MessageOld("phase", "green", "Info", L["final_phase_soon"], false)
+		self:MessageOld("phase", "green", "info", L["final_phase_soon"], false)
 		self:UnregisterUnitEvent(event, unit)
 	end
 end

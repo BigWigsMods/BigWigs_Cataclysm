@@ -73,7 +73,7 @@ end
 
 function mod:FelFirestorm(args)
 	self:StopBar(L["meteor_bar"])
-	self:MessageOld(args.spellId, "orange", "Alert", fireStorm.."% - "..args.spellName)
+	self:MessageOld(args.spellId, "orange", "alert", fireStorm.."% - "..args.spellName)
 	self:Flash(args.spellId)
 	self:CDBar(88942, 32) -- Meteor Slash
 end

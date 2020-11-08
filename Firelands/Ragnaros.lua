@@ -137,7 +137,7 @@ end
 
 function mod:Dreadflame()
 	if not self:UnitDebuff("player", self:SpellName(100757)) then return end -- No Deluge on you = you don't care
-	self:MessageOld(100675, "red", "Alarm")
+	self:MessageOld(100675, "red", "alarm")
 	self:Bar(100675, dreadflameCD)
 	if dreadflameCD > 10 then
 		dreadflameCD = dreadflameCD - 5
@@ -167,7 +167,7 @@ end
 function mod:BurningWound(args)
 	local wound = self:SpellName(18107) -- "Wound"
 	self:Bar(args.spellId, 6, wound)
-	self:StackMessage(args.spellId, args.destName, args.amount, "orange", args.amount and args.amount > 2 and "Info", wound)
+	self:StackMessage(args.spellId, args.destName, args.amount, "orange", args.amount and args.amount > 2 and "info", wound)
 end
 
 function mod:MagmaTrap(args)
@@ -191,7 +191,7 @@ function mod:FixatedCheck(_, unit)
 	local fixated = self:UnitDebuff(unit, fixate, 99849)
 	if fixated and not fixateWarned then
 		fixateWarned = true
-		self:MessageOld(99849, "blue", "Long", CL["you"]:format(fixate))
+		self:MessageOld(99849, "blue", "long", CL["you"]:format(fixate))
 		self:Say(99849)
 		self:Flash(99849)
 	elseif not fixated and fixateWarned then
@@ -243,7 +243,7 @@ function mod:SplittingBlow(args)
 		self:StopBar(100171) -- World in Flames
 		self:StopBar(99172) -- Engulfing Flames
 	end
-	self:MessageOld(98953, "green", "Long", L["intermission_message"], args.spellId)
+	self:MessageOld(98953, "green", "long", L["intermission_message"], args.spellId)
 	self:Bar(98953, 7, args.spellId)
 	self:Bar(98953, self:Heroic() and 60 or 57, L["intermission_bar"], args.spellId) -- They are probably both 60
 	self:CloseProximity()
@@ -258,23 +258,23 @@ function mod:SulfurasSmash(args)
 	if phase == 1 and self:Difficulty() ~= 5 then
 		self:CDBar(98263, 12)
 	end
-	self:MessageOld(args.spellId, "yellow", "Info", lavaWaves)
+	self:MessageOld(args.spellId, "yellow", "info", lavaWaves)
 	self:Bar(args.spellId, lavaWavesCD, lavaWaves)
 end
 
 function mod:WorldInFlames(args)
-	self:MessageOld(args.spellId, "red", "Alert")
+	self:MessageOld(args.spellId, "red", "alert")
 	self:Bar(args.spellId, engulfingCD)
 end
 
 function mod:EngulfingFlames(args)
 	if self:Heroic() then return end
 	if args.spellId == 99172 then
-		self:MessageOld(99172, "red", "Alert", L["engulfing_close"])
+		self:MessageOld(99172, "red", "alert", L["engulfing_close"])
 	elseif args.spellId == 99235 then
-		self:MessageOld(99172, "red", "Alert", L["engulfing_middle"])
+		self:MessageOld(99172, "red", "alert", L["engulfing_middle"])
 	elseif args.spellId == 99236 then
-		self:MessageOld(99172, "red", "Alert", L["engulfing_far"])
+		self:MessageOld(99172, "red", "alert", L["engulfing_far"])
 	end
 	self:Bar(99172, engulfingCD)
 end
@@ -283,7 +283,7 @@ do
 	local scheduled = nil
 	local iconCounter = 1
 	local function blazingHeatWarn(spellId)
-		mod:TargetMessageOld(spellId, blazingHeatTargets, "yellow", "Info")
+		mod:TargetMessageOld(spellId, blazingHeatTargets, "yellow", "info")
 		scheduled = nil
 	end
 	function mod:BlazingHeat(args)
@@ -313,7 +313,7 @@ do
 			local t = GetTime()
 			if t-prev > 5 then
 				prev = t
-				self:MessageOld(98498, "orange", "Alarm")
+				self:MessageOld(98498, "orange", "alarm")
 				self:Bar(98498, 12, L["seed_explosion"])
 				self:Bar(98498, 60)
 			end

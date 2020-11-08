@@ -112,7 +112,7 @@ do
 			self:CancelTimer(timer)
 		end
 		if not self:UnitDebuff("player", tendrils, 105563) and not UnitIsDead("player") then -- Grasping Tendrils
-			self:MessageOld("roll", "blue", not self:Solo() and "Alert", L.not_hooked, 105563)
+			self:MessageOld("roll", "blue", not self:Solo() and "alert", L.not_hooked, 105563)
 		end
 	end
 
@@ -121,7 +121,7 @@ do
 		local rollTime = self:Solo() and 10 or 5
 		local rollMsg = self:SpellName(L.roll)
 		self:Bar("roll", rollTime, rollMsg, L.roll_icon)
-		self:MessageOld("roll", "yellow", not solo and "Long", CL.custom_sec:format(rollMsg, rollTime), L.roll_icon)
+		self:MessageOld("roll", "yellow", not solo and "long", CL.custom_sec:format(rollMsg, rollTime), L.roll_icon)
 		if not solo then
 			self:Flash("roll", L.roll_icon)
 		end
@@ -285,7 +285,7 @@ do
 end
 
 function mod:Nuclear(args)
-	self:MessageOld(args.spellId, "red", "Info")
+	self:MessageOld(args.spellId, "red", "info")
 	self:Bar(args.spellId, 5)
 	self:Flash(args.spellId)
 end

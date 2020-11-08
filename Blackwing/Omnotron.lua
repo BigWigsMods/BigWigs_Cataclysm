@@ -117,7 +117,7 @@ do
 		if (t - prev) > timer then
 			prev = t
 			self:Bar("switch", timer+3, L["next_switch"], args.spellId)
-			self:MessageOld("switch", "green", "Long", L["switch_message"]:format(args.destName, args.spellName), args.spellId)
+			self:MessageOld("switch", "green", "long", L["switch_message"]:format(args.destName, args.spellName), args.spellId)
 			--Using dGUID to avoid issues with names appearing as "UNKNOWN" for a second or so
 			if self.db.profile.custom_on_iconomnotron then
 				for i = 1, 4 do
@@ -155,14 +155,14 @@ function mod:AcquiringTarget(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
 	end
-	self:TargetMessageOld(args.spellId, args.destName, "orange", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "orange", "alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
 function mod:Fixate(args)
 	if self:Me(args.destGUID) then
 		self:Flash(args.spellId)
-		self:MessageOld(args.spellId, "blue", "Alarm", L["bomb_message"])
+		self:MessageOld(args.spellId, "blue", "alarm", L["bomb_message"])
 	end
 end
 
@@ -171,7 +171,7 @@ function mod:LightningConductor(args)
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10) --assumed
 	end
-	self:TargetMessageOld(args.spellId, args.destName, "yellow", "Alarm")
+	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
@@ -182,7 +182,7 @@ end
 
 function mod:PoisonProtocol(args)
 	self:Bar(args.spellId, 45)
-	self:MessageOld(args.spellId, "red", "Alert", L["protocol_message"])
+	self:MessageOld(args.spellId, "red", "alert", L["protocol_message"])
 end
 
 do
@@ -192,7 +192,7 @@ do
 		if (time - last) > 2 then
 			last = time
 			if self:Me(args.destGUID) then
-				self:MessageOld(args.spellId, "blue", "Info", L["cloud_message"])
+				self:MessageOld(args.spellId, "blue", "info", L["cloud_message"])
 				self:Flash(args.spellId)
 			end
 		end

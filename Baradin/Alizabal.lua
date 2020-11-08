@@ -71,7 +71,7 @@ end
 
 function mod:BladeDance(args)
 	danceCount = danceCount + 1
-	self:MessageOld(args.spellId, "orange", "Info", L["dance_message"]:format(danceCount))
+	self:MessageOld(args.spellId, "orange", "info", L["dance_message"]:format(danceCount))
 	self:Bar(args.spellId, 4, CL["cast"]:format(args.spellName))
 	if danceCount == 1 then
 		firstAbility = nil

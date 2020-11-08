@@ -82,7 +82,7 @@ function mod:Countdown(args)
 		countdownCounter = 2
 	else
 		self:Bar(args.spellId, 47.6, L["link_message"])
-		self:TargetMessageOld(args.spellId, countdownTargets, "red", "Alarm", L["link_message"])
+		self:TargetMessageOld(args.spellId, countdownTargets, "red", "alarm", L["link_message"])
 		self:SecondaryIcon(args.spellId, args.destName)
 		countdownCounter = 1
 	end
@@ -95,13 +95,13 @@ end
 
 function mod:Shards(args)
 	shardCounter = shardCounter + 1
-	self:MessageOld(args.spellId, "orange", "Alert", L["shard_message"]:format(shardCounter))
+	self:MessageOld(args.spellId, "orange", "alert", L["shard_message"]:format(shardCounter))
 	self:Bar(args.spellId, 34)
 end
 
 function mod:Torment(args)
 	if UnitGUID("focus") == args.destGUID and args.amount > 1 then
-		self:MessageOld("torment", "blue", args.amount > 5 and "Info", L["focus_message"]:format(args.amount), args.spellId)
+		self:MessageOld("torment", "blue", args.amount > 5 and "info", L["focus_message"]:format(args.amount), args.spellId)
 	end
 end
 

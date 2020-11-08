@@ -106,7 +106,7 @@ end
 
 function mod:Cloud(args)
 	if self:Me(args.destGUID) then
-		self:MessageOld(args.spellId, "orange", "Alarm", CL["you"]:format(args.spellName))
+		self:MessageOld(args.spellId, "orange", "alarm", CL["you"]:format(args.spellName))
 	end
 end
 
@@ -115,7 +115,7 @@ function mod:LightningRod(args)
 		self:Flash(args.spellId)
 		self:OpenProximity("proximity", 20)
 	end
-	self:TargetMessageOld(args.spellId, args.destName, "blue", "Long")
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "long")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
@@ -128,7 +128,7 @@ end
 
 local function CloudSpawn(self)
 	self:Bar(89588, 10) -- Lightning Clouds
-	self:MessageOld(89588, "red", "Info") -- Lightning Clouds
+	self:MessageOld(89588, "red", "info") -- Lightning Clouds
 	self:ScheduleTimer(CloudSpawn, 10, self)
 end
 
@@ -158,7 +158,7 @@ end
 
 function mod:WindBurst1(args)
 	self:Bar(args.spellId, 26)
-	self:MessageOld(args.spellId, "red", "Alert")
+	self:MessageOld(args.spellId, "red", "alert")
 end
 
 function mod:WindBurst3(args)
@@ -175,7 +175,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
 		self:MessageOld("stormling", "red", nil, CL["incoming"]:format(self:SpellName(spellId)), spellId)
 	elseif spellId == 88290 then -- Acid Rain
 		phase = 2
-		self:MessageOld("stages", "green", "Info", CL["phase"]:format(2), 88301)
+		self:MessageOld("stages", "green", "info", CL["phase"]:format(2), 88301)
 		self:StopBar(87770) -- Windburst
 	elseif spellId == 89528 then -- Relentless Storm Initial Vehicle Ride Trigger
 		phase = 3

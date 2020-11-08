@@ -102,7 +102,7 @@ end
 
 function mod:Armageddon(args)
 	if not isHeadPhase then return end
-	self:MessageOld(79011, "red", "Alarm", args.spellId)
+	self:MessageOld(79011, "red", "alarm", args.spellId)
 	self:Bar(79011, 8, args.spellId)
 end
 
@@ -137,7 +137,7 @@ do
 end
 
 function mod:BlazingInferno()
-	self:MessageOld("blazing", "orange", "Info", L["blazing_message"], "SPELL_SHADOW_RAISEDEAD")
+	self:MessageOld("blazing", "orange", "info", L["blazing_message"], "SPELL_SHADOW_RAISEDEAD")
 	self:Bar("blazing", 35, L["blazing_bar"], "SPELL_SHADOW_RAISEDEAD")
 end
 
@@ -149,13 +149,13 @@ function mod:Phase2()
 end
 
 function mod:PillarOfFlame(args)
-	self:MessageOld(args.spellId, "orange", "Alert")
+	self:MessageOld(args.spellId, "orange", "alert")
 	self:CDBar(args.spellId, 32)
 end
 
 function mod:Infection(args)
 	if self:Me(args.destGUID) then
-		self:MessageOld(78941, "blue", "Alarm", L["infection_message"], args.spellId)
+		self:MessageOld(78941, "blue", "alarm", L["infection_message"], args.spellId)
 		self:Flash(78941)
 		self:OpenProximity(78941, 8)
 	end
@@ -170,11 +170,11 @@ end
 function mod:Slump()
 	self:StopBar(78006) -- Pillar of Flame
 	self:Bar("slump", 95, L["slump_bar"], 36702)
-	self:MessageOld("slump", "green", "Info", L["slump_message"], 36702)
+	self:MessageOld("slump", "green", "info", L["slump_message"], 36702)
 end
 
 function mod:Mangle(args)
-	self:TargetMessageOld(args.spellId, args.destName, "blue", "Info")
+	self:TargetMessageOld(args.spellId, args.destName, "blue", "info")
 	self:TargetBar(args.spellId, 30, args.destName)
 	self:CDBar(args.spellId, 95)
 end
