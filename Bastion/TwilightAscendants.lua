@@ -126,7 +126,7 @@ function mod:OnEngage()
 
 	phase = 1
 	crushMarked = false
-	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1", "boss2", "boss3", "boss4")
+	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1", "boss2", "boss3", "boss4")
 end
 
 --------------------------------------------------------------------------------
@@ -215,21 +215,21 @@ function mod:FrostBeacon(args)
 	self:PrimaryIcon(args.spellId, args.destName)
 end
 
-function mod:UNIT_HEALTH_FREQUENT(event, unit)
+function mod:UNIT_HEALTH(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if phase == 1 then
 		if hp < 30 then
-			self:MessageOld("switch", "yellow", "info", L["health_report"]:format((UnitName(unit)), hp), 26662)
+			self:MessageOld("switch", "yellow", "info", L["health_report"]:format(self:UnitName(unit), hp), 26662)
 			phase = 2
 		end
 	elseif phase == 2 then
 		if hp > 1 and hp < 30 then
 			local arion = self:SpellName(-3123)
 			local terrastra = self:SpellName(-3125)
-			local name = UnitName(unit)
+			local name = self:UnitName(unit)
 			if name == arion or name == terrastra then
 				phase = 3
-				self:MessageOld("switch", "yellow", "info", L["health_report"]:format((UnitName(unit)), hp), 26662)
+				self:MessageOld("switch", "yellow", "info", L["health_report"]:format(name, hp), 26662)
 				self:UnregisterUnitEvent(event, "boss1", "boss2", "boss3", "boss4")
 			end
 		end
@@ -342,6 +342,6 @@ function mod:LastPhase()
 	self:CancelAllTimers()
 	self:Bar(84948, 43) -- Gravity Crush
 	self:OpenProximity("proximity", 9)
-	self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1", "boss2", "boss3", "boss4")
+	self:UnregisterUnitEvent("UNIT_HEALTH", "boss1", "boss2", "boss3", "boss4")
 end
 

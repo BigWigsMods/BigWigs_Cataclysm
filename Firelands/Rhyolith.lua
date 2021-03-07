@@ -67,7 +67,7 @@ end
 function mod:OnEngage()
 	self:Berserk(self:Heroic() and 300 or 360, nil, nil, 101304)
 	self:Bar(97282, 15, L["stomp"])
-	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
+	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	lastFragments = GetTime()
 end
 
@@ -110,7 +110,7 @@ function mod:MoltenArmor(args)
 	end
 end
 
-function mod:UNIT_HEALTH_FREQUENT(event, unitId)
+function mod:UNIT_HEALTH(event, unitId)
 	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
 	if hp < 30 then -- phase starts at 25
 		self:MessageOld(-2537, "green", "info", L["phase2_warning"], 99846)

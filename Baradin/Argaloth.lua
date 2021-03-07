@@ -45,7 +45,7 @@ function mod:OnEngage()
 	self:Berserk(300)
 	self:CDBar(88942, 10) -- Meteor Slash
 	fireStorm = 100
-	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "FirestormWarn", "boss1")
+	self:RegisterUnitEvent("UNIT_HEALTH", "FirestormWarn", "boss1")
 end
 
 --------------------------------------------------------------------------------

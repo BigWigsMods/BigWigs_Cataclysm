@@ -96,7 +96,7 @@ function mod:OnEngage()
 	counter = 1
 
 	self:RegisterUnitEvent("UNIT_AURA", "SicknessCheck", "player")
-	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
+	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 end
 
 --------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ do
 	local function checkTarget(sGUID, spellId)
 		local mobId = mod:GetUnitIdByGUID(sGUID)
 		if mobId then
-			local player = UnitName(mobId.."target")
+			local player = mod:UnitName(mobId.."target")
 			if not player then return end
 			if UnitIsUnit("player", player) then
 				mod:Say(spellId, L["crash_say"])
@@ -201,7 +201,7 @@ function mod:FesterBlood(args)
 	oozecount = oozecount + 1
 end
 
-function mod:UNIT_HEALTH_FREQUENT(event, unit)
+function mod:UNIT_HEALTH(event, unit)
 	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
 	if firstFury == 0 and hp > 86 and hp < 89 then
 		self:MessageOld(82524, "yellow", nil, L["first_fury_soon"])

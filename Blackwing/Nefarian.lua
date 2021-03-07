@@ -217,7 +217,7 @@ function mod:ExplosiveCindersRemoved(args)
 end
 
 function mod:PowerCheck(event, unit)
-	if UnitName(unit) == self:SpellName(-3283) then -- Onyxia
+	if self:UnitName(unit) == self:SpellName(-3283) then -- Onyxia
 		local power = UnitPower(unit, 10) -- Enum.PowerType.Alternate = 10
 		if power > 80 then
 			self:MessageOld(78999, "yellow", nil, L["onyxia_power_message"])

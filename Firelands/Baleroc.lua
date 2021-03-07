@@ -100,7 +100,7 @@ function mod:Shards(args)
 end
 
 function mod:Torment(args)
-	if UnitGUID("focus") == args.destGUID and args.amount > 1 then
+	if self:UnitGUID("focus") == args.destGUID and args.amount > 1 then
 		self:MessageOld("torment", "blue", args.amount > 5 and "info", L["focus_message"]:format(args.amount), args.spellId)
 	end
 end

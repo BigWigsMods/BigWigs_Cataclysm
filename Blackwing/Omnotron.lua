@@ -91,7 +91,7 @@ do
 	local function checkTarget(sGUID, spellId)
 		for i = 1, 4 do
 			local bossId = ("boss%d"):format(i)
-			if UnitGUID(bossId) == sGUID and UnitIsUnit(bossId.."target", "player") then
+			if mod:UnitGUID(bossId) == sGUID and UnitIsUnit(bossId.."target", "player") then
 				mod:Flash(spellId)
 				mod:Say(spellId)
 				break
@@ -122,8 +122,8 @@ do
 			if self.db.profile.custom_on_iconomnotron then
 				for i = 1, 4 do
 					local bossId = ("boss%d"):format(i)
-					if UnitGUID(bossId) == args.destGUID then
-						SetRaidTarget(bossId, 8)
+					if self:UnitGUID(bossId) == args.destGUID then
+						self:CustomIcon(false, bossId, 8)
 						break
 					end
 				end

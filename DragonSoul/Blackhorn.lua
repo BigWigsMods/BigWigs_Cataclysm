@@ -121,7 +121,7 @@ do
 	local function checkTarget(sGUID, spellId)
 		local mobId = mod:GetUnitIdByGUID(sGUID)
 		if mobId then
-			local player = UnitName(mobId.."target")
+			local player = mod:UnitName(mobId.."target")
 			if not player then return end
 			if UnitIsUnit("player", player) then
 				mod:Say(spellId)

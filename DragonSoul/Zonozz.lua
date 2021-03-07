@@ -133,7 +133,7 @@ function mod:ShadowsApplied(args)
 		end
 	end
 	if self.db.profile.custom_off_shadows_marker then
-		SetRaidTarget(args.destName, shadowsMarkCounter)
+		self:CustomIcon(false, args.destName, shadowsMarkCounter)
 		shadowsMarkCounter = shadowsMarkCounter + 1
 	end
 end
@@ -143,7 +143,7 @@ function mod:ShadowsRemoved(args)
 		self:CloseProximity(args.spellId)
 	end
 	if self.db.profile.custom_off_shadows_marker then
-		SetRaidTarget(args.destName, 0)
+		self:CustomIcon(false, args.destName)
 	end
 end
 

@@ -66,7 +66,7 @@ function mod:OnEngage()
 		self:CDBar(88853, 90, L["next_system_failure"]) --happens randomly at either 60 or 90 on heroic
 	end
 	self:Bar(82848, 30) --Massacre
-	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "Phase2Warn", "boss1")
+	self:RegisterUnitEvent("UNIT_HEALTH", "Phase2Warn", "boss1")
 end
 
 --------------------------------------------------------------------------------

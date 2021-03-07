@@ -67,7 +67,7 @@ local function isTargetableByOrb(unit)
 end
 
 local function populateOrbList()
-	wipe(orbList)
+	orbList = {}
 	for unit in mod:IterateGroup() do
 		-- Tanking something, but not a tank (aka not tanking Sinestra or Whelps)
 		if UnitThreatSituation(unit) == 3 and isTargetableByOrb(unit) then
@@ -85,7 +85,7 @@ end
 local function wipeWhelpList(resetWarning)
 	if resetWarning then orbWarned = nil end
 	playerInList = nil
-	wipe(whelpGUIDs)
+	whelpGUIDs = {}
 end
 
 -- since we don't use :NewTargetList we have to color the targets
@@ -162,8 +162,8 @@ function mod:OnEngage()
 	self:Bar("whelps", 16, L["whelps"], 69005) -- whelp like icon
 	self:ScheduleTimer("NextOrbSpawned", 29)
 	eggs = 0
-	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "PhaseWarn", "boss1")
-	wipe(whelpGUIDs)
+	self:RegisterUnitEvent("UNIT_HEALTH", "PhaseWarn", "boss1")
+	whelpGUIDs = {}
 	orbWarned = nil
 	playerInList = nil
 end

@@ -92,7 +92,7 @@ do
 	local prev, fired, timer = 0, 0, nil
 	local function checkTarget(spellId)
 		fired = fired + 1
-		local player = UnitName("boss1target")
+		local player = mod:UnitName("boss1target")
 		if player and not UnitDetailedThreatSituation("boss1target", "boss1") then
 			mod:CancelTimer(timer)
 			timer = nil
@@ -124,7 +124,7 @@ do
 	local function checkTarget(guid)
 		for unit in mod:IterateGroup() do
 			local leapTarget = unit.."target"
-			if UnitGUID(leapTarget) == guid and UnitIsUnit("player", leapTarget.."target") then
+			if mod:UnitGUID(leapTarget) == guid and UnitIsUnit("player", leapTarget.."target") then
 				mod:Say(98476, L["leap_say"])
 				mod:Flash(98476)
 				break

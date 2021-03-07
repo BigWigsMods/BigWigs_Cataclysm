@@ -99,7 +99,7 @@ function mod:BroodlingWatcher()
 	local broodling = self:GetUnitIdByGUID(53745)
 	if broodling and UnitExists(broodling.."target") and UnitExists(lastBroodlingTarget) then
 		if UnitIsUnit(broodling.."target", lastBroodlingTarget) then return end
-		lastBroodlingTarget = UnitName(broodling.."target")
+		lastBroodlingTarget = self:UnitName(broodling.."target")
 		self:TargetMessageOld(99990, lastBroodlingTarget, "red", "alert") -- Volatile Burst
 		if UnitIsUnit(lastBroodlingTarget, "player") then
 			self:Flash(99990)

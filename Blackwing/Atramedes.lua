@@ -94,7 +94,7 @@ do
 			if unit == "player" then
 				self:Say(92677)
 			end
-			self:TargetMessageOld(92677, UnitName(unit), "yellow", "long") -- Obnoxious
+			self:TargetMessageOld(92677, self:UnitName(unit), "yellow", "long") -- Obnoxious
 			self:UnregisterEvent("UNIT_AURA")
 		end
 	end

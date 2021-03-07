@@ -134,7 +134,7 @@ function mod:LastPhase(args)
 	self:Bar("fragment", 10.5, L["fragment"], L["fragment_icon"])
 	self:Bar("terror", 35.5, L["terror"], L["terror_icon"])
 	if self:Heroic() then
-		self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "BlobsWarn", "boss1")
+		self:RegisterUnitEvent("UNIT_HEALTH", "BlobsWarn", "boss1")
 	end
 end
 

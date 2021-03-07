@@ -82,8 +82,8 @@ end
 
 -- Note: Engage is not called as early as you may expect. It is about 4s from the start of combat
 function mod:OnEngage(diff)
-	wipe(corruptionStatus)
-	wipe(bloodTimers)
+	corruptionStatus = {}
+	bloodTimers = {}
 	lastBar = true
 	bloodCount = 0
 

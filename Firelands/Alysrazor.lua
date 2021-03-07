@@ -194,7 +194,7 @@ do
 end
 
 function mod:Tantrum(args)
-	local target = UnitGUID("target")
+	local target = self:UnitGUID("target")
 	if not target or args.sourceGUID ~= target then return end
 	-- Just warn for the tank
 	self:MessageOld(args.spellId, "red")

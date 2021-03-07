@@ -95,8 +95,8 @@ end
 
 do
 	local function checkTarget(sGUID, spellId)
-		local bossId = UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
-		if not UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
+		local bossId = mod:UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
+		if not mod:UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
 		if UnitIsUnit(bossId, "player") then
 			mod:MessageOld(spellId, "blue", "long", CL["you"]:format(L["blast_message"]))
 		end

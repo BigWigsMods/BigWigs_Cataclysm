@@ -123,7 +123,7 @@ function mod:OnEngage()
 	aberrations = 18
 	phaseCounter = 0
 	isChilled, currentPhase = nil, nil
-	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", "PhaseWarn", "boss1")
+	self:RegisterUnitEvent("UNIT_HEALTH", "PhaseWarn", "boss1")
 end
 
 --------------------------------------------------------------------------------
