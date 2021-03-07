@@ -40,7 +40,7 @@ function mod:GetOptions(CL)
 		87904,
 		"stormling",
 		88301,
-		{89668, "ICON", "FLASH"}, 89588, 87770, "proximity",
+		{89668, "ICON", "FLASH"}, 89588, "proximity",
 		87873,
 		88427, "stages", "berserk"
 	}, {

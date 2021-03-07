@@ -92,14 +92,15 @@ do
 	local prev, fired, timer = 0, 0, nil
 	local function checkTarget(spellId)
 		fired = fired + 1
-		local player = mod:UnitName("boss1target")
-		if player and not UnitDetailedThreatSituation("boss1target", "boss1") then
+		local guid = mod:UnitGUID("boss1target")
+		if guid and not mod:Tanking("boss1", "boss1target") then
 			mod:CancelTimer(timer)
 			timer = nil
-			if UnitIsUnit("player", "boss1target") then
+			if mod:Me(guid) then
 				mod:Say(spellId, L["leap_say"])
 				mod:Flash(spellId)
 			end
+			local player = mod:UnitName("boss1target")
 			mod:TargetMessageOld(spellId, player, "orange", "long") -- Leaping Flames
 			mod:PrimaryIcon(spellId, player)
 			return

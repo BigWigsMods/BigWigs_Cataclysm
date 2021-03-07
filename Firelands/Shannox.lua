@@ -69,15 +69,15 @@ do
 	local timer, fired = nil, 0
 	local function trapWarn(spellId)
 		fired = fired + 1
-		local player = mod:UnitName("boss1target")
-		if player and (not UnitDetailedThreatSituation("boss1target", "boss1") or fired > 13) then
+		local guid = mod:UnitGUID("boss1target")
+		if guid and (not mod:Tanking("boss1", "boss1target") or fired > 13) then
 			-- If we've done 14 (0.7s) checks and still not passing the threat check, it's probably being cast on the tank
 			if spellId == 99836 then
-				mod:TargetMessageOld("crystal", player, "orange", "alarm", L["crystal_trap"], spellId)
+				mod:TargetMessageOld("crystal", mod:UnitName("boss1target"), "orange", "alarm", L["crystal_trap"], spellId)
 			end
 			mod:CancelTimer(timer)
 			timer = nil
-			if UnitIsUnit("boss1target", "player") then
+			if mod:Me(guid) then
 				if spellId == 99836 then
 					mod:Flash("crystal", spellId)
 					mod:Say("crystal", L["crystal_trap"])
