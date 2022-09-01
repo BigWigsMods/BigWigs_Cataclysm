@@ -179,6 +179,6 @@ end
 function mod:Crush(args)
 	local buffStack = args.amount or 1
 	self:TargetBar("crush", 20, args.destName, 50234, args.spellId) -- 50234 == Crush
-	self:StackMessage("crush", args.destName, buffStack, "orange", buffStack > 2 and "info", 50234, args.spellId) -- 50234 == Crush
+	self:StackMessageOld("crush", args.destName, buffStack, "orange", buffStack > 2 and "info", 50234, args.spellId) -- 50234 == Crush
 end
 

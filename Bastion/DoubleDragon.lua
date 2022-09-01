@@ -124,7 +124,7 @@ end
 function mod:TwilightShift(args)
 	self:Bar(args.spellId, 20)
 	if args.amount > 3 then
-		self:StackMessage(args.spellId, args.destName, args.amount, "red", nil, L["twilight_shift"])
+		self:StackMessageOld(args.spellId, args.destName, args.amount, "red", nil, L["twilight_shift"])
 	end
 end
 

@@ -66,7 +66,7 @@ end
 
 function mod:MalevolentStrikes(args)
 	if args.amount > (self:Heroic() and 5 or 10) then -- 8% in heroic, 6% in normal, announce around 50-60% reduced healing
-		self:StackMessage(args.spellId, args.destName, args.amount, "orange", "info", L["strikes_message"])
+		self:StackMessageOld(args.spellId, args.destName, args.amount, "orange", "info", L["strikes_message"])
 	end
 end
 

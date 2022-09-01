@@ -162,7 +162,7 @@ function mod:Sunder(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["sunder_message"]:format(args.destName, buffStack - 1))
 	self:Bar("sunder", 30, L["sunder_message"]:format(args.destName, buffStack), args.spellId)
-	self:StackMessage("sunder", args.destName, buffStack, "orange", buffStack > 2 and "info", args.spellId)
+	self:StackMessageOld("sunder", args.destName, buffStack, "orange", buffStack > 2 and "info", args.spellId)
 end
 
 function mod:Roar(args)

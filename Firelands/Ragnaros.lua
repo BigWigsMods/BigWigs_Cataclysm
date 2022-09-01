@@ -167,7 +167,7 @@ end
 function mod:BurningWound(args)
 	local wound = self:SpellName(18107) -- "Wound"
 	self:Bar(args.spellId, 6, wound)
-	self:StackMessage(args.spellId, args.destName, args.amount, "orange", args.amount and args.amount > 2 and "info", wound)
+	self:StackMessageOld(args.spellId, args.destName, args.amount, "orange", args.amount and args.amount > 2 and "info", wound)
 end
 
 function mod:MagmaTrap(args)

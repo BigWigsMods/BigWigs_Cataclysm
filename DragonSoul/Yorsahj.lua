@@ -88,7 +88,7 @@ function mod:Bolt(args)
 	local buffStack = args.amount or 1
 	self:StopBar(L["bolt_message"]:format(args.destName, buffStack - 1))
 	self:Bar("bolt", 12, L["bolt_message"]:format(args.destName, buffStack), args.spellId)
-	self:StackMessage("bolt", args.destName, buffStack, "orange", buffStack > 2 and "info", args.spellId)
+	self:StackMessageOld("bolt", args.destName, buffStack, "orange", buffStack > 2 and "info", args.spellId)
 end
 
 function mod:Blobs(_, _, _, spellId)

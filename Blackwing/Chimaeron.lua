@@ -104,7 +104,7 @@ function mod:Mortality(args)
 end
 
 function mod:Break(args)
-	self:StackMessage(args.spellId, args.destName, args.amount, "yellow")
+	self:StackMessageOld(args.spellId, args.destName, args.amount, "yellow")
 end
 
 function mod:DoubleAttack(args)

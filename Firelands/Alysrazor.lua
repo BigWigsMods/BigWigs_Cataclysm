@@ -245,7 +245,7 @@ end
 
 function mod:BlazingClaw(args)
 	if args.amount > 4 then -- 50% extra fire and physical damage taken on tank
-		self:StackMessage(args.spellId, args.destName, args.amount, "orange", "info", 16827, args.spellId) -- 16827 = "Claw"
+		self:StackMessageOld(args.spellId, args.destName, args.amount, "orange", "info", 16827, args.spellId) -- 16827 = "Claw"
 	end
 end
 
