@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 
 ## Title: BigWigs [|cffeda55fCataclysm|r]
 ## Title-zhCN: BigWigs [|cffeda55f大地的裂变|r]
