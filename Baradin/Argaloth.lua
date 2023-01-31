@@ -79,7 +79,7 @@ function mod:FelFirestorm(args)
 end
 
 function mod:FirestormWarn(event, unit)
-	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+	local hp = self:GetHealth(unit)
 	if hp < 69 and fireStorm > 70 then
 		self:MessageOld(88972, "yellow", nil, L["firestorm_message"], false)
 		fireStorm = 66

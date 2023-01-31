@@ -202,7 +202,7 @@ function mod:FesterBlood(args)
 end
 
 function mod:UNIT_HEALTH(event, unit)
-	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+	local hp = self:GetHealth(unit)
 	if firstFury == 0 and hp > 86 and hp < 89 then
 		self:MessageOld(82524, "yellow", nil, L["first_fury_soon"])
 		firstFury = 1

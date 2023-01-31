@@ -264,7 +264,7 @@ function mod:Indomitable(args)
 end
 
 function mod:PhaseWarn(event, unit)
-	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+	local hp = self:GetHealth(unit)
 	if hp <= 30.5 then
 		self:MessageOld("phase", "green", "info", CL["phase"]:format(2), 86226)
 		self:UnregisterUnitEvent(event, unit)

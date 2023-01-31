@@ -112,7 +112,7 @@ function mod:DoubleAttack(args)
 end
 
 function mod:Phase2Warn(event, unit)
-	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+	local hp = self:GetHealth(unit)
 	if hp < 23 then
 		self:MessageOld(82890, "green", "info", L["phase2_message"])
 		self:UnregisterUnitEvent(event, unit)

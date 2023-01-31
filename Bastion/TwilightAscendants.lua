@@ -216,7 +216,7 @@ function mod:FrostBeacon(args)
 end
 
 function mod:UNIT_HEALTH(event, unit)
-	local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+	local hp = self:GetHealth(unit)
 	if phase == 1 then
 		if hp < 30 then
 			self:MessageOld("switch", "yellow", "info", L["health_report"]:format(self:UnitName(unit), hp), 26662)

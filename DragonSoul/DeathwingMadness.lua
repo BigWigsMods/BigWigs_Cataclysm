@@ -121,7 +121,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, unit, _, spellId)
 		self:MessageOld("fragment", "orange", "alarm", L["fragment"], L["fragment_icon"])
 		self:Bar("fragment", 90, L["fragment"], L["fragment_icon"])
 	elseif spellId == 105551 then
-		local hp = UnitHealth(unit) / UnitHealthMax(unit) * 100
+		local hp = self:GetHealth(unit)
 		self:MessageOld("smalltentacles", "orange", "alarm", ("%d%% - %s"):format(hp > 50 and 70 or 40, self:SpellName(L.smalltentacles)), L.smalltentacles_icon)
 	elseif spellId == 106765 then
 		self:MessageOld("terror", "red", nil, L["terror"], L["terror_icon"])
@@ -215,8 +215,8 @@ function mod:ParasiteRemoved(args)
 	end
 end
 
-function mod:BlobsWarn(event, unitId)
-	local hp = UnitHealth(unitId) / UnitHealthMax(unitId) * 100
+function mod:BlobsWarn(event, unit)
+	local hp = self:GetHealth(unit)
 	if hp > 14.9 and hp < 16 and curPercent == 20 then
 		self:MessageOld(-4351, "green", "info", L["blobs_soon"]:format(15), "ability_deathwing_bloodcorruption_earth")
 		curPercent = 15
@@ -226,7 +226,7 @@ function mod:BlobsWarn(event, unitId)
 	elseif hp > 4.9 and hp < 6 and curPercent == 10 then
 		self:MessageOld(-4351, "green", "info", L["blobs_soon"]:format(5), "ability_deathwing_bloodcorruption_earth")
 		curPercent = 5
-		self:UnregisterUnitEvent(event, unitId)
+		self:UnregisterUnitEvent(event, unit)
 	end
 end
 
