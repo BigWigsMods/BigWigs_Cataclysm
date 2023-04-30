@@ -118,7 +118,7 @@ do
 
 	function mod:AboutToRoll()
 		local solo = self:Solo()
-		local rollTime = self:Solo() and 10 or 5
+		local rollTime = self:Solo() and 20 or 5
 		local rollMsg = self:SpellName(L.roll)
 		self:Bar("roll", rollTime, rollMsg, L.roll_icon)
 		self:MessageOld("roll", "yellow", not solo and "long", CL.custom_sec:format(rollMsg, rollTime), L.roll_icon)
