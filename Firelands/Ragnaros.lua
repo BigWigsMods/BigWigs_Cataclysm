@@ -15,8 +15,8 @@ local blazingHeatTargets = mod:NewTargetList()
 local sons = 8
 local phase = 1
 local lavaWavesCD, engulfingCD, dreadflameCD = 30, 40, 40
-local moltenSeed, lavaWaves, fixate, livingMeteor, wrathOfRagnaros = mod:SpellName(98498), mod:SpellName(98928), mod:SpellName(99849), mod:SpellName(99317), mod:SpellName(98263)
-local dreadflame, cloudburst, worldInFlames = mod:SpellName(100675), mod:SpellName(100714), mod:SpellName(100171)
+local lavaWaves, fixate, livingMeteor = mod:SpellName(98928), mod:SpellName(99849), mod:SpellName(99317)
+local dreadflame = mod:SpellName(100675)
 local meteorCounter, meteorNumber = 1, {1, 2, 4, 6, 8}
 
 --------------------------------------------------------------------------------
@@ -318,7 +318,7 @@ do
 				self:Bar(98498, 60)
 			end
 		elseif self:SpellName(spellId) == self:SpellName(98333) then
-			BigWigs:Error(("Found new id %d"):format(spellId)) -- XXX 98333 is the id on hc25, check normal
+			self:Error(("Found new id %d"):format(spellId)) -- XXX 98333 is the id on hc25, check normal
 		end
 	end
 end

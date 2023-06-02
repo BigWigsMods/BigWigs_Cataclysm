@@ -32,7 +32,7 @@ L = mod:GetLocale()
 -- Locals
 --
 
-local roleCheckWarned = nil
+local roleCheckWarned = false
 local eggs = 0
 local orbList = {}
 local orbWarned = nil

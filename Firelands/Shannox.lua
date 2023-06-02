@@ -113,7 +113,7 @@ function mod:WaryDog(args)
 	end
 end
 
-function mod:HurlSpear(args)
+function mod:HurlSpear()
 	self:MessageOld(100002, "yellow", "info")
 	self:Bar(100002, 41)
 end
