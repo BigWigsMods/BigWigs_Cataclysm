@@ -192,7 +192,7 @@ function mod:SearingPlasmaCast(args)
 		corruptionStatus[args.sourceGUID] = corruptionStatus[args.sourceGUID] + 1
 	end
 
-	local gripTime = 0
+	local gripTime
 	if self:Difficulty() % 2 == 0 then
 		-- 25 man has 2 casts of 8s
 		gripTime = 16
