@@ -166,7 +166,7 @@ do
 	local feather = mod:SpellName(97128)
 	local moonkin = mod:SpellName(24858)
 	function mod:BuffCheck()
-		local name = self:UnitBuff("player", feather)
+		local name = self:UnitBuff("player", feather, 97128)
 		if not name then
 			if self:UnitBuff("player", moonkin) then
 				self:MessageOld(97128, "blue", nil, L["moonkin_message"])
