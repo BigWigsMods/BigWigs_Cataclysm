@@ -39,21 +39,9 @@ local orbWarned = nil
 local playerInList = nil
 local whelpGUIDs = {}
 
-local function isTank(unit)
-	-- 1. check blizzard tanks first
-	-- 2. check blizzard roles second
-	if GetPartyAssignment("MAINTANK", unit, 1) then
-		return true
-	end
-	if UnitGroupRolesAssigned(unit) == "TANK" then
-		return true
-	end
-	return false
-end
-
 local function isTargetableByOrb(unit)
 	-- check tanks
-	if isTank(unit) then return false end
+	if mod:Tank(unit) then return false end
 	-- check sinestra's target too
 	if UnitIsUnit("boss1target", unit) then return false end
 	-- and maybe do a check for whelp targets
