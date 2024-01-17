@@ -42,7 +42,6 @@ if L then
 	L.engulfingmagic_say = "Inondamento"
 
 	L.valiona_trigger = "Theralion, inonderò la sala di fiamme, impedisci che fuggano!"
-	L.win_trigger = "Almeno... Theralion muore con me..."
 
 	L.twilight_shift = "Cambio"
 end

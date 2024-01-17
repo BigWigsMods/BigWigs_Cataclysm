@@ -102,8 +102,8 @@ end
 
 function mod:Armageddon(args)
 	if not isHeadPhase then return end
-	self:MessageOld(79011, "red", "alarm", args.spellId)
-	self:Bar(79011, 8, args.spellId)
+	self:MessageOld("armageddon", "red", "alarm", args.spellId)
+	self:Bar("armageddon", 8, args.spellId)
 end
 
 do

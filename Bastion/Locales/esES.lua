@@ -59,6 +59,8 @@ if L then
 	L.whelps = "Crías"
 	L.whelps_desc = "Aviso para la oleada de crías."
 
+	--L.slicer_message = "Possible Orb targets"
+
 	L.egg_vulnerable = "¡Hora de la tortilla!"
 
 	L.whelps_trigger = "Feed, children!  Take your fill from their meaty husks!"

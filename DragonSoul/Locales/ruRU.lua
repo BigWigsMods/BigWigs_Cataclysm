@@ -133,6 +133,4 @@ if L then
 	L.bolt_explode = "<Взрыв Стрелы>"
 	L.parasite = "Паразит"
 	L.blobs_soon = "%d%% - Свертывающаяся кровь скоро!"
-
-	L.bigtentacle = "Большое щупальце"
 end

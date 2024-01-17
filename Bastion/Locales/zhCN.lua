@@ -42,7 +42,6 @@ if L then
 	L.engulfingmagic_say = "噬体魔法"
 
 	L.valiona_trigger = "瑟纳利昂，我去包抄门厅。堵住他们的退路！"
-	L.win_trigger = "至少……瑟纳利昂和我一起倒下……"
 
 	L.twilight_shift = "暮光位移"
 end

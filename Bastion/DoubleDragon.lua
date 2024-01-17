@@ -31,7 +31,6 @@ if L then
 	L.engulfingmagic_say = "Engulf"
 
 	L.valiona_trigger = "Theralion, I will engulf the hallway. Cover their escape!"
-	L.win_trigger = "At least... Theralion dies with me..."
 
 	L.twilight_shift = "Shift"
 end

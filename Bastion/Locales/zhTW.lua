@@ -42,7 +42,6 @@ if L then
 	L.engulfingmagic_say = "侵噬魔法"
 
 	L.valiona_trigger = "瑟拉里恩，我的火會淹沒整個通道。擋住他們的退路!"
-	L.win_trigger = "至少...有瑟拉里恩陪葬..."
 
 	L.twilight_shift = "暮光變換"
 end

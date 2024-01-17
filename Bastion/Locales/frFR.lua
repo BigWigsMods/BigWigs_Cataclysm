@@ -42,7 +42,6 @@ if L then
 	L.engulfingmagic_say = "Magie"
 
 	L.valiona_trigger = "Theralion, je m'occupe du vestibule. Couvre leur fuite !" -- à vérifier
-	L.win_trigger = "Au moins... Theralion meurt avec moi..." -- à vérifier
 
 	L.twilight_shift = "Transferts"
 end

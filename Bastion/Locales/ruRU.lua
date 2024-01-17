@@ -42,7 +42,6 @@ if L then
 	L.engulfingmagic_say = "Избыточная магия"
 
 	L.valiona_trigger = "Тералион, я подожгу коридор. Не дай им уйти!"
-	L.win_trigger = "Одно утешает... Тералион погиб вместе со мной..."
 
 	L.twilight_shift = "Сдвиг"
 end

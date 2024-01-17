@@ -104,6 +104,7 @@ if L then
 	L.crackle_trigger = "¡El aire crepita cargado de electricidad!"
 	L.crackle_message = "¡Electrocutar pronto!"
 
+	--L.shadowblaze_trigger = "Flesh turns to ash!"
 	L.shadowblaze_message = "Fuego"
 
 	L.onyxia_power_message = "¡Explosión pronto!"
