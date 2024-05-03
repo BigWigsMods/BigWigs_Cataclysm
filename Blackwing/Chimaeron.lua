@@ -29,11 +29,11 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		"warmup", 82848, 88826, 82881, {88853, "FLASH"}, 82935, 82890,
-		"proximity", "berserk"
+		"warmup", 82848, 88826, 82881, 88853, 82935, 82890,
+		"berserk"
 	}, {
 		warmup = "normal",
-		proximity = "general"
+		berserk = "general"
 	}
 end
 
@@ -55,7 +55,6 @@ end
 function mod:Warmup(_, msg)
 	if msg == L["bileotron_engage"] then
 		self:Bar("warmup", 30, self.displayName, "achievement_dungeon_blackwingdescent_raid_chimaron")
-		self:OpenProximity("proximity", 6)
 	end
 end
 
@@ -77,8 +76,7 @@ function mod:SystemFailureStart(args)
 	self:StopBar(L["next_system_failure"])
 	self:Bar(args.spellId, 30)
 	self:MessageOld(args.spellId, "red", "alarm")
-	self:Flash(args.spellId)
-	self:CloseProximity()
+	--self:Flash(args.spellId)
 end
 
 function mod:SystemFailureEnd(args)
@@ -86,8 +84,7 @@ function mod:SystemFailureEnd(args)
 		if not self:Heroic() then
 			self:CDBar(args.spellId, 65, L["next_system_failure"])
 		end
-		self:Flash(args.spellId)
-		self:OpenProximity("proximity", 6)
+		--self:Flash(args.spellId)
 	end
 end
 
@@ -99,7 +96,6 @@ end
 
 function mod:Mortality(args)
 	self:MessageOld(args.spellId, "red", "long")
-	self:CloseProximity()
 	self:StopBar(L["next_system_failure"])
 end
 

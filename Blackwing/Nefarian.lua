@@ -49,8 +49,8 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		77939, 78999, 81272, {81007, "FLASH"},
-		{79339, "FLASH", "SAY", "PROXIMITY"}, "berserk",
+		77939, 78999, 81272, 81007,
+		{79339, "SAY"}, "berserk",
 		"phase"
 	}, {
 		[77939] = -3283, -- Onyxia
@@ -116,7 +116,7 @@ do
 		if (t - prev) > 1 and self:Me(args.destGUID) then
 			prev = t
 			self:MessageOld(args.spellId, "blue", "info", L["shadowblaze_message"])
-			self:Flash(args.spellId)
+			--self:Flash(args.spellId)
 		end
 	end
 end
@@ -198,10 +198,9 @@ do
 	function mod:ExplosiveCindersApplied(args)
 		cinderTargets[#cinderTargets + 1] = args.destName
 		if self:Me(args.destGUID) then
-			self:Flash(args.spellId)
+			--self:Flash(args.spellId)
 			self:Say(args.spellId)
 			self:Bar(args.spellId, 8)
-			self:OpenProximity(args.spellId, 10) -- assumed
 		end
 		if not scheduled then
 			scheduled = true
@@ -211,9 +210,9 @@ do
 end
 
 function mod:ExplosiveCindersRemoved(args)
-	if self:Me(args.destGUID) then
-		self:CloseProximity(args.spellId)
-	end
+	--if self:Me(args.destGUID) then
+	--	self:CloseProximity(args.spellId)
+	--end
 end
 
 function mod:PowerCheck(event, unit)

@@ -42,14 +42,14 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{86788, "ICON", "FLASH"}, {88518, "FLASH"}, 86059, 86840,
-		{86622, "FLASH", "SAY"}, 86408, 86369, 93051,
-		"proximity", "phase_switch", "berserk"
+		{86788, "ICON"}, 88518, 86059, 86840,
+		{86622, "SAY"}, 86408, 86369, 93051,
+		"phase_switch", "berserk"
 	}, {
 		[86788] = -2985, -- Valiona
 		[86622] = -2994, -- Theralion
 		[93051] = "heroic",
-		proximity = "general",
+		phase_switch = "general",
 	}
 end
 
@@ -83,7 +83,6 @@ function mod:OnEngage()
 	self:CDBar(86840, 25)
 	self:Bar(86788, 11) -- Blackout
 	self:Bar("phase_switch", 103, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
-	self:OpenProximity("proximity", 8)
 	self:Berserk(600)
 	phaseCount = 0
 end
@@ -110,14 +109,12 @@ local function valionaHasLanded()
 	mod:MessageOld("phase_switch", "green", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
 	mod:CDBar(86840, 26) -- Devouring Flames
 	mod:Bar(86788, 11) -- Blackout
-	mod:OpenProximity("proximity", 8)
 end
 
 local function theralionHasLanded()
 	mod:StopBar(86788) -- Blackout
 	mod:StopBar(86840) -- Devouring Flames
 	mod:Bar("phase_switch", 130, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
-	mod:CloseProximity()
 end
 
 function mod:TwilightShift(args)
@@ -157,17 +154,15 @@ function mod:DeepBreath()
 end
 
 function mod:BlackoutApplied(args)
-	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
-	end
+	--if self:Me(args.destGUID) then
+		--self:Flash(args.spellId)
+	--end
 	self:TargetMessageOld(args.spellId, args.destName, "blue", "alert", nil, nil, true)
 	self:Bar(args.spellId, 45)
 	self:PrimaryIcon(args.spellId, args.destName)
-	self:CloseProximity()
 end
 
 function mod:BlackoutRemoved(args)
-	self:OpenProximity("proximity", 8)
 	self:PrimaryIcon(args.spellId)
 	self:Bar(args.spellId, 40) -- make sure to remove bar when it's removed
 end
@@ -180,7 +175,7 @@ do
 	local marked = mod:SpellName(88518)
 	function mod:MeteorCheck(_, unit)
 		if not markWarned and self:UnitDebuff(unit, marked) then
-			self:Flash(88518)
+			--self:Flash(88518)
 			self:MessageOld(88518, "blue", "long", CL["you"]:format(marked))
 			markWarned = true
 			self:SimpleTimer(markRemoved, 7)
@@ -202,8 +197,7 @@ do
 	function mod:EngulfingMagicApplied(args)
 		if self:Me(args.destGUID) then
 			self:Say(args.spellId, L["engulfingmagic_say"])
-			self:Flash(args.spellId)
-			self:OpenProximity("proximity", 10)
+			--self:Flash(args.spellId)
 		end
 		emTargets[#emTargets + 1] = args.destName
 		if not scheduled then
@@ -215,9 +209,9 @@ do
 end
 
 function mod:EngulfingMagicRemoved(args)
-	if self:Me(args.destGUID) then
-		self:CloseProximity()
-	end
+	--if self:Me(args.destGUID) then
+		--self:CloseProximity()
+	--end
 end
 
 do

@@ -51,8 +51,8 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		"slump", 79011, 89773, 78006, {78941, "FLASH", "PROXIMITY"}, 77690,
-		"blazing", "armageddon", {"phase2", "PROXIMITY"},
+		"slump", 79011, 89773, 78006, 78941, 77690,
+		"blazing", "armageddon", "phase2",
 		"berserk"
 	}, {
 		slump = "normal",
@@ -145,7 +145,6 @@ function mod:Phase2()
 	phase = 2
 	self:MessageOld("phase2", "yellow", nil, L["phase2_message"], "ability_warlock_shadowflame") -- Shadow Breath (Heroic)
 	self:StopBar(L["blazing_bar"])
-	self:OpenProximity("phase2", 8)
 end
 
 function mod:PillarOfFlame(args)
@@ -156,15 +155,14 @@ end
 function mod:Infection(args)
 	if self:Me(args.destGUID) then
 		self:MessageOld(78941, "blue", "alarm", L["infection_message"], args.spellId)
-		self:Flash(78941)
-		self:OpenProximity(78941, 8)
+		--self:Flash(78941)
 	end
 end
 
 function mod:InfectionRemoved(args)
-	if phase == 1 and self:Me(args.destGUID) then
-		self:CloseProximity(78941)
-	end
+	--if phase == 1 and self:Me(args.destGUID) then
+	--	self:CloseProximity(78941)
+	--end
 end
 
 function mod:Slump()

@@ -59,10 +59,10 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{77699, "ICON"}, {77760, "FLASH", "SAY"}, "proximity",
-		{77786, "FLASH", "ICON"}, 77679,
+		{77699, "ICON"}, {77760, "SAY"},
+		{77786, "ICON"}, 77679,
 		77991, 78194,
-		{"sludge", "FLASH"},
+		"sludge",
 		"phase", 77912, 77569, 77896, "berserk"
 	}, {
 		[77699] = L["blue_phase"],
@@ -138,7 +138,7 @@ do
 		if (time - last) > 2 then
 			last = time
 			self:MessageOld("sludge", "blue", "info", L["sludge_message"], args.spellId)
-			self:Flash("sludge", args.spellId)
+			--self:Flash("sludge", args.spellId)
 		end
 	end
 end
@@ -159,9 +159,6 @@ do
 		self:StopBar(77699) -- Flash Freeze
 		self:CDBar(77679, 25) -- Scorching Blast
 		self:MessageOld("phase", "green", "long", L["red_phase"], "INV_POTION_24")
-		if not isChilled then
-			self:CloseProximity()
-		end
 		nextPhase(47)
 	end
 	function mod:Blue()
@@ -170,7 +167,6 @@ do
 		self:StopBar(77679) -- Scorching Blast
 		self:CDBar(77699, 28) -- Flash Freeze
 		self:MessageOld("phase", "green", "long", L["blue_phase"], "INV_POTION_20")
-		self:OpenProximity("proximity", 5)
 		nextPhase(47)
 	end
 	function mod:Green()
@@ -179,9 +175,6 @@ do
 		self:StopBar(77679) -- Scorching Blast
 		self:StopBar(77699) -- Flash Freeze
 		self:MessageOld("phase", "green", "long", L["green_phase"], "INV_POTION_162")
-		if not isChilled then
-			self:CloseProximity()
-		end
 		nextPhase(47)
 		-- Make sure to reset after the nextPhase() call, which increments it
 		phaseCounter = 0
@@ -190,9 +183,6 @@ do
 		if currentPhase == "dark" then return end
 		currentPhase = "dark"
 		self:MessageOld("phase", "green", "long", L["dark_phase"], "INV_ELEMENTAL_PRIMAL_SHADOW")
-		if not isChilled then
-			self:CloseProximity()
-		end
 		nextPhase(100)
 	end
 end
@@ -238,9 +228,9 @@ do
 end
 
 function mod:ConsumingFlames(args)
-	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
-	end
+	--if self:Me(args.destGUID) then
+	--	self:Flash(args.spellId)
+	--end
 	self:TargetMessageOld(args.spellId, args.destName, "blue", "info")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
@@ -265,7 +255,7 @@ do
 		chillTargets[#chillTargets + 1] = args.destName
 		if self:Me(args.destGUID) then
 			self:Say(args.spellId)
-			self:Flash(args.spellId)
+			--self:Flash(args.spellId)
 			isChilled = true
 		end
 		if not scheduled then
@@ -278,9 +268,6 @@ end
 function mod:BitingChillRemoved(args)
 	if self:Me(args.destGUID) then
 		isChilled = nil
-		if currentPhase ~= "blue" then
-			self:CloseProximity()
-		end
 	end
 end
 

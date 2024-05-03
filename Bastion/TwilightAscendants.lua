@@ -52,21 +52,21 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		-- Ignacious
-		82631, {82660, "FLASH"},
+		82631, 82660,
 		-- Feludius
-		82746, {82665, "FLASH"}, 82762,
+		82746, 82665, 82762,
 		-- Arion
-		83067, {83099, "SAY", "FLASH"},
+		83067, {83099, "SAY"},
 		-- Terrastra
 		83565, 83718,
 		-- Monstrosity
 		{84948, "ICON"},
 		-- Heroic
-		{92067, "FLASH", "SAY", "ICON"},
-		{92075, "FLASH", "SAY", "ICON"},
-		{92307, "FLASH", "ICON"},
+		{92067, "SAY", "ICON"},
+		{92075, "SAY", "ICON"},
+		{92307, "ICON"},
 		-- General
-		"proximity", "switch"
+		"switch"
 	}, {
 		[82631] = -3118, -- Ignacious
 		[82746] = -3110, -- Feludius
@@ -74,7 +74,7 @@ function mod:GetOptions()
 		[83565] = -3125, -- Terrastra
 		[84948] = -3145, -- Elementium Monstrosity
 		[92067] = "heroic",
-		proximity = "general",
+		switch = "general",
 	}
 end
 
@@ -117,10 +117,6 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	if self:Heroic() then
-		self:OpenProximity("proximity", 10)
-	end
-
 	self:Bar(82631, 30, L["shield_bar"])
 	self:Bar(82746, 30) -- Glaciate
 
@@ -146,8 +142,7 @@ do
 		end
 		if self:Me(args.destGUID) then
 			self:Say(args.spellId)
-			self:Flash(args.spellId)
-			self:OpenProximity("proximity", 10)
+			--self:Flash(args.spellId)
 		end
 	end
 end
@@ -176,15 +171,15 @@ do
 end
 
 function mod:LightningRodRemoved(args)
-	if self:Me(args.destGUID) then
-		self:CloseProximity()
-	end
+	--if self:Me(args.destGUID) then
+	--	self:CloseProximity()
+	--end
 end
 
 function mod:GravityCore(args)
 	if self:Me(args.destGUID) then
 		self:Say(args.spellId, L["gravity_core_say"])
-		self:Flash(args.spellId)
+		--self:Flash(args.spellId)
 	end
 	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
@@ -197,7 +192,7 @@ end
 function mod:StaticOverload(args)
 	if self:Me(args.destGUID) then
 		self:Say(args.spellId, L["static_overload_say"])
-		self:Flash(args.spellId)
+		--self:Flash(args.spellId)
 	end
 	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
@@ -208,9 +203,9 @@ function mod:StaticOverloadRemoved(args)
 end
 
 function mod:FrostBeacon(args)
-	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
-	end
+	--if self:Me(args.destGUID) then
+	--	self:Flash(args.spellId)
+	--end
 	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
 	self:PrimaryIcon(args.spellId, args.destName)
 end
@@ -263,16 +258,16 @@ end
 
 function mod:HeartofIce(args)
 	self:TargetMessageOld(args.spellId, args.destName, "red")
-	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
-	end
+	--if self:Me(args.destGUID) then
+	--	self:Flash(args.spellId)
+	--end
 end
 
 function mod:BurningBlood(args)
 	self:TargetMessageOld(args.spellId, args.destName, "red")
-	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
-	end
+	--if self:Me(args.destGUID) then
+	--	self:Flash(args.spellId)
+	--end
 end
 
 function mod:Switch()
@@ -341,7 +336,6 @@ function mod:LastPhase()
 	self:StopBar(83718) -- Harden Skin
 	self:CancelAllTimers()
 	self:Bar(84948, 43) -- Gravity Crush
-	self:OpenProximity("proximity", 9)
 	self:UnregisterUnitEvent("UNIT_HEALTH", "boss1", "boss2", "boss3", "boss4")
 end
 

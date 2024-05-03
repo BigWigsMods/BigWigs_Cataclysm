@@ -2,9 +2,11 @@
 -- Module Declaration
 --
 
-local mod = BigWigs:NewBoss("Conclave of Wind", 754, 154)
+local mod, CL = BigWigs:NewBoss("Conclave of Wind", 754, 154)
 if not mod then return end
 mod:RegisterEnableMob(45870, 45871, 45872) -- Anshal, Nezir, Rohash
+mod:SetEncounterID(1035)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -17,20 +19,16 @@ local toxicSporesWarned = false
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.gather_strength = "%s is Gathering Strength"
 
-	L.storm_shield = mod:SpellName(93059)
-	L.storm_shield_desc = "Absorption Shield"
+	L["93059_desc"] = "Absorption Shield"
 
 	L.full_power = "Full Power"
 	L.full_power_desc = "Warning for when the bosses reach full power and start to cast the special abilities."
 	L.gather_strength_emote = "%s begins to gather strength"
-
-	L.wind_chill = "%sx Wind Chill on YOU!"
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -38,11 +36,20 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		86193, "storm_shield",
-		{84645, "FLASH"},
-		85422, 86281, 86205,
-		86307, "full_power", "berserk"
-	}, {
+		-- Rohash
+		86193, -- Wind Blast
+		93059, -- Storm Shield
+		-- Nezir
+		84645, -- Wind Chill
+		-- Anshal
+		85422, -- Nurture
+		86281, -- Toxic Spores
+		86205, -- Soothing Breeze
+		-- General
+		86307, -- Gather Strength
+		"full_power",
+		"berserk",
+	},{
 		[86193] = -3172, -- Rohash
 		[84645] = -3178, -- Nezir
 		[85422] = -3166, -- Anshal
@@ -53,7 +60,7 @@ end
 function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "FullPower", 84638)
 
-	self:Emote("GatherStrength", L["gather_strength_emote"])
+	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE") -- Gather Strength
 
 	self:Log("SPELL_AURA_APPLIED", "StormShield", 93059)
 	self:Log("SPELL_CAST_SUCCESS", "WindBlast", 86193)
@@ -61,35 +68,32 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "Nurture", 85422)
 	self:Log("SPELL_AURA_APPLIED", "ToxicSpores", 86281)
 	self:Log("SPELL_CAST_START", "SoothingBreeze", 86205)
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	self:Death("Win", 45872) -- They die at the same time, enough to check for one
 end
 
 function mod:OnEngage()
-	self:Berserk(480)
 	firstWindBlast = true
 	toxicSporesWarned = false
+	self:Berserk(480)
 	self:Bar("full_power", 90, L["full_power"], 86193)
 	self:Bar(86205, 16.2) -- Soothing Breeze
 
-	if self:CheckOption("storm_shield", "BAR") and self:CheckOption(85422, "BAR") and self:CheckOption(86193, "BAR") then
+	if self:CheckOption(93059, "BAR") and self:CheckOption(85422, "BAR") and self:CheckOption(86193, "BAR") then
 		local stormShield, nurture, windBlast = self:SpellName(93059), self:SpellName(85422), self:SpellName(86193)
 		self:Bar(85422, 30, nurture.."/"..windBlast.."/"..stormShield, "achievement_boss_murmur")
 	else
 		self:Bar(85422, 30) -- Nurture
 		self:Bar(86193, 30) -- Windblast
-		self:Bar("storm_shield", 30, 93059)
+		self:Bar(93059, 30) -- Storm Shield
 	end
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
+
 function mod:FullPower(args)
 	self:Bar("full_power", 113, L["full_power"], args.spellId)
-	self:MessageOld("full_power", "yellow", nil, L["full_power"], args.spellId)
+	self:Message("full_power", "yellow", L["full_power"], args.spellId)
 	self:Bar(86205, 31.3) -- Soothing Breeze
 end
 
@@ -97,47 +101,49 @@ function mod:WindChill(args)
 	if self:Me(args.destGUID) then
 	-- probably need to adjust stack numbers
 		if args.amount == 4 then
-			self:MessageOld(args.spellId, "blue", nil, L["wind_chill"]:format(args.amount))
+			self:StackMessage(args.spellId, "blue", args.destName, args.amount, 8)
 		elseif args.amount == 8 then
-			self:MessageOld(args.spellId, "blue", "alarm", L["wind_chill"]:format(args.amount))
-			self:Flash(args.spellId)
+			self:StackMessage(args.spellId, "blue", args.destName, args.amount, 8)
+			self:PlaySound(args.spellId, "alarm")
 		end
 	end
 end
 
 function mod:StormShield(args)
-	self:Bar("storm_shield", 113, args.spellId)
-	self:MessageOld("storm_shield", "orange", nil, args.spellId)
+	self:Bar(args.spellId, 113)
+	self:Message(args.spellId, "orange")
 end
 
 function mod:WindBlast(args)
 	self:Bar(args.spellId, firstWindBlast and 82 or 60)
-	self:MessageOld(args.spellId, "red")
 	firstWindBlast = false
+	self:Message(args.spellId, "red")
 end
 
 function mod:ToxicSpores(args)
 	if not toxicSporesWarned then
-		self:Bar(args.spellId, 20)
-		self:MessageOld(args.spellId, "orange")
 		toxicSporesWarned = true
+		self:Bar(args.spellId, 20)
+		self:Message(args.spellId, "orange")
 	end
 end
 
 function mod:SoothingBreeze(args)
 	self:Bar(args.spellId, 32.5)
-	self:MessageOld(args.spellId, "orange")
+	self:Message(args.spellId, "orange")
 end
 
 function mod:Nurture(args)
-	self:Bar(args.spellId, 113)
-	self:MessageOld(args.spellId, "orange")
-	self:Bar(86281, 23) -- Toxic Spores
 	toxicSporesWarned = false
+	self:Bar(args.spellId, 113)
+	self:Message(args.spellId, "orange")
+	self:Bar(86281, 23) -- Toxic Spores
 end
 
-function mod:GatherStrength(msg, sender)
-	self:MessageOld(86307, "red", "long", L["gather_strength"]:format(sender))
-	self:Bar(86307, 60, L["gather_strength"]:format(sender))
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg, sender)
+	if msg:find(L.gather_strength_emote, nil, true) then
+		self:Message(86307, "red", L["gather_strength"]:format(sender))
+		self:Bar(86307, 60, L["gather_strength"]:format(sender))
+		self:PlaySound(86307, "long")
+	end
 end
-

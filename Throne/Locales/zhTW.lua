@@ -14,12 +14,10 @@ L = BigWigs:NewBossLocale("Conclave of Wind", "zhTW")
 if L then
 	L.gather_strength = "%s正在聚集力量！"
 
-	L.storm_shield_desc = "當風暴之盾吸收傷害時發出警報。"
+	L["93059_desc"] = "當風暴之盾吸收傷害時發出警報。"
 
 	L.full_power = "滿能量"
 	L.full_power_desc = "當首領獲得滿能量並開始施放特殊技能時發出警報。"
 	L.gather_strength_emote = "%s開始從剩下的風之王那裡取得力量!"
-
-	L.wind_chill = ">你< %sx風寒冷卻！"
 end
 

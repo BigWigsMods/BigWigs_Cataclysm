@@ -14,12 +14,10 @@ L = BigWigs:NewBossLocale("Conclave of Wind", "ptBR")
 if L then
 	L.gather_strength = "%s começou a ganhar forças"
 
-	L.storm_shield_desc = "Escudo de absorção"
+	L["93059_desc"] = "Escudo de absorção"
 
 	L.full_power = "Poder Máximo"
 	L.full_power_desc = "Avisa quando os chefes alcanção Poder Máximo e começam a lançar as habilidades especiais."
 	L.gather_strength_emote = "%s começou a ganhar forças dos Senhores do vento que cairam!"
-
-	L.wind_chill = "%sx Calafrio Eólico em VOCÊ!"
 end
 

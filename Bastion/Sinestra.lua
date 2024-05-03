@@ -100,13 +100,13 @@ function mod:GetOptions(CL)
 	return {
 	-- Phase 1 and 3
 		90125, -- Breath
-		{92852, "FLASH", "ICON"}, -- Twilight Slicer
+		{92852, "ICON"}, -- Twilight Slicer
 		86227, -- Extinction
 		"whelps",
 
 	-- Phase 2
 		87654, -- Omelet Time
-		{90045, "FLASH"}, -- Indomitable
+		90045, -- Indomitable
 
 	-- General
 		"phase",
@@ -178,7 +178,7 @@ end
 
 
 function mod:OrbWarning(source)
-	if playerInList then mod:Flash(92852) end
+	--if playerInList then mod:Flash(92852) end
 
 	-- this is why orbList can't be created by :NewTargetList
 	if orbList[1] then mod:PrimaryIcon(92852, orbList[1]) end
@@ -247,7 +247,7 @@ function mod:Indomitable(args)
 	self:MessageOld(args.spellId, "orange")
 	if self:Dispeller("enrage", true) then
 		self:PlaySound(args.spellId, "info")
-		self:Flash(args.spellId)
+		--self:Flash(args.spellId)
 	end
 end
 

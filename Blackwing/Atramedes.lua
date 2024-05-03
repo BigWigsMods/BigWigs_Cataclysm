@@ -34,7 +34,7 @@ function mod:GetOptions()
 		"ground_phase", 78075, 77840,
 		"air_phase",
 		{92677, "ICON", "SAY"},
-		{78092, "FLASH", "ICON", "SAY"}, "berserk"
+		{78092, "ICON", "SAY"}, "berserk"
 	}, {
 		ground_phase = L["ground_phase"],
 		air_phase = L["air_phase"],
@@ -103,7 +103,7 @@ end
 function mod:Tracking(args)
 	if self:Me(args.destGUID) then
 		self:Say(args.spellId)
-		self:Flash(args.spellId)
+		--self:Flash(args.spellId)
 	end
 	self:TargetMessageOld(args.spellId, args.destName, "blue", "alarm")
 	self:PrimaryIcon(args.spellId, args.destName)

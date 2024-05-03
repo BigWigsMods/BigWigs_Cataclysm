@@ -41,10 +41,10 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{79501, "ICON", "FLASH"},
-		{79888, "ICON", "FLASH", "PROXIMITY"},
-		{80161, "FLASH"}, {80157, "FLASH", "SAY"}, 80053, {80094, "FLASH"},
-		"nef", 91849, 91879, {92048, "ICON", "FLASH"}, 92023, "switch", "custom_on_iconomnotron",
+		{79501, "ICON"},
+		{79888, "ICON"},
+		80161, {80157, "SAY"}, 80053, 80094,
+		"nef", 91849, 91879, {92048, "ICON"}, 92023, "switch", "custom_on_iconomnotron",
 		"berserk"
 	}, {
 		[79501] = -3207, -- Electron
@@ -92,7 +92,7 @@ do
 		for i = 1, 4 do
 			local bossId = ("boss%d"):format(i)
 			if mod:UnitGUID(bossId) == sGUID and UnitIsUnit(bossId.."target", "player") then
-				mod:Flash(spellId)
+				--mod:Flash(spellId)
 				mod:Say(spellId)
 				break
 			end
@@ -138,9 +138,9 @@ function mod:Grip(args)
 end
 
 function mod:ShadowInfusion(args)
-	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
-	end
+	--if self:Me(args.destGUID) then
+	--	self:Flash(args.spellId)
+	--end
 	self:TargetMessageOld(args.spellId, args.destName, "orange")
 	self:CDBar("nef", 35, L["nef_next"], 69005)
 	self:SecondaryIcon(args.spellId, args.destName)
@@ -152,32 +152,31 @@ function mod:EncasingShadows(args)
 end
 
 function mod:AcquiringTarget(args)
-	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
-	end
+	--if self:Me(args.destGUID) then
+	--	self:Flash(args.spellId)
+	--end
 	self:TargetMessageOld(args.spellId, args.destName, "orange", "alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
 function mod:Fixate(args)
 	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
+		--self:Flash(args.spellId)
 		self:MessageOld(args.spellId, "blue", "alarm", L["bomb_message"])
 	end
 end
 
 function mod:LightningConductor(args)
-	if self:Me(args.destGUID) then
-		self:Flash(args.spellId)
-		self:OpenProximity(args.spellId, 10) --assumed
-	end
+	--if self:Me(args.destGUID) then
+	--	self:Flash(args.spellId)
+	--end
 	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
 	self:SecondaryIcon(args.spellId, args.destName)
 end
 
 function mod:LightningConductorRemoved(args)
 	if not self:Me(args.destGUID) then return end
-	self:CloseProximity(args.spellId)
+	--self:CloseProximity(args.spellId)
 end
 
 function mod:PoisonProtocol(args)
@@ -193,7 +192,7 @@ do
 			last = time
 			if self:Me(args.destGUID) then
 				self:MessageOld(args.spellId, "blue", "info", L["cloud_message"])
-				self:Flash(args.spellId)
+				--self:Flash(args.spellId)
 			end
 		end
 	end

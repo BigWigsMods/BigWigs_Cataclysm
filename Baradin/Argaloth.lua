@@ -2,50 +2,55 @@
 -- Module Declaration
 --
 
-local mod = BigWigs:NewBoss("Argaloth", 757, 139)
+local mod, CL = BigWigs:NewBoss("Argaloth", 757, 139)
 if not mod then return end
 mod:RegisterEnableMob(47120)
+mod:SetEncounterID(1033)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Locals
 --
 
-local fireStorm, consumingTargets = 100, mod:NewTargetList()
+local fireStormHP = 100
 
 --------------------------------------------------------------------------------
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.darkness_message = "Darkness"
 	L.firestorm_message = "Firestorm soon!"
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
 --
 
 function mod:GetOptions()
-	return {88942, 88954, {88972, "FLASH"}, "berserk"}
+	return {
+		88942, -- Meteor Slash
+		88954, -- Consuming Darkness
+		{88972, "CASTBAR"}, -- Fel Firestorm
+		"berserk",
+	}
 end
 
 function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "MeteorSlash", 88942)
-	self:Log("SPELL_AURA_APPLIED", "ConsumingDarkness", 88954)
+	self:Log("SPELL_CAST_SUCCESS", "ConsumingDarkness", 88954)
+	self:Log("SPELL_AURA_APPLIED", "ConsumingDarknessApplied", 88954)
 	self:Log("SPELL_CAST_START", "FelFirestorm", 88972)
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	self:Death("Win", 47120)
+	self:Log("SPELL_AURA_APPLIED", "FelFirestormApplied", 88972)
+	self:Log("SPELL_AURA_REMOVED", "FelFirestormRemoved", 88972)
 end
 
 function mod:OnEngage()
+	fireStormHP = 100
+	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	self:Berserk(300)
 	self:CDBar(88942, 10) -- Meteor Slash
-	fireStorm = 100
-	self:RegisterUnitEvent("UNIT_HEALTH", "FirestormWarn", "boss1")
 end
 
 --------------------------------------------------------------------------------
@@ -53,39 +58,45 @@ end
 --
 
 function mod:MeteorSlash(args)
-	self:MessageOld(args.spellId, "red")
+	self:Message(args.spellId, "red")
 	self:CDBar(args.spellId, 17)
 end
 
 do
-	local scheduled = nil
-	local function consumingWarn(spellId)
-		mod:TargetMessageOld(spellId, consumingTargets, "blue", nil, L["darkness_message"])
-		scheduled = nil
+	local playerList = {}
+	function mod:ConsumingDarkness()
+		playerList = {}
 	end
-	function mod:ConsumingDarkness(args)
-		consumingTargets[#consumingTargets + 1] = args.destName
-		if not scheduled then
-			scheduled = self:ScheduleTimer(consumingWarn, 0.5, args.spellId)
-		end
+
+	function mod:ConsumingDarknessApplied(args)
+		playerList[#playerList+1] = args.destName
+		self:TargetsMessage(args.spellId, "yellow", playerList)
 	end
 end
 
 function mod:FelFirestorm(args)
-	self:MessageOld(args.spellId, "orange", "alert", fireStorm.."% - "..args.spellName)
-	self:Flash(args.spellId)
-	self:CDBar(88942, 32) -- Meteor Slash
+	self:StopBar(88942) -- Meteor Slash
+	self:Message(args.spellId, "orange", CL.percent:format(fireStormHP, args.spellName))
+	self:PlaySound(args.spellId, "long")
 end
 
-function mod:FirestormWarn(event, unit)
+function mod:FelFirestormApplied(args)
+	self:CastBar(args.spellId, 15)
+end
+
+function mod:FelFirestormRemoved(args)
+	self:StopBar(CL.cast:format(args.spellName))
+	self:CDBar(88942, 14) -- Meteor Slash
+end
+
+function mod:UNIT_HEALTH(event, unit)
 	local hp = self:GetHealth(unit)
-	if hp < 69 and fireStorm > 70 then
-		self:MessageOld(88972, "yellow", nil, L["firestorm_message"], false)
-		fireStorm = 66
-	elseif hp < 36 and fireStorm > 50 then
-		self:MessageOld(88972, "yellow", nil, L["firestorm_message"], false)
-		fireStorm = 33
+	if hp < 69 and fireStormHP > 70 then
+		fireStormHP = 66
+		self:Message(88972, "yellow", CL.soon:format(self:SpellName(88972)), false)
+	elseif hp < 36 and fireStormHP > 50 then
+		fireStormHP = 33
 		self:UnregisterUnitEvent(event, unit)
+		self:Message(88972, "yellow", CL.soon:format(self:SpellName(88972)), false)
 	end
 end
-
