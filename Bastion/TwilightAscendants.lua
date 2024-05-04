@@ -64,7 +64,7 @@ function mod:GetOptions()
 		-- Heroic
 		{92067, "SAY", "ICON"},
 		{92075, "SAY", "ICON"},
-		{92307, "ICON"},
+		{92307, "ICON", "EMPHASIZE_ME_ONLY"},
 		-- General
 		"switch"
 	}, {
@@ -203,11 +203,13 @@ function mod:StaticOverloadRemoved(args)
 end
 
 function mod:FrostBeacon(args)
-	--if self:Me(args.destGUID) then
-	--	self:Flash(args.spellId)
-	--end
-	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
+	self:TargetMessage(args.spellId, "yellow", args.destName)
 	self:PrimaryIcon(args.spellId, args.destName)
+	if self:Me(args.destGUID) then
+		self:PlaySound(args.spellId, "warning", nil, args.destName)
+	else
+		self:PlaySound(args.spellId, "alarm", nil, args.destName)
+	end
 end
 
 function mod:UNIT_HEALTH(event, unit)
