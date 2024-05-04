@@ -59,7 +59,7 @@ function mod:GetOptions(CL)
 	return {
 		91303, 81538, {81685, "ICON", "SAY"}, 81571, 82524, 81628, 82299,
 		82630, 82414,
-		"orders", 82235, "berserk"
+		"orders", 82235, "altpower", "berserk",
 	}, {
 		[91303] = CL.phase:format(1),
 		[82630] = CL.phase:format(2),
@@ -68,6 +68,10 @@ function mod:GetOptions(CL)
 end
 
 function mod:OnBossEnable()
+	if IsEncounterInProgress() then
+		self:OpenAltPower("altpower", 70602) -- Corruption
+	end
+
 	--normal
 	self:Log("SPELL_CAST_SUCCESS", "Orders", 81171, 81556)
 	self:Log("SPELL_AURA_APPLIED", "Worship", 91317)
@@ -97,6 +101,8 @@ function mod:OnEngage()
 
 	self:RegisterUnitEvent("UNIT_AURA", "SicknessCheck", "player")
 	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
+
+	self:OpenAltPower("altpower", 70602) -- Corruption
 end
 
 --------------------------------------------------------------------------------
