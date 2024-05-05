@@ -212,7 +212,7 @@ function mod:OrbDamage()
 	populateOrbList()
 	if orbWarned then return end
 	orbWarned = true
-	self:OrbWarnin("damage")
+	self:OrbWarning("damage")
 end
 
 function mod:Whelps()
