@@ -35,6 +35,7 @@ L = mod:GetLocale()
 local roleCheckWarned = false
 local eggs = 0
 local orbList = {}
+local orbOnMe = false
 local orbWarned = nil
 local playerInList = nil
 local whelpGUIDs = {}
@@ -56,16 +57,17 @@ end
 
 local function populateOrbList()
 	orbList = {}
+	orbOnMe = false
 	for unit in mod:IterateGroup() do
 		-- Tanking something, but not a tank (aka not tanking Sinestra or Whelps)
 		if UnitThreatSituation(unit) == 3 and isTargetableByOrb(unit) then
 			if UnitIsUnit(unit, "player") then
 				playerInList = true
 			end
-			-- orbList is not created by :NewTargetList
-			-- so we don't have to decolorize when we set icons,
-			-- instead we colorize targets in the module
 			orbList[#orbList + 1] = mod:UnitName(unit)
+			if mod:Me(mod:UnitGUID(unit)) then
+				orbOnMe = true
+			end
 		end
 	end
 end
@@ -74,22 +76,6 @@ local function wipeWhelpList(resetWarning)
 	if resetWarning then orbWarned = nil end
 	playerInList = nil
 	whelpGUIDs = {}
-end
-
--- since we don't use :NewTargetList we have to color the targets
-local hexColors = {}
-for k, v in pairs(CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS) do
-	hexColors[k] = "|cff" .. string.format("%02x%02x%02x", v.r * 255, v.g * 255, v.b * 255)
-end
-
-local function colorize(tbl)
-	for i, v in next, tbl do
-		local _, class = UnitClass(v)
-		if class then
-			tbl[i] = hexColors[class] .. v .. "|r"
-		end
-	end
-	return tbl
 end
 
 --------------------------------------------------------------------------------
@@ -111,8 +97,8 @@ function mod:GetOptions(CL)
 	-- General
 		"phase",
 	}, {
-		[90125] = L["phase13"],
-		[87654] = CL["phase"]:format(2),
+		[90125] = CL.plus:format(CL.stage:format(1), CL.stage:format(3)),
+		[87654] = CL.stage:format(2),
 		phase = "general",
 	}
 end
@@ -162,21 +148,21 @@ end
 
 do
 	local whelpIds = {
-		47265,
-		48047,
-		48048,
-		48049,
-		48050,
+		[47265] = true,
+		[48047] = true,
+		[48048] = true,
+		[48049] = true,
+		[48050] = true,
 	}
 	function mod:WhelpWatcher(args)
 		local mobId = self:MobId(args.sourceGUID)
-		for i, v in next, whelpIds do
-			if mobId == v then whelpGUIDs[args.sourceGUID] = true end
+		if whelpIds[mobId] then
+			whelpGUIDs[args.sourceGUID] = true
 		end
 	end
 end
 
-
+local repeatCount = 0
 function mod:OrbWarning(source)
 	--if playerInList then mod:Flash(92852) end
 
@@ -186,29 +172,44 @@ function mod:OrbWarning(source)
 
 	if source == "spawn" then
 		if #orbList > 0 then
-			mod:TargetMessageOld(92852, colorize(orbList), "blue", "alarm", L["slicer_message"])
+			mod:TargetsMessage(92852, "yellow", orbList, nil, L.slicer_message)
 			-- if we could guess orb targets lets wipe the whelpGUIDs in 5 sec
 			-- if not then we might as well just save them for next time
 			mod:ScheduleTimer(wipeWhelpList, 5) -- might need to adjust this
+			if orbOnMe then
+				self:PlaySound(92852, "warning")
+			end
 		else
-			mod:MessageOld(92852, "blue")
+			repeatCount = repeatCount + 1
+			if repeatCount <= 3 then
+				self:ScheduleTimer(function()
+					populateOrbList()
+					self:OrbWarning("spawn")
+				end, 1)
+			end
 		end
 	elseif source == "damage" then
-		mod:TargetMessageOld(92852, colorize(orbList), "blue", "alarm", L["slicer_message"])
+		mod:TargetsMessage(92852, "yellow", orbList, nil, L.slicer_message)
 		mod:ScheduleTimer(wipeWhelpList, 10, true) -- might need to adjust this
+		if orbOnMe then
+			self:PlaySound(92852, "warning")
+		end
 	end
 end
 
 -- this gets run every 30 sec
 -- need to change it once there is a proper trigger for orbs
 function mod:NextOrbSpawned()
+	repeatCount = 0
 	self:CDBar(92852, 28)
+	self:MessageOld(92852, "blue")
 	populateOrbList()
 	self:OrbWarning("spawn")
 	self:ScheduleTimer("NextOrbSpawned", 28)
 end
 
 function mod:OrbDamage()
+	repeatCount = 99
 	populateOrbList()
 	if orbWarned then return end
 	orbWarned = true
