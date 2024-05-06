@@ -21,9 +21,6 @@ if L then
 	L.next_system_failure = "Prossimo Errore di Sistema"
 
 	L.phase2_message = "Fase Mortalità tra poco!"
-
-	L.warmup = "Riscamdamento"
-	L.warmup_desc = "Timer Riscaldamento"
 end
 
 L = BigWigs:NewBossLocale("Magmaw", "itIT")
@@ -43,7 +40,7 @@ if L then
 	L.phase2_yell = "Potete uccidere il mio Parassita della Lava!"
 
 	-- normal
-	L.slump = "Crollo (Rodeo)"
+	L.slump = "Crollo"
 	L.slump_desc = "Avvisa il crollo di Magmaw ed espone la sua testa, permettendo ai cavalcatori del rodeo di iniziare."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "Oh Sììì, cavalchiamo!!!"

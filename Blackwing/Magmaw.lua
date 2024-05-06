@@ -5,6 +5,12 @@
 local mod, CL = BigWigs:NewBoss("Magmaw", 669, 170)
 if not mod then return end
 mod:RegisterEnableMob(41570)
+mod:SetEncounterID(1024)
+mod:SetRespawnTime(32)
+
+--------------------------------------------------------------------------------
+-- Locals
+--
 
 local phase = 1
 local isHeadPhase = nil
@@ -13,7 +19,7 @@ local isHeadPhase = nil
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	-- heroic
 	L.blazing = "Skeleton Adds"
@@ -30,7 +36,7 @@ if L then
 	L.phase2_yell = "You may actually defeat my lava worm"
 
 	-- normal
-	L.slump = "Slump (Rodeo)"
+	L.slump = "Slump"
 	L.slump_desc = "Warn for when Magmaw slumps forward and exposes himself, allowing the riding rodeo to start."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "Yeehaw, ride on!"
@@ -43,7 +49,6 @@ if L then
 
 	L.spew_warning = "Lava Spew Soon!"
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -54,10 +59,12 @@ function mod:GetOptions()
 		"slump", 79011, 89773, 78006, 78941, 77690,
 		"blazing", "armageddon", "phase2",
 		"berserk"
-	}, {
+	},{
 		slump = "normal",
 		blazing = "heroic",
 		berserk = "general"
+	},{
+		["slump"] = L.slump_bar, -- Slump (Rodeo)
 	}
 end
 
@@ -76,10 +83,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "Armageddon", 92177)
 	self:Emote("Slump", L["slump_trigger"])
 	self:Emote("Vulnerability", L["expose_trigger"])
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	self:Death("Win", 41570)
 end
 
 function mod:OnEngage()

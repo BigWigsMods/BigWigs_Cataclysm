@@ -21,9 +21,6 @@ if L then
 	L.next_system_failure = "下一系統失效"
 
 	L.phase2_message = "即將 致命性階段！"
-
-	L.warmup = "暖身"
-	L.warmup_desc = "暖身計時器。"
 end
 
 L = BigWigs:NewBossLocale("Magmaw", "zhTW")
@@ -43,7 +40,7 @@ if L then
 	L.phase2_yell = "真難想像!看來你真有機會打敗我的蟲子!也許我可幫忙...扭轉戰局。"
 
 	-- normal
-	L.slump = "撲倒（騎乘）"
+	L.slump = "撲倒"
 	L.slump_desc = "當熔喉撲倒並暴露時發出警報。"
 	L.slump_bar = "騎乘"
 	L.slump_message = "嘿，快騎上它！"

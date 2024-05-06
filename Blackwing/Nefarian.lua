@@ -5,6 +5,8 @@
 local mod, CL = BigWigs:NewBoss("Nefarian", 669, 174)
 if not mod then return end
 mod:RegisterEnableMob(41270, 41376)
+mod:SetEncounterID(1026)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -20,7 +22,7 @@ local shadowblazeHandle, lastBlaze = nil, 0
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.phase = "Phases"
 	L.phase_desc = "Warnings for the Phase changes."
@@ -41,7 +43,6 @@ if L then
 
 	L.chromatic_prototype = "Chromatic Prototype" -- 3 adds name
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -77,9 +78,6 @@ function mod:OnBossEnable()
 
 	self:Emote("Electrocute", L["crackle_trigger"])
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	self:Death("Win", 41376)
 	self:Death("PrototypeDeaths", 41948) -- Chromatic Prototype
 end
 
@@ -122,8 +120,10 @@ do
 end
 
 function mod:Electrocute()
-	self:MessageOld(81272, "orange", "alert", L["crackle_message"])
-	self:Bar(81272, 5) -- Electrocute
+	if self:IsEngaged() then -- Not during the RP of activating the boss
+		self:MessageOld(81272, "orange", "alert", L["crackle_message"])
+		self:Bar(81272, 5) -- Electrocute
+	end
 end
 
 function mod:PrototypeDeaths()

@@ -2,26 +2,24 @@
 -- Module Declaration
 --
 
-local mod = BigWigs:NewBoss("Chimaeron", 669, 172)
+local mod, CL = BigWigs:NewBoss("Chimaeron", 669, 172)
 if not mod then return end
 mod:RegisterEnableMob(43296)
+mod:SetEncounterID(1023)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.bileotron_engage = "The Bile-O-Tron springs to life and begins to emit a foul smelling substance."
 
 	L.next_system_failure = "Next System Failure"
 
 	L.phase2_message = "Mortality phase soon!"
-
-	L.warmup = "Warmup"
-	L.warmup_desc = "Warmup timer"
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -46,20 +44,17 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "DoubleAttack", 88826)
 	self:Log("SPELL_CAST_START", "Massacre", 82848)
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 	self:RegisterEvent("CHAT_MSG_MONSTER_EMOTE", "Warmup")
-
-	self:Death("Win", 43296)
 end
 
 function mod:Warmup(_, msg)
 	if msg == L["bileotron_engage"] then
-		self:Bar("warmup", 30, self.displayName, "achievement_dungeon_blackwingdescent_raid_chimaron")
+		self:Bar("warmup", 30, CL.active, "achievement_dungeon_blackwingdescent_raid_chimaron")
 	end
 end
 
 function mod:OnEngage()
-	self:StopBar(self.displayName)
+	self:StopBar(CL.active)
 	self:Berserk(450)
 	if not self:Heroic() then
 		self:CDBar(88853, 90, L["next_system_failure"]) --happens randomly at either 60 or 90 on heroic

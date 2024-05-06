@@ -5,6 +5,8 @@
 local mod, CL = BigWigs:NewBoss("Maloriak", 669, 173)
 if not mod then return end
 mod:RegisterEnableMob(41378)
+mod:SetEncounterID(1025)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -19,7 +21,7 @@ local isChilled, currentPhase = nil, nil
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	--heroic
 	L.sludge = "Dark Sludge"
@@ -51,7 +53,6 @@ if L then
 	L.dark_phase_emote_trigger = "dark"
 	L.dark_phase = "|cFF660099Dark|r phase"
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -94,8 +95,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "ArcaneStorm", 77896)
 	self:Log("SPELL_CAST_START", "Jets", 78194)
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
 	-- We keep the emotes in case the group uses Curse of Tongues, in which
 	-- case the yells become Demonic.
 	self:Emote("Red", L["red_phase_emote_trigger"])
@@ -109,8 +108,6 @@ function mod:OnBossEnable()
 	self:BossYell("Blue", L["blue_phase_trigger"])
 	self:BossYell("Green", L["green_phase_trigger"])
 	self:BossYell("Dark", L["dark_phase_trigger"])
-
-	self:Death("Win", 41378)
 end
 
 function mod:OnEngage()

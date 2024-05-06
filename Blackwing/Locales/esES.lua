@@ -21,9 +21,6 @@ if L then
 	L.next_system_failure = "Siguiente fallo del sistema"
 
 	L.phase2_message = "¡Fase de Mortalidad pronto!"
-
-	L.warmup = "Calentamiento"
-	L.warmup_desc = "Temporizador para Calentamiento"
 end
 
 L = BigWigs:NewBossLocale("Magmaw", "esES") or BigWigs:NewBossLocale("Magmaw", "esMX")
@@ -43,7 +40,7 @@ if L then
 	L.phase2_yell = "¡Inconcebible! ¡Existe la posibilidad de que venzáis a mi gusano de lava! Quizás yo pueda... desequilibrar la balanza."
 
 	-- normal
-	L.slump = "Cae (Rodeo)"
+	L.slump = "Cae"
 	L.slump_desc = "Cae hacia delante exponiendose a sí mismo, permitiendo que el rodeo empiece."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "¡Yeepah, móntalo!"

@@ -21,9 +21,6 @@ if L then
 	L.next_system_failure = "Systemversagen"
 
 	L.phase2_message = "Sterblichkeitsphase bald!"
-
-	L.warmup = "Aufwärmen"
-	L.warmup_desc = "Timer für die Aufwärmphase."
 end
 
 L = BigWigs:NewBossLocale("Magmaw", "deDE")
@@ -43,7 +40,7 @@ if L then
 	L.phase2_yell = "Ihr könntet tatsächlich meinen Lavawurm besiegen" -- check
 
 	-- normal
-	L.slump = "Nach vorne schlittern (Rodeo)"
+	L.slump = "Nach vorne schlittern"
 	L.slump_desc = "Warnt vor dem nach vorne Schlittern, das das Rodeo erlaubt zu starten."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "Yeehaa, Rodeo!"

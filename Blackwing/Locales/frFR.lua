@@ -21,9 +21,6 @@ if L then
 	L.next_system_failure = "Prochaine Défaillance"
 
 	L.phase2_message = "Phase Mortalité imminente !"
-
-	L.warmup = "Échauffement"
-	L.warmup_desc = "Minuteur de l'échauffement."
 end
 
 L = BigWigs:NewBossLocale("Magmaw", "frFR")
@@ -43,7 +40,7 @@ if L then
 	L.phase2_yell = "Inconcevable ! Vous pourriez vraiment vaincre mon ver de lave !"
 
 	-- normal
-	L.slump = "Affalement (rodéo)"
+	L.slump = "Affalement"
 	L.slump_desc = "Prévient quand le boss s'affale vers l'avant et s'expose, permettant ainsi au rodéo de commencer."
 	L.slump_bar = "Rodéo"
 	L.slump_message = "Yeehaw, chevauchez !"

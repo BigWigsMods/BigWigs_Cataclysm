@@ -21,9 +21,6 @@ if L then
 	L.next_system_failure = "Системная ошибка"
 
 	L.phase2_message = "Скоро фаза Смертности!"
-
-	L.warmup = "Начало боя"
-	L.warmup_desc = "Время до начала боя с боссом"
 end
 
 L = BigWigs:NewBossLocale("Magmaw", "ruRU")
@@ -43,7 +40,7 @@ if L then
 	L.phase2_yell = "Непостижимо! Вы, кажется, можете уничтожить моего лавового червяка! Пожалуй, я помогу ему."
 
 	-- normal
-	L.slump = "Падение (Родео)"
+	L.slump = "Падение"
 	L.slump_desc = "Магмарь падает вперед открывая себя, позволяя начать родео."
 	L.slump_bar = "Родео"
 	L.slump_message = "Йихо, погнали!"

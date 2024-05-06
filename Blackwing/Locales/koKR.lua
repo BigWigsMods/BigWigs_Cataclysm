@@ -21,9 +21,6 @@ if L then
 	L.next_system_failure = "다음 시스템 오류"
 
 	L.phase2_message = "곧 치명상 단계!"
-
-	L.warmup = "전투 준비"
-	L.warmup_desc = "전투가 시작되기까지의 시간입니다."
 end
 
 L = BigWigs:NewBossLocale("Magmaw", "koKR")
@@ -43,9 +40,9 @@ if L then
 	L.phase2_yell = "이런 곤란한 데가! 이러다간 내 용암"
 
 	-- normal
-	L.slump = "슬럼프 (로데오)"
+	L.slump = "슬럼프"
 	L.slump_desc = "슬럼프 상태를 알립니다."
-	L.slump_bar = "슬럼프"
+	L.slump_bar = "로데오"
 	L.slump_message = "올라타세요~!"
 	L.slump_trigger = "%s|1이;가; 집게를 드러내며 앞으로 몸을 기울입니다!"
 

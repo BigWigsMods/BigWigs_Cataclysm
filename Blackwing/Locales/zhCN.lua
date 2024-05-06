@@ -21,9 +21,6 @@ if L then
 	L.next_system_failure = "下一系统当机"
 
 	L.phase2_message = "即将 至死方休阶段！"
-
-	L.warmup = "屠杀"
-	L.warmup_desc = "屠杀计时器。"
 end
 
 L = BigWigs:NewBossLocale("Magmaw", "zhCN")
@@ -43,9 +40,9 @@ if L then
 	L.phase2_yell = "难以置信"
 
 	-- normal
-	L.slump = "弱点（骑乘）"
+	L.slump = "弱点"
 	L.slump_desc = "当熔喉扑倒并暴露后脑时发出警报。需要骑乘。"
-	L.slump_bar = "弱点"
+	L.slump_bar = "骑乘"
 	L.slump_message = "嘿，快骑上它！"
 	L.slump_trigger = "%s向前倒下，暴露出他的钳子！"
 
