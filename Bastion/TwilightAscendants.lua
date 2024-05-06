@@ -64,7 +64,7 @@ function mod:GetOptions()
 		-- Heroic
 		{92067, "SAY", "ICON"},
 		{92075, "SAY", "ICON"},
-		{92307, "ICON", "EMPHASIZE_ME_ONLY"},
+		{92307, "ICON", "ME_ONLY_EMPHASIZE"},
 		-- General
 		"switch"
 	}, {
