@@ -7,16 +7,17 @@ if not mod then return end
 mod:RegisterEnableMob(41270, 41376)
 mod:SetEncounterID(1026)
 mod:SetRespawnTime(30)
+mod:SetStage(1)
 
 --------------------------------------------------------------------------------
 -- Locals
 --
 
-local phase, deadAdds, shadowBlazeTimer = 1, 0, 35
-local cinderTargets = mod:NewTargetList()
+local deadAdds, shadowBlazeTimer = 0, 35
 local powerTargets = mod:NewTargetList()
 local phase3warned = false
 local shadowblazeHandle, lastBlaze = nil, 0
+local blastNovaCollector = {}
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -50,14 +51,26 @@ end
 
 function mod:GetOptions()
 	return {
-		77939, 78999, 81272, 81007,
-		{79339, "SAY"}, "berserk",
-		"phase"
-	}, {
+		-- Onyxia
+		77939,
+		-- Normal
+		78999,
+		81272,
+		81007,
+		80734, -- Blast Nova
+		-- Heroic
+		{79339, "CASTBAR", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Explosive Cinders
+		79318, -- Dominion
+		"berserk",
+		-- General
+		"stages",
+	},{
 		[77939] = -3283, -- Onyxia
 		[78999] = "normal",
 		[79339] = "heroic",
-		phase = "general"
+		["stages"] = "general"
+	},{
+		[79339] = CL.bomb, -- Explosive Cinders (Bomb)
 	}
 end
 
@@ -70,8 +83,14 @@ function mod:OnBossEnable()
 	self:Log("SPELL_DAMAGE", "LightningDischarge", "*")
 	self:Log("SPELL_MISSED", "LightningDischarge", "*")
 
+	self:Log("SPELL_CAST_START", "BlastNova", 80734)
+
+	self:Log("SPELL_CAST_START", "ExplosiveCinders", 79339)
 	self:Log("SPELL_AURA_APPLIED", "ExplosiveCindersApplied", 79339)
 	self:Log("SPELL_AURA_REMOVED", "ExplosiveCindersRemoved", 79339)
+
+	self:Log("SPELL_CAST_START", "Dominion", 79318)
+	self:Log("SPELL_AURA_APPLIED", "DominionApplied", 79318)
 
 	self:Log("SPELL_DAMAGE", "PersonalShadowBlaze", 81007)
 	self:Log("SPELL_MISSED", "PersonalShadowBlaze", 81007)
@@ -82,12 +101,17 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
+	deadAdds, shadowBlazeTimer = 0, 35
+	phase3warned = false
+	shadowblazeHandle, lastBlaze = nil, 0
+	blastNovaCollector = {}
+	self:SetStage(1)
+	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1", "boss2")
 	self:Berserk(630) -- is it really?
 	self:CDBar(77939, 30, L["discharge_bar"])
-	phase, deadAdds, shadowBlazeTimer = 1, 0, 35
-	phase3warned = false
-	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", "PowerCheck", "boss1", "boss2")
-	shadowblazeHandle, lastBlaze = nil, 0
+	if self:Heroic() then
+		self:CDBar(79318, 45) -- Dominion
+	end
 end
 
 --------------------------------------------------------------------------------
@@ -99,9 +123,8 @@ do
 	local discharge = mod:SpellName(77939)
 	function mod:LightningDischarge(args)
 		if args.spellName ~= discharge then return end
-		local t = GetTime()
-		if (t - prev) > 10 then
-			prev = t
+		if (args.time - prev) > 10 then
+			prev = args.time
 			self:CDBar(77939, 21, L["discharge_bar"])
 		end
 	end
@@ -110,11 +133,9 @@ end
 do
 	local prev = 0
 	function mod:PersonalShadowBlaze(args)
-		local t = GetTime()
-		if (t - prev) > 1 and self:Me(args.destGUID) then
-			prev = t
+		if self:Me(args.destGUID) and (args.time - prev) > 1 then
+			prev = args.time
 			self:MessageOld(args.spellId, "blue", "info", L["shadowblaze_message"])
-			--self:Flash(args.spellId)
 		end
 	end
 end
@@ -129,29 +150,30 @@ end
 function mod:PrototypeDeaths()
 	deadAdds = deadAdds + 1
 	if self:Heroic() and not phase3warned then
-		self:StopBar(CL["phase"]:format(phase))
-		phase = 3
-		self:MessageOld("phase", "yellow", nil, CL["phase"]:format(phase), 81007)
+		self:StopBar(CL.stage:format(self:GetStage()))
+		self:SetStage(3)
+		self:Message("stages", "cyan", CL.stage:format(3), false)
 		phase3warned = true
 	end
 	if deadAdds == 3 and not phase3warned then
-		self:StopBar(CL["phase"]:format(phase))
-		phase = 3
-		self:MessageOld("phase", "yellow", nil, CL["phase"]:format(phase), 81007)
+		self:StopBar(CL.stage:format(self:GetStage()))
+		self:SetStage(3)
+		self:Message("stages", "cyan", CL.stage:format(3), false)
 		phase3warned = true
 	end
 end
 
 function mod:PhaseTwo()
-	phase = 2
-	self:MessageOld("phase", "yellow", nil, CL["phase"]:format(phase), 78621)
+	self:SetStage(2)
+	self:StopBar(79318) -- Dominion
+	self:Message("stages", "cyan", CL.stage:format(2), false)
 	if self:Difficulty() == 6 then
 		-- Heroic 25man (diff 4) probably 4 minutes
-		self:Bar("phase", 240, CL["phase"]:format(phase), 78621) -- random guessed number
+		self:Bar("stages", 240, CL.stage:format(3), 78621) -- random guessed number
 	else
 		-- Normal 10man (diff 1) probably 3 minutes
 		-- Normal 25man (diff 2) confirmed 3 minutes
-		self:Bar("phase", 180, CL["phase"]:format(phase), 78621)
+		self:Bar("stages", 180, CL.stage:format(3), 78621)
 	end
 	-- XXX Heroic 10man (diff 3) - no idea.
 end
@@ -179,48 +201,72 @@ function mod:ShadowblazeCorrection()
 end
 
 function mod:PhaseThree()
-	self:StopBar(CL["phase"]:format(phase))
+	self:StopBar(CL.stage:format(3))
+	if self:Heroic() then
+		self:CDBar(79318, 20) -- Dominion
+	end
 	if not phase3warned then
-		phase = 3
-		self:MessageOld("phase", "yellow", nil, CL["phase"]:format(phase), 78621)
 		phase3warned = true
+		self:SetStage(3)
+		self:Message("stages", "cyan", CL.stage:format(3), false)
 	end
 	self:Bar(81007, 12) -- Shadowblaze
 	shadowblazeHandle = self:ScheduleTimer(nextBlaze, 12)
 end
 
-do
-	local scheduled = nil
-	local function cinderWarn(spellId)
-		mod:TargetMessageOld(spellId, cinderTargets, "orange", "info")
-		scheduled = nil
+function mod:BlastNova(args)
+	blastNovaCollector[args.sourceGUID] = (blastNovaCollector[args.sourceGUID] or 0) + 1
+	local unit = self:GetUnitIdByGUID(args.sourceGUID)
+	if unit and self:UnitWithinRange(unit, 30) then
+		self:Message(args.spellId, "orange", CL.count:format(args.spellName, blastNovaCollector[args.sourceGUID]))
 	end
+end
+
+do
+	local playerList = {}
+	function mod:ExplosiveCinders()
+		playerList = {}
+	end
+
 	function mod:ExplosiveCindersApplied(args)
-		cinderTargets[#cinderTargets + 1] = args.destName
+		playerList[#playerList+1] = args.destName
+		self:TargetsMessage(args.spellId, "orange", playerList, 3, CL.bomb)
 		if self:Me(args.destGUID) then
-			--self:Flash(args.spellId)
-			self:Say(args.spellId)
-			self:Bar(args.spellId, 8)
-		end
-		if not scheduled then
-			scheduled = true
-			self:ScheduleTimer(cinderWarn, 0.3, args.spellId)
+			self:Say(args.spellId, CL.bomb, nil, "Bomb")
+			self:SayCountdown(args.spellId, 8, nil, 5)
+			self:CastBar(args.spellId, 8, CL.bomb)
+			self:PlaySound(args.spellId, "warning")
 		end
 	end
 end
 
 function mod:ExplosiveCindersRemoved(args)
-	--if self:Me(args.destGUID) then
-	--	self:CloseProximity(args.spellId)
-	--end
+	if self:Me(args.destGUID) then
+		self:CancelSayCountdown(args.spellId)
+		self:PersonalMessage(args.spellId, "removed", CL.bomb)
+	end
 end
 
-function mod:PowerCheck(event, unit)
-	if self:UnitName(unit) == self:SpellName(-3283) then -- Onyxia
+do
+	local playerList = {}
+	function mod:Dominion(args)
+		playerList = {}
+		self:CDBar(args.spellId, 16.2)
+		self:PlaySound(args.spellId, "warning")
+	end
+
+	function mod:DominionApplied(args)
+		playerList[#playerList+1] = args.destName
+		self:TargetsMessage(args.spellId, "yellow", playerList, 5)
+	end
+end
+
+function mod:UNIT_POWER_FREQUENT(event, unit)
+	if self:MobId(self:UnitGUID(unit)) == 41270 then -- Onyxia
 		local power = UnitPower(unit, 10) -- Enum.PowerType.Alternate = 10
 		if power > 80 then
-			self:MessageOld(78999, "yellow", nil, L["onyxia_power_message"])
 			self:UnregisterUnitEvent(event, "boss1", "boss2")
+			self:Message(78999, "yellow", L["onyxia_power_message"])
 		end
 	end
 end
