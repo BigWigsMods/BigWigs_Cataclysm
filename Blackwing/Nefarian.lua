@@ -142,8 +142,9 @@ end
 
 function mod:Electrocute()
 	if self:IsEngaged() then -- Not during the RP of activating the boss
-		self:MessageOld(81272, "orange", "alert", L["crackle_message"])
+		self:Message(81272, "orange", L["crackle_message"])
 		self:Bar(81272, 5) -- Electrocute
+		self:PlaySound(81272, "alert")
 	end
 end
 
@@ -166,6 +167,7 @@ end
 function mod:PhaseTwo()
 	self:SetStage(2)
 	self:StopBar(79318) -- Dominion
+	self:StopBar(L["discharge_bar"])
 	self:Message("stages", "cyan", CL.stage:format(2), false)
 	if self:Difficulty() == 6 then
 		-- Heroic 25man (diff 4) probably 4 minutes
@@ -243,6 +245,7 @@ end
 function mod:ExplosiveCindersRemoved(args)
 	if self:Me(args.destGUID) then
 		self:CancelSayCountdown(args.spellId)
+		self:StopBar(CL.cast:format(CL.bomb))
 		self:PersonalMessage(args.spellId, "removed", CL.bomb)
 	end
 end
