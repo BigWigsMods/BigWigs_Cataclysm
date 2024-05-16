@@ -5,6 +5,8 @@
 local mod, CL = BigWigs:NewBoss("Ascendant Council", 671, 158)
 if not mod then return end
 mod:RegisterEnableMob(43686, 43687, 43688, 43689, 43735) --Ignacious, Feludius, Arion, Terrastra, Elementium Monstrosity
+mod:SetEncounterID(1028)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -20,7 +22,7 @@ local phase = 1
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.static_overload_say = "Overload"
 	L.gravity_core_say = "Gravity"
@@ -43,7 +45,6 @@ if L then
 
 	L.last_phase_trigger = "An impressive display..."
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -109,11 +110,7 @@ function mod:OnBossEnable()
 	self:Emote("QuakeTrigger", L["quake_trigger"])
 	self:Emote("ThundershockTrigger", L["thundershock_trigger"])
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
 	self:BossYell("LastPhase", L["last_phase_trigger"])
-
-	self:Death("Win", 43735) -- Elementium Monstrosity
 end
 
 function mod:OnEngage()
@@ -285,7 +282,7 @@ end
 do
 	local hardenTimer = nil
 	local function quakeIncoming()
-		if mod:UnitDebuff("player", mod:SpellName(83500)) then -- Swirling Winds
+		if mod:UnitDebuff("player", mod:SpellName(83500), 83500) then -- Swirling Winds
 			mod:CancelTimer(hardenTimer)
 			return
 		end

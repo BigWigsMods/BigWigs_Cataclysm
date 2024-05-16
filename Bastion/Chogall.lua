@@ -5,6 +5,8 @@
 local mod = BigWigs:NewBoss("Cho'gall", 671, 167)
 if not mod then return end
 mod:RegisterEnableMob(43324)
+mod:SetEncounterID(1029)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -21,7 +23,7 @@ local oozecount = 1
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.orders = "Stance changes"
 	L.orders_desc = "Warning for when Cho'gall changes between Shadow/Flame Orders stances."
@@ -49,7 +51,6 @@ if L then
 	L.phase2_message = "Phase 2!"
 	L.phase2_soon = "Phase 2 soon!"
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -84,10 +85,6 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_DAMAGE", "Blaze", 81538)
 	self:Log("SPELL_MISSED", "Blaze", 81538)
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	self:Death("Win", 43324)
 end
 
 function mod:OnEngage()

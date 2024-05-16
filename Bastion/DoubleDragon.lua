@@ -5,6 +5,8 @@
 local mod, CL = BigWigs:NewBoss("Valiona and Theralion", 671, 157)
 if not mod then return end
 mod:RegisterEnableMob(45992, 45993)
+mod:SetEncounterID(1032)
+mod:SetRespawnTime(35)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -18,7 +20,7 @@ local markWarned = false
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.phase_switch = "Phase Switch"
 	L.phase_switch_desc = "Warning for phase switches."
@@ -34,7 +36,6 @@ if L then
 
 	L.twilight_shift = "Shift"
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -42,7 +43,8 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{86788, "ICON"}, 88518, 86059, 86840,
+		{86788, "ICON", "ME_ONLY_EMPHASIZE"}, -- Blackout
+		88518, 86059, 86840,
 		{86622, "SAY"}, 86408, 86369, 93051,
 		"phase_switch", "berserk"
 	}, {
@@ -71,11 +73,7 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_CAST_START", "TwilightBlast", 86369)
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
 	self:RegisterUnitEvent("UNIT_AURA", "MeteorCheck", "player")
-
-	self:Death("Deaths", 45992, 45993)
 end
 
 function mod:OnEngage()
@@ -106,7 +104,7 @@ end
 
 local function valionaHasLanded()
 	mod:StopBar(86622) -- Engulfing Magic
-	mod:MessageOld("phase_switch", "green", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
+	mod:MessageOld("phase_switch", "cyan", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
 	mod:CDBar(86840, 26) -- Devouring Flames
 	mod:Bar(86788, 11) -- Blackout
 end
@@ -114,7 +112,7 @@ end
 local function theralionHasLanded()
 	mod:StopBar(86788) -- Blackout
 	mod:StopBar(86840) -- Devouring Flames
-	mod:Bar("phase_switch", 130, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
+	mod:Bar("phase_switch", 129, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
 end
 
 function mod:TwilightShift(args)
@@ -130,8 +128,8 @@ function mod:DazzlingDestruction(args)
 	if phaseCount == 1 then
 		self:MessageOld(args.spellId, "red", "alarm", L["dazzling_message"])
 	elseif phaseCount == 3 then
-		self:ScheduleTimer(theralionHasLanded, 5)
-		self:MessageOld("phase_switch", "green", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
+		self:ScheduleTimer(theralionHasLanded, 6)
+		self:MessageOld("phase_switch", "cyan", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
 	end
 end
@@ -154,17 +152,19 @@ function mod:DeepBreath()
 end
 
 function mod:BlackoutApplied(args)
-	--if self:Me(args.destGUID) then
-		--self:Flash(args.spellId)
-	--end
-	self:TargetMessageOld(args.spellId, args.destName, "blue", "alert", nil, nil, true)
+	self:TargetMessage(args.spellId, "yellow", args.destName)
 	self:Bar(args.spellId, 45)
 	self:PrimaryIcon(args.spellId, args.destName)
+	if self:Me(args.destGUID) then
+		self:PlaySound(args.spellId, "warning", nil, args.destName)
+	else
+		self:PlaySound(args.spellId, "alert", nil, args.destName)
+	end
 end
 
 function mod:BlackoutRemoved(args)
+	self:StopBar(args.spellName)
 	self:PrimaryIcon(args.spellId)
-	self:Bar(args.spellId, 40) -- make sure to remove bar when it's removed
 end
 
 do
@@ -213,15 +213,3 @@ function mod:EngulfingMagicRemoved(args)
 		--self:CloseProximity()
 	--end
 end
-
-do
-	local count = 0
-	function mod:Deaths()
-		--Prevent the module from re-enabling in the second or so after 1 boss dies
-		count = count + 1
-		if count == 2 then
-			self:Win()
-		end
-	end
-end
-

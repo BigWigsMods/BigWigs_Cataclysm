@@ -5,12 +5,14 @@
 local mod, CL = BigWigs:NewBoss("Sinestra", 671, 168)
 if not mod then return end
 mod:RegisterEnableMob(45213)
+mod:SetEncounterID(mod:Retail() and 1083 or 1082)
+mod:SetRespawnTime(40)
 
 --------------------------------------------------------------------------------
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.whelps = "Whelps"
 	L.whelps_desc = "Warning for the whelp waves."
@@ -26,7 +28,6 @@ if L then
 	L.phase = "Phase"
 	L.phase_desc = "Warning for phase changes."
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -124,9 +125,6 @@ function mod:OnBossEnable()
 	self:BossYell("EggTrigger", L["omelet_trigger"])
 	self:BossYell("Whelps", L["whelps_trigger"])
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	self:Death("Win", 45213)
 	self:Death("TwilightEggDeaths", 46842) -- Pulsing Twilight Egg
 end
 

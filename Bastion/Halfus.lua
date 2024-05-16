@@ -5,12 +5,14 @@
 local mod, CL = BigWigs:NewBoss("Halfus Wyrmbreaker", 671, 156)
 if not mod then return end
 mod:RegisterEnableMob(44600)
+mod:SetEncounterID(1030)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Localization
 --
 
-local L = mod:NewLocale("enUS", true)
+local L = mod:GetLocale()
 if L then
 	L.strikes_message = "Strikes"
 
@@ -19,7 +21,6 @@ if L then
 
 	L.engage_yell = "Cho'gall will have your heads"
 end
-L = mod:GetLocale()
 
 --------------------------------------------------------------------------------
 -- Initialization
@@ -35,12 +36,8 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED_DOSE", "MalevolentStrikes", 83908) -- used with Slate Dragon ready
 	self:Log("SPELL_CAST_START", "Breath", 83707) -- used by Proto-Behemoth with whelps ready
 
-	--No CheckBossStatus() here as event does not fire, GM confirms "known" issue.
-	--It's more likely to be because there isn't enough frames for all bosses on heroic.
+	-- No boss frames..
 	self:BossYell("Engage", L["engage_yell"])
-	self:RegisterEvent("PLAYER_REGEN_ENABLED", "CheckForWipe")
-
-	self:Death("Win", 44600)
 end
 
 function mod:OnEngage()
