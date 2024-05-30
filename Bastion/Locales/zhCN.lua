@@ -1,6 +1,13 @@
 
-local L = BigWigs:NewBossLocale("Cho'gall", "zhCN")
+local L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "zhCN")
 if not L then return end
+if L then
+	L.strikes_message = "致伤打击"
+
+	L.engage_yell_trigger = "古加尔想要你们全部的脑袋！"
+end
+
+L = BigWigs:NewBossLocale("Cho'gall", "zhCN")
 if L then
 	L.orders = "形态转换"
 	L.orders_desc = "当古加尔改变暗影/火焰援助令形态时发出警报。"
@@ -44,16 +51,6 @@ if L then
 	L.valiona_trigger = "瑟纳利昂，我去包抄门厅。堵住他们的退路！"
 
 	L.twilight_shift = "暮光位移"
-end
-
-L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "zhCN")
-if L then
-	L.strikes_message = "致伤打击"
-
-	L.breath_message = "即将 灼热气息！"
-	L.breath_bar = "灼热气息"
-
-	L.engage_yell = "古加尔想要你们全部的脑袋！"
 end
 
 L = BigWigs:NewBossLocale("Sinestra", "zhCN")

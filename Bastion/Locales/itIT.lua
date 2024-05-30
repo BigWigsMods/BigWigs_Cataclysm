@@ -1,6 +1,13 @@
 
-local L = BigWigs:NewBossLocale("Cho'gall", "itIT")
+local L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "itIT")
 if not L then return end
+if L then
+	L.strikes_message = "Assalti"
+
+	L.engage_yell_trigger = "Cho'gall avrà le vostre teste tutte"
+end
+
+L = BigWigs:NewBossLocale("Cho'gall", "itIT")
 if L then
 	L.orders = "Cambio Postura"
 	L.orders_desc = "Avvisi per il cambio di postura di Cho'Gall tra le fasi Ordini Fiammeggianti/dell'Ombra."
@@ -44,16 +51,6 @@ if L then
 	L.valiona_trigger = "Theralion, inonderò la sala di fiamme, impedisci che fuggano!"
 
 	L.twilight_shift = "Cambio"
-end
-
-L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "itIT")
-if L then
-	L.strikes_message = "Assalti"
-
-	L.breath_message = "Soffio tra poco!"
-	L.breath_bar = "~Soffio"
-
-	L.engage_yell = "Cho'gall avrà le vostre teste tutte"
 end
 
 L = BigWigs:NewBossLocale("Sinestra", "itIT")

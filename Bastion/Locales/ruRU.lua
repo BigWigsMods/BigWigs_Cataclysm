@@ -1,6 +1,13 @@
 
-local L = BigWigs:NewBossLocale("Cho'gall", "ruRU")
+local L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "ruRU")
 if not L then return end
+if L then
+	L.strikes_message = "Удары"
+
+	L.engage_yell_trigger = "Чо'Галлу принесут ваши головы! Все до единой!"
+end
+
+L = BigWigs:NewBossLocale("Cho'gall", "ruRU")
 if L then
 	L.orders = "Смена приказа"
 	L.orders_desc = "Сообщать когда Чо'Галл сменяет приказы огня/тьмы"
@@ -44,16 +51,6 @@ if L then
 	L.valiona_trigger = "Тералион, я подожгу коридор. Не дай им уйти!"
 
 	L.twilight_shift = "Сдвиг"
-end
-
-L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "ruRU")
-if L then
-	L.strikes_message = "Удары"
-
-	L.breath_message = "Обжигающее дыхание!"
-	L.breath_bar = "~Дыхание"
-
-	L.engage_yell = "Чо'Галлу принесут ваши головы! Все до единой!"
 end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "ruRU")

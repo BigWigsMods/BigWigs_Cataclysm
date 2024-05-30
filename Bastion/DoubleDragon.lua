@@ -90,15 +90,14 @@ end
 --
 
 do
-	local function checkTarget(sGUID, spellId)
-		local bossId = mod:UnitGUID("boss2") == sGUID and "boss2target" or "boss1target"
-		if not mod:UnitName(bossId) then return end --The first is sometimes delayed longer than 0.3
-		if UnitIsUnit(bossId, "player") then
-			mod:MessageOld(spellId, "blue", "long", CL["you"]:format(L["blast_message"]))
+	local function printTarget(self, name, guid)
+		if self:Me(guid) then
+			self:PersonalMessage(86369)
+			self:PlaySound(86369, "warning", nil, name)
 		end
 	end
 	function mod:TwilightBlast(args)
-		self:ScheduleTimer(checkTarget, 0.3, args.sourceGUID, args.spellId)
+		self:GetUnitTarget(printTarget, 0.7, args.sourceGUID)
 	end
 end
 
@@ -196,7 +195,7 @@ do
 	end
 	function mod:EngulfingMagicApplied(args)
 		if self:Me(args.destGUID) then
-			self:Say(args.spellId, L["engulfingmagic_say"])
+			self:Say(args.spellId, nil, nil, "Engulfing Magic")
 			--self:Flash(args.spellId)
 		end
 		emTargets[#emTargets + 1] = args.destName

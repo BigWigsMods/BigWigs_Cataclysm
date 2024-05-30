@@ -1,5 +1,5 @@
 
-local L = BigWigs:NewBossLocale("Magmaw", "esES")
+local L = BigWigs:NewBossLocale("Magmaw", "esMX")
 if not L then return end
 if L then
 	L.stage2_yell_trigger = "¡Inconcebible! ¡Existe la posibilidad de que venzáis a mi gusano de lava! Quizás yo pueda... desequilibrar la balanza."
@@ -13,7 +13,7 @@ if L then
 	L.expose_emote_trigger = "cabeza"
 end
 
-L = BigWigs:NewBossLocale("Omnotron Defense System", "esES")
+L = BigWigs:NewBossLocale("Omnotron Defense System", "esMX")
 if L then
 	L.nef = "Lord Victor Nefarius"
 	L.nef_desc = "Avisos para las abilidades de Lord Victor Nefarius"
@@ -36,7 +36,7 @@ if L then
 	L.custom_on_iconomnotron_desc = "Coloca el icono principal de raid en el jefe activo (requiere ayudante o lider)."
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "esES")
+L = BigWigs:NewBossLocale("Chimaeron", "esMX")
 if L then
 	L.bileotron_engage = "El Bilistrón se activa y empieza a emitir una sustancia de olor asqueroso."
 
@@ -45,7 +45,7 @@ if L then
 	L.phase2_message = "¡Fase de Mortalidad pronto!"
 end
 
-L = BigWigs:NewBossLocale("Atramedes", "esES")
+L = BigWigs:NewBossLocale("Atramedes", "esMX")
 if L then
 	L.ground_phase = "Fase en tierra"
 	L.ground_phase_desc = "Avisa cuando Atramedes aterriza."
@@ -59,7 +59,7 @@ if L then
 	L.searing_soon = "¡Llamas abrasadoras en 10 seg!"
 end
 
-L = BigWigs:NewBossLocale("Maloriak", "esES")
+L = BigWigs:NewBossLocale("Maloriak", "esMX")
 if L then
 	--heroic
 	L.sludge = "Fango oscuro"
@@ -92,7 +92,7 @@ if L then
 	L.dark_phase = "Fase |cFF660099Oscura|r"
 end
 
-L = BigWigs:NewBossLocale("Nefarian", "esES")
+L = BigWigs:NewBossLocale("Nefarian", "esMX")
 if L then
 	L.phase = "Fases"
 	L.phase_desc = "Avisa los cambios de fase."

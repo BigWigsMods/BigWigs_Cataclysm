@@ -1,12 +1,5 @@
 
-local L = BigWigs:NewBossLocale("Argaloth", "itIT")
-if not L then return end
-if L then
-	L.darkness_message = "Oscurità Logorante"
-	L.firestorm_message = "Tempesta di Fuoco Vile tra poco!"
-end
-
-L = BigWigs:NewBossLocale("Occu'thar", "itIT")
+local L = BigWigs:NewBossLocale("Occu'thar", "itIT")
 if not L then return end
 if L then
 	L.shadows_bar = "~Ombre Roventi"
@@ -22,4 +15,3 @@ if L then
 	L.first_ability = "Spiedo o Odio"
 	L.dance_message = "Lame Danzanti %d di 3"
 end
-

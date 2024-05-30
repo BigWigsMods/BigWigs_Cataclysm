@@ -7,13 +7,13 @@ if not mod then return end
 mod:RegisterEnableMob(41570)
 mod:SetEncounterID(1024)
 mod:SetRespawnTime(32)
+mod:SetStage(1)
 
 --------------------------------------------------------------------------------
 -- Locals
 --
 
-local phase = 1
-local isHeadPhase = nil
+local isHeadPhase = false
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -21,33 +21,17 @@ local isHeadPhase = nil
 
 local L = mod:GetLocale()
 if L then
-	-- heroic
-	L.blazing = "Skeleton Adds"
-	L.blazing_desc = "Summons Blazing Bone Construct."
-	L.blazing_message = "Add incoming!"
-	L.blazing_bar = "Skeleton"
+	L.adds_icon = "SPELL_SHADOW_RAISEDEAD"
 
-	L.armageddon = "Armageddon"
-	L.armageddon_desc = "Warn if Armageddon is cast during the head phase."
+	L.stage2_yell_trigger = "You may actually defeat my lava worm"
 
-	L.phase2 = "Phase 2"
-	L.phase2_desc = "Warn for Phase 2 transition and display range check."
-	L.phase2_message = "Phase 2!"
-	L.phase2_yell = "You may actually defeat my lava worm"
-
-	-- normal
 	L.slump = "Slump"
 	L.slump_desc = "Warn for when Magmaw slumps forward and exposes himself, allowing the riding rodeo to start."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "Yeehaw, ride on!"
-	L.slump_trigger = "%s slumps forward, exposing his pincers!"
+	L.slump_emote_trigger = "%s slumps forward, exposing his pincers!"
 
-	L.infection_message = "You are infected!"
-
-	L.expose_trigger = "head"
-	L.expose_message = "Head exposed!"
-
-	L.spew_warning = "Lava Spew Soon!"
+	L.expose_emote_trigger = "head"
 end
 
 --------------------------------------------------------------------------------
@@ -56,131 +40,162 @@ end
 
 function mod:GetOptions()
 	return {
-		"slump", 79011, 89773, 78006, 78941, 77690,
-		"blazing", "armageddon", "phase2",
-		"berserk"
+		-- Normal
+		"slump",
+		{79011, "EMPHASIZE"}, -- Point of Vulnerability
+		78006, -- Pillar of Flame
+		{78941, "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Parasitic Infection
+		77690, -- Lava Spew
+		89773, -- Mangle
+		{78199, "TANK"}, -- Sweltering Armor
+		78403, -- Molten Tantrum
+		-- Heroic
+		"adds",
+		92177, -- Armageddon
+		-- General
+		"stages",
+		"berserk",
 	},{
-		slump = "normal",
-		blazing = "heroic",
-		berserk = "general"
+		["slump"] = "normal",
+		["adds"] = "heroic",
+		["stages"] = "general"
 	},{
 		["slump"] = L.slump_bar, -- Slump (Rodeo)
+		[79011] = CL.weakened, -- Point of Vulnerability (Weakened)
+		[78941] = CL.parasite, -- Parasitic Infection (Parasite)
 	}
 end
 
 function mod:OnBossEnable()
-	--heroic
-	self:Log("SPELL_SUMMON", "BlazingInferno", 92154)
-	self:BossYell("Phase2", L["phase2_yell"])
-
-	--normal
-	self:Log("SPELL_AURA_APPLIED", "Infection", 78097, 78941)
-	self:Log("SPELL_AURA_REMOVED", "InfectionRemoved", 78097, 78941)
+	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
+	self:Log("SPELL_AURA_APPLIED", "ParasiticInfection", 78097, 78941)
 	self:Log("SPELL_AURA_APPLIED", "PillarOfFlame", 78006)
-	self:Log("SPELL_AURA_APPLIED", "Mangle", 89773)
-	self:Log("SPELL_AURA_REMOVED", "MangleRemoved", 89773)
 	self:Log("SPELL_CAST_SUCCESS", "LavaSpew", 77690)
-	self:Log("SPELL_AURA_APPLIED", "Armageddon", 92177)
-	self:Emote("Slump", L["slump_trigger"])
-	self:Emote("Vulnerability", L["expose_trigger"])
+	self:Log("SPELL_AURA_APPLIED", "ArmageddonApplied", 92177)
+	self:Log("SPELL_AURA_REMOVED", "ArmageddonRemoved", 92177)
+	self:Log("SPELL_AURA_APPLIED", "MangleApplied", 89773)
+	self:Log("SPELL_AURA_REMOVED", "MangleRemoved", 89773)
+	self:Log("SPELL_AURA_APPLIED", "SwelteringArmorApplied", 78199)
+	self:Log("SPELL_AURA_APPLIED", "MoltenTantrumApplied", 78403)
+	self:Log("SPELL_AURA_APPLIED_DOSE", "MoltenTantrumApplied", 78403)
+
+	-- Heroic
+	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")
+	self:Log("SPELL_SUMMON", "BlazingInferno", 92154)
 end
 
 function mod:OnEngage()
-	if self:Heroic() then
-		self:Bar("blazing", 30, L["blazing_bar"], "SPELL_SHADOW_RAISEDEAD")
-	end
+	isHeadPhase = false
+	self:SetStage(1)
 	self:Berserk(600)
-	self:Bar("slump", 100, L["slump_bar"], 36702)
+	self:Bar("slump", 100, L.slump_bar, 36702)
 	self:Bar(78006, 30) -- Pillar of Flame
 	self:CDBar(77690, 24) -- Lava Spew
 	self:CDBar(89773, 90) -- Mangle
-	self:DelayedMessage(77690, 24, "yellow", L["spew_warning"])
-	phase = 1
-	isHeadPhase = nil
+	if self:Heroic() then
+		self:Bar("adds", 30, CL.add, "SPELL_SHADOW_RAISEDEAD")
+	end
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
 
-function mod:Armageddon(args)
-	if not isHeadPhase then return end
-	self:MessageOld("armageddon", "red", "alarm", args.spellId)
-	self:Bar("armageddon", 8, args.spellId)
+function mod:CHAT_MSG_MONSTER_YELL(_, msg)
+	if msg:find(L.stage2_yell_trigger, nil, true) then
+		self:SetStage(2)
+		self:StopBar(CL.add)
+		self:Message("stages", "cyan", CL.stage:format(2), false)
+	end
 end
 
 do
 	local function rebootTimers()
-		isHeadPhase = nil
+		isHeadPhase = false
 		mod:CDBar(78006, 9.5) -- Pillar of Flame
 		mod:CDBar(77690, 4.5) -- Lava Spew
 	end
-	function mod:Vulnerability()
-		isHeadPhase = true
-		self:MessageOld(79011, "green", nil, L["expose_message"])
-		self:Bar(79011, 30, L["expose_message"])
-		self:StopBar(78006) -- Pillar of Flame
-		self:StopBar(77690) -- Lava Spew
-		self:CancelDelayedMessage(L["spew_warning"])
-		self:ScheduleTimer(rebootTimers, 30)
+	function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
+		if msg:find(L.slump_emote_trigger, nil, true) then
+			self:StopBar(78006) -- Pillar of Flame
+			self:Bar("slump", 95, L.slump_bar, 36702)
+			self:Message("slump", "green", L.slump_message, 36702)
+			self:PlaySound("slump", "info")
+		elseif msg:find(L.expose_emote_trigger, nil, true) then
+			isHeadPhase = true
+			self:Message(79011, "green", CL.weakened)
+			self:Bar(79011, 30, CL.weakened)
+			self:StopBar(78006) -- Pillar of Flame
+			self:StopBar(77690) -- Lava Spew
+			self:ScheduleTimer(rebootTimers, 30)
+			self:PlaySound(79011, "long")
+		end
 	end
+end
+
+function mod:ArmageddonApplied(args)
+	self:Message(args.spellId, "red", CL.other:format(CL.add, args.spellName))
+	self:Bar(args.spellId, 8)
+	if isHeadPhase then
+		self:PlaySound(args.spellId, "alarm")
+	end
+end
+
+function mod:ArmageddonRemoved(args)
+	self:StopBar(args.spellName)
 end
 
 do
 	local prev = 0
 	function mod:LavaSpew(args)
-		local time = GetTime()
-		if time - prev > 10 then
-			prev = time
-			self:MessageOld(args.spellId, "red")
+		if args.time - prev > 10 then
+			prev = args.time
+			self:Message(args.spellId, "yellow")
 			self:CDBar(args.spellId, 26)
-			self:DelayedMessage(args.spellId, 24, "yellow", L["spew_warning"])
 		end
 	end
 end
 
 function mod:BlazingInferno()
-	self:MessageOld("blazing", "orange", "info", L["blazing_message"], "SPELL_SHADOW_RAISEDEAD")
-	self:Bar("blazing", 35, L["blazing_bar"], "SPELL_SHADOW_RAISEDEAD")
-end
-
-function mod:Phase2()
-	phase = 2
-	self:MessageOld("phase2", "yellow", nil, L["phase2_message"], "ability_warlock_shadowflame") -- Shadow Breath (Heroic)
-	self:StopBar(L["blazing_bar"])
+	self:Message("adds", "cyan", CL.add_spawned, "SPELL_SHADOW_RAISEDEAD")
+	self:Bar("adds", 35, CL.add, "SPELL_SHADOW_RAISEDEAD")
+	self:PlaySound("adds", "info")
 end
 
 function mod:PillarOfFlame(args)
-	self:MessageOld(args.spellId, "orange", "alert")
+	self:Message(args.spellId, "orange")
 	self:CDBar(args.spellId, 32)
+	self:PlaySound(args.spellId, "alert")
 end
 
-function mod:Infection(args)
+function mod:ParasiticInfection(args)
 	if self:Me(args.destGUID) then
-		self:MessageOld(78941, "blue", "alarm", L["infection_message"], args.spellId)
-		--self:Flash(78941)
+		self:PersonalMessage(78941, nil, CL.parasite)
+		self:Say(78941, CL.parasite, nil, "Parasite")
+		self:SayCountdown(78941, 10) -- Not removed on death
+		self:PlaySound(78941, "warning", nil, args.destName)
 	end
 end
 
-function mod:InfectionRemoved(args)
-	--if phase == 1 and self:Me(args.destGUID) then
-	--	self:CloseProximity(78941)
-	--end
+do
+	local prevMangle = 0
+	function mod:MangleApplied(args)
+		prevMangle = args.time
+		self:TargetMessage(args.spellId, "purple", args.destName)
+		self:TargetBar(args.spellId, 30, args.destName)
+		self:PlaySound(args.spellId, "info", nil, args.destName)
+	end
+
+	function mod:MangleRemoved(args)
+		self:StopBar(args.spellName, args.destName)
+		self:CDBar(args.spellId, prevMangle > 0 and (95 - (args.time-prevMangle)) or 95) -- Show the bar after it ends on the tank
+	end
 end
 
-function mod:Slump()
-	self:StopBar(78006) -- Pillar of Flame
-	self:Bar("slump", 95, L["slump_bar"], 36702)
-	self:MessageOld("slump", "green", "info", L["slump_message"], 36702)
+function mod:SwelteringArmorApplied(args)
+	self:TargetMessage(args.spellId, "purple", args.destName)
 end
 
-function mod:Mangle(args)
-	self:TargetMessageOld(args.spellId, args.destName, "blue", "info")
-	self:TargetBar(args.spellId, 30, args.destName)
-	self:CDBar(args.spellId, 95)
+function mod:MoltenTantrumApplied(args)
+	self:StackMessage(args.spellId, "purple", args.destName, args.amount, 1)
 end
-
-function mod:MangleRemoved(args)
-	self:StopBar(args.spellName, args.destName)
-end
-

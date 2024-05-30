@@ -15,16 +15,6 @@ mod:SetRespawnTime(30)
 local fireStormHP = 100
 
 --------------------------------------------------------------------------------
--- Localization
---
-
-local L = mod:GetLocale()
-if L then
-	L.darkness_message = "Darkness"
-	L.firestorm_message = "Firestorm soon!"
-end
-
---------------------------------------------------------------------------------
 -- Initialization
 --
 

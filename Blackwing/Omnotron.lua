@@ -48,8 +48,8 @@ function mod:GetOptions()
 		-- Magmatron
 		{79888, "ICON", "ME_ONLY_EMPHASIZE"},
 		-- Toxitron
-		80161,
-		{80157, "SAY"},
+		80161, -- Chemical Cloud
+		{80157, "SAY"}, -- Chemical Bomb
 		80053,
 		{80094, "ME_ONLY_EMPHASIZE"},
 		-- Heroic
@@ -79,14 +79,16 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_CAST_SUCCESS", "PoisonProtocol", 80053)
 	self:Log("SPELL_AURA_APPLIED", "Fixate", 80094)
-
-	self:Log("SPELL_AURA_APPLIED", "ChemicalCloud", 80161)
-	self:Log("SPELL_CAST_SUCCESS", "ChemicalCloudCast", 80157)
+	self:Log("SPELL_CAST_SUCCESS", "ChemicalBomb", 80157)
 	self:Log("SPELL_AURA_APPLIED", "ShadowInfusion", 92048)
 	self:Log("SPELL_AURA_APPLIED", "EncasingShadows", 92023)
 	self:Log("SPELL_AURA_APPLIED", "LightningConductor", 79888)
 	self:Log("SPELL_AURA_REMOVED", "LightningConductorRemoved", 79888)
 	self:Log("SPELL_AURA_APPLIED", "Activated", 78740)
+
+	self:Log("SPELL_AURA_APPLIED", "ChemicalCloudDamage", 80161)
+	self:Log("SPELL_PERIODIC_DAMAGE", "ChemicalCloudDamage", 80161)
+	self:Log("SPELL_PERIODIC_MISSED", "ChemicalCloudDamage", 80161)
 end
 
 function mod:OnEngage()
@@ -100,18 +102,14 @@ end
 --
 
 do
-	local function checkTarget(sGUID, spellId)
-		for i = 1, 4 do
-			local bossId = ("boss%d"):format(i)
-			if mod:UnitGUID(bossId) == sGUID and UnitIsUnit(bossId.."target", "player") then
-				--mod:Flash(spellId)
-				mod:Say(spellId)
-				break
-			end
+	local function printTarget(self, _, guid)
+		if self:Me(guid) then
+			self:PersonalMessage(80157)
+			self:Say(80157, nil, nil, "Chemical Bomb")
 		end
 	end
-	function mod:ChemicalCloudCast(args)
-		self:ScheduleTimer(checkTarget, 0.1, args.sourceGUID, args.spellId)
+	function mod:ChemicalBomb(args)
+		self:GetUnitTarget(printTarget, 0.3, args.sourceGUID)
 	end
 end
 
@@ -185,15 +183,12 @@ function mod:PoisonProtocol(args)
 end
 
 do
-	local last = 0
-	function mod:ChemicalCloud(args)
-		local time = GetTime()
-		if (time - last) > 2 then
-			last = time
-			if self:Me(args.destGUID) then
-				self:MessageOld(args.spellId, "blue", "info", L["cloud_message"])
-				--self:Flash(args.spellId)
-			end
+	local prev = 0
+	function mod:ChemicalCloudDamage(args)
+		if self:Me(args.destGUID) and args.time - prev > 3 then
+			prev = args.time
+			self:PersonalMessage(args.spellId, "underyou")
+			self:PlaySound(args.spellId, "underyou")
 		end
 	end
 end

@@ -1,6 +1,13 @@
 
-local L = BigWigs:NewBossLocale("Cho'gall", "koKR")
+local L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "koKR")
 if not L then return end
+if L then
+	L.strikes_message = "악의의 일격"
+
+	L.engage_yell_trigger = "초갈 님께 네놈들의 머리를 바치겠다"
+end
+
+L = BigWigs:NewBossLocale("Cho'gall", "koKR")
 if L then
 	L.orders = "상태 변경"
 	L.orders_desc = "초갈의 그림자/불꽃의 명령 상태를 알립니다."
@@ -44,16 +51,6 @@ if L then
 	L.valiona_trigger = "테랄리온, 내가 전당에 불을 뿜겠다. 놈들의 퇴로를 막아라!"
 
 	L.twilight_shift = "황혼 이동"
-end
-
-L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "koKR")
-if L then
-	L.strikes_message = "악의의 일격"
-
-	L.breath_message = "곧 숨결!"
-	L.breath_bar = "~숨결"
-
-	L.engage_yell = "초갈 님께 네놈들의 머리를 바치겠다"
 end
 
 L = BigWigs:NewBossLocale("Sinestra", "koKR")

@@ -1,6 +1,42 @@
 
-local L = BigWigs:NewBossLocale("Atramedes", "itIT")
+local L = BigWigs:NewBossLocale("Magmaw", "itIT")
 if not L then return end
+if L then
+	L.stage2_yell_trigger = "Potete uccidere il mio Parassita della Lava!"
+
+	L.slump = "Crollo"
+	L.slump_desc = "Avvisa il crollo di Magmaw ed espone la sua testa, permettendo ai cavalcatori del rodeo di iniziare."
+	L.slump_bar = "Rodeo"
+	L.slump_message = "Oh Sììì, cavalchiamo!!!"
+	L.slump_emote_trigger = "%s crolla a terra, mostrando le sue chele!"
+
+	L.expose_emote_trigger = "testa"
+end
+
+L = BigWigs:NewBossLocale("Omnotron Defense System", "itIT")
+if L then
+	L.nef = "Ser Victor Nefarius"
+	L.nef_desc = "Avvisi per le abilità di Ser Victor Nefarius."
+
+	L.pool = "Esplosione Pozza"
+
+	L.switch = "Cambio"
+	L.switch_desc = "Avviso per i Cambi."
+	L.switch_message = "%s %s"
+
+	L.next_switch = "Prossima Attivazione"
+
+	L.nef_next = "Beneficio Abilità"
+
+	L.bomb_message = "La Bomba sta seguendo TE!!!"
+	L.cloud_message = "Nuvola su di TE!!!"
+	L.protocol_message = "Bombe in arrivo!"
+
+	L.custom_on_iconomnotron = "Icona sul boss attivo"
+	L.custom_on_iconomnotron_desc = "Metti l'icona primaria dell'incursione sul boss attivo (richiede promozione o capogruppo)."
+end
+
+L = BigWigs:NewBossLocale("Atramedes", "itIT")
 if L then
 	L.ground_phase = "Fase a Terra"
 	L.ground_phase_desc = "Avviso per quando Atramedes atterra."
@@ -21,37 +57,6 @@ if L then
 	L.next_system_failure = "Prossimo Errore di Sistema"
 
 	L.phase2_message = "Fase Mortalità tra poco!"
-end
-
-L = BigWigs:NewBossLocale("Magmaw", "itIT")
-if L then
-	-- heroic
-	L.blazing = "Add Scheletrici"
-	L.blazing_desc = "Evocazione Costrutto d'Ossa Fiammeggiante."
-	L.blazing_message = "Add in arrivo!"
-	L.blazing_bar = "Scheletri"
-
-	L.armageddon = "Armageddon"
-	L.armageddon_desc = "Avvisa se Armageddon viene lanciato durante la fase della Testa."
-
-	L.phase2 = "Fase 2"
-	L.phase2_desc = "Avvisi per la transizione a Fase 2 e mostra il display di prossimità."
-	L.phase2_message = "Fase 2!"
-	L.phase2_yell = "Potete uccidere il mio Parassita della Lava!"
-
-	-- normal
-	L.slump = "Crollo"
-	L.slump_desc = "Avvisa il crollo di Magmaw ed espone la sua testa, permettendo ai cavalcatori del rodeo di iniziare."
-	L.slump_bar = "Rodeo"
-	L.slump_message = "Oh Sììì, cavalchiamo!!!"
-	L.slump_trigger = "%s crolla a terra, mostrando le sue chele!"
-
-	L.infection_message = "Sei infetto!"
-
-	L.expose_trigger = "testa"
-	L.expose_message = "Testa Esposta!"
-
-	L.spew_warning = "Pilastro di Fiamme tra poco!"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "itIT")
@@ -108,27 +113,3 @@ if L then
 
 	L.chromatic_prototype = "Prototipo Cromatico" -- 3 adds name
 end
-
-L = BigWigs:NewBossLocale("Omnotron Defense System", "itIT")
-if L then
-	L.nef = "Ser Victor Nefarius"
-	L.nef_desc = "Avvisi per le abilità di Ser Victor Nefarius."
-
-	L.pool = "Esplosione Pozza"
-
-	L.switch = "Cambio"
-	L.switch_desc = "Avviso per i Cambi."
-	L.switch_message = "%s %s"
-
-	L.next_switch = "Prossima Attivazione"
-
-	L.nef_next = "Beneficio Abilità"
-
-	L.bomb_message = "La Bomba sta seguendo TE!!!"
-	L.cloud_message = "Nuvola su di TE!!!"
-	L.protocol_message = "Bombe in arrivo!"
-
-	L.custom_on_iconomnotron = "Icona sul boss attivo"
-	L.custom_on_iconomnotron_desc = "Metti l'icona primaria dell'incursione sul boss attivo (richiede promozione o capogruppo)."
-end
-

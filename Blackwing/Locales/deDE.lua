@@ -1,17 +1,39 @@
 
-local L = BigWigs:NewBossLocale("Atramedes", "deDE")
+local L = BigWigs:NewBossLocale("Magmaw", "deDE")
 if not L then return end
 if L then
-	L.ground_phase = "Bodenphase"
-	L.ground_phase_desc = "Warnt, wenn Atramedes landet."
-	L.air_phase = "Luftphase"
-	L.air_phase_desc = "Warnt, wenn Atramedes abhebt."
+	L.stage2_yell_trigger = "Ihr könntet tatsächlich meinen Lavawurm besiegen" -- check
 
-	L.air_phase_trigger = "Ja, lauft! Jeder Schritt lässt Euer Herz stärker klopfen. Laut und heftig... ohrenbetäubend. Es gibt kein Entkommen!" -- check
+	L.slump = "Nach vorne schlittern"
+	L.slump_desc = "Warnt vor dem nach vorne Schlittern, das das Rodeo erlaubt zu starten."
+	L.slump_bar = "Rodeo"
+	L.slump_message = "Yeehaa, Rodeo!"
+	L.slump_emote_trigger = "%s schlittert nach vorne und entblößt seine Zangen!" -- check
 
-	L.obnoxious_soon = "Nerviges Scheusal bald!"
+	L.expose_emote_trigger = "Kopf" -- check
+end
 
-	L.searing_soon = "Sengende Flamme in 10 sek!"
+L = BigWigs:NewBossLocale("Omnotron Defense System", "deDE")
+if L then
+	L.nef = "Lord Victor Nefarius"
+	L.nef_desc = "Warnungen für Nefarians Fähigkeiten."
+
+	L.pool = "Pool-Explosion"
+
+	L.switch = "Wechsel"
+	L.switch_desc = "Warnt vor dem Wechseln der Bosse."
+	L.switch_message = "%s %s"
+
+	L.next_switch = "Nächster Wechsel"
+
+	L.nef_next = "Fähigkeiten Buff"
+
+	L.bomb_message = "Blob verfolgt DICH!"
+	L.cloud_message = "Wolke unter DIR!"
+	L.protocol_message = "Blobs kommen!"
+
+	L.custom_on_iconomnotron = "Symbol auf aktivem Boss"
+	L.custom_on_iconomnotron_desc = "Plaziert das primäre Schlachtzugssymbol auf dem aktiven Boss (benötigt Assistent oder höher)."
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "deDE")
@@ -23,35 +45,18 @@ if L then
 	L.phase2_message = "Sterblichkeitsphase bald!"
 end
 
-L = BigWigs:NewBossLocale("Magmaw", "deDE")
+L = BigWigs:NewBossLocale("Atramedes", "deDE")
 if L then
-	-- heroic
-	L.blazing = "Loderndes Knochenkonstrukt"
-	L.blazing_desc = "Warnt vor dem Auftauchen der Lodernden Knochenkonstrukte."
-	L.blazing_message = "Skelett kommt!"
-	L.blazing_bar = "Skelett"
+	L.ground_phase = "Bodenphase"
+	L.ground_phase_desc = "Warnt, wenn Atramedes landet."
+	L.air_phase = "Luftphase"
+	L.air_phase_desc = "Warnt, wenn Atramedes abhebt."
 
-	L.armageddon = "Armageddon"
-	L.armageddon_desc = "Warnt, wenn Armageddon während der Kopfphase gewirkt wird."
+	L.air_phase_trigger = "Ja, lauft! Jeder Schritt lässt Euer Herz stärker klopfen. Laut und heftig... ohrenbetäubend. Es gibt kein Entkommen!" -- check
 
-	L.phase2 = "Phase 2"
-	L.phase2_desc = "Warnt vor dem Übergang in Phase 2 und öffnet die Anzeige naher Spieler."
-	L.phase2_message = "Phase 2!"
-	L.phase2_yell = "Ihr könntet tatsächlich meinen Lavawurm besiegen" -- check
+	L.obnoxious_soon = "Nerviges Scheusal bald!"
 
-	-- normal
-	L.slump = "Nach vorne schlittern"
-	L.slump_desc = "Warnt vor dem nach vorne Schlittern, das das Rodeo erlaubt zu starten."
-	L.slump_bar = "Rodeo"
-	L.slump_message = "Yeehaa, Rodeo!"
-	L.slump_trigger = "%s schlittert nach vorne und entblößt seine Zangen!" -- check
-
-	L.infection_message = "Infektion auf DIR!"
-
-	L.expose_trigger = "Kopf" -- check
-	L.expose_message = "Kopf freigelegt!"
-
-	L.spew_warning = "Lavafontäne bald!"
+	L.searing_soon = "Sengende Flamme in 10 sek!"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "deDE")
@@ -108,27 +113,3 @@ if L then
 
 	L.chromatic_prototype = "Chromatischer Prototyp"
 end
-
-L = BigWigs:NewBossLocale("Omnotron Defense System", "deDE")
-if L then
-	L.nef = "Lord Victor Nefarius"
-	L.nef_desc = "Warnungen für Nefarians Fähigkeiten."
-
-	L.pool = "Pool-Explosion"
-
-	L.switch = "Wechsel"
-	L.switch_desc = "Warnt vor dem Wechseln der Bosse."
-	L.switch_message = "%s %s"
-
-	L.next_switch = "Nächster Wechsel"
-
-	L.nef_next = "Fähigkeiten Buff"
-
-	L.bomb_message = "Blob verfolgt DICH!"
-	L.cloud_message = "Wolke unter DIR!"
-	L.protocol_message = "Blobs kommen!"
-
-	L.custom_on_iconomnotron = "Symbol auf aktivem Boss"
-	L.custom_on_iconomnotron_desc = "Plaziert das primäre Schlachtzugssymbol auf dem aktiven Boss (benötigt Assistent oder höher)."
-end
-

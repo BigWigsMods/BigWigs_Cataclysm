@@ -1,5 +1,5 @@
 
-local L = BigWigs:NewBossLocale("Occu'thar", "esES")
+local L = BigWigs:NewBossLocale("Occu'thar", "esMX")
 if not L then return end
 if L then
 	L.shadows_bar = "~Sombras abrasadoras"
@@ -10,7 +10,7 @@ if L then
 	L.fire_bar = "~Láser"
 end
 
-L = BigWigs:NewBossLocale("Alizabal", "esES")
+L = BigWigs:NewBossLocale("Alizabal", "esMX")
 if L then
 	L.first_ability = "Odio o Ensartar"
 	L.dance_message = "Danza de hojas %d de 3"

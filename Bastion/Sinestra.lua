@@ -110,6 +110,14 @@ function mod:OnBossEnable()
 		roleCheckWarned = true
 	end
 
+	if self:Retail() then
+		if self:Difficulty() == 6 then
+			self:SetEncounterID(1083)
+		else
+			self:SetEncounterID(1082)
+		end
+	end
+
 	self:Log("SPELL_DAMAGE", "OrbDamage", 92852, 92958) -- twilight slicer, twilight pulse [May be wrong since MoP id changes]
 	self:Log("SPELL_MISSED", "OrbDamage", 92852, 92958) -- twilight slicer, twilight pulse [May be wrong since MoP id changes]
 

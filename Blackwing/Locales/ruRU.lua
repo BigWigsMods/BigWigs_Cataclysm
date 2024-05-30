@@ -1,17 +1,38 @@
 
-local L = BigWigs:NewBossLocale("Atramedes", "ruRU")
+local L = BigWigs:NewBossLocale("Magmaw", "ruRU")
 if not L then return end
 if L then
-	L.ground_phase = "Наземная фаза"
-	L.ground_phase_desc = "Сообщать о приземлении Атрамеда."
-	L.air_phase = "Воздушная фаза"
-	L.air_phase_desc = "Сообщать о взлете Атрамеда."
+	L.stage2_yell_trigger = "Непостижимо! Вы, кажется, можете уничтожить моего лавового червяка! Пожалуй, я помогу ему."
 
-	L.air_phase_trigger = "Да, беги! С каждым шагом твое сердце бьется все быстрее. Эти громкие, оглушительные удары... Тебе некуда бежать!"
+	L.slump = "Падение"
+	L.slump_desc = "Магмарь падает вперед открывая себя, позволяя начать родео."
+	L.slump_bar = "Родео"
+	L.slump_message = "Йихо, погнали!"
+	L.slump_emote_trigger = "%s внезапно падает, выставляя клешни!"
 
-	L.obnoxious_soon = "Скоро Несносность Беса!"
+	L.expose_emote_trigger = "голову"
+end
 
-	L.searing_soon = "Жгучее пламя через 10сек!"
+L = BigWigs:NewBossLocale("Omnotron Defense System", "ruRU")
+if L then
+	L.nef = "Лорд Виктор Нефарий"
+	L.nef_desc = "Сообщать о способностях Лорда Виктора Нефария."
+
+	L.pool = "Обратная вспышка"
+
+	L.switch = "Смена"
+	L.switch_desc = "Сообщать о сменах."
+
+	L.next_switch = "Новая активация"
+
+	L.nef_next = "Вливание Тьмы"
+
+	L.bomb_message = "Слизнюк преследует ТЕБЯ!"
+	L.cloud_message = "Облако под ТОБОЙ!"
+	L.protocol_message = "Химическая бомба!"
+
+	L.custom_on_iconomnotron = "Метка на активного босса"
+	L.custom_on_iconomnotron_desc = "Помечает активного босса основной меткой (требуется быть лидером или помощником)."
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "ruRU")
@@ -23,35 +44,18 @@ if L then
 	L.phase2_message = "Скоро фаза Смертности!"
 end
 
-L = BigWigs:NewBossLocale("Magmaw", "ruRU")
+L = BigWigs:NewBossLocale("Atramedes", "ruRU")
 if L then
-	-- heroic
-	L.blazing = "Помощник - скелет"
-	L.blazing_desc = "Призывает Пыляющее костяное создание."
-	L.blazing_message = "Надвигается помощник!"
-	L.blazing_bar = "Скелет"
+	L.ground_phase = "Наземная фаза"
+	L.ground_phase_desc = "Сообщать о приземлении Атрамеда."
+	L.air_phase = "Воздушная фаза"
+	L.air_phase_desc = "Сообщать о взлете Атрамеда."
 
-	L.armageddon = "Армагеддон"
-	L.armageddon_desc = "Предупреждать, если Армагеддон начинается на фазе головы."
+	L.air_phase_trigger = "Да, беги! С каждым шагом твое сердце бьется все быстрее. Эти громкие, оглушительные удары... Тебе некуда бежать!"
 
-	L.phase2 = "2-я фаза"
-	L.phase2_desc = "Сообщить о переходе на 2-ю фазу и показать проверку близости."
-	L.phase2_message = "2-я фаза!"
-	L.phase2_yell = "Непостижимо! Вы, кажется, можете уничтожить моего лавового червяка! Пожалуй, я помогу ему."
+	L.obnoxious_soon = "Скоро Несносность Беса!"
 
-	-- normal
-	L.slump = "Падение"
-	L.slump_desc = "Магмарь падает вперед открывая себя, позволяя начать родео."
-	L.slump_bar = "Родео"
-	L.slump_message = "Йихо, погнали!"
-	L.slump_trigger = "%s внезапно падает, выставляя клешни!"
-
-	L.infection_message = "Вы заражены!"
-
-	L.expose_trigger = "голову"
-	L.expose_message = "Голова обнажена!"
-
-	L.spew_warning = "Скоро Изрыгание лавы!"
+	L.searing_soon = "Жгучее пламя через 10сек!"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "ruRU")
@@ -108,26 +112,3 @@ if L then
 
 	L.chromatic_prototype = "Хроматический прообраз"
 end
-
-L = BigWigs:NewBossLocale("Omnotron Defense System", "ruRU")
-if L then
-	L.nef = "Лорд Виктор Нефарий"
-	L.nef_desc = "Сообщать о способностях Лорда Виктора Нефария."
-
-	L.pool = "Обратная вспышка"
-
-	L.switch = "Смена"
-	L.switch_desc = "Сообщать о сменах."
-
-	L.next_switch = "Новая активация"
-
-	L.nef_next = "Вливание Тьмы"
-
-	L.bomb_message = "Слизнюк преследует ТЕБЯ!"
-	L.cloud_message = "Облако под ТОБОЙ!"
-	L.protocol_message = "Химическая бомба!"
-
-	L.custom_on_iconomnotron = "Метка на активного босса"
-	L.custom_on_iconomnotron_desc = "Помечает активного босса основной меткой (требуется быть лидером или помощником)."
-end
-

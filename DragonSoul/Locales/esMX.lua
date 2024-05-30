@@ -1,4 +1,4 @@
-local L = BigWigs:NewBossLocale("Morchok", "esES")
+local L = BigWigs:NewBossLocale("Morchok", "esMX")
 if not L then return end
 if L then
 	L.engage_trigger = "Pretendéis detener una avalancha. Os sepultaré."
@@ -11,7 +11,7 @@ if L then
 	L.crystal = "Cristal"
 end
 
-L = BigWigs:NewBossLocale("Warlord Zon'ozz", "esES")
+L = BigWigs:NewBossLocale("Warlord Zon'ozz", "esMX")
 if L then
 	L.engage_trigger = "Zzof Shuul'wah. ¡Thoq fssh N'Zoth!"
 
@@ -31,7 +31,7 @@ if L then
 	L.custom_off_shadows_marker_desc = "Mark Disrupting Shadows targets with {rt1}{rt2}{rt3}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
 end
 
-L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "esES")
+L = BigWigs:NewBossLocale("Yor'sahj the Unsleeping", "esMX")
 if L then
 	L.engage_trigger = "¡Iilth qi'uothk shn'ma yeh'glu Shath'Yar! ¡H'IWN IILTH!"
 
@@ -50,7 +50,7 @@ if L then
 	L.blobs_desc = "Las Manchas se mueven hacia el jefe"
 end
 
-L = BigWigs:NewBossLocale("Hagara the Stormbinder", "esES")
+L = BigWigs:NewBossLocale("Hagara the Stormbinder", "esMX")
 if L then
 	L.engage_trigger = "¡Os enfrentáis a la Vinculatormentas! Os mataré a todos."
 
@@ -62,7 +62,7 @@ if L then
 	L.nextphase_desc = "Avisos para la siguiente fase"
 end
 
-L = BigWigs:NewBossLocale("Ultraxion", "esES")
+L = BigWigs:NewBossLocale("Ultraxion", "esMX")
 if L then
 	L.engage_trigger = "¡Ha llegado la Hora del Crepúsculo!"
 
@@ -90,7 +90,7 @@ if L then
 	L.lighttank_message = "Tanque explotando"
 end
 
-L = BigWigs:NewBossLocale("Warmaster Blackhorn", "esES")
+L = BigWigs:NewBossLocale("Warmaster Blackhorn", "esMX")
 if L then
 	L.warmup = "Calentamiento"
 	L.warmup_desc = "Tiempo hasta que el combate comience."
@@ -106,7 +106,7 @@ if L then
 	L.stage2_trigger = "Parece que voy a tener que hacerlo yo. ¡Bien!"
 end
 
-L = BigWigs:NewBossLocale("Spine of Deathwing", "esES")
+L = BigWigs:NewBossLocale("Spine of Deathwing", "esMX")
 if L then
 	L.engage_trigger = "¡Las placas! ¡Se está deshaciendo! ¡Destrozad las placas y tendremos una oportunidad de derribarlo!"
 
@@ -124,7 +124,7 @@ if L then
 	L.residue_message = "Residuos no absorbidos: %d"
 end
 
-L = BigWigs:NewBossLocale("Madness of Deathwing", "esES")
+L = BigWigs:NewBossLocale("Madness of Deathwing", "esMX")
 if L then
 	L.engage_trigger = "No habéis hecho nada. Destruiré vuestro mundo."
 

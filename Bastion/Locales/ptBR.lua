@@ -1,6 +1,14 @@
 
-local L = BigWigs:NewBossLocale("Cho'gall", "ptBR")
+local L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "ptBR")
 if not L then return end
+if L then
+	L.strikes_message = "Golpe"
+
+	L.engage_yell_trigger = "Cho'gall irá decapitar vocês!"
+
+end
+
+L = BigWigs:NewBossLocale("Cho'gall", "ptBR")
 if L then
 	L.orders = "Trocas de modos"
 	L.orders_desc = "Avisa quando Cho'gall muda a ordem de posições entre Sombra/Chamas."
@@ -42,17 +50,6 @@ if L then
 	L.valiona_trigger = "Theralion, eu vou incendiar o corredor. Cubra a fuga deles!"
 
 	L.twilight_shift = "Troca"
-end
-
-L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "ptBR")
-if L then
-	L.strikes_message = "Golpe"
-
-	L.breath_message = "Baforada iminente!"
-	L.breath_bar = "~Baforada"
-
-	L.engage_yell = "Cho'gall irá decapitar vocês!"
-
 end
 
 L = BigWigs:NewBossLocale("Sinestra", "ptBR")
