@@ -1,14 +1,16 @@
 
 BigWigs:AddSounds("Halfus Wyrmbreaker", {
-	[83908] = "info",
+	[83707] = "alert",
+	[83710] = "info",
+	[84030] = "long",
 })
 
 BigWigs:AddSounds("Valiona and Theralion", {
 	[86059] = "alarm",
-	[86369] = "long",
+	[86369] = "warning",
 	[86408] = "alarm",
 	[86622] = "alarm",
-	[86788] = "alert",
+	[86788] = {"alert","warning"},
 	[86840] = "alert",
 	[88518] = "long",
 })
@@ -24,7 +26,7 @@ BigWigs:AddSounds("Ascendant Council", {
 	[84948] = "alert",
 	[92067] = "alarm",
 	[92075] = "alarm",
-	[92307] = "alarm",
+	[92307] = {"alarm","warning"},
 	["switch"] = "info",
 })
 
@@ -40,6 +42,6 @@ BigWigs:AddSounds("Cho'gall", {
 BigWigs:AddSounds("Sinestra", {
 	[87654] = "alert",
 	[90045] = "info",
-	[92852] = "alarm",
+	[92852] = "warning",
 	["phase"] = "info",
 })

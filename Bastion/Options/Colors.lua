@@ -1,9 +1,9 @@
 
 BigWigs:AddColors("Halfus Wyrmbreaker", {
-	[83603] = "yellow",
-	[83707] = "yellow",
-	[83710] = "red",
-	[83908] = {"blue","orange"},
+	[83707] = "red",
+	[83710] = "orange",
+	[83908] = {"blue","purple"},
+	[84030] = "yellow",
 })
 
 BigWigs:AddColors("Valiona and Theralion", {
@@ -11,11 +11,11 @@ BigWigs:AddColors("Valiona and Theralion", {
 	[86369] = "blue",
 	[86408] = "red",
 	[86622] = "blue",
-	[86788] = "blue",
+	[86788] = {"blue","yellow"},
 	[86840] = "red",
 	[88518] = "blue",
 	[93051] = {"blue","red"},
-	["phase_switch"] = "green",
+	["phase_switch"] = "cyan",
 })
 
 BigWigs:AddColors("Ascendant Council", {
@@ -52,7 +52,7 @@ BigWigs:AddColors("Sinestra", {
 	[87654] = "red",
 	[90045] = "orange",
 	[90125] = "orange",
-	[92852] = "blue",
+	[92852] = {"blue","yellow"},
 	["phase"] = "green",
 	["whelps"] = "red",
 })

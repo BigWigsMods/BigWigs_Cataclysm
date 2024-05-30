@@ -1,26 +1,30 @@
 
 BigWigs:AddColors("Omnotron Defense System", {
+	[78740] = {"blue","green"},
 	[79501] = {"blue","orange"},
 	[79888] = {"blue","yellow"},
 	[80053] = "red",
 	[80094] = "blue",
+	[80157] = "blue",
 	[80161] = "blue",
 	[91849] = "orange",
 	[91879] = "orange",
 	[92023] = {"blue","orange"},
 	[92048] = {"blue","orange"},
-	["switch"] = "green",
 })
 
 BigWigs:AddColors("Magmaw", {
-	[77690] = {"red","yellow"},
+	[77690] = "yellow",
 	[78006] = "orange",
+	[78199] = {"blue","purple"},
+	[78403] = {"blue","purple"},
 	[78941] = "blue",
-	[79011] = {"green","red"},
-	[89773] = "blue",
-	["blazing"] = "orange",
-	["phase2"] = "yellow",
+	[79011] = "green",
+	[89773] = {"blue","purple"},
+	[92177] = "red",
+	["adds"] = "cyan",
 	["slump"] = "green",
+	["stages"] = "cyan",
 })
 
 BigWigs:AddColors("Atramedes", {
@@ -54,8 +58,10 @@ BigWigs:AddColors("Maloriak", {
 
 BigWigs:AddColors("Nefarian", {
 	[78999] = "yellow",
+	[79318] = {"blue","yellow"},
 	[79339] = {"blue","orange"},
+	[80734] = "orange",
 	[81007] = {"blue","red"},
 	[81272] = "orange",
-	["phase"] = "yellow",
+	["stages"] = "cyan",
 })

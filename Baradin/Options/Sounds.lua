@@ -1,6 +1,6 @@
 
 BigWigs:AddSounds("Argaloth", {
-	[88972] = "alert",
+	[88972] = "long",
 })
 
 BigWigs:AddSounds("Occu'thar", {
