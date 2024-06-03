@@ -1,7 +1,9 @@
 
 BigWigs:AddColors("Omnotron Defense System", {
-	[78740] = {"blue","green"},
-	[79501] = {"blue","orange"},
+	[78740] = {"blue","cyan"},
+	[79023] = "red",
+	[79501] = {"blue","yellow"},
+	[79710] = "red",
 	[79888] = {"blue","yellow"},
 	[80053] = "red",
 	[80094] = "blue",
@@ -11,6 +13,7 @@ BigWigs:AddColors("Omnotron Defense System", {
 	[91879] = "orange",
 	[92023] = {"blue","orange"},
 	[92048] = {"blue","orange"},
+	[92053] = "blue",
 })
 
 BigWigs:AddColors("Magmaw", {
@@ -21,6 +24,7 @@ BigWigs:AddColors("Magmaw", {
 	[78941] = "blue",
 	[79011] = "green",
 	[89773] = {"blue","purple"},
+	[92134] = "blue",
 	[92177] = "red",
 	["adds"] = "cyan",
 	["slump"] = "green",
