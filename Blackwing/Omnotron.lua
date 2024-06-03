@@ -41,7 +41,7 @@ function mod:GetOptions()
 		{79501, "ICON", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Acquiring Target
 		79023, -- Incineration Security Measure
 		-- Electron
-		{79888, "ICON", "ME_ONLY_EMPHASIZE"}, -- Lightning Conductor
+		{79888, "ICON", "SAY", "ME_ONLY_EMPHASIZE"}, -- Lightning Conductor
 		-- Toxitron
 		80161, -- Chemical Cloud
 		{80157, "SAY"}, -- Chemical Bomb
