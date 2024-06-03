@@ -19,21 +19,6 @@ if L then
 	L.nef_desc = "군주 빅터 네파리우스의 기술을 알립니다."
 
 	L.pool = "바닥 웅덩이 폭발"
-
-	L.switch = "전환"
-	L.switch_desc = "전환을 알립니다."
-	L.switch_message = "%s %s"
-
-	L.next_switch = "다음 활성화"
-
-	L.nef_next = "기술 버프"
-
-	L.bomb_message = "슬라임이 당신을 추적!"
-	L.cloud_message = "당신은 화학 구름!"
-	L.protocol_message = "독 폭탄!"
-
-	L.custom_on_iconomnotron = "활성화 보스 전술"
-	L.custom_on_iconomnotron_desc = "활성화된 보스에 공격대 전술을 지정합니다. (공격대장이나 승급된 사람만이 가능합니다)."
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "koKR")

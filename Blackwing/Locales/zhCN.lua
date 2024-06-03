@@ -19,21 +19,6 @@ if L then
 	L.nef_desc = "当维克多·奈法里奥斯勋爵施放技能时发出警报。"
 
 	L.pool = "奥术反冲"
-
-	L.switch = "转换"
-	L.switch_desc = "当转换时发出警报。"
-	L.switch_message = ">%s< %s！"
-
-	L.next_switch = "下一转换"
-
-	L.nef_next = "暗影灌注"
-
-	L.bomb_message = ">你< 毒液炸弹追击！"
-	L.cloud_message = ">你< 化学云雾！"
-	L.protocol_message = "自动毒弹！"
-
-	L.custom_on_iconomnotron = "标记激活首领"
-	L.custom_on_iconomnotron_desc = "为激活的首领打上主团队标记。（需要权限）"
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "zhCN")

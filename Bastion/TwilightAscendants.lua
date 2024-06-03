@@ -307,7 +307,7 @@ end
 do
 	local thunderTimer = nil
 	local function thunderShockIncoming()
-		if mod:UnitDebuff("player", mod:SpellName(83581)) then -- Grounded
+		if mod:UnitDebuff("player", mod:SpellName(83581), 83581) then -- Grounded
 			mod:CancelTimer(thunderTimer)
 			return
 		end

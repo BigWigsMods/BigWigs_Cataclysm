@@ -19,21 +19,6 @@ if L then
 	L.nef_desc = "Avvisi per le abilità di Ser Victor Nefarius."
 
 	L.pool = "Esplosione Pozza"
-
-	L.switch = "Cambio"
-	L.switch_desc = "Avviso per i Cambi."
-	L.switch_message = "%s %s"
-
-	L.next_switch = "Prossima Attivazione"
-
-	L.nef_next = "Beneficio Abilità"
-
-	L.bomb_message = "La Bomba sta seguendo TE!!!"
-	L.cloud_message = "Nuvola su di TE!!!"
-	L.protocol_message = "Bombe in arrivo!"
-
-	L.custom_on_iconomnotron = "Icona sul boss attivo"
-	L.custom_on_iconomnotron_desc = "Metti l'icona primaria dell'incursione sul boss attivo (richiede promozione o capogruppo)."
 end
 
 L = BigWigs:NewBossLocale("Atramedes", "itIT")

@@ -46,6 +46,7 @@ function mod:GetOptions()
 		78006, -- Pillar of Flame
 		{78941, "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Parasitic Infection
 		77690, -- Lava Spew
+		92134, -- Ignition
 		89773, -- Mangle
 		{78199, "TANK"}, -- Sweltering Armor
 		78403, -- Molten Tantrum
@@ -63,6 +64,7 @@ function mod:GetOptions()
 		["slump"] = L.slump_bar, -- Slump (Rodeo)
 		[79011] = CL.weakened, -- Point of Vulnerability (Weakened)
 		[78941] = CL.parasite, -- Parasitic Infection (Parasite)
+		[92134] = CL.fire, -- Ignition (Fire)
 	}
 end
 
@@ -79,6 +81,10 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "MoltenTantrumApplied", 78403)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "MoltenTantrumApplied", 78403)
 
+	self:Log("SPELL_AURA_APPLIED", "IgnitionDamage", 92134)
+	self:Log("SPELL_PERIODIC_DAMAGE", "IgnitionDamage", 92134)
+	self:Log("SPELL_PERIODIC_MISSED", "IgnitionDamage", 92134)
+
 	-- Heroic
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")
 	self:Log("SPELL_SUMMON", "BlazingInferno", 92154)
@@ -93,7 +99,7 @@ function mod:OnEngage()
 	self:CDBar(77690, 24) -- Lava Spew
 	self:CDBar(89773, 90) -- Mangle
 	if self:Heroic() then
-		self:Bar("adds", 30, CL.add, "SPELL_SHADOW_RAISEDEAD")
+		self:Bar("adds", 30, CL.add, L.adds_icon)
 	end
 end
 
@@ -157,8 +163,10 @@ do
 end
 
 function mod:BlazingInferno()
-	self:Message("adds", "cyan", CL.add_spawned, "SPELL_SHADOW_RAISEDEAD")
-	self:Bar("adds", 35, CL.add, "SPELL_SHADOW_RAISEDEAD")
+	self:Message("adds", "cyan", CL.add_spawned, L.adds_icon)
+	if self:GetStage() == 1 then -- Add can sometimes spawn just as stage 2 begins
+		self:Bar("adds", 35, CL.add, L.adds_icon)
+	end
 	self:PlaySound("adds", "info")
 end
 
@@ -181,6 +189,7 @@ do
 	local prevMangle = 0
 	function mod:MangleApplied(args)
 		prevMangle = args.time
+		self:StopBar(args.spellName)
 		self:TargetMessage(args.spellId, "purple", args.destName)
 		self:TargetBar(args.spellId, 30, args.destName)
 		self:PlaySound(args.spellId, "info", nil, args.destName)
@@ -198,4 +207,15 @@ end
 
 function mod:MoltenTantrumApplied(args)
 	self:StackMessage(args.spellId, "purple", args.destName, args.amount, 1)
+end
+
+do
+	local prev = 0
+	function mod:IgnitionDamage(args)
+		if self:Me(args.destGUID) and args.time - prev > 2 then
+			prev = args.time
+			self:PersonalMessage(args.spellId, "underyou", CL.fire)
+			self:PlaySound(args.spellId, "underyou")
+		end
+	end
 end

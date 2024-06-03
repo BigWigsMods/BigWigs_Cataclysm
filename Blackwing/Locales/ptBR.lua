@@ -19,21 +19,6 @@ if L then
 	L.nef_desc = "Avisos para as habilidades de Lorde Victor Nefarius"
 
 	L.pool = "Gerador de poder sobrecarregado"
-
-	L.switch = "Troca"
-	L.switch_desc = "Avisa as trocas"
-	L.switch_message = "%s %s"
-
-	L.next_switch = "Próxima Ativação"
-
-	L.nef_next = "Bônus de habilidade"
-
-	L.bomb_message = "Uma gosma persegue VOCÊ!"
-	L.cloud_message = "Nuvem abaixo de VOCÊ!"
-	L.protocol_message = "Bomba de veneno iminente!"
-
-	L.custom_on_iconomnotron = "Icone de chefe ativo"
-	L.custom_on_iconomnotron_desc = "Coloca o icone principal de raide no chefe ativo (requer ajudante ou lider)."
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "ptBR")

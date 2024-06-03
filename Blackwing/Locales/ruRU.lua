@@ -19,20 +19,6 @@ if L then
 	L.nef_desc = "Сообщать о способностях Лорда Виктора Нефария."
 
 	L.pool = "Обратная вспышка"
-
-	L.switch = "Смена"
-	L.switch_desc = "Сообщать о сменах."
-
-	L.next_switch = "Новая активация"
-
-	L.nef_next = "Вливание Тьмы"
-
-	L.bomb_message = "Слизнюк преследует ТЕБЯ!"
-	L.cloud_message = "Облако под ТОБОЙ!"
-	L.protocol_message = "Химическая бомба!"
-
-	L.custom_on_iconomnotron = "Метка на активного босса"
-	L.custom_on_iconomnotron_desc = "Помечает активного босса основной меткой (требуется быть лидером или помощником)."
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "ruRU")

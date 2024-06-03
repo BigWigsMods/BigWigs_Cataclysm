@@ -255,12 +255,15 @@ do
 	function mod:Dominion(args)
 		playerList = {}
 		self:CDBar(args.spellId, 16.2)
-		self:PlaySound(args.spellId, "warning")
 	end
 
 	function mod:DominionApplied(args)
-		playerList[#playerList+1] = args.destName
+		local count = #playerList
+		playerList[count+1] = args.destName
 		self:TargetsMessage(args.spellId, "yellow", playerList, 5)
+		if count == 0 then
+			self:PlaySound(args.spellId, "warning")
+		end
 	end
 end
 

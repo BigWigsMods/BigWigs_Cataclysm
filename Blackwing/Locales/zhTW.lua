@@ -19,21 +19,6 @@ if L then
 	L.nef_desc = "當維克多·奈法利斯領主施放技能時發出警報。"
 
 	L.pool = "秘法逆爆"
-
-	L.switch = "轉換"
-	L.switch_desc = "當轉換時發出警報。"
-	L.switch_message = ">%s< %s！"
-
-	L.next_switch = "下一轉換"
-
-	L.nef_next = "闇能灌注"
-
-	L.bomb_message = ">你< 毒泥炸彈追擊！"
-	L.cloud_message = ">你< 化學毒霧！"
-	L.protocol_message = "毒殺計畫！"
-
-	L.custom_on_iconomnotron = "標記啟動首領"
-	L.custom_on_iconomnotron_desc = "為啟動的首領打上主團隊標記。（需要權限）"
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "zhTW")

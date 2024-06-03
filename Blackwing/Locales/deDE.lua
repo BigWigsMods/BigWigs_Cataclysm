@@ -19,21 +19,6 @@ if L then
 	L.nef_desc = "Warnungen für Nefarians Fähigkeiten."
 
 	L.pool = "Pool-Explosion"
-
-	L.switch = "Wechsel"
-	L.switch_desc = "Warnt vor dem Wechseln der Bosse."
-	L.switch_message = "%s %s"
-
-	L.next_switch = "Nächster Wechsel"
-
-	L.nef_next = "Fähigkeiten Buff"
-
-	L.bomb_message = "Blob verfolgt DICH!"
-	L.cloud_message = "Wolke unter DIR!"
-	L.protocol_message = "Blobs kommen!"
-
-	L.custom_on_iconomnotron = "Symbol auf aktivem Boss"
-	L.custom_on_iconomnotron_desc = "Plaziert das primäre Schlachtzugssymbol auf dem aktiven Boss (benötigt Assistent oder höher)."
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "deDE")

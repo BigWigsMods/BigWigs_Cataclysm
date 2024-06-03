@@ -19,21 +19,6 @@ if L then
 	L.nef_desc = "Prévient quand le Seigneur Victor Nefarius utilise une technique."
 
 	L.pool = "Générateur instable"
-
-	L.switch = "Changement"
-	L.switch_desc = "Prévient de l'arrivée des changements."
-	L.switch_message = "%s %s"
-
-	L.next_switch = "Prochaine activation"
-
-	L.nef_next = "Buff de technique"
-
-	L.bomb_message = "Une Bombe de poison VOUS poursuit !"
-	L.cloud_message = "Nuage chimique sur VOUS !"
-	L.protocol_message = "Arrivée de Bombes de poison !"
-
-	L.custom_on_iconomnotron = "Icône sur le boss actif"
-	L.custom_on_iconomnotron_desc = "Place l'icône de raid primaire sur le boss actif (nécessite d'être assistant ou mieux)."
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "frFR")
