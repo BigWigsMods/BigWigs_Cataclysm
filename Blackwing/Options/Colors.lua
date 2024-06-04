@@ -3,6 +3,7 @@ BigWigs:AddColors("Omnotron Defense System", {
 	[78740] = {"blue","cyan"},
 	[79023] = "red",
 	[79501] = {"blue","yellow"},
+	[79624] = "orange",
 	[79710] = "red",
 	[79888] = {"blue","yellow"},
 	[80053] = "red",
@@ -33,7 +34,7 @@ BigWigs:AddColors("Magmaw", {
 
 BigWigs:AddColors("Atramedes", {
 	[77840] = {"red","yellow"},
-	[78092] = "blue",
+	[78092] = {"blue","red"},
 	[92677] = {"blue","yellow"},
 	["air_phase"] = "yellow",
 	["ground_phase"] = "yellow",
