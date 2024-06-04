@@ -18,7 +18,7 @@ if L then
 	L.nef = "군주 빅터 네파리우스"
 	L.nef_desc = "군주 빅터 네파리우스의 기술을 알립니다."
 
-	L.pool = "바닥 웅덩이 폭발"
+	L.pool_explosion = "바닥 웅덩이 폭발"
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "koKR")

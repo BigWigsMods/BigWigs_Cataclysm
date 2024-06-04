@@ -18,7 +18,7 @@ if L then
 	L.nef = "Лорд Виктор Нефарий"
 	L.nef_desc = "Сообщать о способностях Лорда Виктора Нефария."
 
-	L.pool = "Обратная вспышка"
+	L.pool_explosion = "Обратная вспышка"
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "ruRU")

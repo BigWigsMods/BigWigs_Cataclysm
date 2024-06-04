@@ -81,9 +81,8 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "MoltenTantrumApplied", 78403)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "MoltenTantrumApplied", 78403)
 
-	self:Log("SPELL_AURA_APPLIED", "IgnitionDamage", 92134)
-	self:Log("SPELL_PERIODIC_DAMAGE", "IgnitionDamage", 92134)
-	self:Log("SPELL_PERIODIC_MISSED", "IgnitionDamage", 92134)
+	self:Log("SPELL_DAMAGE", "IgnitionDamage", 92134)
+	self:Log("SPELL_MISSED", "IgnitionDamage", 92134)
 
 	-- Heroic
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")

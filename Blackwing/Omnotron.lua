@@ -13,6 +13,11 @@ mod:SetRespawnTime(70)
 --
 
 local prevIcon = nil
+local acquiringTargetCount = 1
+local incinerationCount = 1
+local poisonProtocolCount = 1
+local lightningConductorCount = 1
+local powerGeneratorCount = 1
 local arcaneAnnihilatorCount = 0
 
 --------------------------------------------------------------------------------
@@ -25,7 +30,7 @@ if L then
 	L.nef_desc = "Warnings for Lord Victor Nefarius abilities."
 	L.nef_icon = "inv_misc_head_dragon_black"
 
-	L.pool = "Pool Explosion"
+	L.pool_explosion = "Pool Explosion"
 	L.incinerate = mod:SpellName(79938) -- Incinerate
 	L.flamethrower = mod:SpellName(79505) -- Flamethrower
 end
@@ -49,6 +54,7 @@ function mod:GetOptions()
 		80094, -- Fixate
 		-- Arcanotron
 		79710, -- Arcane Annihilator
+		79624, -- Power Generator
 		-- Heroic
 		"nef",
 		91849, -- Grip of Death
@@ -71,8 +77,9 @@ function mod:GetOptions()
 		[79501] = L.flamethrower, -- Acquiring Target (Flamethrower)
 		[79023] = L.incinerate, -- Incineration Security Measure (Incinerate)
 		[80053] = CL.adds, -- Poison Protocol (Adds)
+		[79624] = CL.pool, -- Power Generator (Pool)
 		["nef"] = CL.next_ability, -- Lord Victor Nefarius (Next ability)
-		[91879] = L.pool, -- Arcane Blowback (Pool Explosion)
+		[91879] = L.pool_explosion, -- Arcane Blowback (Pool Explosion)
 		[92023] = CL.rooted, -- Encasing Shadows (Rooted)
 	}
 end
@@ -91,10 +98,11 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "FixateApplied", 80094)
 	self:Log("SPELL_CAST_SUCCESS", "PoisonProtocol", 80053)
 	self:Log("SPELL_AURA_APPLIED", "ChemicalCloudDamage", 80161)
-	self:Log("SPELL_PERIODIC_DAMAGE", "ChemicalCloudDamage", 80161)
-	self:Log("SPELL_PERIODIC_MISSED", "ChemicalCloudDamage", 80161)
+	self:Log("SPELL_DAMAGE", "ChemicalCloudDamage", 80161)
+	self:Log("SPELL_MISSED", "ChemicalCloudDamage", 80161)
 	-- Arcanotron
 	self:Log("SPELL_CAST_START", "ArcaneAnnihilator", 79710)
+	self:Log("SPELL_CAST_SUCCESS", "PowerGenerator", 79624)
 	-- Heroic
 	self:Log("SPELL_CAST_SUCCESS", "OverchargedPowerGenerator", 91857)
 	self:Log("SPELL_CAST_START", "GripOfDeath", 91849)
@@ -109,6 +117,11 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
+	acquiringTargetCount = 1
+	incinerationCount = 1
+	poisonProtocolCount = 1
+	lightningConductorCount = 1
+	powerGeneratorCount = 1
 	arcaneAnnihilatorCount = 0
 	if self:Heroic() then
 		self:Berserk(600, true)
@@ -122,8 +135,12 @@ end
 -- Magmatron
 function mod:AcquiringTargetApplied(args)
 	prevIcon = args.spellId
+	self:StopBar(CL.count:format(L.flamethrower, acquiringTargetCount))
 	self:TargetMessage(args.spellId, "yellow", args.destName, L.flamethrower)
-	self:CDBar(79501, 27.5, L.flamethrower)
+	acquiringTargetCount = acquiringTargetCount + 1
+	if acquiringTargetCount < 3 then
+		self:CDBar(79501, self:Normal() and 40.2 or 27.5, CL.count:format(L.flamethrower, acquiringTargetCount))
+	end
 	self:SecondaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
 		self:Say(args.spellId, L.flamethrower, nil, "Flamethrower")
@@ -142,14 +159,24 @@ function mod:AcquiringTargetRemoved(args)
 end
 
 function mod:IncinerationSecurityMeasure(args)
-	self:CDBar(args.spellId, 27.5, L.incinerate)
-	self:Message(args.spellId, "red", L.incinerate)
+	self:StopBar(CL.count:format(L.incinerate, incinerationCount))
+	self:Message(args.spellId, "red", CL.count:format(L.incinerate, incinerationCount))
+	incinerationCount = incinerationCount + 1
+	if incinerationCount < 3 then
+		self:CDBar(args.spellId, 27.5, CL.count:format(L.incinerate, incinerationCount))
+	elseif incinerationCount == 3 and self:Normal() then
+		self:CDBar(args.spellId, 30.7, CL.count:format(L.incinerate, incinerationCount))
+	end
 	self:PlaySound(args.spellId, "alert")
 end
 
 -- Electron
 function mod:LightningConductor(args)
-	self:CDBar(args.spellId, 21)
+	self:StopBar(CL.count:format(L.incinerate, incinerationCount))
+	lightningConductorCount = lightningConductorCount + 1
+	if lightningConductorCount < 4 then
+		self:CDBar(args.spellId, self:Normal() and 25.8 or 21, CL.count:format(args.spellName, lightningConductorCount))
+	end
 end
 
 function mod:LightningConductorApplied(args)
@@ -189,15 +216,19 @@ function mod:FixateApplied(args)
 end
 
 function mod:PoisonProtocol(args)
-	self:CDBar(args.spellId, 45, CL.adds)
+	self:StopBar(CL.count:format(CL.adds, poisonProtocolCount))
 	self:Message(args.spellId, "red", CL.incoming:format(CL.adds))
+	poisonProtocolCount = poisonProtocolCount + 1
+	if poisonProtocolCount < 3 then
+		self:CDBar(args.spellId, self:Normal() and 45.5 or 25.6, CL.count:format(CL.adds, poisonProtocolCount))
+	end
 	self:PlaySound(args.spellId, "info")
 end
 
 do
 	local prev = 0
 	function mod:ChemicalCloudDamage(args)
-		if self:Me(args.destGUID) and args.time - prev > 3 then
+		if self:Me(args.destGUID) and args.time - prev > 2 then
 			prev = args.time
 			self:PersonalMessage(args.spellId, "underyou")
 			self:PlaySound(args.spellId, "underyou")
@@ -219,10 +250,20 @@ function mod:ArcaneAnnihilator(args)
 	end
 end
 
+function mod:PowerGenerator(args)
+	self:StopBar(CL.count:format(CL.pool, powerGeneratorCount))
+	self:Message(args.spellId, "orange", CL.count:format(CL.pool, powerGeneratorCount))
+	powerGeneratorCount = powerGeneratorCount + 1
+	if powerGeneratorCount < 4 then
+		self:CDBar(args.spellId, self:Normal() and 29.4 or 21, CL.count:format(CL.pool, powerGeneratorCount))
+	end
+	self:PlaySound(args.spellId, "info")
+end
+
 -- Heroic
 function mod:OverchargedPowerGenerator()
-	self:Message(91879, "orange", L.pool)
-	self:Bar(91879, 8, L.pool)
+	self:Message(91879, "orange", L.pool_explosion)
+	self:Bar(91879, 8, L.pool_explosion)
 	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
 	self:PlaySound(91879, "info")
 end
@@ -285,14 +326,20 @@ do
 			self:TargetMessage(args.spellId, "cyan", args.destName)
 			local npcId = self:MobId(args.sourceGUID)
 			if npcId == 42180 then -- Toxitron
-				self:CDBar(80053, 15.5, CL.adds) -- Poison Protocol
+				poisonProtocolCount = 1
+				self:CDBar(80053, self:Normal() and 21 or 15.5, CL.count:format(CL.adds, poisonProtocolCount)) -- Poison Protocol
 			elseif npcId == 42178 then -- Magmatron
-				self:CDBar(79023, 12, L.incinerate) -- Incineration Security Measure
-				self:CDBar(79501, 20.5, L.flamethrower) -- Acquiring Target
+				acquiringTargetCount = 1
+				incinerationCount = 1
+				self:CDBar(79023, 12, CL.count:format(L.incinerate, incinerationCount)) -- Incineration Security Measure
+				self:CDBar(79501, 20.5, CL.count:format(L.flamethrower, acquiringTargetCount)) -- Acquiring Target
 			elseif npcId == 42179 then -- Electron
-				self:CDBar(79888, 15.7) -- Lightning Conductor
+				lightningConductorCount = 1
+				self:CDBar(79888, self:Normal() and 13 or 15.7, CL.count:format(self:SpellName(79888), lightningConductorCount)) -- Lightning Conductor
 			elseif npcId == 42166 then -- Arcanotron
 				arcaneAnnihilatorCount = 0
+				powerGeneratorCount = 1
+				self:CDBar(79624, 15, CL.count:format(CL.pool, powerGeneratorCount)) -- Power Generator
 			end
 			local unit = self:GetUnitIdByGUID(args.destGUID)
 			if unit then
@@ -306,11 +353,13 @@ end
 function mod:ShuttingDown(args)
 	local npcId = self:MobId(args.sourceGUID)
 	if npcId == 42180 then -- Toxitron
-		self:StopBar(CL.adds) -- Poison Protocol
+		self:StopBar(CL.count:format(CL.adds, poisonProtocolCount)) -- Poison Protocol
 	elseif npcId == 42178 then -- Magmatron
-		self:StopBar(L.incinerate) -- Incineration Security Measure
-		self:StopBar(L.flamethrower) -- Acquiring Target
+		self:StopBar(CL.count:format(L.incinerate, incinerationCount)) -- Incineration Security Measure
+		self:StopBar(CL.count:format(L.flamethrower, acquiringTargetCount)) -- Acquiring Target
 	elseif npcId == 42179 then -- Electron
-		self:StopBar(79888) -- Lightning Conductor
+		self:StopBar(CL.count:format(self:SpellName(79888), lightningConductorCount)) -- Lightning Conductor
+	elseif npcId == 42166 then -- Arcanotron
+		self:StopBar(CL.count:format(CL.pool, powerGeneratorCount)) -- Power Generator
 	end
 end

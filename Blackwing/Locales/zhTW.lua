@@ -18,7 +18,7 @@ if L then
 	L.nef = "維克多·奈法利斯領主"
 	L.nef_desc = "當維克多·奈法利斯領主施放技能時發出警報。"
 
-	L.pool = "秘法逆爆"
+	L.pool_explosion = "秘法逆爆"
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "zhTW")

@@ -32,10 +32,18 @@ end
 
 function mod:GetOptions()
 	return {
-		"ground_phase", 78075, 77840,
+		-- Ground Phase
+		"ground_phase",
+		78075,
+		77840,
+		-- Air Phase
 		"air_phase",
+		-- Heroic
 		{92677, "ICON", "SAY"},
-		{78092, "ICON", "SAY"}, "altpower", "berserk",
+		-- General
+		{78092, "ICON", "SAY", "ME_ONLY_EMPHASIZE"}, -- Tracking
+		"altpower",
+		"berserk",
 	}, {
 		ground_phase = L["ground_phase"],
 		air_phase = L["air_phase"],
@@ -50,7 +58,7 @@ function mod:OnBossEnable()
 	end
 
 	self:Log("SPELL_CAST_SUCCESS", "SonicBreath", 78075)
-	self:Log("SPELL_AURA_APPLIED", "Tracking", 78092)
+	self:Log("SPELL_AURA_APPLIED", "TrackingApplied", 78092)
 	self:Log("SPELL_AURA_APPLIED", "SearingFlame", 77840)
 	self:BossYell("AirPhase", L["air_phase_trigger"])
 
@@ -102,13 +110,13 @@ do
 	end
 end
 
-function mod:Tracking(args)
-	if self:Me(args.destGUID) then
-		self:Say(args.spellId)
-		--self:Flash(args.spellId)
-	end
-	self:TargetMessageOld(args.spellId, args.destName, "blue", "alarm")
+function mod:TrackingApplied(args)
+	self:TargetMessage(args.spellId, "red", args.destName)
 	self:PrimaryIcon(args.spellId, args.destName)
+	if self:Me(args.destGUID) then
+		self:Say(args.spellId, nil, nil, "Tracking")
+		self:PlaySound(args.spellId, "warning", nil, args.destName)
+	end
 end
 
 function mod:SonicBreath(args)
