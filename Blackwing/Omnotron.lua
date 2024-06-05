@@ -172,7 +172,7 @@ end
 
 -- Electron
 function mod:LightningConductor(args)
-	self:StopBar(CL.count:format(L.incinerate, incinerationCount))
+	self:StopBar(CL.count:format(args.spellName, lightningConductorCount))
 	lightningConductorCount = lightningConductorCount + 1
 	if lightningConductorCount < 4 then
 		self:CDBar(args.spellId, self:Normal() and 25.8 or 21, CL.count:format(args.spellName, lightningConductorCount))
