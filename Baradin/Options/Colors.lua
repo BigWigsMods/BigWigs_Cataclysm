@@ -1,8 +1,9 @@
 
 BigWigs:AddColors("Argaloth", {
 	[88942] = "red",
-	[88954] = {"blue","yellow"},
+	[88954] = {"green","yellow"},
 	[88972] = {"orange","yellow"},
+	[89000] = "blue",
 })
 
 BigWigs:AddColors("Occu'thar", {

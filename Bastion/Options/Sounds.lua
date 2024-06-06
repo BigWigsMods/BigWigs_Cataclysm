@@ -1,6 +1,8 @@
 
 BigWigs:AddSounds("Halfus Wyrmbreaker", {
-	[83707] = "alert",
+	[83703] = "alert",
+	[83706] = "alarm",
+	[83707] = "warning",
 	[83710] = "info",
 	[84030] = "long",
 })
