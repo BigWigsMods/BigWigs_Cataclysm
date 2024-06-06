@@ -14,6 +14,7 @@ mod:SetRespawnTime(30)
 
 local firstWindBlast = true
 local toxicSporesWarned = false
+local InitialBossCheck
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -73,23 +74,40 @@ end
 function mod:OnEngage()
 	firstWindBlast = true
 	toxicSporesWarned = false
+	self:SimpleTimer(InitialBossCheck, 1)
 	self:Berserk(480)
 	self:Bar("full_power", 90, L["full_power"], 86193)
 	self:Bar(86205, 16.2) -- Soothing Breeze
-
-	if self:CheckOption(93059, "BAR") and self:CheckOption(85422, "BAR") and self:CheckOption(86193, "BAR") then
-		local stormShield, nurture, windBlast = self:SpellName(93059), self:SpellName(85422), self:SpellName(86193)
-		self:Bar(85422, 30, nurture.."/"..windBlast.."/"..stormShield, "achievement_boss_murmur")
-	else
-		self:Bar(85422, 30) -- Nurture
-		self:Bar(86193, 30) -- Windblast
-		self:Bar(93059, 30) -- Storm Shield
-	end
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
+
+function InitialBossCheck()
+	--(45870, 45871, 45872) -- Anshal, Nezir, Rohash
+	local unit = mod:GetUnitIdByGUID(45870) -- Anshal
+	if unit and mod:UnitWithinRange(unit, 100) then
+		mod:Bar(85422, 29) -- Nurture
+		return
+	end
+
+	local unit = mod:GetUnitIdByGUID(45871) -- Nezir
+	if unit and mod:UnitWithinRange(unit, 100) then
+		mod:Bar(93059, 29) -- Storm Shield
+		return
+	end
+
+	local unit = mod:GetUnitIdByGUID(45872) -- Rohash
+	if unit and mod:UnitWithinRange(unit, 100) then
+		mod:Bar(86193, 29) -- Wind Blast
+		return
+	end
+
+	mod:Bar(85422, 29) -- Nurture
+	mod:Bar(93059, 29) -- Storm Shield
+	mod:Bar(86193, 29) -- Wind Blast
+end
 
 function mod:FullPower(args)
 	self:Bar("full_power", 113, L["full_power"], args.spellId)

@@ -94,11 +94,12 @@ function mod:OnEngage()
 	self:SetStage(1)
 	self:Berserk(600)
 	self:Bar("slump", 100, L.slump_bar, 36702)
-	self:Bar(78006, 30) -- Pillar of Flame
+	self:CDBar(78006, 30) -- Pillar of Flame
 	self:CDBar(77690, 24) -- Lava Spew
 	self:CDBar(89773, 90) -- Mangle
 	if self:Heroic() then
 		self:Bar("adds", 30, CL.add, L.adds_icon)
+		self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	end
 end
 
@@ -110,7 +111,7 @@ function mod:CHAT_MSG_MONSTER_YELL(_, msg)
 	if msg:find(L.stage2_yell_trigger, nil, true) then
 		self:SetStage(2)
 		self:StopBar(CL.add)
-		self:Message("stages", "cyan", CL.stage:format(2), false)
+		self:Message("stages", "cyan", CL.percent:format(30, CL.stage:format(2)), false)
 	end
 end
 
@@ -215,6 +216,16 @@ do
 			prev = args.time
 			self:PersonalMessage(args.spellId, "underyou", CL.fire)
 			self:PlaySound(args.spellId, "underyou")
+		end
+	end
+end
+
+function mod:UNIT_HEALTH(event, unit)
+	local hp = self:GetHealth(unit)
+	if hp < 36 then
+		self:UnregisterUnitEvent(event, unit)
+		if hp > 30 then
+			self:Message("stages", "cyan", CL.soon:format(CL.stage:format(2)))
 		end
 	end
 end

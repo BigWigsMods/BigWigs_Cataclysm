@@ -159,8 +159,9 @@ function mod:AcquiringTargetRemoved(args)
 end
 
 function mod:IncinerationSecurityMeasure(args)
-	self:StopBar(CL.count:format(L.incinerate, incinerationCount))
-	self:Message(args.spellId, "red", CL.count:format(L.incinerate, incinerationCount))
+	local msg = CL.count:format(L.incinerate, incinerationCount)
+	self:StopBar(msg)
+	self:Message(args.spellId, "red", msg)
 	incinerationCount = incinerationCount + 1
 	if incinerationCount < 3 then
 		self:CDBar(args.spellId, 27.5, CL.count:format(L.incinerate, incinerationCount))
@@ -241,18 +242,19 @@ function mod:ArcaneAnnihilator(args)
 	arcaneAnnihilatorCount = arcaneAnnihilatorCount + 1
 	if arcaneAnnihilatorCount == 4 then arcaneAnnihilatorCount = 1 end
 
-	if self:UnitGUID("target") == args.sourceGUID then
+	local isPossible, isReady = self:Interrupter(args.sourceGUID)
+	if isPossible then
 		self:Message(args.spellId, "red", CL.count:format(args.spellName, arcaneAnnihilatorCount))
-		local _, ready = self:Interrupter()
-		if ready then
+		if isReady then
 			self:PlaySound(args.spellId, "alert")
 		end
 	end
 end
 
 function mod:PowerGenerator(args)
-	self:StopBar(CL.count:format(CL.pool, powerGeneratorCount))
-	self:Message(args.spellId, "orange", CL.count:format(CL.pool, powerGeneratorCount))
+	local msg = CL.count:format(CL.pool, powerGeneratorCount)
+	self:StopBar(msg)
+	self:Message(args.spellId, "orange", msg)
 	powerGeneratorCount = powerGeneratorCount + 1
 	if powerGeneratorCount < 4 then
 		self:CDBar(args.spellId, self:Normal() and 29.4 or 21, CL.count:format(CL.pool, powerGeneratorCount))
