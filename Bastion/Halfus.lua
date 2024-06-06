@@ -158,7 +158,7 @@ function mod:UNIT_HEALTH(event, unit)
 	if hp < 55 then
 		self:UnregisterUnitEvent(event, unit)
 		if hp > 50 then
-			self:Message(83710, "orange", CL.soon:format(CL.count:format(CL.roar, furiousRoarCount)))
+			self:Message(83710, "orange", CL.soon:format(CL.count:format(CL.roar, furiousRoarCount)), false)
 		end
 	end
 end

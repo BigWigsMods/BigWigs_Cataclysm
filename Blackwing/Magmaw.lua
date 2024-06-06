@@ -225,7 +225,7 @@ function mod:UNIT_HEALTH(event, unit)
 	if hp < 36 then
 		self:UnregisterUnitEvent(event, unit)
 		if hp > 30 then
-			self:Message("stages", "cyan", CL.soon:format(CL.stage:format(2)))
+			self:Message("stages", "cyan", CL.soon:format(CL.stage:format(2)), false)
 		end
 	end
 end
