@@ -17,6 +17,7 @@ local quake, thundershock = mod:SpellName(83565), mod:SpellName(83067)
 local crushMarked = false
 local timeLeft = 8
 local phase = 1
+local isWaterlogged = false
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -54,21 +55,24 @@ function mod:GetOptions()
 	return {
 		-- Ignacious
 		82631, 82660,
+		82860, -- Inferno Rush
 		-- Feludius
-		82746, 82665, 82762,
+		82746, 82665,
+		82762, -- Waterlogged
 		-- Arion
 		83067, {83099, "SAY"},
 		-- Terrastra
 		83565, 83718,
 		-- Monstrosity
 		{84948, "ICON"},
+		84915, -- Liquid Ice
 		-- Heroic
 		{92067, "SAY", "ICON"},
 		{92075, "SAY", "ICON"},
 		{92307, "ICON", "ME_ONLY_EMPHASIZE"},
 		-- General
 		"switch"
-	}, {
+	},{
 		[82631] = -3118, -- Ignacious
 		[82746] = -3110, -- Feludius
 		[83067] = -3123, -- Arion
@@ -76,6 +80,8 @@ function mod:GetOptions()
 		[84948] = -3145, -- Elementium Monstrosity
 		[92067] = "heroic",
 		switch = "general",
+	},{
+		[82860] = CL.fire, -- Inferno Rush (Fire)
 	}
 end
 
@@ -97,7 +103,8 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_CAST_START", "HardenSkinStart", 83718)
 	self:Log("SPELL_CAST_START", "Glaciate", 82746)
-	self:Log("SPELL_AURA_APPLIED", "Waterlogged", 82762)
+	self:Log("SPELL_AURA_APPLIED", "WaterloggedApplied", 82762)
+	self:Log("SPELL_AURA_REMOVED", "WaterloggedRemoved", 82762)
 	self:Log("SPELL_CAST_SUCCESS", "HeartofIce", 82665)
 	self:Log("SPELL_CAST_SUCCESS", "BurningBlood", 82660)
 	self:Log("SPELL_AURA_APPLIED", "GravityCrush", 84948)
@@ -111,9 +118,17 @@ function mod:OnBossEnable()
 	self:Emote("ThundershockTrigger", L["thundershock_trigger"])
 
 	self:BossYell("LastPhase", L["last_phase_trigger"])
+
+	self:Log("SPELL_DAMAGE", "InfernoRushDamage", 82860)
+	self:Log("SPELL_MISSED", "InfernoRushDamage", 82860)
+
+	self:Log("SPELL_DAMAGE", "LiquidIceDamage", 84915)
+	self:Log("SPELL_MISSED", "LiquidIceDamage", 84915)
 end
 
 function mod:OnEngage()
+	isWaterlogged = false
+
 	self:Bar(82631, 30, L["shield_bar"])
 	self:Bar(82746, 30) -- Glaciate
 
@@ -249,9 +264,21 @@ function mod:Glaciate(args)
 	self:MessageOld(args.spellId, "yellow", "alert")
 end
 
-function mod:Waterlogged(args)
+function mod:WaterloggedApplied(args)
 	if self:Me(args.destGUID) then
-		self:MessageOld(args.spellId, "blue", "long")
+		isWaterlogged = true
+		self:PersonalMessage(args.spellId)
+		self:PlaySound(args.spellId, "warning", nil, args.destName)
+	end
+end
+
+do
+	local function Reset() isWaterlogged = false end
+	function mod:WaterloggedRemoved(args)
+		if self:Me(args.destGUID) then
+			self:SimpleTimer(Reset, 1)
+			self:PersonalMessage(args.spellId, "removed")
+		end
 	end
 end
 
@@ -338,3 +365,24 @@ function mod:LastPhase()
 	self:UnregisterUnitEvent("UNIT_HEALTH", "boss1", "boss2", "boss3", "boss4")
 end
 
+do
+	local prev = 0
+	function mod:InfernoRushDamage(args)
+		if self:Me(args.destGUID) and not isWaterlogged and args.time - prev > 2 then
+			prev = args.time
+			self:PersonalMessage(args.spellId, "underyou", CL.fire)
+			self:PlaySound(args.spellId, "underyou")
+		end
+	end
+end
+
+do
+	local prev = 0
+	function mod:LiquidIceDamage(args)
+		if self:Me(args.destGUID) and args.time - prev > 2 then
+			prev = args.time
+			self:PersonalMessage(args.spellId, "underyou")
+			self:PlaySound(args.spellId, "underyou")
+		end
+	end
+end

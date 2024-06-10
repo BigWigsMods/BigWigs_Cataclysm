@@ -19,6 +19,10 @@ if L then
 	L.nef_desc = "Avvisi per le abilità di Ser Victor Nefarius."
 
 	L.pool_explosion = "Esplosione Pozza"
+	L.incinerate = "Incenerimento"
+	L.flamethrower = "Lanciafiamme"
+	L.lightning = "Elettro"
+	L.infusion = "Infusione"
 end
 
 L = BigWigs:NewBossLocale("Atramedes", "itIT")

@@ -31,8 +31,10 @@ if L then
 	L.nef_icon = "inv_misc_head_dragon_black"
 
 	L.pool_explosion = "Pool Explosion"
-	L.incinerate = mod:SpellName(79938) -- Incinerate
-	L.flamethrower = mod:SpellName(79505) -- Flamethrower
+	L.incinerate = "Incinerate"
+	L.flamethrower = "Flamethrower"
+	L.lightning = "Lightning"
+	L.infusion = "Infusion"
 end
 
 --------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ function mod:GetOptions()
 		{79501, "ICON", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Acquiring Target
 		79023, -- Incineration Security Measure
 		-- Electron
-		{79888, "ICON", "SAY", "ME_ONLY_EMPHASIZE"}, -- Lightning Conductor
+		{79888, "ICON", "SAY", "ME_ONLY", "ME_ONLY_EMPHASIZE"}, -- Lightning Conductor
 		-- Toxitron
 		80161, -- Chemical Cloud
 		{80157, "SAY"}, -- Chemical Bomb
@@ -76,10 +78,13 @@ function mod:GetOptions()
 	},{
 		[79501] = L.flamethrower, -- Acquiring Target (Flamethrower)
 		[79023] = L.incinerate, -- Incineration Security Measure (Incinerate)
+		[79888] = L.lightning, -- Lightning Conductor (Lightning)
+		[80157] = CL.bomb, -- Chemical Bomb (Bomb)
 		[80053] = CL.adds, -- Poison Protocol (Adds)
 		[79624] = CL.pool, -- Power Generator (Pool)
 		["nef"] = CL.next_ability, -- Lord Victor Nefarius (Next ability)
 		[91879] = L.pool_explosion, -- Arcane Blowback (Pool Explosion)
+		[92048] = L.infusion, -- Shadow Infusion (Infusion)
 		[92023] = CL.rooted, -- Encasing Shadows (Rooted)
 	}
 end
@@ -173,19 +178,19 @@ end
 
 -- Electron
 function mod:LightningConductor(args)
-	self:StopBar(CL.count:format(args.spellName, lightningConductorCount))
+	self:StopBar(CL.count:format(L.lightning, lightningConductorCount))
 	lightningConductorCount = lightningConductorCount + 1
 	if lightningConductorCount < 4 then
-		self:CDBar(args.spellId, self:Normal() and 25.8 or 21, CL.count:format(args.spellName, lightningConductorCount))
+		self:CDBar(args.spellId, self:Normal() and 25.8 or 21, CL.count:format(L.lightning, lightningConductorCount))
 	end
 end
 
 function mod:LightningConductorApplied(args)
 	prevIcon = args.spellId
-	self:TargetMessage(args.spellId, "yellow", args.destName)
+	self:TargetMessage(args.spellId, "yellow", args.destName, L.lightning)
 	self:SecondaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
-		self:Say(args.spellId, nil, nil, "Lightning Conductor")
+		self:Say(args.spellId, L.lightning, nil, "Lightning")
 		self:PlaySound(args.spellId, "warning", nil, args.destName)
 	end
 end
@@ -200,8 +205,8 @@ end
 do
 	local function printTarget(self, _, guid)
 		if self:Me(guid) then
-			self:PersonalMessage(80157)
-			self:Say(80157, nil, nil, "Chemical Bomb")
+			self:PersonalMessage(80157, nil, CL.bomb)
+			self:Say(80157, CL.bomb, nil, "Bomb")
 		end
 	end
 	function mod:ChemicalBomb(args)
@@ -282,12 +287,12 @@ end
 
 function mod:ShadowInfusionApplied(args)
 	prevIcon = args.spellId
-	self:TargetMessage(args.spellId, "orange", args.destName)
+	self:TargetMessage(args.spellId, "orange", args.destName, L.infusion)
 	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
 	self:SecondaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
 		self:CastBar(args.spellId, 5)
-		self:Say(args.spellId, nil, nil, "Shadow Infusion")
+		self:Say(args.spellId, L.infusion, nil, "Infusion")
 		self:SayCountdown(args.spellId, 5)
 		self:PlaySound(args.spellId, "warning", nil, args.destName)
 	end
@@ -337,7 +342,7 @@ do
 				self:CDBar(79501, 20.5, CL.count:format(L.flamethrower, acquiringTargetCount)) -- Acquiring Target
 			elseif npcId == 42179 then -- Electron
 				lightningConductorCount = 1
-				self:CDBar(79888, self:Normal() and 13 or 15.7, CL.count:format(self:SpellName(79888), lightningConductorCount)) -- Lightning Conductor
+				self:CDBar(79888, self:Normal() and 13 or 15.7, CL.count:format(L.lightning, lightningConductorCount)) -- Lightning Conductor
 			elseif npcId == 42166 then -- Arcanotron
 				arcaneAnnihilatorCount = 0
 				powerGeneratorCount = 1
@@ -360,7 +365,7 @@ function mod:ShuttingDown(args)
 		self:StopBar(CL.count:format(L.incinerate, incinerationCount)) -- Incineration Security Measure
 		self:StopBar(CL.count:format(L.flamethrower, acquiringTargetCount)) -- Acquiring Target
 	elseif npcId == 42179 then -- Electron
-		self:StopBar(CL.count:format(self:SpellName(79888), lightningConductorCount)) -- Lightning Conductor
+		self:StopBar(CL.count:format(L.lightning, lightningConductorCount)) -- Lightning Conductor
 	elseif npcId == 42166 then -- Arcanotron
 		self:StopBar(CL.count:format(CL.pool, powerGeneratorCount)) -- Power Generator
 	end

@@ -49,7 +49,7 @@ function mod:OnEngage()
 	darknessTime = 0
 	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	self:Berserk(300)
-	self:CDBar(88954, 6) -- Consuming Darkness
+	self:CDBar(88954, 5.5) -- Consuming Darkness
 	self:CDBar(88942, 10) -- Meteor Slash
 end
 

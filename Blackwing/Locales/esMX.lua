@@ -19,6 +19,10 @@ if L then
 	L.nef_desc = "Avisos para las abilidades de Lord Victor Nefarius"
 
 	L.pool_explosion = "Generador de poder sobrecargado"
+	L.incinerate = "Incinerar"
+	L.flamethrower = "Lanzallamas"
+	L.lightning = "Relámpago"
+	L.infusion = "Infusión"
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "esMX")

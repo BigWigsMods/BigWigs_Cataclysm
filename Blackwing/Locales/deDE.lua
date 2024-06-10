@@ -19,6 +19,10 @@ if L then
 	L.nef_desc = "Warnungen für Nefarians Fähigkeiten."
 
 	L.pool_explosion = "Pool-Explosion"
+	L.incinerate = "Verbrennen"
+	L.flamethrower = "Flammenwerfer"
+	L.lightning = "Blitzableiter"
+	L.infusion = "Schattenmacht"
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "deDE")

@@ -3,6 +3,7 @@ local L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "ruRU")
 if not L then return end
 if L then
 	L.strikes_message = "Удары"
+	--L.freed_message = "%s freed %s"
 
 	L.engage_yell_trigger = "Чо'Галлу принесут ваши головы! Все до единой!"
 end

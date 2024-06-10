@@ -151,7 +151,7 @@ do
 	function mod:SicknessCheck(event, unit)
 		local t = GetTime()
 		if (t - prev) > 7 then
-			local sick = self:UnitDebuff(unit, sickness)
+			local sick = self:UnitDebuff(unit, sickness, 82235)
 			if sick then
 				prev = t
 				self:MessageOld(82235, "blue", "long", L["sickness_message"], 81831)

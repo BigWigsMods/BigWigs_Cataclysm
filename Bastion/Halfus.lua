@@ -4,7 +4,7 @@
 
 local mod, CL = BigWigs:NewBoss("Halfus Wyrmbreaker", 671, 156)
 if not mod then return end
-mod:RegisterEnableMob(44600)
+mod:RegisterEnableMob(44600, 44645, 44652, 44650, 44797) -- Halfus, Nether Scion, Slate Dragon, Storm Rider, Time Warden
 mod:SetEncounterID(1030)
 mod:SetRespawnTime(30)
 
@@ -24,6 +24,7 @@ local previousRoar = 0
 local L = mod:GetLocale()
 if L then
 	L.strikes_message = "Strikes"
+	L.freed_message = "%s freed %s"
 
 	L.engage_yell_trigger = "Cho'gall will have your heads"
 end
@@ -40,6 +41,7 @@ function mod:GetOptions()
 		{83710, "CASTBAR"}, -- Furious Roar
 		{83706, "CASTBAR"}, -- Fireball Barrage
 		83703, -- Shadow Nova
+		83589, -- Free Dragon
 		"berserk",
 	},nil,{
 		[83908] = L.strikes_message, -- Malevolent Strikes (Strikes)
@@ -56,6 +58,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "ScorchingBreath", 83707) -- Used by Proto-Behemoth with whelps ready
 	self:Log("SPELL_CAST_SUCCESS", "FireballBarrage", 83706) -- Used by Proto-Behemoth
 	self:Log("SPELL_CAST_START", "ShadowNova", 83703)
+	self:Log("SPELL_CAST_SUCCESS", "FreeDragon", 83589, 83590, 83591, 83447)
 
 	-- No boss frames..
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")
@@ -109,7 +112,7 @@ do
 		prevParalysis = args.time
 		self:Message(args.spellId, "yellow", CL.onboss:format(args.spellName))
 		self:CastBar(args.spellId, 12)
-		if ((previousRoar + 30.7) - args.time) < 12 then
+		if furiousRoarCount > 1 and ((previousRoar + 30.7) - args.time) < 12 then -- Only if Furious Roar has been cast, and the time left is < 12s
 			self:CDBar(args.spellId, 13, CL.count:format(CL.roar, furiousRoarCount))
 		end
 		self:PlaySound(args.spellId, "long")
@@ -127,18 +130,25 @@ function mod:MalevolentStrikesApplied(args)
 	end
 end
 
-function mod:ScorchingBreath(args)
-	self:StopBar(CL.count:format(CL.breath, scorchingBreathCount))
-	self:Message(args.spellId, "red", CL.count:format(CL.breath, scorchingBreathCount))
-	scorchingBreathCount = scorchingBreathCount + 1
-	self:CDBar(args.spellId, 20, CL.count:format(CL.breath, scorchingBreathCount))
-	self:PlaySound(args.spellId, "warning")
-end
+do
+	local prevBreath = 0
+	function mod:ScorchingBreath(args)
+		prevBreath = args.time
+		self:StopBar(CL.count:format(CL.breath, scorchingBreathCount))
+		self:Message(args.spellId, "red", CL.count:format(CL.breath, scorchingBreathCount))
+		scorchingBreathCount = scorchingBreathCount + 1
+		self:CDBar(args.spellId, 20, CL.count:format(CL.breath, scorchingBreathCount))
+		self:PlaySound(args.spellId, "warning")
+	end
 
-function mod:FireballBarrage(args)
-	self:Message(args.spellId, "red")
-	self:CastBar(args.spellId, 10)
-	self:PlaySound(args.spellId, "alarm")
+	function mod:FireballBarrage(args)
+		self:Message(args.spellId, "red")
+		self:CastBar(args.spellId, 10)
+		if scorchingBreathCount > 1 and ((prevBreath + 20) - args.time) < 10 then -- Only if Scorching Breath has been cast, and the time left is < 10s
+			self:CDBar(83707, 11, CL.count:format(CL.breath, scorchingBreathCount))
+		end
+		self:PlaySound(args.spellId, "alarm")
+	end
 end
 
 function mod:ShadowNova(args)
@@ -151,6 +161,10 @@ function mod:ShadowNova(args)
 			self:PlaySound(args.spellId, "alert")
 		end
 	end
+end
+
+function mod:FreeDragon(args)
+	self:Message(83589, "cyan", L.freed_message:format(self:ColorName(args.sourceName), args.destName))
 end
 
 function mod:UNIT_HEALTH(event, unit)

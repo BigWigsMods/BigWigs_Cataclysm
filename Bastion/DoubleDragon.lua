@@ -4,7 +4,7 @@
 
 local mod, CL = BigWigs:NewBoss("Valiona and Theralion", 671, 157)
 if not mod then return end
-mod:RegisterEnableMob(45992, 45993)
+mod:RegisterEnableMob(45992, 45993) -- Valiona, Theralion
 mod:SetEncounterID(1032)
 mod:SetRespawnTime(35)
 
@@ -45,13 +45,17 @@ function mod:GetOptions()
 	return {
 		{86788, "ICON", "ME_ONLY_EMPHASIZE"}, -- Blackout
 		88518, 86059, 86840,
-		{86622, "SAY"}, 86408, 86369, 93051,
+		{86622, "SAY"}, 86408, 86369,
+		86505, -- Fabulous Flames
+		93051,
 		"phase_switch", "berserk"
-	}, {
+	},{
 		[86788] = -2985, -- Valiona
 		[86622] = -2994, -- Theralion
 		[93051] = "heroic",
 		phase_switch = "general",
+	},{
+		[86505] = CL.fire, -- Fabulous Flames (Fire)
 	}
 end
 
@@ -74,6 +78,9 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "TwilightBlast", 86369)
 
 	self:RegisterUnitEvent("UNIT_AURA", "MeteorCheck", "player")
+
+	self:Log("SPELL_DAMAGE", "FabulousFlamesDamage", 86505)
+	self:Log("SPELL_MISSED", "FabulousFlamesDamage", 86505)
 end
 
 function mod:OnEngage()
@@ -190,7 +197,7 @@ end
 do
 	local scheduled = nil
 	local function emWarn(spellId)
-		mod:TargetMessageOld(spellId, emTargets, "blue", "alarm")
+		mod:TargetMessageOld(spellId, emTargets, "orange", "alarm")
 		scheduled = nil
 	end
 	function mod:EngulfingMagicApplied(args)
@@ -211,4 +218,15 @@ function mod:EngulfingMagicRemoved(args)
 	--if self:Me(args.destGUID) then
 		--self:CloseProximity()
 	--end
+end
+
+do
+	local prev = 0
+	function mod:FabulousFlamesDamage(args)
+		if self:Me(args.destGUID) and args.time - prev > 2 then
+			prev = args.time
+			self:PersonalMessage(args.spellId, "underyou", CL.fire)
+			self:PlaySound(args.spellId, "underyou")
+		end
+	end
 end

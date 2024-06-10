@@ -3,6 +3,7 @@ local L = BigWigs:NewBossLocale("Halfus Wyrmbreaker", "koKR")
 if not L then return end
 if L then
 	L.strikes_message = "악의의 일격"
+	--L.freed_message = "%s freed %s"
 
 	L.engage_yell_trigger = "초갈 님께 네놈들의 머리를 바치겠다"
 end

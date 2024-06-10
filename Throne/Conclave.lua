@@ -77,7 +77,6 @@ function mod:OnEngage()
 	self:SimpleTimer(InitialBossCheck, 1)
 	self:Berserk(480)
 	self:Bar("full_power", 90, L["full_power"], 86193)
-	self:Bar(86205, 16.2) -- Soothing Breeze
 end
 
 --------------------------------------------------------------------------------
@@ -85,25 +84,26 @@ end
 --
 
 function InitialBossCheck()
-	--(45870, 45871, 45872) -- Anshal, Nezir, Rohash
 	local unit = mod:GetUnitIdByGUID(45870) -- Anshal
 	if unit and mod:UnitWithinRange(unit, 100) then
-		mod:Bar(85422, 29) -- Nurture
-		return
-	end
-
-	local unit = mod:GetUnitIdByGUID(45871) -- Nezir
-	if unit and mod:UnitWithinRange(unit, 100) then
-		mod:Bar(93059, 29) -- Storm Shield
+		mod:Bar(86205, 15.2) -- Soothing Breeze
+		mod:Bar(85422, 26.3) -- Nurture
 		return
 	end
 
 	local unit = mod:GetUnitIdByGUID(45872) -- Rohash
 	if unit and mod:UnitWithinRange(unit, 100) then
-		mod:Bar(86193, 29) -- Wind Blast
+		mod:Bar(93059, 28) -- Storm Shield
+		mod:Bar(86193, 31.1) -- Wind Blast
 		return
 	end
 
+	local unit = mod:GetUnitIdByGUID(45871) -- Nezir
+	if unit and mod:UnitWithinRange(unit, 100) then
+		return
+	end
+
+	mod:Bar(86205, 17) -- Soothing Breeze
 	mod:Bar(85422, 29) -- Nurture
 	mod:Bar(93059, 29) -- Storm Shield
 	mod:Bar(86193, 29) -- Wind Blast
@@ -129,33 +129,48 @@ end
 
 function mod:StormShield(args)
 	self:Bar(args.spellId, 113)
-	self:Message(args.spellId, "orange")
+	local unit = mod:GetUnitIdByGUID(args.sourceGUID)
+	if unit and mod:UnitWithinRange(unit, 100) then
+		self:Message(args.spellId, "orange")
+	end
 end
 
 function mod:WindBlast(args)
 	self:Bar(args.spellId, firstWindBlast and 82 or 60)
 	firstWindBlast = false
-	self:Message(args.spellId, "red")
+	local unit = mod:GetUnitIdByGUID(args.sourceGUID)
+	if unit and mod:UnitWithinRange(unit, 100) then
+		self:Message(args.spellId, "red")
+	end
 end
 
 function mod:ToxicSpores(args)
 	if not toxicSporesWarned then
 		toxicSporesWarned = true
 		self:Bar(args.spellId, 20)
-		self:Message(args.spellId, "orange")
+		local unit = mod:GetUnitIdByGUID(45870) -- Anshal
+		if unit and mod:UnitWithinRange(unit, 100) then
+			self:Message(args.spellId, "orange")
+		end
 	end
 end
 
 function mod:SoothingBreeze(args)
 	self:Bar(args.spellId, 32.5)
-	self:Message(args.spellId, "orange")
+	local unit = mod:GetUnitIdByGUID(args.sourceGUID)
+	if unit and mod:UnitWithinRange(unit, 100) then
+		self:Message(args.spellId, "orange")
+	end
 end
 
 function mod:Nurture(args)
 	toxicSporesWarned = false
 	self:Bar(args.spellId, 113)
-	self:Message(args.spellId, "orange")
 	self:Bar(86281, 23) -- Toxic Spores
+	local unit = mod:GetUnitIdByGUID(args.sourceGUID)
+	if unit and mod:UnitWithinRange(unit, 100) then
+		self:Message(args.spellId, "orange")
+	end
 end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg, sender)

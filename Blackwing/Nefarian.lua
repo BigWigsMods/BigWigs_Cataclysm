@@ -55,7 +55,7 @@ function mod:GetOptions()
 		77939,
 		-- Normal
 		78999,
-		81272,
+		{81272, "CASTBAR"}, -- Electrocute
 		81007,
 		80734, -- Blast Nova
 		-- Heroic
@@ -75,6 +75,8 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
+	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
+
 	self:BossYell("PhaseTwo", L["phase_two_trigger"])
 	self:BossYell("PhaseThree", L["phase_three_trigger"])
 	self:BossYell("ShadowblazeCorrection", L["shadowblaze_trigger"])
@@ -94,8 +96,6 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_DAMAGE", "PersonalShadowBlaze", 81007)
 	self:Log("SPELL_MISSED", "PersonalShadowBlaze", 81007)
-
-	self:Emote("Electrocute", L["crackle_trigger"])
 
 	self:Death("PrototypeDeaths", 41948) -- Chromatic Prototype
 end
@@ -118,6 +118,14 @@ end
 -- Event Handlers
 --
 
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
+	if msg:find(L.crackle_trigger, nil, true) and self:IsEngaged() then -- Not during the RP of activating the boss
+		self:Message(81272, "orange", CL.custom_sec:format(self:SpellName(81272), 5))
+		self:CastBar(81272, 5) -- Electrocute
+		self:PlaySound(81272, "alert")
+	end
+end
+
 do
 	local prev = 0
 	local discharge = mod:SpellName(77939)
@@ -137,14 +145,6 @@ do
 			prev = args.time
 			self:MessageOld(args.spellId, "blue", "info", L["shadowblaze_message"])
 		end
-	end
-end
-
-function mod:Electrocute()
-	if self:IsEngaged() then -- Not during the RP of activating the boss
-		self:Message(81272, "orange", L["crackle_message"])
-		self:Bar(81272, 5) -- Electrocute
-		self:PlaySound(81272, "alert")
 	end
 end
 
@@ -221,6 +221,10 @@ function mod:BlastNova(args)
 	local unit = self:GetUnitIdByGUID(args.sourceGUID)
 	if unit and self:UnitWithinRange(unit, 30) then
 		self:Message(args.spellId, "orange", CL.count:format(args.spellName, blastNovaCollector[args.sourceGUID]))
+		local _, isReady = self:Interrupter()
+		if isReady then
+			self:PlaySound(args.spellId, "alert")
+		end
 	end
 end
 
