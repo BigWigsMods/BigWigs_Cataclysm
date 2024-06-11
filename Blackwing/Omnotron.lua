@@ -110,6 +110,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "PowerGenerator", 79624)
 	-- Heroic
 	self:Log("SPELL_CAST_SUCCESS", "OverchargedPowerGenerator", 91857)
+	self:Log("SPELL_AURA_APPLIED", "OverchargedPowerGeneratorApplied", 91858)
 	self:Log("SPELL_CAST_START", "GripOfDeath", 91849)
 	self:Log("SPELL_AURA_APPLIED", "EncasingShadowsApplied", 92023)
 	self:Log("SPELL_AURA_APPLIED", "ShadowInfusionApplied", 92048)
@@ -234,7 +235,7 @@ end
 do
 	local prev = 0
 	function mod:ChemicalCloudDamage(args)
-		if self:Me(args.destGUID) and args.time - prev > 2 then
+		if self:Me(args.destGUID) and args.time - prev > 3 then
 			prev = args.time
 			self:PersonalMessage(args.spellId, "underyou")
 			self:PlaySound(args.spellId, "underyou")
@@ -275,6 +276,17 @@ function mod:OverchargedPowerGenerator()
 	self:PlaySound(91879, "info")
 end
 
+do
+	local prev = 0
+	function mod:OverchargedPowerGeneratorApplied(args)
+		if self:Me(args.destGUID) and args.time - prev > 1.5 then
+			prev = args.time
+			self:PersonalMessage(91879, "underyou", L.pool_explosion)
+			self:PlaySound(91879, "underyou")
+		end
+	end
+end
+
 function mod:GripOfDeath(args)
 	self:Message(args.spellId, "orange")
 	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
@@ -300,7 +312,7 @@ end
 
 function mod:ShadowInfusionRemoved(args)
 	if self:Me(args.destGUID) then
-		self:CancelYellCountdown(args.spellId)
+		self:CancelSayCountdown(args.spellId)
 	end
 end
 

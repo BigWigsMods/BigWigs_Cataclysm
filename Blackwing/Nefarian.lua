@@ -18,6 +18,7 @@ local powerTargets = mod:NewTargetList()
 local phase3warned = false
 local shadowblazeHandle, lastBlaze = nil, 0
 local blastNovaCollector = {}
+local currentPercent = 100
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -59,7 +60,7 @@ function mod:GetOptions()
 		81007,
 		80734, -- Blast Nova
 		-- Heroic
-		{79339, "CASTBAR", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Explosive Cinders
+		{79339, "COUNTDOWN", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Explosive Cinders
 		79318, -- Dominion
 		"berserk",
 		-- General
@@ -105,6 +106,7 @@ function mod:OnEngage()
 	phase3warned = false
 	shadowblazeHandle, lastBlaze = nil, 0
 	blastNovaCollector = {}
+	currentPercent = 100
 	self:SetStage(1)
 	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1", "boss2")
 	self:Berserk(630) -- is it really?
@@ -120,7 +122,8 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
 	if msg:find(L.crackle_trigger, nil, true) and self:IsEngaged() then -- Not during the RP of activating the boss
-		self:Message(81272, "orange", CL.custom_sec:format(self:SpellName(81272), 5))
+		currentPercent = currentPercent - 10
+		self:Message(81272, "orange", CL.percent:format(currentPercent, CL.custom_sec:format(self:SpellName(81272), 5)))
 		self:CastBar(81272, 5) -- Electrocute
 		self:PlaySound(81272, "alert")
 	end
@@ -240,7 +243,7 @@ do
 		if self:Me(args.destGUID) then
 			self:Say(args.spellId, CL.bomb, nil, "Bomb")
 			self:SayCountdown(args.spellId, 8, nil, 5)
-			self:CastBar(args.spellId, 8, CL.bomb)
+			self:TargetBar(args.spellId, 8, args.destName, CL.bomb)
 			self:PlaySound(args.spellId, "warning")
 		end
 	end
@@ -249,7 +252,7 @@ end
 function mod:ExplosiveCindersRemoved(args)
 	if self:Me(args.destGUID) then
 		self:CancelSayCountdown(args.spellId)
-		self:StopBar(CL.cast:format(CL.bomb))
+		self:StopBar(args.spellName, args.destName)
 		self:PersonalMessage(args.spellId, "removed", CL.bomb)
 	end
 end

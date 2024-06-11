@@ -14,7 +14,6 @@ mod:SetStage(1)
 --
 
 local isHeadPhase = false
-local firstRefresh = false
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -71,7 +70,6 @@ end
 
 function mod:OnBossEnable()
 	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
-	self:Log("SPELL_AURA_REFRESH", "PointOfVulnerabilityRefresh", 79010)
 	self:Log("SPELL_CAST_START", "MassiveCrash", 88253)
 	self:Log("SPELL_AURA_REMOVED", "MassiveCrashRemoved", 88253)
 	self:Log("SPELL_AURA_APPLIED", "ParasiticInfection", 78097, 78941)
@@ -95,7 +93,6 @@ end
 
 function mod:OnEngage()
 	isHeadPhase = false
-	firstRefresh = false
 	self:SetStage(1)
 	self:Berserk(600)
 	self:Bar("slump", 100, L.slump_bar, 36702)
@@ -144,19 +141,7 @@ do
 	end
 end
 
-function mod:PointOfVulnerabilityRefresh(args)
-	if self:IsEngaged() then
-		if firstRefresh then
-			firstRefresh = false
-			self:Message(79011, "green", args.spellName, false, true) -- XXX TEST
-		else
-			self:Message(79011, "green", CL.over:format(args.spellName), false, true) -- XXX TEST
-		end
-	end
-end
-
 function mod:MassiveCrash(args)
-	firstRefresh = true
 	self:Message("slump", "green", args.spellName, false, true) -- XXX TEST
 end
 
@@ -173,7 +158,7 @@ function mod:ArmageddonApplied(args)
 end
 
 function mod:ArmageddonRemoved(args)
-	self:StopBar(args.spellName)
+	self:StopBar(CL.cast:format(args.spellName))
 end
 
 do
