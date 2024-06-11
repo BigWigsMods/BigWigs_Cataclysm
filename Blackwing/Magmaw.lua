@@ -53,7 +53,7 @@ function mod:GetOptions()
 		78403, -- Molten Tantrum
 		-- Heroic
 		"adds",
-		92177, -- Armageddon
+		{92177, "CASTBAR"}, -- Armageddon
 		-- General
 		"stages",
 		"berserk",
@@ -145,11 +145,13 @@ do
 end
 
 function mod:PointOfVulnerabilityRefresh(args)
-	if firstRefresh then
-		firstRefresh = false
-		self:Message(79011, "green", args.spellName, false, true) -- XXX TEST
-	else
-		self:Message(79011, "green", CL.over:format(args.spellName), false, true) -- XXX TEST
+	if self:IsEngaged() then
+		if firstRefresh then
+			firstRefresh = false
+			self:Message(79011, "green", args.spellName, false, true) -- XXX TEST
+		else
+			self:Message(79011, "green", CL.over:format(args.spellName), false, true) -- XXX TEST
+		end
 	end
 end
 
@@ -164,7 +166,7 @@ end
 
 function mod:ArmageddonApplied(args)
 	self:Message(args.spellId, "red", CL.other:format(CL.add, args.spellName))
-	self:Bar(args.spellId, 8)
+	self:CastBar(args.spellId, 8)
 	if isHeadPhase then
 		self:PlaySound(args.spellId, "alarm")
 	end
