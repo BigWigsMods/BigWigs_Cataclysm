@@ -126,7 +126,7 @@ end
 function mod:ShadowsApplied(args)
 	if not self:LFR() and self:Me(args.destGUID) then
 		self:MessageOld(args.spellId, "blue", "alert", CL["you"]:format(L["shadows"]), args.spellId)
-		self:Say(args.spellId, L["shadows"])
+		self:Say(args.spellId, L["shadows"], nil, "Shadows")
 		self:Flash(args.spellId)
 		if self:Heroic() then
 			self:OpenProximity(args.spellId, 10)

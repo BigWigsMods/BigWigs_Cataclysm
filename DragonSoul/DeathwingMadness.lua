@@ -201,7 +201,7 @@ function mod:Parasite(args)
 	if self:Me(args.destGUID) then
 		self:Flash(-4347)
 		self:OpenProximity(-4347, 10)
-		self:Say(-4347, L["parasite"])
+		self:Say(-4347, L["parasite"], nil, "Parasite")
 	end
 	if paraCount < 2 then
 		self:Bar(-4347, 60, L["parasite"], 108649)

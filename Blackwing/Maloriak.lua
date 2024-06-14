@@ -251,7 +251,7 @@ do
 	function mod:BitingChill(args)
 		chillTargets[#chillTargets + 1] = args.destName
 		if self:Me(args.destGUID) then
-			self:Say(args.spellId)
+			self:Say(args.spellId, nil, nil, "Biting Chill")
 			--self:Flash(args.spellId)
 			isChilled = true
 		end

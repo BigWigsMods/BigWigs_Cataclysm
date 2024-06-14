@@ -103,7 +103,7 @@ function mod:BroodlingWatcher()
 		self:TargetMessageOld(99990, lastBroodlingTarget, "red", "alert") -- Volatile Burst
 		if UnitIsUnit(lastBroodlingTarget, "player") then
 			self:Flash(99990)
-			self:Say(99990)
+			self:Say(99990, nil, nil, "Volatile Burst")
 		end
 	end
 end

@@ -153,7 +153,7 @@ do
 			scheduled = self:ScheduleTimer(lrWarn, 0.3, args.spellId)
 		end
 		if self:Me(args.destGUID) then
-			self:Say(args.spellId)
+			self:Say(args.spellId, nil, nil, "Lightning Rod")
 			--self:Flash(args.spellId)
 		end
 	end
@@ -190,7 +190,7 @@ end
 
 function mod:GravityCore(args)
 	if self:Me(args.destGUID) then
-		self:Say(args.spellId, L["gravity_core_say"])
+		self:Say(args.spellId, L["gravity_core_say"], nil, "Gravity")
 		--self:Flash(args.spellId)
 	end
 	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
@@ -203,7 +203,7 @@ end
 
 function mod:StaticOverload(args)
 	if self:Me(args.destGUID) then
-		self:Say(args.spellId, L["static_overload_say"])
+		self:Say(args.spellId, L["static_overload_say"], nil, "Overload")
 		--self:Flash(args.spellId)
 	end
 	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")

@@ -80,7 +80,7 @@ do
 			if mod:Me(guid) then
 				if spellId == 99836 then
 					mod:Flash("crystal", spellId)
-					mod:Say("crystal", L["crystal_trap"])
+					mod:Say("crystal", L["crystal_trap"], nil, "Crystal Trap")
 				else
 					mod:Flash("immolationyou", spellId)
 					mod:MessageOld("immolationyou", "blue", "alarm", CL["underyou"]:format(L["immolationyou_message"]), spellId)

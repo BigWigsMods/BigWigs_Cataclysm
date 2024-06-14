@@ -85,7 +85,7 @@ function mod:FrostFlakeApplied(args)
 	self:PrimaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
 		self:MessageOld(args.spellId, "blue", "long", CL["you"]:format(args.spellName))
-		self:Say(args.spellId)
+		self:Say(args.spellId, nil, nil, "Frostflake")
 		self:Flash(args.spellId)
 		self:OpenProximity(args.spellId, 10)
 	end

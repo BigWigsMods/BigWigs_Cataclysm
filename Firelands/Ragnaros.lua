@@ -192,7 +192,7 @@ function mod:FixatedCheck(_, unit)
 	if fixated and not fixateWarned then
 		fixateWarned = true
 		self:MessageOld(99849, "blue", "long", CL["you"]:format(fixate))
-		self:Say(99849)
+		self:Say(99849, nil, nil, "Fixate")
 		self:Flash(99849)
 	elseif not fixated and fixateWarned then
 		fixateWarned = false
@@ -289,7 +289,7 @@ do
 	function mod:BlazingHeat(args)
 		blazingHeatTargets[#blazingHeatTargets + 1] = args.destName
 		if self:Me(args.destGUID) then
-			self:Say(args.spellId)
+			self:Say(args.spellId, nil, nil, "Blazing Heat")
 			self:Flash(args.spellId)
 		end
 		if iconCounter == 1 then

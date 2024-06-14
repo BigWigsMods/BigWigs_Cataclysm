@@ -124,7 +124,7 @@ do
 			local player = mod:UnitName(mobId.."target")
 			if not player then return end
 			if UnitIsUnit("player", player) then
-				mod:Say(spellId)
+				mod:Say(spellId, nil, nil, "Twilight Flames")
 				mod:Flash(spellId)
 				mod:MessageOld(spellId, "blue", "long") -- Twilight Flames
 			end
@@ -148,7 +148,7 @@ do
 		self:TargetMessageOld(108046, name, "yellow", "alarm")
 		if self:Me(guid) then
 			self:Flash(108046)
-			self:Say(108046)
+			self:Say(108046, nil, nil, "Shockwave")
 		end
 	end
 

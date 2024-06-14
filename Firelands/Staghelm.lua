@@ -97,7 +97,7 @@ do
 			mod:CancelTimer(timer)
 			timer = nil
 			if mod:Me(guid) then
-				mod:Say(spellId, L["leap_say"])
+				mod:Say(spellId, L["leap_say"], nil, "Leap")
 				mod:Flash(spellId)
 			end
 			local player = mod:UnitName("boss1target")
@@ -126,7 +126,7 @@ do
 		for unit in mod:IterateGroup() do
 			local leapTarget = unit.."target"
 			if mod:UnitGUID(leapTarget) == guid and UnitIsUnit("player", leapTarget.."target") then
-				mod:Say(98476, L["leap_say"])
+				mod:Say(98476, L["leap_say"], nil, "Leap")
 				mod:Flash(98476)
 				break
 			end

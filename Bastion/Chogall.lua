@@ -127,7 +127,7 @@ do
 			local player = mod:UnitName(mobId.."target")
 			if not player then return end
 			if UnitIsUnit("player", player) then
-				mod:Say(spellId, L["crash_say"])
+				mod:Say(spellId, L["crash_say"], nil, "Crash")
 				--mod:Flash(spellId)
 			end
 			mod:TargetMessageOld(spellId, player, "orange", "long") -- Corrupting Crash
