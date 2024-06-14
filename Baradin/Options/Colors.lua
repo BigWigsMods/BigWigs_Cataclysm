@@ -2,7 +2,7 @@
 BigWigs:AddColors("Argaloth", {
 	[88942] = "red",
 	[88954] = {"green","yellow"},
-	[88972] = {"orange","yellow"},
+	[88972] = {"cyan","orange"},
 	[89000] = "blue",
 })
 

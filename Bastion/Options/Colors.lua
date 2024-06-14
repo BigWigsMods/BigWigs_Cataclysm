@@ -4,7 +4,7 @@ BigWigs:AddColors("Halfus Wyrmbreaker", {
 	[83703] = "yellow",
 	[83706] = "red",
 	[83707] = "red",
-	[83710] = "orange",
+	[83710] = {"cyan","orange"},
 	[83908] = {"blue","purple"},
 	[84030] = "yellow",
 })
