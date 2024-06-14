@@ -27,16 +27,8 @@ end
 
 L = BigWigs:NewBossLocale("Atramedes", "itIT")
 if L then
-	L.ground_phase = "Fase a Terra"
-	L.ground_phase_desc = "Avviso per quando Atramedes atterra."
-	L.air_phase = "Fase Aerea"
-	L.air_phase_desc = "Avviso per quando Atramedes si alza in volo."
-
+	L.obnoxious_fiend = "Demonio Ripugnante" -- NPC ID 49740
 	L.air_phase_trigger = "Sì, correte! Con ogni passo il cuore batte più forte."
-
-	L.obnoxious_soon = "Demone Ripugnante tra poco!"
-
-	L.searing_soon = "Fiamme Ustionanti in 10 secondi!"
 end
 
 L = BigWigs:NewBossLocale("Chimaeron", "itIT")

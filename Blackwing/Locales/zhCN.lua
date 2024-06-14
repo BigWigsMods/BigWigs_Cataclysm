@@ -36,16 +36,8 @@ end
 
 L = BigWigs:NewBossLocale("Atramedes", "zhCN")
 if L then
-	L.ground_phase = "地面阶段"
-	L.ground_phase_desc = "当艾卓曼德斯着陆时发出警报。"
-	L.air_phase = "空中阶段"
-	L.air_phase_desc = "当艾卓曼德斯起飞时发出警报。"
-
+	L.obnoxious_fiend = "喧闹恶鬼" -- NPC ID 49740
 	L.air_phase_trigger = "对，跑吧！每跑一步你的心跳都会加快。这心跳声，洪亮如雷，震耳欲聋。你逃不掉的！"
-
-	L.obnoxious_soon = "即将 喧闹恶鬼！"
-
-	L.searing_soon = "10秒后，灼热烈焰！"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "zhCN")

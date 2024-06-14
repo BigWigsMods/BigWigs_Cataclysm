@@ -128,10 +128,14 @@ function mod:UNIT_HEALTH(event, unit)
 	local hp = self:GetHealth(unit)
 	if hp < 69 and fireStormHP > 70 then
 		fireStormHP = 66
-		self:Message(88972, "yellow", CL.soon:format(self:SpellName(88972)), false)
+		if hp > 66 then
+			self:Message(88972, "cyan", CL.soon:format(self:SpellName(88972)), false)
+		end
 	elseif hp < 36 and fireStormHP > 50 then
 		fireStormHP = 33
 		self:UnregisterUnitEvent(event, unit)
-		self:Message(88972, "yellow", CL.soon:format(self:SpellName(88972)), false)
+		if hp > 33 then
+			self:Message(88972, "cyan", CL.soon:format(self:SpellName(88972)), false)
+		end
 	end
 end

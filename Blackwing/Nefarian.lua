@@ -19,6 +19,7 @@ local phase3warned = false
 local shadowblazeHandle, lastBlaze = nil, 0
 local blastNovaCollector = {}
 local currentPercent = 100
+local electrocuteCount = 0
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -107,6 +108,7 @@ function mod:OnEngage()
 	shadowblazeHandle, lastBlaze = nil, 0
 	blastNovaCollector = {}
 	currentPercent = 100
+	electrocuteCount = 0
 	self:SetStage(1)
 	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1", "boss2")
 	self:Berserk(630) -- is it really?
@@ -123,8 +125,10 @@ end
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
 	if msg:find(L.crackle_trigger, nil, true) and self:IsEngaged() then -- Not during the RP of activating the boss
 		currentPercent = currentPercent - 10
-		self:Message(81272, "orange", CL.percent:format(currentPercent, CL.custom_sec:format(self:SpellName(81272), 5)))
-		self:CastBar(81272, 5) -- Electrocute
+		electrocuteCount = electrocuteCount + 1
+		local msg = CL.count:format(self:SpellName(81272), electrocuteCount)
+		self:Message(81272, "orange", CL.percent:format(currentPercent, CL.custom_sec:format(msg, 5)))
+		self:CastBar(81272, 5, msg) -- Electrocute
 		self:PlaySound(81272, "alert")
 	end
 end

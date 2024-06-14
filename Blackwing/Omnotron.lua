@@ -19,6 +19,7 @@ local poisonProtocolCount = 1
 local lightningConductorCount = 1
 local powerGeneratorCount = 1
 local arcaneAnnihilatorCount = 0
+local gripOfDeathCount = 0
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -79,7 +80,6 @@ function mod:GetOptions()
 		[79501] = L.flamethrower, -- Acquiring Target (Flamethrower)
 		[79023] = L.incinerate, -- Incineration Security Measure (Incinerate)
 		[79888] = L.lightning, -- Lightning Conductor (Lightning)
-		[80157] = CL.bomb, -- Chemical Bomb (Bomb)
 		[80053] = CL.adds, -- Poison Protocol (Adds)
 		[79624] = CL.pool, -- Power Generator (Pool)
 		["nef"] = CL.next_ability, -- Lord Victor Nefarius (Next ability)
@@ -129,6 +129,7 @@ function mod:OnEngage()
 	lightningConductorCount = 1
 	powerGeneratorCount = 1
 	arcaneAnnihilatorCount = 0
+	gripOfDeathCount = 0
 	if self:Heroic() then
 		self:Berserk(600, true)
 	end
@@ -206,8 +207,9 @@ end
 do
 	local function printTarget(self, _, guid)
 		if self:Me(guid) then
-			self:PersonalMessage(80157, nil, CL.bomb)
-			self:Say(80157, CL.bomb, nil, "Bomb")
+			-- Not shortening this to "Bomb" as the adds are called "Poison Bomb" and might cause confusion
+			self:PersonalMessage(80157)
+			self:Say(80157, nil, nil, "Chemical Bomb")
 		end
 	end
 	function mod:ChemicalBomb(args)
@@ -288,7 +290,8 @@ do
 end
 
 function mod:GripOfDeath(args)
-	self:Message(args.spellId, "orange")
+	gripOfDeathCount = gripOfDeathCount + 1
+	self:Message(args.spellId, "orange", CL.count:format(args.spellName, gripOfDeathCount))
 	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
 end
 

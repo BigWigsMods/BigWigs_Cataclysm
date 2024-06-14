@@ -43,7 +43,7 @@ end
 
 function mod:GetOptions()
 	return {
-		{86788, "ICON", "ME_ONLY_EMPHASIZE"}, -- Blackout
+		{86788, "ICON", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Blackout
 		88518, 86059, 86840,
 		{86622, "SAY"}, 86408, 86369,
 		86505, -- Fabulous Flames
@@ -162,6 +162,8 @@ function mod:BlackoutApplied(args)
 	self:Bar(args.spellId, 45)
 	self:PrimaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
+		self:Yell(args.spellId, nil, nil, "Blackout")
+		self:YellCountdown(args.spellId, 15)
 		self:PlaySound(args.spellId, "warning", nil, args.destName)
 	else
 		self:PlaySound(args.spellId, "alert", nil, args.destName)
@@ -170,6 +172,9 @@ end
 
 function mod:BlackoutRemoved(args)
 	self:StopBar(args.spellName)
+	if self:Me(args.destGUID) then
+		self:CancelYellCountdown(args.spellId)
+	end
 	self:PrimaryIcon(args.spellId)
 end
 

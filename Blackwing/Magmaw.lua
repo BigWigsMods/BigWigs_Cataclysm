@@ -4,7 +4,7 @@
 
 local mod, CL = BigWigs:NewBoss("Magmaw", 669, 170)
 if not mod then return end
-mod:RegisterEnableMob(41570)
+mod:RegisterEnableMob(41570, 42347) -- Magmaw, Exposed Head of Magmaw
 mod:SetEncounterID(1024)
 mod:SetRespawnTime(32)
 mod:SetStage(1)
@@ -14,6 +14,10 @@ mod:SetStage(1)
 --
 
 local isHeadPhase = false
+local isNewHeadPhase = false
+local lavaSpewCount = 1
+local massiveCrashCount = 0
+local headGUID = nil
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -70,6 +74,7 @@ end
 
 function mod:OnBossEnable()
 	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
+	self:Log("SPELL_AURA_REFRESH", "PointOfVulnerabilityRefresh", 79010)
 	self:Log("SPELL_CAST_START", "MassiveCrash", 88253)
 	self:Log("SPELL_AURA_REMOVED", "MassiveCrashRemoved", 88253)
 	self:Log("SPELL_AURA_APPLIED", "ParasiticInfection", 78097, 78941)
@@ -93,16 +98,21 @@ end
 
 function mod:OnEngage()
 	isHeadPhase = false
+	isNewHeadPhase = false
+	lavaSpewCount = 1
+	massiveCrashCount = 0
+	headGUID = nil
 	self:SetStage(1)
 	self:Berserk(600)
 	self:Bar("slump", 100, L.slump_bar, 36702)
 	self:CDBar(78006, 30) -- Pillar of Flame
-	self:CDBar(77690, 24) -- Lava Spew
+	self:CDBar(77690, 24, CL.count:format(self:SpellName(77690), lavaSpewCount)) -- Lava Spew
 	self:CDBar(89773, 90) -- Mangle
 	if self:Heroic() then
 		self:Bar("adds", 30, CL.add, L.adds_icon)
 		self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	end
+	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT")
 end
 
 --------------------------------------------------------------------------------
@@ -117,11 +127,28 @@ function mod:CHAT_MSG_MONSTER_YELL(_, msg)
 	end
 end
 
+function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
+	if headGUID then
+		local headUnit = self:GetUnitIdByGUID(headGUID)
+		if not isNewHeadPhase and headUnit then
+			isNewHeadPhase = true
+			self:Message(79011, "green", self:SpellName(79011), false, true) -- XXX TEST
+		elseif isNewHeadPhase and not headUnit then
+			isNewHeadPhase = false
+			self:Message(79011, "green", CL.over:format(self:SpellName(79011)), false, true) -- XXX TEST
+		end
+	end
+end
+
+function mod:PointOfVulnerabilityRefresh(args)
+	headGUID = args.destGUID
+end
+
 do
 	local function rebootTimers()
 		isHeadPhase = false
 		mod:CDBar(78006, 9.5) -- Pillar of Flame
-		mod:CDBar(77690, 4.5) -- Lava Spew
+		mod:CDBar(77690, 4.5, CL.count:format(mod:SpellName(77690), lavaSpewCount)) -- Lava Spew
 	end
 	function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
 		if msg:find(L.slump_emote_trigger, nil, true) then
@@ -134,7 +161,7 @@ do
 			self:Message(79011, "green", CL.weakened)
 			self:Bar(79011, 30, CL.weakened)
 			self:StopBar(78006) -- Pillar of Flame
-			self:StopBar(77690) -- Lava Spew
+			self:StopBar(CL.count:format(self:SpellName(77690), lavaSpewCount)) -- Lava Spew
 			self:ScheduleTimer(rebootTimers, 30)
 			self:PlaySound(79011, "long")
 		end
@@ -142,11 +169,8 @@ do
 end
 
 function mod:MassiveCrash(args)
-	self:Message("slump", "green", args.spellName, false, true) -- XXX TEST
-end
-
-function mod:MassiveCrashRemoved(args)
-	self:Message("slump", "green", CL.over:format(args.spellName), false, true) -- XXX TEST
+	massiveCrashCount = massiveCrashCount + 1
+	self:Message("slump", "green", CL.count:format(args.spellName, massiveCrashCount), false, true) -- XXX TEST
 end
 
 function mod:ArmageddonApplied(args)
@@ -166,8 +190,11 @@ do
 	function mod:LavaSpew(args)
 		if args.time - prev > 10 then
 			prev = args.time
-			self:Message(args.spellId, "yellow")
-			self:CDBar(args.spellId, 26)
+			local msg = CL.count:format(args.spellName, lavaSpewCount)
+			self:StopBar(msg)
+			self:Message(args.spellId, "yellow", msg)
+			lavaSpewCount = lavaSpewCount + 1
+			self:CDBar(args.spellId, 26, CL.count:format(args.spellName, lavaSpewCount))
 		end
 	end
 end

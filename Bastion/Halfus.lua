@@ -4,7 +4,7 @@
 
 local mod, CL = BigWigs:NewBoss("Halfus Wyrmbreaker", 671, 156)
 if not mod then return end
-mod:RegisterEnableMob(44600, 44645, 44652, 44650, 44797) -- Halfus, Nether Scion, Slate Dragon, Storm Rider, Time Warden
+mod:RegisterEnableMob(44600, 44645, 44652, 44650, 44797, 44641) -- Halfus, Nether Scion, Slate Dragon, Storm Rider, Time Warden, Orphaned Emerald Whelp
 mod:SetEncounterID(1030)
 mod:SetRespawnTime(30)
 
@@ -16,6 +16,7 @@ local furiousRoarCount = 1
 local scorchingBreathCount = 1
 local shadowNovaCount = 1
 local previousRoar = 0
+local furiousRoarCurrentCasts = 0
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -25,8 +26,6 @@ local L = mod:GetLocale()
 if L then
 	L.strikes_message = "Strikes"
 	L.freed_message = "%s freed %s"
-
-	L.engage_yell_trigger = "Cho'gall will have your heads"
 end
 
 --------------------------------------------------------------------------------
@@ -35,7 +34,7 @@ end
 
 function mod:GetOptions()
 	return {
-		83908, -- Malevolent Strikes
+		{83908, "TANK"}, -- Malevolent Strikes
 		{84030, "CASTBAR"}, -- Paralysis
 		83707, -- Scorching Breath
 		{83710, "CASTBAR"}, -- Furious Roar
@@ -59,9 +58,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "FireballBarrage", 83706) -- Used by Proto-Behemoth
 	self:Log("SPELL_CAST_START", "ShadowNova", 83703)
 	self:Log("SPELL_CAST_SUCCESS", "FreeDragon", 83589, 83590, 83591, 83447)
-
-	-- No boss frames..
-	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")
 end
 
 function mod:OnEngage()
@@ -69,6 +65,7 @@ function mod:OnEngage()
 	scorchingBreathCount = 1
 	shadowNovaCount = 1
 	previousRoar = 0
+	furiousRoarCurrentCasts = 0
 	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	if self:Heroic() then -- May or may not happen on normal
 		self:CDBar(83707, 11, CL.count:format(CL.breath, scorchingBreathCount)) -- Scorching Breath
@@ -80,28 +77,19 @@ end
 -- Event Handlers
 --
 
-function mod:CHAT_MSG_MONSTER_YELL(_, msg)
-	if msg:find(L.engage_yell_trigger, nil, true) then
-		self:Engage()
+function mod:FuriousRoar(args)
+	if args.time - previousRoar > 10 then
+		previousRoar = args.time
+		furiousRoarCurrentCasts = 0
+		self:StopBar(CL.count:format(CL.roar, furiousRoarCount))
+		furiousRoarCount = furiousRoarCount + 1
+		self:CDBar(args.spellId, 30.7, CL.count:format(CL.roar, furiousRoarCount))
 	end
-end
-
-do
-	local furiousRoarCurrentCasts = 0
-	function mod:FuriousRoar(args)
-		if args.time - previousRoar > 10 then
-			previousRoar = args.time
-			furiousRoarCurrentCasts = 0
-			self:StopBar(CL.count:format(CL.roar, furiousRoarCount))
-			furiousRoarCount = furiousRoarCount + 1
-			self:CDBar(args.spellId, 30.7, CL.count:format(CL.roar, furiousRoarCount))
-		end
-		furiousRoarCurrentCasts = furiousRoarCurrentCasts + 1
-		local msg = CL.count_amount:format(CL.roar, furiousRoarCurrentCasts, 3)
-		self:CastBar(args.spellId, 1.5, msg)
-		self:Message(args.spellId, "orange", msg)
-		self:PlaySound(args.spellId, "info")
-	end
+	furiousRoarCurrentCasts = furiousRoarCurrentCasts + 1
+	local msg = CL.count_amount:format(CL.roar, furiousRoarCurrentCasts, 3)
+	self:CastBar(args.spellId, 1.5, msg)
+	self:Message(args.spellId, "orange", msg)
+	self:PlaySound(args.spellId, "info")
 end
 
 -- Slate Dragon: Stone Touch (83603), 35 sec internal cd, resulting in Paralysis, 12 sec stun
@@ -110,6 +98,7 @@ do
 	local prevParalysis = 0
 	function mod:ParalysisApplied(args)
 		prevParalysis = args.time
+		self:StopBar(CL.cast:format(CL.count_amount:format(CL.roar, furiousRoarCurrentCasts, 3))) -- Stop Furious Roar if it's casting
 		self:Message(args.spellId, "yellow", CL.onboss:format(args.spellName))
 		self:CastBar(args.spellId, 12)
 		if furiousRoarCount > 1 and ((previousRoar + 30.7) - args.time) < 12 then -- Only if Furious Roar has been cast, and the time left is < 12s
@@ -125,7 +114,7 @@ do
 end
 
 function mod:MalevolentStrikesApplied(args)
-	if args.amount >= (self:Heroic() and 6 or 8) then -- 8% in heroic, 6% in normal, announce around 50-60% reduced healing
+	if self:Player(args.destFlags) and args.amount >= (self:Heroic() and 6 or 8) then -- Players, not pets. 8% in heroic, 6% in normal, announce around 50-60% reduced healing
 		self:StackMessage(args.spellId, "purple", args.destName, args.amount, self:Heroic() and 7 or 10, L.strikes_message)
 	end
 end
@@ -172,7 +161,8 @@ function mod:UNIT_HEALTH(event, unit)
 	if hp < 55 then
 		self:UnregisterUnitEvent(event, unit)
 		if hp > 50 then
-			self:Message(83710, "orange", CL.soon:format(CL.count:format(CL.roar, furiousRoarCount)), false)
+			self:Message(83710, "cyan", CL.soon:format(CL.count:format(CL.roar, furiousRoarCount)), false)
+			self:PlaySound(83710, "info")
 		end
 	end
 end

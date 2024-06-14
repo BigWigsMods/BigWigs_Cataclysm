@@ -4,8 +4,6 @@ if not L then return end
 if L then
 	L.strikes_message = "致死打擊"
 	--L.freed_message = "%s freed %s"
-
-	L.engage_yell_trigger = "丘加利會砍下你們的頭!全部的人!"
 end
 
 L = BigWigs:NewBossLocale("Cho'gall", "zhTW")

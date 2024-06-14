@@ -36,16 +36,8 @@ end
 
 L = BigWigs:NewBossLocale("Atramedes", "koKR")
 if L then
-	L.ground_phase = "지상 단계"
-	L.ground_phase_desc = "아트라메데스의 착지를 알립니다."
-	L.air_phase = "공중 단계"
-	L.air_phase_desc = "아트라메데스의 이륙을 알립니다."
-
+	L.obnoxious_fiend = "불쾌한 마귀" -- NPC ID 49740
 	L.air_phase_trigger = "그래, 도망가라! 발을 디딜 때마다 맥박은 빨라지지. 점점 더 크게 울리는구나... 귀청이 터질 것만 같군! 넌 달아날 수 없다!"
-
-	L.obnoxious_soon = "곧 불쾌한 마귀!"
-
-	L.searing_soon = "10초 후 이글거리는 불길!"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "koKR")

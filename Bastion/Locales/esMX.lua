@@ -4,8 +4,6 @@ if not L then return end
 if L then
 	L.strikes_message = "Golpes"
 	--L.freed_message = "%s freed %s"
-
-	L.engage_yell_trigger = "¡Cho'gall acabará con vosotros! ¡CON TODOS!"
 end
 
 L = BigWigs:NewBossLocale("Cho'gall", "esMX")

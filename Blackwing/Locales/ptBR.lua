@@ -36,16 +36,8 @@ end
 
 L = BigWigs:NewBossLocale("Atramedes", "ptBR")
 if L then
-	L.ground_phase = "Fase em terra"
-	L.ground_phase_desc = "Avisa quando Atramedes aterriza."
-	L.air_phase = "Fase aérea"
-	L.air_phase_desc = "Avisa quando Atramedes voa."
-
+	L.obnoxious_fiend = "Diabrete Irritante" -- NPC ID 49740
 	L.air_phase_trigger = "Isso, fujam! Com cada passo, seus corações aceleram. Os batimentos, forte como trovôes... Chegam quase a ensurdecer. Vocês não vão escapar!"
-
-	L.obnoxious_soon = "Diabrete irritante iminente!"
-
-	L.searing_soon = "Chamas calcinantes em 10 seg!"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "ptBR")
