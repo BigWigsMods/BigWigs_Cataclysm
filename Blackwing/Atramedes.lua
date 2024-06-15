@@ -99,7 +99,7 @@ function mod:OnEngage()
 	end
 	self:OpenAltPower("altpower", self:SpellName(-3072)) -- "Sound"
 	self:OpenInfo(77611, "BigWigs: ".. CL.shield)
-	self:SetInfo(77611, 1, "10 remaining")
+	self:SetInfo(77611, 1, CL.remaining:format(10))
 	self:SetInfoBar(77611, 1, 1)
 end
 
@@ -115,7 +115,7 @@ do
 		self:CDBar(77672, 12.3) -- Sonar Pulse
 		self:CDBar(77612, 14, CL.count:format(self:SpellName(77612), modulationCount)) -- Modulation
 		self:CDBar(78075, 24) -- Sonic Breath
-		self:Bar(77840, 39, CL.count:format(self:SpellName(77840), searingFlameCount)) -- Searing Flame
+		self:Bar(77840, self:Classic() and 47 or 39, CL.count:format(self:SpellName(77840), searingFlameCount)) -- Searing Flame
 		self:PlaySound("stages", "long")
 	end
 	function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
@@ -177,7 +177,7 @@ do
 			local colorName = self:ColorName(args.sourceName)
 			table.insert(shieldClickers, 2, ("%d %s"):format(shieldCount, colorName))
 			self:Message(77611, "cyan", CL.other:format(CL.count:format(CL.shield, shieldCount), colorName), false)
-			self:SetInfo(77611, 1, ("%d remaining"):format(10-shieldCount))
+			self:SetInfo(77611, 1, CL.remaining:format(10-shieldCount))
 			local per = shieldCount / 10
 			self:SetInfoBar(77611, 1, 1-per)
 			for i = 2, 5 do
@@ -206,10 +206,12 @@ end
 
 do
 	function mod:PesteredApplied(args)
-		if self:Me(args.destGUID) then
-			self:Yell(args.spellId, CL.add, nil, "Add")
+		if self:Player(args.destFlags) then -- The add itself also gains it
+			if self:Me(args.destGUID) then
+				self:Yell(args.spellId, CL.add, nil, "Add")
+			end
+			self:TargetMessage(args.spellId, "red", args.destName, CL.add)
+			self:PlaySound(args.spellId, "alarm", nil, args.destName)
 		end
-		self:TargetMessage(args.spellId, "red", args.destName, CL.add)
-		self:PlaySound(args.spellId, "alarm", nil, args.destName)
 	end
 end

@@ -8,7 +8,6 @@ if L then
 	L.slump_desc = "当熔喉扑倒并暴露后脑时发出警报。需要骑乘。"
 	L.slump_bar = "骑乘"
 	L.slump_message = "嘿，快骑上它！"
-	L.slump_emote_trigger = "%s向前倒下，暴露出他的钳子！"
 
 	L.expose_emote_trigger = "将自己钉在刺上，露出了他的头"
 end

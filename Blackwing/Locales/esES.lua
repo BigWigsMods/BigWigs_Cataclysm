@@ -8,7 +8,6 @@ if L then
 	L.slump_desc = "Cae hacia delante exponiendose a sí mismo, permitiendo que el rodeo empiece."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "¡Yeepah, móntalo!"
-	L.slump_emote_trigger = "¡%s cae hacia delante y deja expuestas sus tenazas!"
 
 	L.expose_emote_trigger = "cabeza"
 end

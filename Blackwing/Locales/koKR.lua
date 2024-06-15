@@ -8,7 +8,6 @@ if L then
 	L.slump_desc = "슬럼프 상태를 알립니다."
 	L.slump_bar = "로데오"
 	L.slump_message = "올라타세요~!"
-	L.slump_emote_trigger = "%s|1이;가; 집게를 드러내며 앞으로 몸을 기울입니다!"
 
 	L.expose_emote_trigger = "%s|1이;가; 창에 꽂혀 머리가 노출되었습니다!"
 end

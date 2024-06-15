@@ -8,7 +8,6 @@ if L then
 	L.slump_desc = "Магмарь падает вперед открывая себя, позволяя начать родео."
 	L.slump_bar = "Родео"
 	L.slump_message = "Йихо, погнали!"
-	L.slump_emote_trigger = "%s внезапно падает, выставляя клешни!"
 
 	L.expose_emote_trigger = "голову"
 end

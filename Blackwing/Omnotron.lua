@@ -60,7 +60,7 @@ function mod:GetOptions()
 		79624, -- Power Generator
 		-- Heroic
 		"nef",
-		91849, -- Grip of Death
+		{91849, "CASTBAR"}, -- Grip of Death
 		91879, -- Arcane Blowback
 		{92048, "ICON", "SAY", "SAY_COUNTDOWN", "CASTBAR", "CASTBAR_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Shadow Infusion
 		{92053, "SAY", "SAY_COUNTDOWN"}, -- Shadow Conductor
@@ -292,6 +292,7 @@ end
 function mod:GripOfDeath(args)
 	gripOfDeathCount = gripOfDeathCount + 1
 	self:Message(args.spellId, "orange", CL.count:format(args.spellName, gripOfDeathCount))
+	self:CastBar(args.spellId, 2, CL.count:format(args.spellName, gripOfDeathCount))
 	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
 end
 

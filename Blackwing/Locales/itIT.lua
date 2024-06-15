@@ -8,7 +8,6 @@ if L then
 	L.slump_desc = "Avvisa il crollo di Magmaw ed espone la sua testa, permettendo ai cavalcatori del rodeo di iniziare."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "Oh Sììì, cavalchiamo!!!"
-	L.slump_emote_trigger = "%s crolla a terra, mostrando le sue chele!"
 
 	L.expose_emote_trigger = "testa"
 end

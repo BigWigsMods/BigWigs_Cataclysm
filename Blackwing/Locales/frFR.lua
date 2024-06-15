@@ -8,7 +8,6 @@ if L then
 	L.slump_desc = "Prévient quand le boss s'affale vers l'avant et s'expose, permettant ainsi au rodéo de commencer."
 	L.slump_bar = "Rodéo"
 	L.slump_message = "Yeehaw, chevauchez !"
-	L.slump_emote_trigger = "%s s'affale vers l'avant et expose ses pinces !"
 
 	L.expose_emote_trigger = "expose sa tête"
 end

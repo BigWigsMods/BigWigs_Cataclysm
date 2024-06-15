@@ -8,7 +8,6 @@ if L then
 	L.slump_desc = "Warnt vor dem nach vorne Schlittern, das das Rodeo erlaubt zu starten."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "Yeehaa, Rodeo!"
-	L.slump_emote_trigger = "%s schlittert nach vorne und entblößt seine Zangen!" -- check
 
 	L.expose_emote_trigger = "Kopf" -- check
 end
