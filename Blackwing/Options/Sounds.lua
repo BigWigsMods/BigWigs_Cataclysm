@@ -5,11 +5,12 @@ BigWigs:AddSounds("Omnotron Defense System", {
 	[79501] = "warning",
 	[79624] = "info",
 	[79710] = "alert",
+	[79735] = "info",
 	[79888] = "warning",
 	[80053] = "info",
 	[80094] = "alarm",
 	[80161] = "underyou",
-	[91879] = {"info","underyou"},
+	[91879] = {"underyou","warning"},
 	[92048] = "warning",
 })
 
@@ -17,24 +18,25 @@ BigWigs:AddSounds("Magmaw", {
 	[78006] = "alert",
 	[78941] = "warning",
 	[79011] = "long",
+	[88253] = "info",
 	[89773] = "info",
 	[92134] = "underyou",
 	[92177] = "alarm",
 	["adds"] = "info",
-	["slump"] = "info",
 })
 
 BigWigs:AddSounds("Atramedes", {
 	[77611] = "info",
 	[77612] = "alert",
 	[77840] = "warning",
+	[78023] = "underyou",
 	[78092] = "warning",
 	[92685] = "alarm",
 	["stages"] = "long",
 })
 
 BigWigs:AddSounds("Chimaeron", {
-	[82890] = {"info","long"},
+	[82890] = "long",
 	[88853] = "alarm",
 })
 
