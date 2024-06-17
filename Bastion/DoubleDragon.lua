@@ -55,7 +55,7 @@ function mod:GetOptions()
 		[93051] = "heroic",
 		phase_switch = "general",
 	},{
-		[86505] = CL.fire, -- Fabulous Flames (Fire)
+		[86505] = CL.underyou:format(CL.fire), -- Fabulous Flames (Fire under YOU)
 	}
 end
 

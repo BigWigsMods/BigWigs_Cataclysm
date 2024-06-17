@@ -58,6 +58,7 @@ function mod:GetOptions()
 		-- Arcanotron
 		79710, -- Arcane Annihilator
 		79624, -- Power Generator
+		{79735, "DISPEL"}, -- Converted Power
 		-- Heroic
 		"nef",
 		{91849, "CASTBAR"}, -- Grip of Death
@@ -82,6 +83,7 @@ function mod:GetOptions()
 		[79888] = L.lightning, -- Lightning Conductor (Lightning)
 		[80053] = CL.adds, -- Poison Protocol (Adds)
 		[79624] = CL.pool, -- Power Generator (Pool)
+		[79735] = CL.magic_buff_boss:format(""), -- Converted Power (Magic buff on BOSS:)
 		["nef"] = CL.next_ability, -- Lord Victor Nefarius (Next ability)
 		[91879] = L.pool_explosion, -- Arcane Blowback (Pool Explosion)
 		[92048] = L.infusion, -- Shadow Infusion (Infusion)
@@ -108,6 +110,7 @@ function mod:OnBossEnable()
 	-- Arcanotron
 	self:Log("SPELL_CAST_START", "ArcaneAnnihilator", 79710)
 	self:Log("SPELL_CAST_SUCCESS", "PowerGenerator", 79624)
+	self:Log("SPELL_AURA_APPLIED_DOSE", "ConvertedPowerAppliedDose", 79735)
 	-- Heroic
 	self:Log("SPELL_CAST_SUCCESS", "OverchargedPowerGenerator", 91857)
 	self:Log("SPELL_AURA_APPLIED", "OverchargedPowerGeneratorApplied", 91858)
@@ -270,12 +273,19 @@ function mod:PowerGenerator(args)
 	self:PlaySound(args.spellId, "info")
 end
 
+function mod:ConvertedPowerAppliedDose(args)
+	if self:MobId(args.destGUID) == 42166 and self:Dispeller("magic", true, args.spellId) then -- Only when applied to Arcanotron (Can be Spellstolen)
+		self:Message(args.spellId, "orange", CL.magic_buff_other:format(args.destName, args.spellName))
+		self:PlaySound(args.spellId, "info")
+	end
+end
+
 -- Heroic
 function mod:OverchargedPowerGenerator()
 	self:Message(91879, "orange", L.pool_explosion)
 	self:Bar(91879, 8, L.pool_explosion)
 	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
-	self:PlaySound(91879, "info")
+	self:PlaySound(91879, "warning")
 end
 
 do

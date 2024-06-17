@@ -17,6 +17,7 @@ local searingFlameCount = 1
 local modulationCount = 1
 local shieldCount = 0
 local shieldClickers = {"None"}
+local shieldCollector = {}
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -47,6 +48,7 @@ function mod:GetOptions()
 		-- General
 		{78092, "ICON", "SAY", "ME_ONLY_EMPHASIZE"}, -- Tracking
 		{77611, "INFOBOX"}, -- Resonating Clash
+		78023, -- Roaring Flame
 		"stages",
 		"altpower",
 	},{
@@ -57,6 +59,7 @@ function mod:GetOptions()
 		[92685] = CL.add, -- Pestered! (Add)
 		[78092] = CL.plus:format(self:SpellName(78075), self:SpellName(78221)), -- Tracking (Sonic Breath + Roaring Flame Breath)
 		[77611] = CL.shield, -- Resonating Clash (Shield)
+		[78023] = CL.underyou:format(CL.fire), -- Roaring Flame (Fire under YOU)
 	}
 end
 
@@ -78,9 +81,14 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "Modulation", 77612)
 	self:Log("SPELL_CAST_SUCCESS", "SonarPulse", 77672)
 	self:Log("SPELL_CAST_SUCCESS", "ResonatingClash", 77611, 78168) -- Stage 1, Stage 2
+	self:Log("SPELL_INSTAKILL", "SonicFlamesKill", 77782, 78945) -- Stage 1, Stage 2
+	self:Death("ShieldDies", 42954, 42960, 42949, 42947, 42956, 42951, 42958, 41445) -- 8 Ancient Dwarven Shield, there are 10, but 2 share the same ID...
 
 	self:Log("SPELL_CAST_SUCCESS", "PhaseShift", 92681)
 	self:Log("SPELL_AURA_APPLIED", "PesteredApplied", 92685)
+
+	self:Log("SPELL_DAMAGE", "RoaringFlameDamage", 78023)
+	self:Log("SPELL_MISSED", "RoaringFlameDamage", 78023)
 end
 
 function mod:OnEngage()
@@ -88,6 +96,7 @@ function mod:OnEngage()
 	modulationCount = 1
 	shieldCount = 0
 	shieldClickers = {"None"}
+	shieldCollector = {}
 	self:SetStage(1)
 	self:CDBar(77612, 11, CL.count:format(self:SpellName(77612), modulationCount)) -- Modulation
 	self:CDBar(77672, 11.3) -- Sonar Pulse
@@ -120,11 +129,13 @@ do
 	end
 	function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
 		if spellId == 86915 then -- Take Off Anim Kit
-			self:SetStage(2)
+			local stage2Msg = CL.stage:format(2)
+			self:StopBar(stage2Msg)
 			self:StopBar(78075) -- Sonic Breath
 			self:StopBar(77672) -- Sonar Pulse
+			self:SetStage(2)
 			self:StopBar(CL.count:format(self:SpellName(77612), modulationCount)) -- Modulation
-			self:Message("stages", "cyan", CL.stage:format(2), false)
+			self:Message("stages", "cyan", stage2Msg, false)
 			self:Bar("stages", 36, CL.stage:format(1), "achievement_boss_nefarion")
 			self:ScheduleTimer(groundPhase, 36, self)
 			self:PlaySound("stages", "long")
@@ -166,13 +177,13 @@ end
 
 do
 	local lineRef = {1,3,5,7,9}
+	local prev = 0
 	function mod:ResonatingClash(args)
+		if not self:IsEngaged() then
+			self:Engage() -- You can pull him by clicking a shield
+		end
 		if self:Player(args.sourceFlags) then -- The shield itself also casts it
-			if self:Heroic() and args.spellId == 77611 and shieldCount < 9 then
-				shieldCount = shieldCount + 1
-				local nefarianName = self:SpellName(-3279) -- Nefarian
-				table.insert(shieldClickers, 2, ("%d %s"):format(shieldCount, nefarianName))
-			end
+			prev = args.time
 			shieldCount = shieldCount + 1
 			local colorName = self:ColorName(args.sourceName)
 			table.insert(shieldClickers, 2, ("%d %s"):format(shieldCount, colorName))
@@ -184,6 +195,36 @@ do
 				self:SetInfo(77611, lineRef[i], shieldClickers[i] or "")
 			end
 			self:PlaySound(77611, "info")
+		elseif args.spellId == 77611 and args.time ~= prev then -- Rarely it seems like the player cast is missing in Stage 1
+			shieldCount = shieldCount + 1
+			table.insert(shieldClickers, 2, ("%d ?"):format(shieldCount))
+			self:Message(77611, "cyan", CL.other:format(CL.count:format(CL.shield, shieldCount), "?"), false)
+			self:SetInfo(77611, 1, CL.remaining:format(10-shieldCount))
+			local per = shieldCount / 10
+			self:SetInfoBar(77611, 1, 1-per)
+			for i = 2, 5 do
+				self:SetInfo(77611, lineRef[i], shieldClickers[i] or "")
+			end
+			self:PlaySound(77611, "info")
+		end
+	end
+
+	function mod:SonicFlamesKill(args)
+		shieldCollector[args.destGUID] = true
+	end
+
+	function mod:ShieldDies(args)
+		if not shieldCollector[args.destGUID] then
+			shieldCollector[args.destGUID] = true
+			shieldCount = shieldCount + 1
+			local nefarianName = self:SpellName(-3279) -- Nefarian
+			table.insert(shieldClickers, 2, ("%d %s"):format(shieldCount, nefarianName))
+			self:SetInfo(77611, 1, CL.remaining:format(10-shieldCount))
+			local per = shieldCount / 10
+			self:SetInfoBar(77611, 1, 1-per)
+			for i = 2, 5 do
+				self:SetInfo(77611, lineRef[i], shieldClickers[i] or "")
+			end
 		end
 	end
 end
@@ -212,6 +253,17 @@ do
 			end
 			self:TargetMessage(args.spellId, "red", args.destName, CL.add)
 			self:PlaySound(args.spellId, "alarm", nil, args.destName)
+		end
+	end
+end
+
+do
+	local prev = 0
+	function mod:RoaringFlameDamage(args)
+		if self:Me(args.destGUID) and args.time - prev > 2 then
+			prev = args.time
+			self:PersonalMessage(args.spellId, "underyou", CL.fire)
+			self:PlaySound(args.spellId, "underyou")
 		end
 	end
 end

@@ -68,7 +68,7 @@ function mod:GetOptions()
 		["slump"] = L.slump_bar, -- Slump (Rodeo)
 		[79011] = CL.weakened, -- Point of Vulnerability (Weakened)
 		[78941] = CL.parasite, -- Parasitic Infection (Parasite)
-		[92134] = CL.fire, -- Ignition (Fire)
+		[92134] = CL.underyou:format(CL.fire), -- Ignition (Fire under YOU)
 	}
 end
 
@@ -127,15 +127,13 @@ function mod:CHAT_MSG_MONSTER_YELL(_, msg)
 end
 
 function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
-	if headGUID then
-		local headUnit = self:GetBossId(headGUID)
-		if not isNewHeadPhase and headUnit then
-			isNewHeadPhase = true
-			self:Message(79011, "green", self:SpellName(79011), false, true) -- XXX TEST
-		elseif isNewHeadPhase and not headUnit then
-			isNewHeadPhase = false
-			self:Message(79011, "green", CL.removed:format(self:SpellName(79011)), false, true) -- XXX TEST
-		end
+	local headUnit = self:GetBossId(42347) -- Exposed Head of Magmaw
+	if not isNewHeadPhase and headUnit then
+		isNewHeadPhase = true
+		self:Message(79011, "green", self:SpellName(79011), false, true) -- XXX TEST
+	elseif isNewHeadPhase and not headUnit then
+		isNewHeadPhase = false
+		self:Message(79011, "green", CL.over:format(CL.weakened), false, true) -- XXX TEST
 	end
 end
 

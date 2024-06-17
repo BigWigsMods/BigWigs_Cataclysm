@@ -81,7 +81,7 @@ function mod:GetOptions()
 		[92067] = "heroic",
 		switch = "general",
 	},{
-		[82860] = CL.fire, -- Inferno Rush (Fire)
+		[82860] = CL.underyou:format(CL.fire), -- Inferno Rush (Fire under YOU)
 	}
 end
 
