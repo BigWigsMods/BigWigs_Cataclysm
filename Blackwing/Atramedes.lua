@@ -195,7 +195,7 @@ do
 				self:SetInfo(77611, lineRef[i], shieldClickers[i] or "")
 			end
 			self:PlaySound(77611, "info")
-		elseif args.spellId == 77611 and args.time ~= prev then -- Rarely it seems like the player cast is missing in Stage 1
+		elseif args.spellId == 77611 and (args.time - prev) > 0.1 then -- Rarely it seems like the player cast is missing in Stage 1
 			shieldCount = shieldCount + 1
 			table.insert(shieldClickers, 2, ("%d ?"):format(shieldCount))
 			self:Message(77611, "cyan", CL.other:format(CL.count:format(CL.shield, shieldCount), "?"), false)

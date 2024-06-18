@@ -51,8 +51,8 @@ end
 
 function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "FuriousRoar", 83710)
-	self:Log("SPELL_AURA_APPLIED", "ParalysisApplied", 84030) -- Used with Slate Dragon active
-	self:Log("SPELL_AURA_REMOVED", "ParalysisRemoved", 84030)
+	self:Log("SPELL_AURA_APPLIED", "ParalysisApplied", 84030, 84591) -- Paralysis/Petrification, used with Slate Dragon active
+	self:Log("SPELL_AURA_REMOVED", "ParalysisRemoved", 84030, 84591)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "MalevolentStrikesApplied", 83908) -- Used with Slate Dragon ready
 	self:Log("SPELL_CAST_START", "ScorchingBreath", 83707) -- Used by Proto-Behemoth with whelps ready
 	self:Log("SPELL_CAST_SUCCESS", "FireballBarrage", 83706) -- Used by Proto-Behemoth
@@ -99,17 +99,17 @@ do
 	function mod:ParalysisApplied(args)
 		prevParalysis = args.time
 		self:StopBar(CL.cast:format(CL.count_amount:format(CL.roar, furiousRoarCurrentCasts, 3))) -- Stop Furious Roar if it's casting
-		self:Message(args.spellId, "yellow", CL.onboss:format(args.spellName))
-		self:CastBar(args.spellId, 12)
+		self:Message(84030, "yellow", CL.onboss:format(args.spellName))
+		self:CastBar(84030, 12, args.spellName)
 		if furiousRoarCount > 1 and ((previousRoar + 30.7) - args.time) < 12 then -- Only if Furious Roar has been cast, and the time left is < 12s
-			self:CDBar(args.spellId, 13, CL.count:format(CL.roar, furiousRoarCount))
+			self:CDBar(83710, 13, CL.count:format(CL.roar, furiousRoarCount)) -- Furious Roar
 		end
-		self:PlaySound(args.spellId, "long")
+		self:PlaySound(84030, "long")
 	end
 
 	function mod:ParalysisRemoved(args)
 		self:StopBar(CL.cast:format(args.spellName))
-		self:Bar(args.spellId, prevParalysis > 0 and (35 - (args.time-prevParalysis)) or 23) -- Show the bar after paralysis ends on the boss
+		self:Bar(84030, prevParalysis > 0 and (35 - (args.time-prevParalysis)) or 23, args.spellName) -- Show the bar after paralysis ends on the boss
 	end
 end
 
