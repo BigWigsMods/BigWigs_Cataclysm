@@ -17,7 +17,6 @@ local isHeadPhase = false
 local isNewHeadPhase = false
 local lavaSpewCount = 1
 local massiveCrashCount = 1
-local headGUID = nil
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -74,7 +73,6 @@ end
 
 function mod:OnBossEnable()
 	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
-	self:Log("SPELL_AURA_REFRESH", "PointOfVulnerabilityRefresh", 79010)
 	self:Log("SPELL_CAST_START", "MassiveCrash", 88253)
 	self:Log("SPELL_AURA_APPLIED", "ParasiticInfection", 78097, 78941)
 	self:Log("SPELL_AURA_APPLIED", "PillarOfFlame", 78006)
@@ -100,7 +98,6 @@ function mod:OnEngage()
 	isNewHeadPhase = false
 	lavaSpewCount = 1
 	massiveCrashCount = 1
-	headGUID = nil
 	self:SetStage(1)
 	self:Berserk(600)
 	self:Bar("slump", 100, CL.count:format(L.slump_bar, massiveCrashCount), 36702) -- Slump/Rodeo/Massive Crash
@@ -128,17 +125,15 @@ end
 
 function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 	local headUnit = self:GetBossId(42347) -- Exposed Head of Magmaw
-	if not isNewHeadPhase and headUnit then
-		isNewHeadPhase = true
-		self:Message(79011, "green", self:SpellName(79011), false, true) -- XXX TEST
+	if not isNewHeadPhase and headUnit then -- Purposely only checking boss frames
+		if not self:GetBossId(41570) then -- Magmaw
+			isNewHeadPhase = true
+			self:Message(79011, "green", CL.weakened, false, true) -- XXX TEST
+		end
 	elseif isNewHeadPhase and not headUnit then
 		isNewHeadPhase = false
 		self:Message(79011, "green", CL.over:format(CL.weakened), false, true) -- XXX TEST
 	end
-end
-
-function mod:PointOfVulnerabilityRefresh(args)
-	headGUID = args.destGUID
 end
 
 do
