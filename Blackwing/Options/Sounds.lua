@@ -30,7 +30,7 @@ BigWigs:AddSounds("Atramedes", {
 	[77612] = "alert",
 	[77840] = "warning",
 	[78023] = "underyou",
-	[78092] = "warning",
+	[78075] = "warning",
 	[92685] = "alarm",
 	["stages"] = "long",
 })

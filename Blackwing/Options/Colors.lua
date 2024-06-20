@@ -39,7 +39,7 @@ BigWigs:AddColors("Atramedes", {
 	[77612] = "orange",
 	[77840] = "yellow",
 	[78023] = "blue",
-	[78092] = {"blue","red"},
+	[78075] = {"blue","red"},
 	[92685] = {"blue","red"},
 	["stages"] = "cyan",
 })
