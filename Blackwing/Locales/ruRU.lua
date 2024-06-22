@@ -8,8 +8,6 @@ if L then
 	L.slump_desc = "Магмарь падает вперед открывая себя, позволяя начать родео."
 	L.slump_bar = "Родео"
 	L.slump_message = "Йихо, погнали!"
-
-	L.expose_emote_trigger = "голову"
 end
 
 L = BigWigs:NewBossLocale("Omnotron Defense System", "ruRU")
@@ -27,10 +25,6 @@ end
 L = BigWigs:NewBossLocale("Chimaeron", "ruRU")
 if L then
 	L.bileotron_engage = "Желче-трон оживает и начинает извергать из себя некое вонючее вещество."
-
-	L.next_system_failure = "Системная ошибка"
-
-	L.phase2_message = "Скоро фаза Смертности!"
 end
 
 L = BigWigs:NewBossLocale("Atramedes", "ruRU")

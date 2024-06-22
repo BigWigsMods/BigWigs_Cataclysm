@@ -8,8 +8,6 @@ if L then
 	L.slump_desc = "當熔喉撲倒並暴露時發出警報。"
 	L.slump_bar = "騎乘"
 	L.slump_message = "嘿，快騎上它！"
-
-	L.expose_emote_trigger = "露出了他的頭"
 end
 
 L = BigWigs:NewBossLocale("Omnotron Defense System", "zhTW")
@@ -27,10 +25,6 @@ end
 L = BigWigs:NewBossLocale("Chimaeron", "zhTW")
 if L then
 	L.bileotron_engage = "「好膽」機器人開始活動，並且噴出一種惡臭的物質。"
-
-	L.next_system_failure = "下一系統失效"
-
-	L.phase2_message = "即將 致命性階段！"
 end
 
 L = BigWigs:NewBossLocale("Atramedes", "zhTW")

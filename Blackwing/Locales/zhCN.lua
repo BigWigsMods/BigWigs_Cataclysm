@@ -8,8 +8,6 @@ if L then
 	L.slump_desc = "当熔喉扑倒并暴露后脑时发出警报。需要骑乘。"
 	L.slump_bar = "骑乘"
 	L.slump_message = "嘿，快骑上它！"
-
-	L.expose_emote_trigger = "将自己钉在刺上，露出了他的头"
 end
 
 L = BigWigs:NewBossLocale("Omnotron Defense System", "zhCN")
@@ -27,10 +25,6 @@ end
 L = BigWigs:NewBossLocale("Chimaeron", "zhCN")
 if L then
 	L.bileotron_engage = "胆汁喷洒机"
-
-	L.next_system_failure = "下一系统当机"
-
-	L.phase2_message = "即将 至死方休阶段！"
 end
 
 L = BigWigs:NewBossLocale("Atramedes", "zhCN")

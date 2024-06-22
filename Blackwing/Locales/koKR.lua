@@ -8,8 +8,6 @@ if L then
 	L.slump_desc = "슬럼프 상태를 알립니다."
 	L.slump_bar = "로데오"
 	L.slump_message = "올라타세요~!"
-
-	L.expose_emote_trigger = "%s|1이;가; 창에 꽂혀 머리가 노출되었습니다!"
 end
 
 L = BigWigs:NewBossLocale("Omnotron Defense System", "koKR")
@@ -27,10 +25,6 @@ end
 L = BigWigs:NewBossLocale("Chimaeron", "koKR")
 if L then
 	L.bileotron_engage = "담즙로봇이 움직이기 시작하더니 고약한 냄새가 나는 물질을 방출합니다."
-
-	L.next_system_failure = "다음 시스템 오류"
-
-	L.phase2_message = "곧 치명상 단계!"
 end
 
 L = BigWigs:NewBossLocale("Atramedes", "koKR")

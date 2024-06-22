@@ -8,8 +8,6 @@ if L then
 	L.slump_desc = "Avvisa il crollo di Magmaw ed espone la sua testa, permettendo ai cavalcatori del rodeo di iniziare."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "Oh Sììì, cavalchiamo!!!"
-
-	L.expose_emote_trigger = "testa"
 end
 
 L = BigWigs:NewBossLocale("Omnotron Defense System", "itIT")
@@ -33,10 +31,6 @@ end
 L = BigWigs:NewBossLocale("Chimaeron", "itIT")
 if L then
 	L.bileotron_engage = "Il BileTron 800 ritorna in vita ed emette una strana sostanza odorosa."
-
-	L.next_system_failure = "Prossimo Errore di Sistema"
-
-	L.phase2_message = "Fase Mortalità tra poco!"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "itIT")

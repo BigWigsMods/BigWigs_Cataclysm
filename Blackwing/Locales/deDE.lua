@@ -8,8 +8,6 @@ if L then
 	L.slump_desc = "Warnt vor dem nach vorne Schlittern, das das Rodeo erlaubt zu starten."
 	L.slump_bar = "Rodeo"
 	L.slump_message = "Yeehaa, Rodeo!"
-
-	L.expose_emote_trigger = "Kopf" -- check
 end
 
 L = BigWigs:NewBossLocale("Omnotron Defense System", "deDE")
@@ -27,10 +25,6 @@ end
 L = BigWigs:NewBossLocale("Chimaeron", "deDE")
 if L then
 	L.bileotron_engage = "Der Gall-O-Tron springt an und stößt eine übel riechende Substanz aus."
-
-	L.next_system_failure = "Systemversagen"
-
-	L.phase2_message = "Sterblichkeitsphase bald!"
 end
 
 L = BigWigs:NewBossLocale("Atramedes", "deDE")

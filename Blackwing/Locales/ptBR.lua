@@ -8,8 +8,6 @@ if L then
 	L.slump_desc = "Magorja cai e fica exposto, permitindo que o rodeio começe."
 	L.slump_bar = "Rodeio"
 	L.slump_message = "Yeeeha!! MONTA NELE!!"
-
-	L.expose_emote_trigger = "cabeça"
 end
 
 L = BigWigs:NewBossLocale("Omnotron Defense System", "ptBR")
@@ -27,10 +25,6 @@ end
 L = BigWigs:NewBossLocale("Chimaeron", "ptBR")
 if L then
 	L.bileotron_engage = "O Vomitomático é ativado e começa a emitir uma substância de cheiro repelente.."
-
-	L.next_system_failure = "Próxima falha de sistema"
-
-	L.phase2_message = "Fase de mortalidade iminente!"
 end
 
 L = BigWigs:NewBossLocale("Atramedes", "ptBR")

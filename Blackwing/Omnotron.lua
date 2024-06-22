@@ -139,7 +139,7 @@ function mod:OnEngage()
 	chemicalCloudDamageThrottle = 2
 	poolExplosionUnderMe = false
 	if self:Heroic() then
-		self:Berserk(600, true)
+		self:Berserk(600, true) -- The "Activated" message happens on engage
 	end
 end
 

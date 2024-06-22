@@ -70,7 +70,7 @@ function mod:OnEngage()
 	if self:Heroic() then -- May or may not happen on normal
 		self:CDBar(83707, 11, CL.count:format(CL.breath, scorchingBreathCount)) -- Scorching Breath
 	end
-	self:Berserk(360)
+	self:Berserk(360, true) -- All the dragon "freed" messages happen on engage
 end
 
 --------------------------------------------------------------------------------
