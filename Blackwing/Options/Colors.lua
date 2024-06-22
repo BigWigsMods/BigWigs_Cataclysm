@@ -46,9 +46,9 @@ BigWigs:AddColors("Atramedes", {
 
 BigWigs:AddColors("Chimaeron", {
 	[82848] = "yellow",
-	[82881] = {"blue","yellow"},
-	[82890] = {"cyan","red"},
-	[88826] = "orange",
+	[82881] = {"blue","purple"},
+	[82890] = {"cyan","orange"},
+	[88826] = {"green","purple"},
 	[88853] = "red",
 })
 
