@@ -35,22 +35,7 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "zhTW")
 if L then
-	--heroic
-	L.sludge = "黑暗淤泥"
-	L.sludge_desc = "當你站在黑暗淤泥上面時發出警報。"
-	L.sludge_message = ">你< 黑暗淤泥！"
-
-	--normal
-	L.final_phase = "最終階段"
-	L.final_phase_soon = "即將 最終階段！"
-
-	L.release_aberration_message = ">%s< 畸形者剩餘！"
 	L.release_all = ">%s< 釋放畸形者！"
-
-	L.phase = "階段"
-	L.phase_desc = "當進入不同階段時發出警報。"
-	L.next_phase = "下一階段！"
-	L.green_phase_bar = "綠色階段"
 
 	L.red_phase_trigger = "混合攪拌，然後加熱..."
 	L.red_phase_emote_trigger = "紅色"

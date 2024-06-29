@@ -35,22 +35,7 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "ruRU")
 if L then
-	--heroic
-	L.sludge = "Темная жижа"
-	L.sludge_desc = "Сообщает, если вы стоите в Темной жиже."
-	L.sludge_message = "Жижа на ТЕБЕ!"
-
-	--normal
-	L.final_phase = "Финальная фаза"
-	L.final_phase_soon = "Скоро финальная фаза!"
-
-	L.release_aberration_message = "%s аберраций осталось!"
 	L.release_all = "%s аберрации!"
-
-	L.phase = "Фазы"
-	L.phase_desc = "Сообщать о смене фаз."
-	L.next_phase = "Новая фаза"
-	L.green_phase_bar = "Зеленая фаза"
 
 	L.red_phase_trigger = "Помешивая, довести до кипения..."
 	L.red_phase_emote_trigger = "красный"

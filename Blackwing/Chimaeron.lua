@@ -32,8 +32,8 @@ function mod:GetOptions()
 	return {
 		"warmup",
 		{82848, "CASTBAR", "CASTBAR_COUNTDOWN"}, -- Massacre
-		88826, -- Double Attack
-		82881, -- Break
+		{88826, "TANK"}, -- Double Attack
+		{82881, "TANK_HEALER"}, -- Break
 		{88853, "EMPHASIZE"}, -- Systems Failure
 		82935, -- Caustic Slime
 		82890, -- Mortality
@@ -89,24 +89,30 @@ function mod:SystemsFailureRemoved()
 	massacreCount = 0
 end
 
-function mod:BreakApplied(args)
-	self:StackMessage(args.spellId, "purple", args.destName, args.amount, 3)
-	self:CDBar(args.spellId, 14.2)
-end
+do
+	local prev = 0
+	function mod:BreakApplied(args)
+		prev = args.time -- Stops firing after 4 stacks
+		self:StackMessage(args.spellId, "purple", args.destName, args.amount, 3)
+		self:CDBar(args.spellId, 14.2)
+	end
 
-function mod:BreakRefresh(args) -- Max 4 stacks, then refreshes
-	self:CDBar(args.spellId, 14.2)
+	function mod:BreakRefresh(args) -- Max 4 stacks, then refreshes
+		if args.time - prev > 4 then -- SPELL_AURA_REFRESH fires even when not at max (4) stacks
+			self:StackMessage(args.spellId, "purple", args.destName, 4, 3)
+			self:CDBar(args.spellId, 14.2)
+		end
+	end
 end
 
 function mod:DoubleAttackApplied(args)
 	self:Message(args.spellId, "purple")
-	if self:Tank() then
-		self:PlaySound(args.spellId, "alert")
-	end
+	self:PlaySound(args.spellId, "alert")
 end
 
 function mod:DoubleAttackRemoved(args)
 	self:Message(args.spellId, "green", CL.over:format(args.spellName))
+	self:PlaySound(args.spellId, "alert")
 end
 
 function mod:MassacreStart(args)

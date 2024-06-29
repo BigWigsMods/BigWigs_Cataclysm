@@ -35,22 +35,7 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "koKR")
 if L then
-	--heroic
-	L.sludge = "어둠의 폐수"
-	L.sludge_desc = "어둠의 폐수에 서있을시 알립니다."
-	L.sludge_message = "당신은 폐수!"
-
-	--normal
-	L.final_phase = "마지막 단계"
-	L.final_phase_soon = "곧 마지막 단계!"
-
-	L.release_aberration_message = "돌연변이 %d 남음"
 	L.release_all = "모든 실험체 %d!"
-
-	L.phase = "단계"
-	L.phase_desc = "단계 변화를 알립니다."
-	L.next_phase = "다음 단계"
-	L.green_phase_bar = "녹색 단계"
 
 	L.red_phase_trigger = "섞고 흔들어서, 열을 가한다..."
 	L.red_phase_emote_trigger = "붉은"

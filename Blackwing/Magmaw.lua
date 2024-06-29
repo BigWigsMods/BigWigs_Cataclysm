@@ -213,6 +213,7 @@ do
 		self:StopBar(msg)
 		self:TargetMessage(args.spellId, "purple", args.destName, msg)
 		self:TargetBar(args.spellId, 30, args.destName)
+		self:Bar(88253, 8, CL.count:format(self:SpellName(88253), massiveCrashCount)) -- Massive Crash
 		self:PlaySound(args.spellId, "info", nil, args.destName)
 	end
 

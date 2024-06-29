@@ -35,22 +35,7 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "ptBR")
 if L then
-	--heroic
-	L.sludge = "Lodo escuro"
-	L.sludge_desc = "Avisa quando pisa em um lodo escuro."
-	L.sludge_message = "Lodo em VOCÊ!"
-
-	--normal
-	L.final_phase = "Fase final"
-	L.final_phase_soon = "Fase final iminente!"
-
-	L.release_aberration_message = "%s adds restantes!"
 	L.release_all = "%s adds liberados!"
-
-	L.phase = "Fase"
-	L.phase_desc = "Avisa as trocas de fase."
-	L.next_phase = "Próxima fase"
-	L.green_phase_bar = "Fase Verde"
 
 	L.red_phase_trigger = "Misturar, agitar e aquecer..."
 	L.red_phase_emote_trigger = "vermelho"

@@ -35,22 +35,7 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "itIT")
 if L then
-	--heroic
-	L.sludge = "Poltiglia Oscura"
-	L.sludge_desc = "Avvisa quando ti trovi dentro una pozza di Poltiglia Oscura."
-	L.sludge_message = "Poltiglia su di TE!!!"
-
-	--normal
-	L.final_phase = "Fase Finale"
-	L.final_phase_soon = "Fase Finale tra poco!"
-
-	L.release_aberration_message = "%d add rimanenti!"
 	L.release_all = "%d add rilasciati!"
-
-	L.phase = "Fasi"
-	L.phase_desc = "Avvisi per il cambio di fase."
-	L.next_phase = "Fase Successiva"
-	L.green_phase_bar = "Fase Verde"
 
 	L.red_phase_trigger = "Mescola e amalgama, riscalda..."
 	L.red_phase_emote_trigger = "rosso"

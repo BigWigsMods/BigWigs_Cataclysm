@@ -35,22 +35,7 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "frFR")
 if L then
-	--heroic
-	L.sludge = "Sombre vase"
-	L.sludge_desc = "Prévient quand vous vous trouvez dans une Sombre vase."
-	L.sludge_message = "Sombre vase sur VOUS !"
-
-	--normal
-	L.final_phase = "Phase finale"
-	L.final_phase_soon = "Phase finale imminente !"
-
-	L.release_aberration_message = "%d aberrations restantes !"
 	L.release_all = "%d aberrations libérées !"
-
-	L.phase = "Phases"
-	L.phase_desc = "Prévient quand la rencontre entre dans une nouvelle phase."
-	L.next_phase = "Prochaine phase"
-	L.green_phase_bar = "Phase verte"
 
 	L.red_phase_trigger = "Mélanger, touiller, faire chauffer..."
 	L.red_phase_emote_trigger = "rouge"

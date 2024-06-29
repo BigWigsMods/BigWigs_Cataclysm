@@ -6,7 +6,7 @@ local mod, CL = BigWigs:NewBoss("Omnotron Defense System", 669, 169)
 if not mod then return end
 mod:RegisterEnableMob(42166, 42179, 42178, 42180, 49226) -- Arcanotron, Electron, Magmatron, Toxitron, Lord Victor Nefarius
 mod:SetEncounterID(1027)
-mod:SetRespawnTime(70)
+mod:SetRespawnTime(72)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -94,6 +94,9 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
+	if self:Retail() then
+		self:RegisterEvent("PLAYER_REGEN_DISABLED", "CheckForEngage")
+	end
 	 -- Magmatron
 	self:Log("SPELL_AURA_APPLIED", "AcquiringTargetApplied", 79501)
 	self:Log("SPELL_AURA_REMOVED", "AcquiringTargetRemoved", 79501)
@@ -356,6 +359,7 @@ function mod:ShadowConductorApplied(args)
 		self:PersonalMessage(args.spellId)
 		self:Yell(args.spellId, nil, nil, "Shadow Conductor")
 		self:YellCountdown(args.spellId, 10, nil, 6)
+		self:PlaySound(args.spellId, "warning", nil, args.destName)
 	end
 end
 
