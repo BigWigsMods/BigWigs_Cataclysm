@@ -65,7 +65,7 @@ function mod:GetOptions()
 		{77786, "ICON", "ME_ONLY_EMPHASIZE"}, -- Consuming Flames
 		77679, -- Scorching Blast
 		-- Black
-		92754, -- Engulfing Darkness
+		{92754, "CASTBAR"}, -- Engulfing Darkness
 		92930, -- Dark Sludge
 	},{
 		["stages"] = "general",
