@@ -53,16 +53,18 @@ BigWigs:AddColors("Chimaeron", {
 })
 
 BigWigs:AddColors("Maloriak", {
-	[77569] = "red",
-	[77679] = "yellow",
+	[77569] = {"cyan","green"},
+	[77679] = "purple",
 	[77699] = {"blue","yellow"},
-	[77760] = {"blue","yellow"},
-	[77786] = "blue",
-	[77896] = "orange",
+	[77760] = {"blue","orange"},
+	[77786] = {"blue","red"},
+	[77896] = "red",
 	[77912] = "red",
-	[77991] = "red",
-	["phase"] = "green",
-	["sludge"] = "blue",
+	[78194] = "blue",
+	[78225] = "red",
+	[92754] = {"green","purple"},
+	[92930] = "blue",
+	["stages"] = "cyan",
 })
 
 BigWigs:AddColors("Nefarian", {
