@@ -213,7 +213,7 @@ do
 		self:StopBar(msg)
 		self:TargetMessage(args.spellId, "purple", args.destName, msg)
 		self:TargetBar(args.spellId, 30, args.destName)
-		self:Bar(88253, 8, CL.count:format(self:SpellName(88253), massiveCrashCount)) -- Massive Crash
+		self:Bar(88253, 9.6, CL.count:format(self:SpellName(88253), massiveCrashCount)) -- Massive Crash, time until damage actually hits
 		self:PlaySound(args.spellId, "info", nil, args.destName)
 	end
 

@@ -140,8 +140,7 @@ function mod:OnEngage()
 	self:SetInfoBar(77569, 1, 1)
 	self:SetInfo(77569, 3, CL.count:format(CL.active, addsActive))
 	self:SetInfo(77569, 4, CL.count:format(CL.dead, addsDead))
-	self:SetInfo(77569, 5, "Threat:")
-	self:SimpleTimer(UpdateInfoBoxList, 1)
+	self:SetInfo(77569, 5, CL.other:format(CL.threat, ""))
 end
 
 --------------------------------------------------------------------------------
@@ -153,7 +152,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
 		self:StopBar(CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
 		self:CDBar(77699, 28) -- Flash Freeze
 		self:CDBar(77896, 19, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
-		self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
+		if addsRemaining > 0 then
+			self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
+		end
 		self:Message("stages", "cyan", self:SpellName(spellId), spellId)
 		self:Bar("stages", 47, self:SpellName(78895), spellId) -- Frost Imbued
 		self:PlaySound("stages", "long")
@@ -161,7 +162,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
 		self:StopBar(CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
 		self:StopBar(77699) -- Flash Freeze
 		self:CDBar(77896, 11, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
-		self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
+		if addsRemaining > 0 then
+			self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
+		end
 		self:Message("stages", "cyan", self:SpellName(spellId), spellId)
 		self:Bar("stages", 47, self:SpellName(92917), spellId) -- Slime Imbued
 		self:PlaySound("stages", "long")
@@ -169,7 +172,9 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
 		self:StopBar(77699) -- Flash Freeze
 		self:CDBar(77679, 25, CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
 		self:CDBar(77896, 19, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
-		self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
+		if addsRemaining > 0 then
+			self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
+		end
 		self:Message("stages", "cyan", self:SpellName(spellId), spellId)
 		self:Bar("stages", 47, self:SpellName(78896), spellId) -- Fire Imbued
 		self:PlaySound("stages", "long")
@@ -201,6 +206,12 @@ end
 function mod:ReleaseAberrations(args)
 	if addsRemaining > 0 then
 		addsRemaining = addsRemaining - 3
+		if addsActive == 0 then
+			self:SimpleTimer(UpdateInfoBoxList, 1)
+		end
+		if addsRemaining == 0 then
+			self:StopBar(CL.adds) -- The cast wasn't interrupted and now no more adds can be summoned, stop the bar started in CAST_START
+		end
 		addsActive = addsActive + 3
 		self:Message(args.spellId, "cyan", CL.extra:format(CL.adds_spawned, CL.remaining:format(addsRemaining)))
 		self:SetInfo(args.spellId, 1, CL.remaining:format(addsRemaining))
@@ -217,11 +228,15 @@ function mod:AberrationDeaths()
 		addsDead = addsDead + 1
 		self:SetInfo(77569, 3, CL.count:format(CL.active, addsActive))
 		self:SetInfo(77569, 4, CL.count:format(CL.dead, addsDead))
+		if addsActive == 0 then
+			self:SetInfo(77569, 7, "")
+			self:SetInfo(77569, 9, "")
+		end
 	end
 end
 
 function UpdateInfoBoxList()
-	if not mod:IsEngaged() then return end
+	if not mod:IsEngaged() or addsActive == 0 then return end
 	mod:SimpleTimer(UpdateInfoBoxList, 1)
 
 	local line = mod:GetStage() == 2 and 1 or 7
@@ -236,7 +251,7 @@ function UpdateInfoBoxList()
 		end
 	end
 	for i = line, 9, 2 do
-		mod:SetInfo(77569, line, "")
+		mod:SetInfo(77569, i, "")
 	end
 end
 
@@ -278,7 +293,11 @@ function mod:ReleaseAllMinions(args)
 	self:StopBar(78895) -- Frost Imbued
 	self:StopBar(92917) -- Slime Imbued
 	self:StopBar(92716) -- Shadow Imbued
-	self:OpenInfo(77569, "BigWigs: ".. "Threat")
+	self:OpenInfo(77569, "BigWigs: ".. CL.threat)
+	if addsActive == 0 then
+		addsActive = 100
+		self:SimpleTimer(UpdateInfoBoxList, 1)
+	end
 	self:CDBar(78225, 14, CL.count:format(self:SpellName(78225), acidNovaCount)) -- Acid Nova
 	local addsReleased = CL.adds_spawned_count:format(addsRemaining + 2)
 	local msg = CL.percent:format(25, CL.stage:format(2))
@@ -322,6 +341,7 @@ end
 
 function mod:AbsoluteZero(args)
 	self:CDBar(args.spellId, 7.3, CL.orbs)
+	self:Message(args.spellId, "yellow", CL.orbs)
 end
 
 -- Blue
