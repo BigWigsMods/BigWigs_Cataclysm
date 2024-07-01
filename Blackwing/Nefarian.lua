@@ -113,6 +113,7 @@ function mod:OnEngage()
 	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1", "boss2")
 	self:Berserk(630) -- is it really?
 	self:CDBar(77939, 30, L["discharge_bar"])
+	self:Bar("stages", 30, self:SpellName(-3279), "achievement_boss_nefarion") -- Nefarian
 	if self:Heroic() then
 		self:CDBar(79318, 45) -- Dominion
 	end

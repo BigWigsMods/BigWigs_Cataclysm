@@ -186,7 +186,7 @@ do
 		if self:Player(args.sourceFlags) then -- The shield itself also casts it
 			prev = args.time
 			shieldCount = shieldCount + 1
-			local colorName = self:ColorName(args.sourceName)
+			local colorName = self:ColorName(args.sourceName, true)
 			table.insert(shieldClickers, 2, ("%d %s"):format(shieldCount, colorName))
 			self:Message(77611, "cyan", CL.other:format(CL.count:format(CL.shield, shieldCount), colorName), false)
 			self:SetInfo(77611, 1, CL.remaining:format(10-shieldCount))
@@ -196,7 +196,7 @@ do
 				self:SetInfo(77611, lineRef[i], shieldClickers[i] or "")
 			end
 			self:PlaySound(77611, "info")
-		elseif args.spellId == 77611 and (args.time - prev) > 0.5 then -- Rarely it seems like the player cast is missing in Stage 1 (hotfix might have worked, monitor this)
+		elseif args.spellId == 77611 and (args.time - prev) > 0.5 then -- Rarely it seems like the player cast is missing in Stage 1
 			shieldCount = shieldCount + 1
 			table.insert(shieldClickers, 2, ("%d ?"):format(shieldCount))
 			self:Message(77611, "cyan", CL.other:format(CL.count:format(CL.shield, shieldCount), "?"), false)

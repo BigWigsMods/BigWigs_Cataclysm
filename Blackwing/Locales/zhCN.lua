@@ -22,11 +22,6 @@ if L then
 	L.infusion = "灌注"
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "zhCN")
-if L then
-	L.bileotron_engage = "胆汁喷洒机"
-end
-
 L = BigWigs:NewBossLocale("Atramedes", "zhCN")
 if L then
 	L.obnoxious_fiend = "喧闹恶鬼" -- NPC ID 49740
@@ -35,20 +30,8 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "zhCN")
 if L then
-	L.release_all = ">%s< 释放畸变怪！"
-
-	L.red_phase_trigger = "混合、搅拌、加热……"
-	L.red_phase_emote_trigger = "红瓶"
-	L.red_phase = "|cFFFF0000红瓶|r阶段"
-	L.blue_phase_trigger = "凡人的躯壳能否经得住极端温度的转变，要弄清楚！为了科学！"
-	L.blue_phase_emote_trigger = "蓝瓶"
-	L.blue_phase = "|cFF809FFE蓝瓶|r阶段"
-	L.green_phase_trigger = "这个有点儿不稳定，但不经过失败怎么会进步？"
-	L.green_phase_emote_trigger = "绿瓶"
-	L.green_phase = "|cFF33FF00绿瓶|r阶段"
-	L.dark_phase_trigger = "你的混合剂太弱了，马洛拉克！他们需要更多的……“催化”！"
+	L.flames = "烈焰"
 	L.dark_phase_emote_trigger = "黑暗"
-	L.dark_phase = "|cFF660099黑暗|r阶段"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "zhCN")

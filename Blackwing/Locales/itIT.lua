@@ -28,27 +28,10 @@ if L then
 	L.air_phase_trigger = "Sì, correte! Con ogni passo il cuore batte più forte."
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "itIT")
-if L then
-	L.bileotron_engage = "Il BileTron 800 ritorna in vita ed emette una strana sostanza odorosa."
-end
-
 L = BigWigs:NewBossLocale("Maloriak", "itIT")
 if L then
-	L.release_all = "%d add rilasciati!"
-
-	L.red_phase_trigger = "Mescola e amalgama, riscalda..."
-	L.red_phase_emote_trigger = "rosso"
-	L.red_phase = "Fase |cFFFF0000Rossa|r"
-	L.blue_phase_trigger = "Quali sbalzi di temperatura riesce a sopportare un'involucro mortale? Devo scoprirlo! Per la scienza!"
-	L.blue_phase_emote_trigger = "blu"
-	L.blue_phase = "Fase |cFF809FFEBlu|r"
-	L.green_phase_trigger = "Questa è un pò instabile, ma come si può progredire se non si prova?"
-	L.green_phase_emote_trigger = "verde"
-	L.green_phase = "Fase |cFF33FF00Verde|r"
-	L.dark_phase_trigger = "I tuoi composti sono deboli, Maloriak! Serve un pò più di... pepe!"
+	L.flames = "Fiamme"
 	L.dark_phase_emote_trigger = "oscura"
-	L.dark_phase = "Fase |cFF660099Oscura|r"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "itIT")

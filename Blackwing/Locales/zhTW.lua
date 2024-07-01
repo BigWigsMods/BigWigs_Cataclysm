@@ -22,11 +22,6 @@ if L then
 	L.infusion = "注入"
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "zhTW")
-if L then
-	L.bileotron_engage = "「好膽」機器人開始活動，並且噴出一種惡臭的物質。"
-end
-
 L = BigWigs:NewBossLocale("Atramedes", "zhTW")
 if L then
 	--L.obnoxious_fiend = "Obnoxious Fiend" -- NPC ID 49740
@@ -35,20 +30,8 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "zhTW")
 if L then
-	L.release_all = ">%s< 釋放畸形者！"
-
-	L.red_phase_trigger = "混合攪拌，然後加熱..."
-	L.red_phase_emote_trigger = "紅色"
-	L.red_phase = "|cFFFF0000紅色|r階段！"
-	L.blue_phase_trigger = "凡人之軀能承受多大的溫度改變?必須測試!為了科學!"
-	L.blue_phase_emote_trigger = "藍色"
-	L.blue_phase = "|cFF809FFE藍色|r階段！"
-	L.green_phase_trigger = "這個有點不穩定，但哪有實驗不失敗的?"
-	L.green_phase_emote_trigger = "綠色"
-	L.green_phase = "|cFF33FF00綠色|r階段！"
-	L.dark_phase_trigger = "你的混合劑太弱了，瑪洛里亞克!需要多點...後勁!"
+	L.flames = "烈焰"
 	L.dark_phase_emote_trigger = "黑色"
-	L.dark_phase = "|cFF660099黑色|r階段！"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "zhTW")

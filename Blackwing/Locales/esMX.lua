@@ -22,11 +22,6 @@ if L then
 	L.infusion = "Infusión"
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "esMX")
-if L then
-	L.bileotron_engage = "El Bilistrón se activa y empieza a emitir una sustancia de olor asqueroso."
-end
-
 L = BigWigs:NewBossLocale("Atramedes", "esMX")
 if L then
 	L.obnoxious_fiend = "Maligno execrable" -- NPC ID 49740
@@ -35,20 +30,8 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "esMX")
 if L then
-	L.release_all = "¡%s adds liberados!"
-
-	L.red_phase_trigger = "Mezclar y agitar, aplicar calor..."
-	L.red_phase_emote_trigger = "rojo"
-	L.red_phase = "Fase |cFFFF0000Roja|r"
-	L.blue_phase_trigger = "¿Cómo afecta el cambio extremo de temperatura al cuerpo mortal? ¡Debo averiguarlo! ¡Por la ciencia!"
-	L.blue_phase_emote_trigger = "azul"
-	L.blue_phase = "Fase |cFF809FFEAzul|r"
-	L.green_phase_trigger = "Este es un poco inestable, pero ¿acaso hay progreso sin fracaso?"
-	L.green_phase_emote_trigger = "verde"
-	L.green_phase = "Fase |cFF33FF00Verde|r"
-	L.dark_phase_trigger = "¡Tus mezclas son flojas, Maloriak! ¡Necesitan un poco más de... sustancia!"
+	L.flames = "Llamas"
 	L.dark_phase_emote_trigger = "oscura"
-	L.dark_phase = "Fase |cFF660099Oscura|r"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "esMX")

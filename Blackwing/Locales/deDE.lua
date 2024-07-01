@@ -22,11 +22,6 @@ if L then
 	L.infusion = "Schattenmacht"
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "deDE")
-if L then
-	L.bileotron_engage = "Der Gall-O-Tron springt an und stößt eine übel riechende Substanz aus."
-end
-
 L = BigWigs:NewBossLocale("Atramedes", "deDE")
 if L then
 	L.obnoxious_fiend = "Nerviges Scheusal" -- NPC ID 49740
@@ -35,20 +30,8 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "deDE")
 if L then
-	L.release_all = "%s Adds freigelassen!"
-
-	L.red_phase_trigger = "Vermischen, rühren, erhitzen..."
-	L.red_phase_emote_trigger = "rote"
-	L.red_phase = "|cFFFF0000Rote|r Phase"
-	L.blue_phase_trigger = "Muss rausfinden, wie die sterbliche Hülle auf extreme Temperaturen reagiert... FÜR DIE FORSCHUNG!"
-	L.blue_phase_emote_trigger = "blaue"
-	L.blue_phase = "|cFF809FFEBlaue|r Phase"
-	L.green_phase_trigger = "Etwas instabil vielleicht, doch keine Forschung ohne Risiko!"
-	L.green_phase_emote_trigger = "grüne"
-	L.green_phase = "|cFF33FF00Grüne|r Phase"
-	L.dark_phase_trigger = "Eure Mixturen sind schwach, Maloriak!" -- check
+	L.flames = "Flammen"
 	L.dark_phase_emote_trigger = "dunkle" -- check
-	L.dark_phase = "|cFF660099Dunkle|r Phase"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "deDE")

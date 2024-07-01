@@ -22,11 +22,6 @@ if L then
 	L.infusion = "Вливание Тьмы"
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "ruRU")
-if L then
-	L.bileotron_engage = "Желче-трон оживает и начинает извергать из себя некое вонючее вещество."
-end
-
 L = BigWigs:NewBossLocale("Atramedes", "ruRU")
 if L then
 	L.obnoxious_fiend = "Гнусный бес" -- NPC ID 49740
@@ -35,20 +30,8 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "ruRU")
 if L then
-	L.release_all = "%s аберрации!"
-
-	L.red_phase_trigger = "Помешивая, довести до кипения..."
-	L.red_phase_emote_trigger = "красный"
-	L.red_phase = "|cFFFF0000Красная|r фаза"
-	L.blue_phase_trigger = "Как смертная оболочка переносит резкие скачки температуры? Надо выяснить! ВО ИМЯ НАУКИ!"
-	L.blue_phase_emote_trigger = "синий"
-	L.blue_phase = "|cFF809FFEСиняя|r фаза"
-	L.green_phase_trigger = "Никак не удается стабилизировать, но без ошибок нет прогресса!"
-	L.green_phase_emote_trigger = "зеленый"
-	L.green_phase = "|cFF33FF00Зеленая|r фаза"
-	L.dark_phase_trigger = "Слабоваты твои настои, Малориак! Подбавить бы к ним... специй!"
+	L.flames = "Пламя"
 	L.dark_phase_emote_trigger = "темную"
-	L.dark_phase = "|cFF660099Темная|r фаза"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "ruRU")

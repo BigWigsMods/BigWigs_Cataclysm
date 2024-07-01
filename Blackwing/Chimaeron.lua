@@ -16,15 +16,6 @@ local massacreCount = 1
 local systemsFailureCount = 0
 
 --------------------------------------------------------------------------------
--- Localization
---
-
-local L = mod:GetLocale()
-if L then
-	L.bileotron_engage = "The Bile-O-Tron springs to life and begins to emit a foul smelling substance."
-end
-
---------------------------------------------------------------------------------
 -- Initialization
 --
 

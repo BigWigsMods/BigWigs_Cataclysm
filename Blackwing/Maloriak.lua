@@ -14,9 +14,12 @@ mod:SetStage(1)
 --
 
 local addsRemaining = 18
-local chillTargets = mod:NewTargetList()
-local arcaneStormCount = 0
-local scorchingBlastCounter = 0
+local addsActive = 0
+local addsDead = 0
+local arcaneStormCount = 1
+local acidNovaCount = 1
+local scorchingBlastCounter = 1
+local UpdateInfoBoxList
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -26,20 +29,8 @@ local L = mod:GetLocale()
 if L then
 	L["92754_desc"] = 92787 -- 92754 has no description
 
-	L.release_all = "%d adds released!"
-
-	L.red_phase_trigger = "Mix and stir, apply heat..."
-	L.red_phase_emote_trigger = "red"
-	L.red_phase = "|cFFFF0000Red|r phase"
-	L.blue_phase_trigger = "How well does the mortal shell handle extreme temperature change? Must find out! For science!"
-	L.blue_phase_emote_trigger = "blue"
-	L.blue_phase = "|cFF809FFEBlue|r phase"
-	L.green_phase_trigger = "This one's a little unstable, but what's progress without failure?"
-	L.green_phase_emote_trigger = "green"
-	L.green_phase = "|cFF33FF00Green|r phase"
-	L.dark_phase_trigger = "Your mixtures are weak, Maloriak! They need a bit more... kick!"
+	L.flames = "Flames"
 	L.dark_phase_emote_trigger = "dark"
-	L.dark_phase = "|cFF660099Dark|r phase"
 end
 
 --------------------------------------------------------------------------------
@@ -57,6 +48,8 @@ function mod:GetOptions()
 		"berserk",
 		-- Stage 2
 		78194, -- Magma Jets
+		78225, -- Acid Nova
+		78223, -- Absolute Zero
 		-- Blue
 		{77699, "SAY"}, -- Flash Freeze
 		flashFreezeMarker,
@@ -75,7 +68,9 @@ function mod:GetOptions()
 		[92754] = CL.extra:format(self:SpellName(92828), CL.heroic), -- Drink Black Bottle (Heroic mode)
 	},{
 		[77569] = CL.adds, -- Release Aberrations (Adds)
-		[77786] = CL.fire, -- Consuming Flames (Fire)
+		[78194] = CL.fire, -- Magma Jets (Fire)
+		[78223] = CL.orbs, -- Absolute Zero (Orbs)
+		[77786] = L.flames, -- Consuming Flames (Flames)
 		[77679] = CL.breath, -- Scorching Blast (Breath)
 		[92754] = CL.frontal_cone, -- Engulfing Darkness (Frontal Cone)
 	}
@@ -89,7 +84,9 @@ function mod:OnBossEnable()
 	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1")
 	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
 	self:Log("SPELL_AURA_APPLIED", "ShadowImbuedApplied", 92716)
+	self:Log("SPELL_CAST_START", "ReleaseAberrationsStart", 77569)
 	self:Log("SPELL_CAST_SUCCESS", "ReleaseAberrations", 77569)
+	self:Death("AberrationDeaths", 41440) -- Aberration
 	self:Log("SPELL_INTERRUPT", "ReleaseAberrationsInterrupted", "*")
 	self:Log("SPELL_CAST_START", "ArcaneStorm", 77896)
 	self:Log("SPELL_AURA_APPLIED", "RemedyApplied", 77912)
@@ -97,6 +94,10 @@ function mod:OnBossEnable()
 	-- Stage 2
 	self:Log("SPELL_CAST_START", "ReleaseAllMinions", 77991)
 	self:Log("SPELL_CAST_START", "MagmaJets", 78194)
+	self:Log("SPELL_DAMAGE", "MagmaJetsDamage", 78124)
+	self:Log("SPELL_MISSED", "MagmaJetsDamage", 78124)
+	self:Log("SPELL_CAST_SUCCESS", "AcidNova", 78225)
+	self:Log("SPELL_CAST_SUCCESS", "AbsoluteZero", 78223)
 
 	-- Blue
 	self:Log("SPELL_AURA_APPLIED", "FlashFreezeApplied", 77699)
@@ -118,20 +119,29 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	arcaneStormCount = 0
 	addsRemaining = 18
-	scorchingBlastCounter = 0
+	addsActive = 0
+	addsDead = 0
+	arcaneStormCount = 1
+	acidNovaCount = 1
+	scorchingBlastCounter = 1
 	self:SetStage(1)
 	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	if self:Heroic() then
-		self:Bar("stages", 16, self:SpellName(92828), 92716) -- Drink Black Bottle
+		self:Bar("stages", 16, self:SpellName(92837), 92716) -- Throw Black Bottle
 		self:Berserk(720)
 	else
 		self:Berserk(420)
 	end
+	self:CDBar(77896, 12.4, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
+	self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
 	self:OpenInfo(77569, "BigWigs: ".. CL.adds) -- Release Aberrations
 	self:SetInfo(77569, 1, CL.remaining:format(addsRemaining))
 	self:SetInfoBar(77569, 1, 1)
+	self:SetInfo(77569, 3, CL.count:format(CL.active, addsActive))
+	self:SetInfo(77569, 4, CL.count:format(CL.dead, addsDead))
+	self:SetInfo(77569, 5, "Threat:")
+	self:SimpleTimer(UpdateInfoBoxList, 1)
 end
 
 --------------------------------------------------------------------------------
@@ -142,18 +152,24 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
 	if spellId == 77932 then -- Throw Blue Bottle
 		self:StopBar(CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
 		self:CDBar(77699, 28) -- Flash Freeze
+		self:CDBar(77896, 19, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
+		self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
 		self:Message("stages", "cyan", self:SpellName(spellId), spellId)
 		self:Bar("stages", 47, self:SpellName(78895), spellId) -- Frost Imbued
 		self:PlaySound("stages", "long")
 	elseif spellId == 77937 then -- Throw Green Bottle
 		self:StopBar(CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
 		self:StopBar(77699) -- Flash Freeze
+		self:CDBar(77896, 11, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
+		self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
 		self:Message("stages", "cyan", self:SpellName(spellId), spellId)
 		self:Bar("stages", 47, self:SpellName(92917), spellId) -- Slime Imbued
 		self:PlaySound("stages", "long")
 	elseif spellId == 77925 then -- Throw Red Bottle
 		self:StopBar(77699) -- Flash Freeze
-		self:CDBar(77679, 25, CL.count:format(CL.breath, scorchingBlastCounter+1)) -- Scorching Blast
+		self:CDBar(77679, 25, CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
+		self:CDBar(77896, 19, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
+		self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
 		self:Message("stages", "cyan", self:SpellName(spellId), spellId)
 		self:Bar("stages", 47, self:SpellName(78896), spellId) -- Fire Imbued
 		self:PlaySound("stages", "long")
@@ -162,22 +178,65 @@ end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
 	if msg:find(L.dark_phase_emote_trigger, nil, true) then
-		self:Message("stages", "cyan", self:SpellName(92716), 92716) -- Shadow Imbued
+		self:StopBar(CL.count:format(self:SpellName(77896), arcaneStormCount)) -- Arcane Storm
+		self:StopBar(CL.adds) -- Release Aberrations
+		self:Message("stages", "cyan", self:SpellName(92837), 92716) -- Throw Black Bottle
 		self:PlaySound("stages", "long")
 	end
 end
 
-function mod:ShadowImbuedApplied()
-	self:Bar("stages", 90, self:SpellName(92716), 92716) -- Shadow Imbued
+function mod:ShadowImbuedApplied(args)
+	self:StopBar(CL.count:format(self:SpellName(77896), arcaneStormCount)) -- Arcane Storm
+	self:StopBar(CL.adds) -- Release Aberrations
+	self:Message("stages", "cyan", args.spellName, args.spellId)
+	self:Bar("stages", 90, args.spellName, args.spellId)
+end
+
+function mod:ReleaseAberrationsStart(args)
+	if addsRemaining > 0 then
+		self:CDBar(args.spellId, 17, CL.adds)
+	end
 end
 
 function mod:ReleaseAberrations(args)
 	if addsRemaining > 0 then
 		addsRemaining = addsRemaining - 3
+		addsActive = addsActive + 3
 		self:Message(args.spellId, "cyan", CL.extra:format(CL.adds_spawned, CL.remaining:format(addsRemaining)))
 		self:SetInfo(args.spellId, 1, CL.remaining:format(addsRemaining))
 		self:SetInfoBar(args.spellId, 1, addsRemaining / 18)
+		self:SetInfo(args.spellId, 3, CL.count:format(CL.active, addsActive))
+		self:SetInfo(args.spellId, 4, CL.count:format(CL.dead, addsDead))
 		self:PlaySound(args.spellId, "info")
+	end
+end
+
+function mod:AberrationDeaths()
+	if self:GetStage() == 1 then
+		addsActive = addsActive - 1
+		addsDead = addsDead + 1
+		self:SetInfo(77569, 3, CL.count:format(CL.active, addsActive))
+		self:SetInfo(77569, 4, CL.count:format(CL.dead, addsDead))
+	end
+end
+
+function UpdateInfoBoxList()
+	if not mod:IsEngaged() then return end
+	mod:SimpleTimer(UpdateInfoBoxList, 1)
+
+	local line = mod:GetStage() == 2 and 1 or 7
+	for unit in mod:IterateGroup() do
+		-- Top threat on something that isn't the boss
+		if UnitThreatSituation(unit) == 3 and not mod:TopThreat("boss1", unit) then
+			mod:SetInfo(77569, line, mod:ColorName(mod:UnitName(unit), true))
+			line = line + 2
+			if line == 11 then
+				return
+			end
+		end
+	end
+	for i = line, 9, 2 do
+		mod:SetInfo(77569, line, "")
 	end
 end
 
@@ -188,13 +247,16 @@ function mod:ReleaseAberrationsInterrupted(args)
 end
 
 function mod:ArcaneStorm(args)
-	arcaneStormCount = arcaneStormCount + 1
+	local msg = CL.count:format(args.spellName, arcaneStormCount)
+	self:StopBar(msg)
 	local isPossible, isReady = self:Interrupter(args.sourceGUID)
 	if isPossible then
-		self:Message(args.spellId, "red", CL.count:format(args.spellName, arcaneStormCount))
-		if isReady then
-			self:PlaySound(args.spellId, "alert")
-		end
+		self:Message(args.spellId, "red", msg)
+	end
+	arcaneStormCount = arcaneStormCount + 1
+	self:CDBar(args.spellId, 13.3, CL.count:format(args.spellName, arcaneStormCount))
+	if isReady then
+		self:PlaySound(args.spellId, "alert")
 	end
 end
 
@@ -208,14 +270,17 @@ end
 -- Stage 2
 function mod:ReleaseAllMinions(args)
 	self:SetStage(2)
-	self:CloseInfo(77569) -- Release Aberrations
 	self:StopBar(CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
+	self:StopBar(CL.count:format(self:SpellName(77896), arcaneStormCount)) -- Arcane Storm
+	self:StopBar(CL.adds) -- Release Aberrations
 	self:StopBar(77699) -- Flash Freeze
 	self:StopBar(78896) -- Fire Imbued
 	self:StopBar(78895) -- Frost Imbued
 	self:StopBar(92917) -- Slime Imbued
 	self:StopBar(92716) -- Shadow Imbued
-	local addsReleased = L.release_all:format(addsRemaining + 2)
+	self:OpenInfo(77569, "BigWigs: ".. "Threat")
+	self:CDBar(78225, 14, CL.count:format(self:SpellName(78225), acidNovaCount)) -- Acid Nova
+	local addsReleased = CL.adds_spawned_count:format(addsRemaining + 2)
 	local msg = CL.percent:format(25, CL.stage:format(2))
 	self:Message("stages", "cyan", CL.extra:format(msg, addsReleased), false)
 	self:PlaySound("stages", "long")
@@ -232,7 +297,31 @@ function mod:UNIT_HEALTH(event, unit)
 end
 
 function mod:MagmaJets(args)
-	self:Bar(args.spellId, 10)
+	self:CDBar(args.spellId, 6)
+end
+
+do
+	local prev = 0
+	function mod:MagmaJetsDamage(args)
+		if self:Me(args.destGUID) and args.time - prev > 3 then
+			prev = args.time
+			self:PersonalMessage(78194, "underyou", CL.fire)
+			self:PlaySound(78194, "underyou")
+		end
+	end
+end
+
+function mod:AcidNova(args)
+	local msg = CL.count:format(args.spellName, acidNovaCount)
+	self:StopBar(msg)
+	self:Message(args.spellId, "red", CL.count:format(args.spellName, acidNovaCount))
+	acidNovaCount = acidNovaCount + 1
+	self:CDBar(args.spellId, 30.3, CL.count:format(args.spellName, acidNovaCount))
+	self:PlaySound(args.spellId, "alarm")
+end
+
+function mod:AbsoluteZero(args)
+	self:CDBar(args.spellId, 7.3, CL.orbs)
 end
 
 -- Blue
@@ -276,7 +365,7 @@ end
 
 -- Red
 function mod:ConsumingFlamesApplied(args)
-	self:TargetMessage(args.spellId, "red", args.destName, CL.fire)
+	self:TargetMessage(args.spellId, "red", args.destName, L.flames)
 	self:PrimaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
 		self:PlaySound(args.spellId, "warning", nil, args.destName)
@@ -289,9 +378,9 @@ end
 
 function mod:ScorchingBlast(args)
 	self:StopBar(CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
-	scorchingBlastCounter = scorchingBlastCounter + 1
 	self:Message(args.spellId, "purple", CL.count:format(CL.breath, scorchingBlastCounter))
-	self:CDBar(args.spellId, 10, CL.count:format(CL.breath, scorchingBlastCounter+1))
+	scorchingBlastCounter = scorchingBlastCounter + 1
+	self:CDBar(args.spellId, 11.3, CL.count:format(CL.breath, scorchingBlastCounter))
 	self:PlaySound(args.spellId, "alarm")
 end
 
@@ -303,17 +392,17 @@ end
 function mod:EngulfingDarknessApplied(args)
 	self:Message(args.spellId, "purple", CL.frontal_cone)
 	self:CastBar(args.spellId, 8, CL.frontal_cone)
-	--self:PlaySound(args.spellId, "info")
 end
 
 function mod:EngulfingDarknessRemoved(args)
 	self:Message(args.spellId, "green", CL.over:format(CL.frontal_cone))
+	self:PlaySound(args.spellId, "info")
 end
 
 do
 	local prev = 0
 	function mod:DarkSludgeDamage(args)
-		if self:Me(args.destGUID) and args.time - prev > 2 then
+		if self:Me(args.destGUID) and args.time - prev > 3 then
 			prev = args.time
 			self:PersonalMessage(args.spellId, "underyou")
 			self:PlaySound(args.spellId, "underyou")

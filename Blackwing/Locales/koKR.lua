@@ -22,11 +22,6 @@ if L then
 	L.infusion = "주입"
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "koKR")
-if L then
-	L.bileotron_engage = "담즙로봇이 움직이기 시작하더니 고약한 냄새가 나는 물질을 방출합니다."
-end
-
 L = BigWigs:NewBossLocale("Atramedes", "koKR")
 if L then
 	L.obnoxious_fiend = "불쾌한 마귀" -- NPC ID 49740
@@ -35,20 +30,8 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "koKR")
 if L then
-	L.release_all = "모든 실험체 %d!"
-
-	L.red_phase_trigger = "섞고 흔들어서, 열을 가한다..."
-	L.red_phase_emote_trigger = "붉은"
-	L.red_phase = "|cFFFF0000붉은|r 단계"
-	L.blue_phase_trigger = "급격한 온도 변화에 필멸의 육신"
-	L.blue_phase_emote_trigger = "푸른"
-	L.blue_phase = "|cFF809FFE푸른|r 단계"
-	L.green_phase_trigger = "이건 좀 불안정하지만"
-	L.green_phase_emote_trigger = "초록"
-	L.green_phase = "|cFF33FF00초록|r 단계"
-	L.dark_phase_trigger = "혼합물이 너무 약하구나, 말로리악!"
+	L.flames = "불꽃"
 	L.dark_phase_emote_trigger = "암흑"
-	L.dark_phase = "|cFF660099암흑|r 단계"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "koKR")

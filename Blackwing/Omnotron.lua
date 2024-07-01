@@ -22,6 +22,7 @@ local arcaneAnnihilatorCount = 0
 local gripOfDeathCount = 0
 local chemicalCloudDamageThrottle = 2
 local poolExplosionUnderMe = false
+local flamethrowerApplied = 0
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -67,7 +68,7 @@ function mod:GetOptions()
 		91879, -- Arcane Blowback
 		{92048, "ICON", "SAY", "SAY_COUNTDOWN", "CASTBAR", "CASTBAR_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Shadow Infusion
 		{92053, "SAY", "SAY_COUNTDOWN"}, -- Shadow Conductor
-		92023, -- Encasing Shadows
+		{92023, "SAY", "SAY_COUNTDOWN"}, -- Encasing Shadows
 		"berserk",
 		-- General
 		78740, -- Activated
@@ -121,7 +122,9 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "OverchargedPowerGeneratorApplied", 91858)
 	self:Log("SPELL_AURA_REMOVED", "OverchargedPowerGeneratorRemoved", 91858)
 	self:Log("SPELL_CAST_START", "GripOfDeath", 91849)
+	self:Log("SPELL_CAST_SUCCESS", "EncasingShadows", 92023)
 	self:Log("SPELL_AURA_APPLIED", "EncasingShadowsApplied", 92023)
+	self:Log("SPELL_AURA_REMOVED", "EncasingShadowsRemoved", 92023)
 	self:Log("SPELL_AURA_APPLIED", "ShadowInfusionApplied", 92048)
 	self:Log("SPELL_AURA_REMOVED", "ShadowInfusionRemoved", 92048)
 	self:Log("SPELL_AURA_APPLIED", "ShadowConductorApplied", 92053)
@@ -141,6 +144,7 @@ function mod:OnEngage()
 	gripOfDeathCount = 0
 	chemicalCloudDamageThrottle = 2
 	poolExplosionUnderMe = false
+	flamethrowerApplied = 0
 	if self:Heroic() then
 		self:Berserk(600, true) -- The "Activated" message happens on engage
 	end
@@ -161,6 +165,7 @@ function mod:AcquiringTargetApplied(args)
 	end
 	self:SecondaryIcon(args.spellId, args.destName)
 	if self:Me(args.destGUID) then
+		flamethrowerApplied = args.time
 		self:Say(args.spellId, L.flamethrower, nil, "Flamethrower")
 		self:SayCountdown(args.spellId, 4, L.flamethrower, 2, "Flamethrower")
 		self:PlaySound(args.spellId, "warning", nil, args.destName)
@@ -330,9 +335,26 @@ function mod:GripOfDeath(args)
 	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
 end
 
+function mod:EncasingShadows()
+	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
+end
+
 function mod:EncasingShadowsApplied(args)
 	self:TargetMessage(args.spellId, "orange", args.destName, CL.rooted)
-	self:CDBar("nef", 35, CL.next_ability, L.nef_icon)
+	if self:Me(args.destGUID) then
+		self:CancelSayCountdown(79501) -- Acquiring Target (Flamethrower)
+		local duration = 4 - (args.time-flamethrowerApplied)
+		self:SayCountdown(79501, duration > 1 and duration or 4, CL.plus:format(L.flamethrower, CL.rooted), 2, "Flamethrower + Rooted")
+		self:Say(args.spellId, CL.rooted, nil, "Rooted")
+		self:SayCountdown(args.spellId, 8, CL.rooted, 3, "Rooted")
+	end
+end
+
+function mod:EncasingShadowsRemoved(args)
+	if self:Me(args.destGUID) then
+		self:CancelSayCountdown(79501) -- Acquiring Target (Flamethrower)
+		self:CancelSayCountdown(args.spellId)
+	end
 end
 
 function mod:ShadowInfusionApplied(args)

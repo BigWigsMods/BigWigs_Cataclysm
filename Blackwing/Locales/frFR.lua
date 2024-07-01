@@ -22,11 +22,6 @@ if L then
 	L.infusion = "Infusion"
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "frFR")
-if L then
-	L.bileotron_engage = "Le bile-o-tron s'anime et commence à secréter une substance malodorante."
-end
-
 L = BigWigs:NewBossLocale("Atramedes", "frFR")
 if L then
 	L.obnoxious_fiend = "Démon odieux" -- NPC ID 49740
@@ -35,20 +30,8 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "frFR")
 if L then
-	L.release_all = "%d aberrations libérées !"
-
-	L.red_phase_trigger = "Mélanger, touiller, faire chauffer..."
-	L.red_phase_emote_trigger = "rouge"
-	L.red_phase = "Phase |cFFFF0000rouge|r"
-	L.blue_phase_trigger = "Jusqu'où une enveloppe mortelle peut-elle supporter des écarts extrêmes de température ? Je dois trouver ! Pour la science !"
-	L.blue_phase_emote_trigger = "bleue"
-	L.blue_phase = "Phase |cFF809FFEbleue|r"
-	L.green_phase_trigger = "Celui-ci est un peu instable, mais que serait le progrès sans échec ?"
-	L.green_phase_emote_trigger = "verte"
-	L.green_phase = "Phase |cFF33FF00verte|r"
-	L.dark_phase_trigger = "Tes mixtures sont insipides, Maloriak ! Elles ont besoin d'un peu de... force !"
+	L.flames = "Flammes"
 	L.dark_phase_emote_trigger = "sombre"
-	L.dark_phase = "Phase |cFF660099sombre|r"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "frFR")

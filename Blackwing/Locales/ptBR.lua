@@ -22,11 +22,6 @@ if L then
 	L.infusion = "Infusão"
 end
 
-L = BigWigs:NewBossLocale("Chimaeron", "ptBR")
-if L then
-	L.bileotron_engage = "O Vomitomático é ativado e começa a emitir uma substância de cheiro repelente.."
-end
-
 L = BigWigs:NewBossLocale("Atramedes", "ptBR")
 if L then
 	L.obnoxious_fiend = "Diabrete Irritante" -- NPC ID 49740
@@ -35,20 +30,8 @@ end
 
 L = BigWigs:NewBossLocale("Maloriak", "ptBR")
 if L then
-	L.release_all = "%s adds liberados!"
-
-	L.red_phase_trigger = "Misturar, agitar e aquecer..."
-	L.red_phase_emote_trigger = "vermelho"
-	L.red_phase = "Fase |cFFFF0000Vermelha|r"
-	L.blue_phase_trigger = "Como será que a carcaça humana lida com as mudanças extremas de temperatura? Tenho que descobrir, pela ciência!"
-	L.blue_phase_emote_trigger = "azul"
-	L.blue_phase = "Fase |cFF809FFEAzul|r"
-	L.green_phase_trigger = "Este está um pouco instável, mas o que é o progresso sem o fracasso?"
-	L.green_phase_emote_trigger = "verde"
-	L.green_phase = "Fase |cFF33FF00Verde|r"
-	L.dark_phase_trigger = "Meus fracassos serão sua desgraça!"
+	L.flames = "Chamas"
 	L.dark_phase_emote_trigger = "Escura"
-	L.dark_phase = "Fase |cFF660099Escura|r"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "ptBR")
