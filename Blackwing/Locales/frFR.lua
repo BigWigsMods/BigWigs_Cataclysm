@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "frFR")
 if L then
 	L.obnoxious_fiend = "Démon odieux" -- NPC ID 49740
 	L.air_phase_trigger = "Oui, fuyez ! Chaque foulée accélère votre cœur. Les battements résonnent comme le tonnerre... Assourdissant. Vous ne vous échapperez pas !"
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "frFR")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "Electrocuter imminent !"
 
 	L.shadowblaze_trigger = "Que la chair se transforme en cendres !"
-	L.shadowblaze_message = "Ombrase en dessous de VOUS !"
 
 	L.onyxia_power_message = "Explosion imminente !"
 

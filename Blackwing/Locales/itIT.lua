@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "itIT")
 if L then
 	L.obnoxious_fiend = "Demonio Ripugnante" -- NPC ID 49740
 	L.air_phase_trigger = "Sì, correte! Con ogni passo il cuore batte più forte."
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "itIT")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "Giustizia Elettrica!"
 
 	L.shadowblaze_trigger = "La Carne si tramuta in cenere!"
-	L.shadowblaze_message = "Fuoco sotto di TE!!!"
 
 	L.onyxia_power_message = "Esplosione tra poco!"
 

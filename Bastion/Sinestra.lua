@@ -33,24 +33,22 @@ end
 -- Locals
 --
 
-local roleCheckWarned = false
 local eggs = 0
 local orbList = {}
 local orbOnMe = false
 local orbWarned = nil
-local playerInList = nil
 local whelpGUIDs = {}
 
-local function isTargetableByOrb(unit)
+local function isTargetableByOrb(unit, bossUnit)
 	-- check tanks
 	if mod:Tank(unit) then return false end
 	-- check sinestra's target too
-	if UnitIsUnit("boss1target", unit) then return false end
+	if bossUnit and mod:ThreatTarget(unit, bossUnit) then return false end
 	-- and maybe do a check for whelp targets
 	for k, v in pairs(whelpGUIDs) do
 		local whelp = mod:GetUnitIdByGUID(k)
-		if whelp then
-			if UnitIsUnit(whelp.."target", unit) then return false end
+		if whelp and mod:ThreatTarget(unit, whelp) then
+			return false
 		end
 	end
 	return true
@@ -59,12 +57,10 @@ end
 local function populateOrbList()
 	orbList = {}
 	orbOnMe = false
+	local bossUnit = mod:GetUnitIdByGUID(45213) -- Sinestra
 	for unit in mod:IterateGroup() do
 		-- Tanking something, but not a tank (aka not tanking Sinestra or Whelps)
-		if UnitThreatSituation(unit) == 3 and isTargetableByOrb(unit) then
-			if UnitIsUnit(unit, "player") then
-				playerInList = true
-			end
+		if mod:ThreatTarget(unit) and isTargetableByOrb(unit, bossUnit) then
 			orbList[#orbList + 1] = mod:UnitName(unit)
 			if mod:Me(mod:UnitGUID(unit)) then
 				orbOnMe = true
@@ -75,7 +71,6 @@ end
 
 local function wipeWhelpList(resetWarning)
 	if resetWarning then orbWarned = nil end
-	playerInList = nil
 	whelpGUIDs = {}
 end
 
@@ -105,11 +100,6 @@ function mod:GetOptions(CL)
 end
 
 function mod:OnBossEnable()
-	if not roleCheckWarned and (UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) then
-		BigWigs:Print("It is recommended that your raid has proper main tanks set for this encounter to improve orb target detection.")
-		roleCheckWarned = true
-	end
-
 	if self:Retail() then
 		if self:Difficulty() == 6 then
 			self:SetEncounterID(1083)
@@ -145,7 +135,6 @@ function mod:OnEngage()
 	self:RegisterUnitEvent("UNIT_HEALTH", "PhaseWarn", "boss1")
 	whelpGUIDs = {}
 	orbWarned = nil
-	playerInList = nil
 end
 
 --------------------------------------------------------------------------------
@@ -170,8 +159,6 @@ end
 
 local repeatCount = 0
 function mod:OrbWarning(source)
-	--if playerInList then mod:Flash(92852) end
-
 	-- this is why orbList can't be created by :NewTargetList
 	if orbList[1] then mod:PrimaryIcon(92852, orbList[1]) end
 	if orbList[2] then mod:SecondaryIcon(92852, orbList[2]) end

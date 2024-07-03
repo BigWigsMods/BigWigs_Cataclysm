@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "zhTW")
 if L then
 	--L.obnoxious_fiend = "Obnoxious Fiend" -- NPC ID 49740
 	L.air_phase_trigger = "沒錯，逃吧!每一步都會讓你的心跳加速。跳得轟隆作響...震耳欲聾。你逃不掉的!"
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "zhTW")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "即將 電擊！"
 
 	L.shadowblaze_trigger = "化為灰燼吧!"
-	L.shadowblaze_message = ">你< 暗影炎！"
 
 	L.onyxia_power_message = "即將 電荷超載！"
 

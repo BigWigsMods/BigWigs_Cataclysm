@@ -40,7 +40,6 @@ if L then
 	L.crackle_message = "Electrocute soon!"
 
 	L.shadowblaze_trigger = "Flesh turns to ash!"
-	L.shadowblaze_message = "Fire under YOU!"
 
 	L.onyxia_power_message = "Explosion soon!"
 
@@ -54,24 +53,23 @@ end
 function mod:GetOptions()
 	return {
 		-- Onyxia
-		77939,
+		77939, -- Lightning Discharge
 		-- Normal
-		78999,
+		78999, -- Electrical Overload
 		{81272, "CASTBAR"}, -- Electrocute
-		81007,
+		81007, -- Shadowblaze
 		80734, -- Blast Nova
+		"stages",
 		-- Heroic
 		{79339, "COUNTDOWN", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Explosive Cinders
 		79318, -- Dominion
 		"berserk",
-		-- General
-		"stages",
 	},{
 		[77939] = -3283, -- Onyxia
 		[78999] = "normal",
 		[79339] = "heroic",
-		["stages"] = "general"
 	},{
+		[81007] = CL.underyou:format(CL.fire), -- Shadowblaze (Fire under YOU)
 		[79339] = CL.bomb, -- Explosive Cinders (Bomb)
 	}
 end
@@ -96,8 +94,8 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "Dominion", 79318)
 	self:Log("SPELL_AURA_APPLIED", "DominionApplied", 79318)
 
-	self:Log("SPELL_DAMAGE", "PersonalShadowBlaze", 81007)
-	self:Log("SPELL_MISSED", "PersonalShadowBlaze", 81007)
+	self:Log("SPELL_DAMAGE", "ShadowblazeDamage", 81007)
+	self:Log("SPELL_MISSED", "ShadowblazeDamage", 81007)
 
 	self:Death("PrototypeDeaths", 41948) -- Chromatic Prototype
 end
@@ -142,16 +140,6 @@ do
 		if (args.time - prev) > 10 then
 			prev = args.time
 			self:CDBar(77939, 21, L["discharge_bar"])
-		end
-	end
-end
-
-do
-	local prev = 0
-	function mod:PersonalShadowBlaze(args)
-		if self:Me(args.destGUID) and (args.time - prev) > 1 then
-			prev = args.time
-			self:MessageOld(args.spellId, "blue", "info", L["shadowblaze_message"])
 		end
 	end
 end
@@ -238,8 +226,9 @@ end
 
 do
 	local playerList = {}
-	function mod:ExplosiveCinders()
+	function mod:ExplosiveCinders(args)
 		playerList = {}
+		self:Bar(args.spellId, 24.2, CL.bombs)
 	end
 
 	function mod:ExplosiveCindersApplied(args)
@@ -289,3 +278,13 @@ function mod:UNIT_POWER_FREQUENT(event, unit)
 	end
 end
 
+do
+	local prev = 0
+	function mod:ShadowblazeDamage(args)
+		if self:Me(args.destGUID) and args.time - prev > 2 then
+			prev = args.time
+			self:PersonalMessage(args.spellId, "underyou", CL.fire)
+			self:PlaySound(args.spellId, "underyou")
+		end
+	end
+end

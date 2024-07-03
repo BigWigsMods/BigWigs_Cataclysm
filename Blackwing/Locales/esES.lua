@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "esES")
 if L then
 	L.obnoxious_fiend = "Maligno execrable" -- NPC ID 49740
 	L.air_phase_trigger = "¡Sí, corred! Con cada paso, vuestros corazones se aceleran. El latido, fuerte y clamoroso... Casi ensordecedor. ¡No podéis escapar!"
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "esES")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "¡Electrocutar pronto!"
 
 	--L.shadowblaze_trigger = "Flesh turns to ash!"
-	L.shadowblaze_message = "Fuego"
 
 	L.onyxia_power_message = "¡Explosión pronto!"
 

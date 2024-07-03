@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "deDE")
 if L then
 	L.obnoxious_fiend = "Nerviges Scheusal" -- NPC ID 49740
 	L.air_phase_trigger = "Ja, lauft! Jeder Schritt lässt Euer Herz stärker klopfen. Laut und heftig... ohrenbetäubend. Es gibt kein Entkommen!" -- check
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "deDE")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "Stromschlag bald!"
 
 	L.shadowblaze_trigger = "Fleisch wird zu Asche!" -- check
-	L.shadowblaze_message = "Feuer"
 
 	L.onyxia_power_message = "Überladung bald!"
 

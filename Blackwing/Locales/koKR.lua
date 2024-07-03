@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "koKR")
 if L then
 	L.obnoxious_fiend = "불쾌한 마귀" -- NPC ID 49740
 	L.air_phase_trigger = "그래, 도망가라! 발을 디딜 때마다 맥박은 빨라지지. 점점 더 크게 울리는구나... 귀청이 터질 것만 같군! 넌 달아날 수 없다!"
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "koKR")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "곧 감전!"
 
 	L.shadowblaze_trigger = "살을 재로 만들어 주마!"
-	L.shadowblaze_message = "당신은 타오르는중!"
 
 	L.onyxia_power_message = "곧 폭발!"
 

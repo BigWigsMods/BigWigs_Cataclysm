@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "zhCN")
 if L then
 	L.obnoxious_fiend = "喧闹恶鬼" -- NPC ID 49740
 	L.air_phase_trigger = "对，跑吧！每跑一步你的心跳都会加快。这心跳声，洪亮如雷，震耳欲聋。你逃不掉的！"
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "zhCN")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "即将 通电！"
 
 	L.shadowblaze_trigger = "血肉化为灰烬！"
-	L.shadowblaze_message = ">你< 暗影爆燃！"
 
 	L.onyxia_power_message = "即将 电荷过载！"
 

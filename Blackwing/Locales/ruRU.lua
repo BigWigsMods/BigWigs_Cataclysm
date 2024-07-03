@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "ruRU")
 if L then
 	L.obnoxious_fiend = "Гнусный бес" -- NPC ID 49740
 	L.air_phase_trigger = "Да, беги! С каждым шагом твое сердце бьется все быстрее. Эти громкие, оглушительные удары... Тебе некуда бежать!"
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "ruRU")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "Скоро Электрический удар!"
 
 	--L.shadowblaze_trigger = "Flesh turns to ash!"
-	L.shadowblaze_message = "Пламя тени"
 
 	L.onyxia_power_message = "Скоро Взрыв!"
 

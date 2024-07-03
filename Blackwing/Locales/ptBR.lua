@@ -26,6 +26,7 @@ L = BigWigs:NewBossLocale("Atramedes", "ptBR")
 if L then
 	L.obnoxious_fiend = "Diabrete Irritante" -- NPC ID 49740
 	L.air_phase_trigger = "Isso, fujam! Com cada passo, seus corações aceleram. Os batimentos, forte como trovôes... Chegam quase a ensurdecer. Vocês não vão escapar!"
+	--L.circles = "Circles"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "ptBR")
@@ -49,7 +50,6 @@ if L then
 	L.crackle_message = "Eletrecutação iminente!"
 
 	--L.shadowblaze_trigger = "Flesh turns to ash!"
-	L.shadowblaze_message = "Fogo abaixo de VOCÊ"
 
 	L.onyxia_power_message = "Explosão iminente!"
 

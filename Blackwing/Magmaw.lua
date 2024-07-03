@@ -48,7 +48,7 @@ function mod:GetOptions()
 		{78941, "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Parasitic Infection
 		77690, -- Lava Spew
 		92134, -- Ignition
-		89773, -- Mangle
+		{89773, "TANK_HEALER"}, -- Mangle
 		{78199, "TANK"}, -- Sweltering Armor
 		78403, -- Molten Tantrum
 		-- Heroic
