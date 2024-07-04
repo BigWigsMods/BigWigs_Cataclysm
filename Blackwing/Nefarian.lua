@@ -61,7 +61,7 @@ function mod:GetOptions()
 		80734, -- Blast Nova
 		"stages",
 		-- Heroic
-		{79339, "COUNTDOWN", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Explosive Cinders
+		{79339, "CASTBAR", "CASTBAR_COUNTDOWN", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Explosive Cinders
 		79318, -- Dominion
 		"berserk",
 	},{
@@ -237,7 +237,7 @@ do
 		if self:Me(args.destGUID) then
 			self:Say(args.spellId, CL.bomb, nil, "Bomb")
 			self:SayCountdown(args.spellId, 8, nil, 5)
-			self:TargetBar(args.spellId, 8, args.destName, CL.bomb)
+			self:CastBar(args.spellId, 8, CL.explosion)
 			self:PlaySound(args.spellId, "warning")
 		end
 	end
