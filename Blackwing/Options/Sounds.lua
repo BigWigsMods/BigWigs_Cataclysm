@@ -59,9 +59,10 @@ BigWigs:AddSounds("Maloriak", {
 })
 
 BigWigs:AddSounds("Nefarian", {
+	[77826] = "info",
 	[79318] = "warning",
 	[79339] = "warning",
 	[80734] = "alert",
-	[81007] = {"alarm","info"},
+	[81007] = {"alarm","underyou"},
 	[81272] = "alert",
 })

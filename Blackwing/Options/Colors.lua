@@ -61,6 +61,7 @@ BigWigs:AddColors("Maloriak", {
 	[77896] = "red",
 	[77912] = "red",
 	[78194] = "blue",
+	[78223] = "yellow",
 	[78225] = "red",
 	[92754] = {"green","purple"},
 	[92930] = "blue",
@@ -68,7 +69,10 @@ BigWigs:AddColors("Maloriak", {
 })
 
 BigWigs:AddColors("Nefarian", {
-	[78999] = "yellow",
+	[77826] = "orange",
+	[77939] = "yellow",
+	[78620] = "purple",
+	[78999] = "red",
 	[79318] = {"blue","yellow"},
 	[79339] = {"blue","orange"},
 	[80734] = "orange",
