@@ -95,9 +95,6 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	if self:Retail() then
-		self:RegisterEvent("PLAYER_REGEN_DISABLED", "CheckForEngage")
-	end
 	 -- Magmatron
 	self:Log("SPELL_AURA_APPLIED", "AcquiringTargetApplied", 79501)
 	self:Log("SPELL_AURA_REMOVED", "AcquiringTargetRemoved", 79501)

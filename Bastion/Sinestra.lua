@@ -45,7 +45,7 @@ local function isTargetableByOrb(unit, bossUnit)
 	-- check sinestra's target too
 	if bossUnit and mod:ThreatTarget(unit, bossUnit) then return false end
 	-- and maybe do a check for whelp targets
-	for k, v in pairs(whelpGUIDs) do
+	for k, v in next, whelpGUIDs do
 		local whelp = mod:GetUnitIdByGUID(k)
 		if whelp and mod:ThreatTarget(unit, whelp) then
 			return false
@@ -69,9 +69,8 @@ local function populateOrbList()
 	end
 end
 
-local function wipeWhelpList(resetWarning)
-	if resetWarning then orbWarned = nil end
-	whelpGUIDs = {}
+local function ResetOrbWarning()
+	orbWarned = nil
 end
 
 --------------------------------------------------------------------------------
@@ -113,6 +112,7 @@ function mod:OnBossEnable()
 
 	self:Log("SWING_DAMAGE", "WhelpWatcher", "*")
 	self:Log("SWING_MISSED", "WhelpWatcher", "*")
+	self:Death("TwilightWhelpDeaths", 47265, 48047, 48048, 48049, 48050) -- Twilight Whelp
 
 	self:Log("SPELL_CAST_START", "Breath", 90125)
 
@@ -127,14 +127,14 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	self:CDBar(90125, 24) -- Slicer
-	self:CDBar(92852, 29) -- Breath
-	self:Bar("whelps", 16, L["whelps"], 69005) -- whelp like icon
-	self:ScheduleTimer("NextOrbSpawned", 29)
-	eggs = 0
-	self:RegisterUnitEvent("UNIT_HEALTH", "PhaseWarn", "boss1")
 	whelpGUIDs = {}
 	orbWarned = nil
+	eggs = 0
+	self:CDBar(90125, 23) -- Breath
+	self:CDBar(92852, 30) -- Slicer
+	self:Bar("whelps", 16, L["whelps"], 69005) -- whelp like icon
+	self:ScheduleTimer("NextOrbSpawned", 30)
+	self:RegisterUnitEvent("UNIT_HEALTH", "PhaseWarn", "boss1")
 end
 
 --------------------------------------------------------------------------------
@@ -153,29 +153,40 @@ do
 		local mobId = self:MobId(args.sourceGUID)
 		if whelpIds[mobId] then
 			whelpGUIDs[args.sourceGUID] = true
+		else
+			mobId = self:MobId(args.destGUID)
+			if whelpIds[mobId] then
+				whelpGUIDs[args.destGUID] = true
+			end
 		end
+	end
+	function mod:TwilightWhelpDeaths(args)
+		whelpGUIDs[args.destGUID] = nil
 	end
 end
 
 local repeatCount = 0
 function mod:OrbWarning(source)
-	-- this is why orbList can't be created by :NewTargetList
 	if orbList[1] then mod:PrimaryIcon(92852, orbList[1]) end
 	if orbList[2] then mod:SecondaryIcon(92852, orbList[2]) end
 
 	if source == "spawn" then
 		if #orbList > 0 then
 			mod:TargetsMessage(92852, "yellow", orbList, nil, L.slicer_message)
-			-- if we could guess orb targets lets wipe the whelpGUIDs in 5 sec
-			-- if not then we might as well just save them for next time
-			mod:ScheduleTimer(wipeWhelpList, 5) -- might need to adjust this
+			if #orbList == 1 and repeatCount == 0 then
+				repeatCount = 1
+				self:SimpleTimer(function()
+					populateOrbList()
+					self:OrbWarning("spawn")
+				end, 1)
+			end
 			if orbOnMe then
 				self:PlaySound(92852, "warning")
 			end
 		else
 			repeatCount = repeatCount + 1
-			if repeatCount <= 3 then
-				self:ScheduleTimer(function()
+			if repeatCount <= 6 then
+				self:SimpleTimer(function()
 					populateOrbList()
 					self:OrbWarning("spawn")
 				end, 1)
@@ -183,7 +194,7 @@ function mod:OrbWarning(source)
 		end
 	elseif source == "damage" then
 		mod:TargetsMessage(92852, "yellow", orbList, nil, L.slicer_message)
-		mod:ScheduleTimer(wipeWhelpList, 10, true) -- might need to adjust this
+		mod:SimpleTimer(ResetOrbWarning, 10) -- might need to adjust this
 		if orbOnMe then
 			self:PlaySound(92852, "warning")
 		end
@@ -194,11 +205,11 @@ end
 -- need to change it once there is a proper trigger for orbs
 function mod:NextOrbSpawned()
 	repeatCount = 0
-	self:CDBar(92852, 28)
+	self:CDBar(92852, 29)
 	self:MessageOld(92852, "blue")
 	populateOrbList()
 	self:OrbWarning("spawn")
-	self:ScheduleTimer("NextOrbSpawned", 28)
+	self:ScheduleTimer("NextOrbSpawned", 29)
 end
 
 function mod:OrbDamage()

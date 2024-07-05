@@ -37,21 +37,8 @@ end
 
 L = BigWigs:NewBossLocale("Nefarian", "esES")
 if L then
-	L.phase = "Fases"
-	L.phase_desc = "Avisa los cambios de fase."
-
-	L.discharge_bar = "Descarga"
-
-	L.phase_two_trigger = "¡Os maldigo, mortales! ¡Ese cruel menosprecio por las posesiones de uno debe ser castigado con fuerza extrema!"
-
-	L.phase_three_trigger = "He intentado ser un buen anfitrión"
-
-	L.crackle_trigger = "¡El aire crepita cargado de electricidad!"
-	L.crackle_message = "¡Electrocutar pronto!"
-
-	--L.shadowblaze_trigger = "Flesh turns to ash!"
-
-	L.onyxia_power_message = "¡Explosión pronto!"
-
-	L.chromatic_prototype = "Prototipo cromático" -- 3 adds name
+	L.discharge = "Descarga"
+	L.stage3_yell_trigger = "He intentado ser un buen anfitrión"
+	--L.shadowblaze_yell_trigger = "Flesh turns to ash!"
+	--L.too_close = "Dragons are too close"
 end

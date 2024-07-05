@@ -37,21 +37,8 @@ end
 
 L = BigWigs:NewBossLocale("Nefarian", "ruRU")
 if L then
-	L.phase = "Фазы"
-	L.phase_desc = "Сообщать о смене фаз."
-
-	L.discharge_bar = "Искровой разряд"
-
-	L.phase_two_trigger = "Дерзкие смертные! Неуважение к чужой собственности нужно пресекать самым жестоким образом!"
-
-	L.phase_three_trigger = "Я пытался следовать законам гостеприимства"
-
-	L.crackle_trigger = "В воздухе трещат электрические разряды!"
-	L.crackle_message = "Скоро Электрический удар!"
-
-	--L.shadowblaze_trigger = "Flesh turns to ash!"
-
-	L.onyxia_power_message = "Скоро Взрыв!"
-
-	L.chromatic_prototype = "Хроматический прообраз"
+	L.discharge = "Искровой разряд"
+	L.stage3_yell_trigger = "Я пытался следовать законам гостеприимства"
+	--L.shadowblaze_yell_trigger = "Flesh turns to ash!"
+	--L.too_close = "Dragons are too close"
 end

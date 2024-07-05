@@ -4,7 +4,7 @@
 
 local mod, CL = BigWigs:NewBoss("Nefarian", 669, 174)
 if not mod then return end
-mod:RegisterEnableMob(41270, 41376)
+mod:RegisterEnableMob(41270, 41376) -- Onyxia, Nefarian
 mod:SetEncounterID(1026)
 mod:SetRespawnTime(30)
 mod:SetStage(1)
@@ -13,13 +13,18 @@ mod:SetStage(1)
 -- Locals
 --
 
-local deadAdds, shadowBlazeTimer = 0, 35
-local powerTargets = mod:NewTargetList()
-local phase3warned = false
+local shadowBlazeTimer = 35
 local shadowblazeHandle, lastBlaze = nil, 0
 local blastNovaCollector = {}
+local addsCollector = {}
 local currentPercent = 100
 local electrocuteCount = 0
+local addsActive = 0
+local addsDead = 0
+local chromaticPrototypeKilled = 0
+local powerWarned = false
+local highestEmpower = 0
+local empowerLine = 9
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -27,23 +32,10 @@ local electrocuteCount = 0
 
 local L = mod:GetLocale()
 if L then
-	L.phase = "Phases"
-	L.phase_desc = "Warnings for the Phase changes."
-
-	L.discharge_bar = "Discharge"
-
-	L.phase_two_trigger = "Curse you, mortals! Such a callous disregard for one's possessions must be met with extreme force!"
-
-	L.phase_three_trigger = "I have tried to be an accommodating host"
-
-	L.crackle_trigger = "The air crackles with electricity!"
-	L.crackle_message = "Electrocute soon!"
-
-	L.shadowblaze_trigger = "Flesh turns to ash!"
-
-	L.onyxia_power_message = "Explosion soon!"
-
-	L.chromatic_prototype = "Chromatic Prototype" -- 3 adds name
+	L.discharge = "Discharge"
+	L.stage3_yell_trigger = "I have tried to be an accommodating host"
+	L.shadowblaze_yell_trigger = "Flesh turns to ash!"
+	L.too_close = "Dragons are too close"
 end
 
 --------------------------------------------------------------------------------
@@ -53,76 +45,108 @@ end
 function mod:GetOptions()
 	return {
 		-- Onyxia
-		77939, -- Lightning Discharge
-		-- Normal
+		{77939, "CASTBAR"}, -- Lightning Discharge
 		78999, -- Electrical Overload
+		-- Normal
 		{81272, "CASTBAR"}, -- Electrocute
 		81007, -- Shadowblaze
-		80734, -- Blast Nova
+		78620, -- Children of Deathwing
+		77826, -- Shadowflame Breath
+		{77827, "OFF"}, -- Tail Lash
+		"infobox",
 		"stages",
+		-- Stage 2
+		80734, -- Blast Nova
 		-- Heroic
 		{79339, "CASTBAR", "CASTBAR_COUNTDOWN", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Explosive Cinders
 		79318, -- Dominion
 		"berserk",
 	},{
 		[77939] = -3283, -- Onyxia
-		[78999] = "normal",
+		[81272] = "normal",
+		[80734] = CL.stage:format(2),
 		[79339] = "heroic",
 	},{
+		[77939] = L.discharge, -- Lightning Discharge (Discharge)
+		[78999] = CL.full_energy, -- Electrical Overload (Full Energy)
 		[81007] = CL.underyou:format(CL.fire), -- Shadowblaze (Fire under YOU)
+		[78620] = L.too_close, -- Children of Deathwing (Dragons are too close)
+		[77826] = CL.breath, -- Shadowflame Breath (Breath)
 		[79339] = CL.bomb, -- Explosive Cinders (Bomb)
 	}
 end
 
 function mod:OnBossEnable()
 	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
+	self:Log("SPELL_CAST_START", "Dominion", 79318)
+	self:Log("SPELL_AURA_APPLIED", "DominionApplied", 79318)
+	self:Log("SPELL_CAST_START", "ShadowflameBreath", 77826)
+	self:Log("SPELL_CAST_SUCCESS", "TailLash", 77827)
 
-	self:BossYell("PhaseTwo", L["phase_two_trigger"])
-	self:BossYell("PhaseThree", L["phase_three_trigger"])
-	self:BossYell("ShadowblazeCorrection", L["shadowblaze_trigger"])
+	-- Stage 1
+	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1", "boss2")
+	self:Log("SPELL_AURA_APPLIED", "ChildrenOfDeathwingApplied", 78619, 78620)
+	self:Log("SPELL_AURA_REFRESH", "ChildrenOfDeathwingApplied", 78619, 78620)
+	self:Log("SPELL_AURA_APPLIED", "Empower", 79330)
+	self:Log("SPELL_AURA_APPLIED_DOSE", "EmpowerStacks", 79330)
+	self:Log("SPELL_SUMMON", "HailOfBones", 78684) -- Summon adds
+	self:Death("AnimatedBoneWarriorDeaths", 41918) -- Animated Bone Warrior
+	self:Death("OnyxiaDeath", 41270) -- Onyxia
 
-	--Not bad enough that there is no cast trigger, there's also OVER NINE THOUSAND id's
-	self:Log("SPELL_DAMAGE", "LightningDischarge", "*")
-	self:Log("SPELL_MISSED", "LightningDischarge", "*")
-
+	-- Stage 2
 	self:Log("SPELL_CAST_START", "BlastNova", 80734)
-
 	self:Log("SPELL_CAST_START", "ExplosiveCinders", 79339)
 	self:Log("SPELL_AURA_APPLIED", "ExplosiveCindersApplied", 79339)
 	self:Log("SPELL_AURA_REMOVED", "ExplosiveCindersRemoved", 79339)
+	self:Death("ChromaticPrototypeDeaths", 41948) -- Chromatic Prototype
 
-	self:Log("SPELL_CAST_START", "Dominion", 79318)
-	self:Log("SPELL_AURA_APPLIED", "DominionApplied", 79318)
-
+	-- Stage 3
+	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")
 	self:Log("SPELL_DAMAGE", "ShadowblazeDamage", 81007)
 	self:Log("SPELL_MISSED", "ShadowblazeDamage", 81007)
-
-	self:Death("PrototypeDeaths", 41948) -- Chromatic Prototype
 end
 
 function mod:OnEngage()
-	deadAdds, shadowBlazeTimer = 0, 35
-	phase3warned = false
+	shadowBlazeTimer = 35
 	shadowblazeHandle, lastBlaze = nil, 0
 	blastNovaCollector = {}
+	addsCollector = {}
 	currentPercent = 100
 	electrocuteCount = 0
+	addsActive = 0
+	addsDead = 0
+	chromaticPrototypeKilled = 0
+	powerWarned = false
+	highestEmpower = 0
+	empowerLine = 9
 	self:SetStage(1)
 	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1", "boss2")
-	self:Berserk(630) -- is it really?
-	self:CDBar(77939, 30, L["discharge_bar"])
+	self:Berserk(630)
+	self:CDBar(77939, 24, L.discharge)
 	self:Bar("stages", 30, self:SpellName(-3279), "achievement_boss_nefarion") -- Nefarian
-	if self:Heroic() then
+	if self:Heroic() and not self:Solo() then
 		self:CDBar(79318, 45) -- Dominion
 	end
+	self:OpenInfo("infobox", "BigWigs")
+	self:SetInfo("infobox", 1, CL.other:format(self:SpellName(-3283), CL.energy)) -- Onyxia: Energy
+	self:SetInfo("infobox", 2, 0)
+	self:SetInfoBar("infobox", 1, 0)
+	self:SetInfo("infobox", 3, CL.other:format(CL.adds, ""), 1, 0.4, 0.4)
+	self:SetInfo("infobox", 5, CL.active)
+	self:SetInfo("infobox", 6, addsActive)
+	self:SetInfo("infobox", 7, CL.dead)
+	self:SetInfo("infobox", 8, addsDead)
+	self:SetInfo("infobox", 9, self:SpellName(79330), 0.4, 1, 0.6)
+	self:SetInfo("infobox", 10, 0)
+	self:SetInfoBar("infobox", 9, 0)
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
 
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
-	if msg:find(L.crackle_trigger, nil, true) and self:IsEngaged() then -- Not during the RP of activating the boss
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg, _, _, _, target)
+	if target == self:SpellName(-3279) and self:IsEngaged() then -- Not during the RP of activating the boss
 		currentPercent = currentPercent - 10
 		electrocuteCount = electrocuteCount + 1
 		local msg = CL.count:format(self:SpellName(81272), electrocuteCount)
@@ -133,85 +157,124 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
 end
 
 do
-	local prev = 0
-	local discharge = mod:SpellName(77939)
-	function mod:LightningDischarge(args)
-		if args.spellName ~= discharge then return end
-		if (args.time - prev) > 10 then
-			prev = args.time
-			self:CDBar(77939, 21, L["discharge_bar"])
+	local playerList = {}
+	function mod:Dominion(args)
+		playerList = {}
+		self:CDBar(args.spellId, 16.2)
+	end
+
+	function mod:DominionApplied(args)
+		local count = #playerList
+		playerList[count+1] = args.destName
+		self:TargetsMessage(args.spellId, "yellow", playerList, 5)
+		if count == 0 then
+			self:PlaySound(args.spellId, "warning")
 		end
 	end
 end
 
-function mod:PrototypeDeaths()
-	deadAdds = deadAdds + 1
-	if self:Heroic() and not phase3warned then
-		self:StopBar(CL.stage:format(self:GetStage()))
-		self:SetStage(3)
-		self:Message("stages", "cyan", CL.stage:format(3), false)
-		phase3warned = true
-	end
-	if deadAdds == 3 and not phase3warned then
-		self:StopBar(CL.stage:format(self:GetStage()))
-		self:SetStage(3)
-		self:Message("stages", "cyan", CL.stage:format(3), false)
-		phase3warned = true
+function mod:ShadowflameBreath(args)
+	local unit = self:GetUnitIdByGUID(args.sourceGUID)
+	if self:GetStage() == 3 or args.sourceGUID == self:UnitGUID("target") or (unit and self:UnitWithinRange(unit, 30)) then
+		self:Message(args.spellId, "orange", CL.breath)
+		self:CDBar(args.spellId, 12.1, CL.breath)
+		self:PlaySound(args.spellId, "info")
 	end
 end
 
-function mod:PhaseTwo()
+function mod:TailLash(args)
+	local unit = self:GetUnitIdByGUID(args.sourceGUID)
+	if args.sourceGUID == self:UnitGUID("target") or (unit and self:UnitWithinRange(unit, 30)) then
+		self:CDBar(args.spellId, 12.1)
+	end
+end
+
+-- Stage 1
+function mod:UNIT_SPELLCAST_SUCCEEDED(_, unit, _, spellId)
+	if spellId == 78090 then -- Lightning Discharge
+		self:CDBar(77939, 22, L.discharge)
+		if self:UnitGUID("target") == self:UnitGUID(unit) or self:UnitWithinRange(unit, 30) then -- Target is Onyxia, or she is nearby
+			self:Message(77939, "yellow", CL.other:format(self:SpellName(-3283), CL.casting:format(self:SpellName(77939))))
+			self:CastBar(77939, 5, L.discharge)
+		end
+	end
+end
+
+function mod:UNIT_POWER_FREQUENT(event, unit)
+	if self:MobId(self:UnitGUID(unit)) == 41270 then -- Onyxia
+		local power = UnitPower(unit, 10) -- Enum.PowerType.Alternate = 10
+		self:SetInfo("infobox", 2, power)
+		self:SetInfoBar("infobox", 1, power/100)
+		if power >= 85 and not powerWarned then
+			powerWarned = true
+			self:Message(78999, "red", CL.other:format(self:SpellName(-3283), CL.soon:format(CL.full_energy))) -- Onyxia: Full Energy soon
+		end
+	end
+end
+
+do
+	local prev = 0
+	function mod:ChildrenOfDeathwingApplied(args)
+		if args.time - prev > 5 then
+			prev = args.time
+			self:Message(78620, "purple", L.too_close)
+		end
+	end
+end
+
+function mod:Empower(args)
+	if self:GetStage() == 3 then
+		addsActive = addsActive + 1
+		addsDead = addsDead - 1
+		addsCollector[args.destGUID] = 0
+		self:SetInfo("infobox", 2, addsActive)
+		self:SetInfo("infobox", 4, addsDead)
+	end
+end
+
+function mod:EmpowerStacks(args)
+	addsCollector[args.destGUID] = args.amount
+	if args.amount > highestEmpower then
+		highestEmpower = args.amount
+		self:SetInfo("infobox", empowerLine+1, highestEmpower)
+		self:SetInfoBar("infobox", empowerLine, highestEmpower/100)
+	end
+end
+
+function mod:HailOfBones(args) -- Summon adds
+	addsActive = addsActive + 1
+	addsCollector[args.destGUID] = 0
+	self:SetInfo("infobox", empowerLine-3, addsActive)
+end
+
+function mod:AnimatedBoneWarriorDeaths(args)
+	addsActive = addsActive - 1
+	addsDead = addsDead + 1
+	addsCollector[args.destGUID] = 0
+	self:SetInfo("infobox", empowerLine-3, addsActive)
+	self:SetInfo("infobox", empowerLine-1, addsDead)
+	local highest = 0
+	for _,v in next, addsCollector do
+		if v > highest then
+			highest = v
+		end
+	end
+	self:SetInfo("infobox", empowerLine+1, highest)
+	self:SetInfoBar("infobox", empowerLine, highest/100)
+end
+
+function mod:OnyxiaDeath() -- Stage 2
 	self:SetStage(2)
 	self:StopBar(79318) -- Dominion
-	self:StopBar(L["discharge_bar"])
+	self:StopBar(77827) -- Tail Lash
+	self:StopBar(L.discharge) -- Lightning Discharge
+	self:StopBar(CL.breath) -- Shadowflame Breath
+	self:CloseInfo("infobox")
+	self:UnregisterUnitEvent("UNIT_POWER_FREQUENT", "boss1", "boss2")
 	self:Message("stages", "cyan", CL.stage:format(2), false)
-	if self:Difficulty() == 6 then
-		-- Heroic 25man (diff 4) probably 4 minutes
-		self:Bar("stages", 240, CL.stage:format(3), 78621) -- random guessed number
-	else
-		-- Normal 10man (diff 1) probably 3 minutes
-		-- Normal 25man (diff 2) confirmed 3 minutes
-		self:Bar("stages", 180, CL.stage:format(3), 78621)
-	end
-	-- XXX Heroic 10man (diff 3) - no idea.
 end
 
-local function nextBlaze()
-	if shadowBlazeTimer > 10 and mod:Heroic() then
-		shadowBlazeTimer = shadowBlazeTimer - 5
-	elseif shadowBlazeTimer > 15 and not mod:Heroic() then
-		shadowBlazeTimer = shadowBlazeTimer - 5
-	end
-	mod:MessageOld(81007, "red", "alarm") -- Shadowblaze
-	mod:Bar(81007, shadowBlazeTimer) -- Shadowblaze
-	lastBlaze = GetTime()
-	shadowblazeHandle = mod:ScheduleTimer(nextBlaze, shadowBlazeTimer)
-end
-
-function mod:ShadowblazeCorrection()
-	self:CancelTimer(shadowblazeHandle)
-	if (GetTime() - lastBlaze) <= 3 then
-		shadowblazeHandle = mod:ScheduleTimer(nextBlaze, shadowBlazeTimer)
-	elseif (GetTime() - lastBlaze) >= 6 then
-		nextBlaze()
-	end
-	lastBlaze = GetTime()
-end
-
-function mod:PhaseThree()
-	self:StopBar(CL.stage:format(3))
-	if self:Heroic() then
-		self:CDBar(79318, 20) -- Dominion
-	end
-	if not phase3warned then
-		phase3warned = true
-		self:SetStage(3)
-		self:Message("stages", "cyan", CL.stage:format(3), false)
-	end
-	self:Bar(81007, 12) -- Shadowblaze
-	shadowblazeHandle = self:ScheduleTimer(nextBlaze, 12)
-end
-
+-- Stage 2
 function mod:BlastNova(args)
 	blastNovaCollector[args.sourceGUID] = (blastNovaCollector[args.sourceGUID] or 0) + 1
 	local unit = self:GetUnitIdByGUID(args.sourceGUID)
@@ -251,29 +314,59 @@ function mod:ExplosiveCindersRemoved(args)
 	end
 end
 
-do
-	local playerList = {}
-	function mod:Dominion(args)
-		playerList = {}
-		self:CDBar(args.spellId, 16.2)
-	end
-
-	function mod:DominionApplied(args)
-		local count = #playerList
-		playerList[count+1] = args.destName
-		self:TargetsMessage(args.spellId, "yellow", playerList, 5)
-		if count == 0 then
-			self:PlaySound(args.spellId, "warning")
-		end
+function mod:ChromaticPrototypeDeaths()
+	chromaticPrototypeKilled = chromaticPrototypeKilled + 1
+	if chromaticPrototypeKilled == (self:Heroic() and 1 or 3) then
+		addsActive = 0
+		addsDead = 12
+		highestEmpower = 0
+		empowerLine = 5
+		self:SetStage(3)
+		self:Message("stages", "cyan", CL.stage:format(3), false)
+		self:OpenInfo("infobox", CL.other:format("BigWigs", CL.adds))
+		self:SetInfo("infobox", 1, CL.active)
+		self:SetInfo("infobox", 2, addsActive)
+		self:SetInfo("infobox", 3, CL.dead)
+		self:SetInfo("infobox", 4, addsDead)
+		self:SetInfo("infobox", 5, self:SpellName(79330), 0.4, 1, 0.6)
+		self:SetInfo("infobox", 6, 0)
+		self:SetInfoBar("infobox", 5, 0)
 	end
 end
 
-function mod:UNIT_POWER_FREQUENT(event, unit)
-	if self:MobId(self:UnitGUID(unit)) == 41270 then -- Onyxia
-		local power = UnitPower(unit, 10) -- Enum.PowerType.Alternate = 10
-		if power > 80 then
-			self:UnregisterUnitEvent(event, "boss1", "boss2")
-			self:Message(78999, "yellow", L["onyxia_power_message"])
+-- Stage 3
+do
+	local function nextBlaze(self)
+		lastBlaze = GetTime()
+		if shadowBlazeTimer > 10 and self:Heroic() then
+			shadowBlazeTimer = shadowBlazeTimer - 5
+		elseif shadowBlazeTimer > 15 and not self:Heroic() then
+			shadowBlazeTimer = shadowBlazeTimer - 5
+		end
+		shadowblazeHandle = self:ScheduleTimer(nextBlaze, shadowBlazeTimer, self)
+		self:Message(81007, "red") -- Shadowblaze
+		self:Bar(81007, shadowBlazeTimer) -- Shadowblaze
+		self:PlaySound(81007, "alarm")
+	end
+	function mod:CHAT_MSG_MONSTER_YELL(_, msg)
+		if msg:find(L.stage3_yell_trigger, nil, true) then
+			self:StopBar(CL.bombs) -- Explosive Cinders
+			if self:Heroic() and not self:Solo() then
+				self:CDBar(79318, 20) -- Dominion
+			end
+			self:Bar(81007, 12) -- Shadowblaze
+			shadowblazeHandle = self:ScheduleTimer(nextBlaze, 12, self)
+		elseif msg:find(L.shadowblaze_yell_trigger, nil, true) then
+			if shadowblazeHandle then
+				self:CancelTimer(shadowblazeHandle)
+			end
+			if (GetTime() - lastBlaze) <= 3 then
+				shadowblazeHandle = self:ScheduleTimer(nextBlaze, shadowBlazeTimer, self)
+			elseif (GetTime() - lastBlaze) >= 6 then
+				nextBlaze(self)
+				return
+			end
+			lastBlaze = GetTime()
 		end
 	end
 end

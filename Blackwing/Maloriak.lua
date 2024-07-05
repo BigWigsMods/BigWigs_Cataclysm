@@ -48,7 +48,7 @@ function mod:GetOptions()
 		{77569, "INFOBOX"}, -- Release Aberrations
 		"berserk",
 		-- Stage 2
-		78194, -- Magma Jets
+		{78194, "OFF"}, -- Magma Jets
 		78225, -- Acid Nova
 		78223, -- Absolute Zero
 		-- Blue
@@ -79,9 +79,6 @@ end
 
 function mod:OnBossEnable()
 	-- General
-	if self:Retail() then
-		self:RegisterEvent("PLAYER_REGEN_DISABLED", "CheckForEngage")
-	end
 	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1")
 	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
 	self:Log("SPELL_AURA_APPLIED", "ShadowImbuedApplied", 92716)
@@ -130,14 +127,14 @@ function mod:OnEngage()
 	self:SetStage(1)
 	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	if self:Heroic() then
-		self:Bar("stages", 16, self:SpellName(92837), 92716) -- Throw Black Bottle
+		self:CDBar("stages", 16, self:SpellName(92837), 92716) -- Throw Black Bottle
 		self:Berserk(720)
 	else
 		self:Berserk(420)
 	end
 	self:CDBar(77896, 12.4, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
 	self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
-	self:OpenInfo(77569, "BigWigs: ".. CL.adds) -- Release Aberrations
+	self:OpenInfo(77569, CL.other:format("BigWigs", CL.adds)) -- Release Aberrations
 	self:SetInfo(77569, 1, CL.remaining:format(addsRemaining))
 	self:SetInfoBar(77569, 1, 1)
 	self:SetInfo(77569, 3, CL.count:format(CL.active, addsActive))
@@ -178,7 +175,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, _, _, spellId)
 		self:StopBar(77699) -- Flash Freeze
 		self:StopBar(CL.frontal_cone) -- Engulfing Darkness
 		self:StopBar(CL.cast:format(CL.frontal_cone)) -- Engulfing Darkness
-		self:CDBar(77679, 25, CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
+		self:CDBar(77679, 21, CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
 		self:CDBar(77896, 19, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
 		if addsRemaining > 0 then
 			self:CDBar(77569, 15, CL.adds, 77569) -- Release Aberrations
@@ -193,6 +190,7 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
 	if msg:find(L.dark_phase_emote_trigger, nil, true) then
 		self:StopBar(CL.count:format(self:SpellName(77896), arcaneStormCount)) -- Arcane Storm
 		self:StopBar(CL.adds) -- Release Aberrations
+		self:StopBar(92837) -- Throw Black Bottle
 		self:Message("stages", "cyan", self:SpellName(92837), 92716) -- Throw Black Bottle
 		self:PlaySound("stages", "long")
 	end

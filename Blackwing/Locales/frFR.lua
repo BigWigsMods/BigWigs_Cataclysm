@@ -37,21 +37,8 @@ end
 
 L = BigWigs:NewBossLocale("Nefarian", "frFR")
 if L then
-	L.phase = "Phases"
-	L.phase_desc = "Prévient quand la rencontre entre dans une nouvelle phase."
-
-	L.discharge_bar = "Décharge"
-
-	L.phase_two_trigger = "Soyez maudits, mortels ! Un tel mépris pour les possessions d'autrui doit être traité avec une extrême fermeté !"
-
-	L.phase_three_trigger = "J'ai tout fait pour être un hôte accommodant"
-
-	L.crackle_trigger = "L'électricité crépite dans l'air !"
-	L.crackle_message = "Electrocuter imminent !"
-
-	L.shadowblaze_trigger = "Que la chair se transforme en cendres !"
-
-	L.onyxia_power_message = "Explosion imminente !"
-
-	L.chromatic_prototype = "Prototype chromatique" -- 3 adds name
+	L.discharge = "Décharge"
+	L.stage3_yell_trigger = "J'ai tout fait pour être un hôte accommodant"
+	L.shadowblaze_yell_trigger = "Que la chair se transforme en cendres !"
+	--L.too_close = "Dragons are too close"
 end

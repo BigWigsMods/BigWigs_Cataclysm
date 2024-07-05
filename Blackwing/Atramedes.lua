@@ -109,7 +109,7 @@ function mod:OnEngage()
 		self:Berserk(600)
 	end
 	self:OpenAltPower("altpower", self:SpellName(-3072)) -- "Sound"
-	self:OpenInfo(77611, "BigWigs: ".. CL.shield)
+	self:OpenInfo(77611, CL.other:format("BigWigs", CL.shield))
 	self:SetInfo(77611, 1, CL.remaining:format(10))
 	self:SetInfoBar(77611, 1, 1)
 end

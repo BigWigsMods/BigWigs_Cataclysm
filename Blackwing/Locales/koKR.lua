@@ -37,21 +37,8 @@ end
 
 L = BigWigs:NewBossLocale("Nefarian", "koKR")
 if L then
-	L.phase = "단계"
-	L.phase_desc = "단계 변화를 알립니다."
-
-	L.discharge_bar = "번개 방출 대기시간"
-
-	L.phase_two_trigger = "저주받을 필멸자들!"
-
-	L.phase_three_trigger = "품위있는"
-
-	L.crackle_trigger = "전기가 튀며 파지직하는 소리가 납니다!"
-	L.crackle_message = "곧 감전!"
-
-	L.shadowblaze_trigger = "살을 재로 만들어 주마!"
-
-	L.onyxia_power_message = "곧 폭발!"
-
-	L.chromatic_prototype = "오색 실험체" -- 3 adds name
+	L.discharge = "번개 방출"
+	L.stage3_yell_trigger = "품위있는"
+	L.shadowblaze_yell_trigger = "살을 재로 만들어 주마!"
+	--L.too_close = "Dragons are too close"
 end

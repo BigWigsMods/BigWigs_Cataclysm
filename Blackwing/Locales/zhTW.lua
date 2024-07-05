@@ -37,21 +37,8 @@ end
 
 L = BigWigs:NewBossLocale("Nefarian", "zhTW")
 if L then
-	L.phase = "階段"
-	L.phase_desc = "當進入不同階段時發出警報。"
-
-	L.discharge_bar = "閃電釋放"
-
-	L.phase_two_trigger = "詛咒你們，凡人!如此冷酷地漠視他人的所有物必須受到嚴厲的懲罰!"
-
-	L.phase_three_trigger = "我本來只想略盡地主之誼"
-
-	L.crackle_trigger = "響起了電流霹啪作響的聲音!"
-	L.crackle_message = "即將 電擊！"
-
-	L.shadowblaze_trigger = "化為灰燼吧!"
-
-	L.onyxia_power_message = "即將 電荷超載！"
-
-	L.chromatic_prototype = "炫彩原型體" -- 3 adds name
+	L.discharge = "閃電釋放"
+	L.stage3_yell_trigger = "我本來只想略盡地主之誼"
+	L.shadowblaze_yell_trigger = "化為灰燼吧!"
+	--L.too_close = "Dragons are too close"
 end
