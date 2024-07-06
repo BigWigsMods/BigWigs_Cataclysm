@@ -45,7 +45,7 @@ local function isTargetableByOrb(unit, bossUnit)
 	-- check sinestra's target too
 	if bossUnit and mod:ThreatTarget(unit, bossUnit) then return false end
 	-- and maybe do a check for whelp targets
-	for k, v in next, whelpGUIDs do
+	for k in next, whelpGUIDs do
 		local whelp = mod:GetUnitIdByGUID(k)
 		if whelp and mod:ThreatTarget(unit, whelp) then
 			return false
@@ -113,6 +113,7 @@ function mod:OnBossEnable()
 	self:Log("SWING_DAMAGE", "WhelpWatcher", "*")
 	self:Log("SWING_MISSED", "WhelpWatcher", "*")
 	self:Death("TwilightWhelpDeaths", 47265, 48047, 48048, 48049, 48050) -- Twilight Whelp
+	self:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 
 	self:Log("SPELL_CAST_START", "Breath", 90125)
 
@@ -131,7 +132,7 @@ function mod:OnEngage()
 	orbWarned = nil
 	eggs = 0
 	self:CDBar(90125, 23) -- Breath
-	self:CDBar(92852, 30) -- Slicer
+	self:CDBar(92852, 29) -- Slicer
 	self:Bar("whelps", 16, L["whelps"], 69005) -- whelp like icon
 	self:ScheduleTimer("NextOrbSpawned", 30)
 	self:RegisterUnitEvent("UNIT_HEALTH", "PhaseWarn", "boss1")
@@ -163,6 +164,12 @@ do
 	function mod:TwilightWhelpDeaths(args)
 		whelpGUIDs[args.destGUID] = nil
 	end
+	function mod:NAME_PLATE_UNIT_ADDED(_, unit)
+		local guid = self:UnitGUID(unit)
+		if whelpIds[self:MobId(guid)] then
+			whelpGUIDs[guid] = true
+		end
+	end
 end
 
 local repeatCount = 0
@@ -172,7 +179,7 @@ function mod:OrbWarning(source)
 
 	if source == "spawn" then
 		if #orbList > 0 then
-			mod:TargetsMessage(92852, "yellow", orbList, nil, L.slicer_message)
+			mod:TargetsMessage(92852, "yellow", orbList, #orbList, L.slicer_message)
 			if #orbList == 1 and repeatCount == 0 then
 				repeatCount = 1
 				self:SimpleTimer(function()
@@ -193,7 +200,7 @@ function mod:OrbWarning(source)
 			end
 		end
 	elseif source == "damage" then
-		mod:TargetsMessage(92852, "yellow", orbList, nil, L.slicer_message)
+		mod:TargetsMessage(92852, "yellow", orbList, #orbList, L.slicer_message)
 		mod:SimpleTimer(ResetOrbWarning, 10) -- might need to adjust this
 		if orbOnMe then
 			self:PlaySound(92852, "warning")
@@ -205,11 +212,11 @@ end
 -- need to change it once there is a proper trigger for orbs
 function mod:NextOrbSpawned()
 	repeatCount = 0
-	self:CDBar(92852, 29)
+	self:CDBar(92852, 28.5)
 	self:MessageOld(92852, "blue")
 	populateOrbList()
 	self:OrbWarning("spawn")
-	self:ScheduleTimer("NextOrbSpawned", 29)
+	self:ScheduleTimer("NextOrbSpawned", 28.5)
 end
 
 function mod:OrbDamage()
@@ -277,9 +284,9 @@ function mod:TwilightEggDeaths()
 	if eggs == 2 then
 		self:MessageOld("phase", "green", "info", CL["phase"]:format(3), 51070) -- broken egg icon
 		self:Bar("whelps", 50, L["whelps"], 69005)
-		self:CDBar(92852, 30) -- Slicer
+		self:CDBar(92852, 29) -- Slicer
 		self:CDBar(90125, 24) -- Breath
-		self:ScheduleTimer("NextOrbSpawned", 30)
+		self:ScheduleTimer("NextOrbSpawned", 29)
 	end
 end
 

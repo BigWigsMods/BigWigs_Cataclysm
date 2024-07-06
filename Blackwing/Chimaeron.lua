@@ -122,6 +122,7 @@ end
 function mod:Mortality(args)
 	self:StopBar(CL.count:format(self:SpellName(88853), systemsFailureCount)) -- Systems Failure
 	self:StopBar(CL.count:format(self:SpellName(82848), massacreCount)) -- Massacre
+	self:StopBar(CL.cast:format(self:SpellName(82848))) -- Massacre
 	self:StopBar(82935) -- Caustic Slime
 	self:Message(args.spellId, "orange", CL.percent:format(20, args.spellName))
 	self:PlaySound(args.spellId, "long")
@@ -129,7 +130,7 @@ end
 
 function mod:UNIT_HEALTH(event, unit)
 	local hp = self:GetHealth(unit)
-	if hp < 23 then
+	if hp < 24 then
 		self:UnregisterUnitEvent(event, unit)
 		if hp > 20 then
 			self:Message(82890, "cyan", CL.soon:format(self:SpellName(82890)), false)

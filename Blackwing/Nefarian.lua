@@ -223,7 +223,7 @@ do
 end
 
 function mod:Empower(args)
-	if self:GetStage() == 3 then
+	if not addsCollector[args.destGUID] then
 		addsActive = addsActive + 1
 		addsDead = addsDead - 1
 		addsCollector[args.destGUID] = 0
@@ -250,7 +250,7 @@ end
 function mod:AnimatedBoneWarriorDeaths(args)
 	addsActive = addsActive - 1
 	addsDead = addsDead + 1
-	addsCollector[args.destGUID] = 0
+	addsCollector[args.destGUID] = nil
 	self:SetInfo("infobox", empowerLine-3, addsActive)
 	self:SetInfo("infobox", empowerLine-1, addsDead)
 	local highest = 0
@@ -259,6 +259,7 @@ function mod:AnimatedBoneWarriorDeaths(args)
 			highest = v
 		end
 	end
+	highestEmpower = highest
 	self:SetInfo("infobox", empowerLine+1, highest)
 	self:SetInfoBar("infobox", empowerLine, highest/100)
 end
