@@ -38,9 +38,9 @@ BigWigs:AddSounds("Atramedes", {
 
 BigWigs:AddSounds("Chimaeron", {
 	[82848] = "info",
-	[82890] = "long",
 	[88826] = "alert",
 	[88853] = "warning",
+	["stages"] = "long",
 })
 
 BigWigs:AddSounds("Maloriak", {
@@ -51,7 +51,7 @@ BigWigs:AddSounds("Maloriak", {
 	[77786] = "warning",
 	[77896] = "alert",
 	[77912] = "info",
-	[78194] = "underyou",
+	[78124] = "underyou",
 	[78225] = "alarm",
 	[92754] = "info",
 	[92930] = "underyou",
