@@ -29,7 +29,7 @@ if L then
 	L.breath_message = "Deep Breaths incoming!"
 	L.dazzling_message = "Swirly zones incoming!"
 
-	L.blast_message = "Falling Blast" --Sounds better and makes more sense than Twilight Blast (the user instantly knows something is coming from the sky at them)
+	L.blast_message = "Falling Blast" -- Sounds better and makes more sense than Twilight Blast (the user instantly knows something is coming from the sky at them)
 	L.engulfingmagic_say = "Engulf"
 
 	L.valiona_trigger = "Theralion, I will engulf the hallway. Cover their escape!"
@@ -44,8 +44,12 @@ end
 function mod:GetOptions()
 	return {
 		{86788, "ICON", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Blackout
-		88518, 86059, 86840,
-		{86622, "SAY"}, 86408, 86369,
+		88518,
+		86059,
+		86840,
+		{86622, "SAY"},
+		86408,
+		86369, -- Twilight Blast
 		86505, -- Fabulous Flames
 		93051,
 		"phase_switch", "berserk"
@@ -55,18 +59,20 @@ function mod:GetOptions()
 		[93051] = "heroic",
 		phase_switch = "general",
 	},{
+		[86369] = L.blast_message, -- Twilight Blast (Falling Blast)
 		[86505] = CL.underyou:format(CL.fire), -- Fabulous Flames (Fire under YOU)
 	}
 end
 
 function mod:OnBossEnable()
+	self:RegisterEvent("CHAT_MSG_RAID_BOSS_EMOTE")
+	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")
+
 	-- Heroic
 	self:Log("SPELL_AURA_APPLIED_DOSE", "TwilightShift", 93051)
 
 	-- Phase Switch -- should be able to do this easier once we get Transcriptor logs
 	self:Log("SPELL_CAST_START", "DazzlingDestruction", 86408)
-	self:BossYell("DeepBreath", L["valiona_trigger"])
-	self:Emote("DeepBreathCast", self:SpellName(86059)) -- Deep Breath
 
 	self:Log("SPELL_AURA_APPLIED", "BlackoutApplied", 86788)
 	self:Log("SPELL_AURA_REMOVED", "BlackoutRemoved", 86788)
@@ -96,23 +102,46 @@ end
 -- Event Handlers
 --
 
+function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg)
+	if msg:find("86059", nil, true) then -- Deep Breath
+		-- She emotes 3 times, every time she does a breath
+		phaseCount = phaseCount + 1
+		self:Message(86059, "red", CL.incoming:format(self:SpellName(86059)), "inv_misc_head_dragon_blue")
+		if phaseCount == 3 then
+			self:Bar("phase_switch", 105, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
+			phaseCount = 0
+		end
+		self:PlaySound(86059, "alarm")
+	end
+end
+
+do
+	local function valionaHasLanded()
+		mod:StopBar(86622) -- Engulfing Magic
+		mod:Message("phase_switch", "cyan", L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
+		mod:CDBar(86840, 26) -- Devouring Flames
+		mod:Bar(86788, 11) -- Blackout
+	end
+	function mod:CHAT_MSG_MONSTER_YELL(_, msg)
+		if msg:find(L.valiona_trigger, nil, true) then
+			-- Valiona does this when she fires the first deep breath and begins the landing phase
+			-- It only triggers once from her yell, not 3 times.
+			self:Bar("phase_switch", 40, L["phase_bar"]:format(self:SpellName(-2985)), 60639) -- Valiona
+			self:ScheduleTimer(valionaHasLanded, 40)
+		end
+	end
+end
+
 do
 	local function printTarget(self, name, guid)
 		if self:Me(guid) then
-			self:PersonalMessage(86369)
+			self:PersonalMessage(86369, "you", L.blast_message)
 			self:PlaySound(86369, "warning", nil, name)
 		end
 	end
 	function mod:TwilightBlast(args)
 		self:GetUnitTarget(printTarget, 0.7, args.sourceGUID)
 	end
-end
-
-local function valionaHasLanded()
-	mod:StopBar(86622) -- Engulfing Magic
-	mod:MessageOld("phase_switch", "cyan", nil, L["phase_bar"]:format(mod:SpellName(-2985)), 60639) -- Valiona
-	mod:CDBar(86840, 26) -- Devouring Flames
-	mod:Bar(86788, 11) -- Blackout
 end
 
 local function theralionHasLanded()
@@ -138,23 +167,6 @@ function mod:DazzlingDestruction(args)
 		self:MessageOld("phase_switch", "cyan", nil, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
 		phaseCount = 0
 	end
-end
-
--- She emotes 3 times, every time she does a breath
-function mod:DeepBreathCast()
-	phaseCount = phaseCount + 1
-	self:MessageOld(86059, "red", "alarm", L["breath_message"], "inv_misc_head_dragon_blue")
-	if phaseCount == 3 then
-		self:Bar("phase_switch", 105, L["phase_bar"]:format(self:SpellName(-2994)), 60639) -- Theralion
-		phaseCount = 0
-	end
-end
-
--- Valiona does this when she fires the first deep breath and begins the landing phase
--- It only triggers once from her yell, not 3 times.
-function mod:DeepBreath()
-	self:Bar("phase_switch", 40, L["phase_bar"]:format(self:SpellName(-2985)), 60639) -- Valiona
-	self:ScheduleTimer(valionaHasLanded, 40)
 end
 
 function mod:BlackoutApplied(args)

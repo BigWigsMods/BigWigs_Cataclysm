@@ -48,9 +48,10 @@ function mod:GetOptions()
 		{77569, "INFOBOX"}, -- Release Aberrations
 		"berserk",
 		-- Stage 2
-		{78194, "OFF"}, -- Magma Jets
 		78225, -- Acid Nova
 		78223, -- Absolute Zero
+		{78194, "OFF", "CASTBAR"}, -- Magma Jets
+		78124, -- Magma Jets
 		-- Blue
 		{77699, "SAY"}, -- Flash Freeze
 		flashFreezeMarker,
@@ -63,14 +64,15 @@ function mod:GetOptions()
 		92930, -- Dark Sludge
 	},{
 		["stages"] = "general",
-		[78194] = CL.stage:format(2),
+		[78225] = CL.stage:format(2),
 		[77699] = 88700, -- Drink Blue Bottle
 		[77786] = 88699, -- Drink Red Bottle
 		[92754] = CL.extra:format(self:SpellName(92828), CL.heroic), -- Drink Black Bottle (Heroic mode)
 	},{
 		[77569] = CL.adds, -- Release Aberrations (Adds)
-		[78194] = CL.fire, -- Magma Jets (Fire)
 		[78223] = CL.orbs, -- Absolute Zero (Orbs)
+		[78194] = CL.general, -- Magma Jets (General)
+		[78124] = CL.underyou:format(CL.fire), -- Magma Jets (Fire under YOU)
 		[77786] = L.flames, -- Consuming Flames (Flames)
 		[77679] = CL.breath, -- Scorching Blast (Breath)
 		[92754] = CL.frontal_cone, -- Engulfing Darkness (Frontal Cone)
@@ -91,7 +93,8 @@ function mod:OnBossEnable()
 
 	-- Stage 2
 	self:Log("SPELL_CAST_START", "ReleaseAllMinions", 77991)
-	self:Log("SPELL_CAST_START", "MagmaJets", 78194)
+	self:Log("SPELL_CAST_START", "MagmaJetsStart", 78194)
+	self:Log("SPELL_CAST_SUCCESS", "MagmaJets", 78194)
 	self:Log("SPELL_DAMAGE", "MagmaJetsDamage", 78124)
 	self:Log("SPELL_MISSED", "MagmaJetsDamage", 78124)
 	self:Log("SPELL_CAST_SUCCESS", "AcidNova", 78225)
@@ -310,9 +313,8 @@ function mod:ReleaseAllMinions(args)
 		self:SimpleTimer(UpdateInfoBoxList, 1)
 	end
 	self:CDBar(78225, 14, CL.count:format(self:SpellName(78225), acidNovaCount)) -- Acid Nova
-	local addsReleased = CL.adds_spawned_count:format(addsRemaining + 2)
-	local msg = CL.percent:format(25, CL.stage:format(2))
-	self:Message("stages", "cyan", CL.extra:format(msg, addsReleased), false)
+	self:Message("stages", "cyan", CL.percent:format(25, CL.stage:format(2)), false)
+	self:Message(77569, "cyan", CL.adds_spawned_count:format(addsRemaining + 2), false)
 	self:PlaySound("stages", "long")
 end
 
@@ -326,8 +328,14 @@ function mod:UNIT_HEALTH(event, unit)
 	end
 end
 
+function mod:MagmaJetsStart(args)
+	self:StopBar(args.spellName)
+	self:CastBar(args.spellId, 2)
+	self:Message(args.spellId, "orange", CL.casting:format(args.spellName))
+end
+
 function mod:MagmaJets(args)
-	self:CDBar(args.spellId, 6)
+	self:CDBar(args.spellId, 4.5)
 end
 
 do
@@ -335,8 +343,8 @@ do
 	function mod:MagmaJetsDamage(args)
 		if self:Me(args.destGUID) and args.time - prev > 3 then
 			prev = args.time
-			self:PersonalMessage(78194, "underyou", CL.fire)
-			self:PlaySound(78194, "underyou")
+			self:PersonalMessage(args.spellId, "underyou", CL.fire)
+			self:PlaySound(args.spellId, "underyou")
 		end
 	end
 end
@@ -365,15 +373,20 @@ end
 
 do
 	local prev = 0
+	local playerList = {}
 	function mod:FlashFreezeApplied(args)
+		if args.time - prev > 5 then
+			prev = args.time
+			playerList = {}
+			self:RegisterTargetEvents("FlashFreezeMarking")
+			self:CDBar(args.spellId, 15)
+		end
+		playerList[#playerList+1] = args.destName
 		if self:Me(args.destGUID) then
 			self:Yell(args.spellId, nil, nil, "Flash Freeze")
 		end
-		self:TargetMessage(args.spellId, "yellow", args.destName)
-		if args.time - prev > 5 then
-			prev = args.time
-			self:RegisterTargetEvents("FlashFreezeMarking")
-			self:CDBar(args.spellId, 15)
+		self:TargetsMessage(args.spellId, "yellow", playerList) -- Should generally be 1 player (if players are spread out correctly)
+		if #playerList == 1 then
 			self:PlaySound(args.spellId, "warning")
 		end
 	end

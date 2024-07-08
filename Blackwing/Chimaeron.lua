@@ -7,6 +7,7 @@ if not mod then return end
 mod:RegisterEnableMob(43296)
 mod:SetEncounterID(1023)
 mod:SetRespawnTime(30)
+mod:SetStage(1)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -27,7 +28,7 @@ function mod:GetOptions()
 		{82881, "TANK_HEALER"}, -- Break
 		{88853, "EMPHASIZE"}, -- Systems Failure
 		82935, -- Caustic Slime
-		82890, -- Mortality
+		"stages",
 		"berserk"
 	}
 end
@@ -49,6 +50,7 @@ end
 function mod:OnEngage()
 	massacreCount = 1
 	systemsFailureCount = 0
+	self:SetStage(1)
 	self:StopBar(CL.active)
 	self:Berserk(450)
 	self:CDBar(82881, 4.8) -- Break
@@ -119,13 +121,14 @@ function mod:Massacre(args)
 	self:Bar(82935, 15) -- Caustic Slime
 end
 
-function mod:Mortality(args)
+function mod:Mortality()
+	self:SetStage(2)
 	self:StopBar(CL.count:format(self:SpellName(88853), systemsFailureCount)) -- Systems Failure
 	self:StopBar(CL.count:format(self:SpellName(82848), massacreCount)) -- Massacre
 	self:StopBar(CL.cast:format(self:SpellName(82848))) -- Massacre
 	self:StopBar(82935) -- Caustic Slime
-	self:Message(args.spellId, "orange", CL.percent:format(20, args.spellName))
-	self:PlaySound(args.spellId, "long")
+	self:Message("stages", "cyan", CL.percent:format(20, CL.stage:format(2)), false)
+	self:PlaySound("stages", "long")
 end
 
 function mod:UNIT_HEALTH(event, unit)
@@ -133,7 +136,7 @@ function mod:UNIT_HEALTH(event, unit)
 	if hp < 24 then
 		self:UnregisterUnitEvent(event, unit)
 		if hp > 20 then
-			self:Message(82890, "cyan", CL.soon:format(self:SpellName(82890)), false)
+			self:Message("stages", "cyan", CL.soon:format(CL.stage:format(2)), false)
 		end
 	end
 end

@@ -194,7 +194,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(_, unit, _, spellId)
 	if spellId == 78090 then -- Lightning Discharge
 		self:CDBar(77939, 22, L.discharge)
 		if self:UnitGUID("target") == self:UnitGUID(unit) or self:UnitWithinRange(unit, 30) then -- Target is Onyxia, or she is nearby
-			self:Message(77939, "yellow", CL.other:format(self:SpellName(-3283), CL.casting:format(self:SpellName(77939))))
+			self:Message(77939, "yellow", CL.casting:format(self:SpellName(77939)))
 			self:CastBar(77939, 5, L.discharge)
 		end
 	end
@@ -207,7 +207,7 @@ function mod:UNIT_POWER_FREQUENT(event, unit)
 		self:SetInfoBar("infobox", 1, power/100)
 		if power >= 85 and not powerWarned then
 			powerWarned = true
-			self:Message(78999, "red", CL.other:format(self:SpellName(-3283), CL.soon:format(CL.full_energy))) -- Onyxia: Full Energy soon
+			self:Message(78999, "red", CL.soon:format(CL.full_energy))
 		end
 	end
 end
@@ -269,6 +269,7 @@ function mod:OnyxiaDeath() -- Stage 2
 	self:StopBar(79318) -- Dominion
 	self:StopBar(77827) -- Tail Lash
 	self:StopBar(L.discharge) -- Lightning Discharge
+	self:StopBar(CL.cast:format(L.discharge)) -- Lightning Discharge
 	self:StopBar(CL.breath) -- Shadowflame Breath
 	self:CloseInfo("infobox")
 	self:UnregisterUnitEvent("UNIT_POWER_FREQUENT", "boss1", "boss2")
