@@ -32,7 +32,6 @@ end
 L = BigWigs:NewBossLocale("Maloriak", "zhTW")
 if L then
 	L.flames = "烈焰"
-	L.dark_phase_emote_trigger = "黑色"
 end
 
 L = BigWigs:NewBossLocale("Nefarian", "zhTW")

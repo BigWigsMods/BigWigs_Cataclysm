@@ -124,6 +124,7 @@ function mod:OnEngage()
 	self:Berserk(630)
 	self:CDBar(77939, 24, L.discharge)
 	self:Bar("stages", 30, self:SpellName(-3279), "achievement_boss_nefarion") -- Nefarian
+	self:ScheduleTimer("NefarianLanding", 30)
 	if self:Heroic() and not self:Solo() then
 		self:CDBar(79318, 45) -- Dominion
 	end
@@ -144,6 +145,11 @@ end
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
+
+function mod:NefarianLanding()
+	self:Message("stages", "cyan", CL.landing:format(self:SpellName(-3279)), false) -- Nefarian
+	self:PlaySound("stages", "long")
+end
 
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(_, msg, _, _, _, target)
 	if target == self:SpellName(-3279) and self:IsEngaged() then -- Not during the RP of activating the boss
@@ -264,6 +270,7 @@ function mod:AnimatedBoneWarriorDeaths(args)
 	self:SetInfoBar("infobox", empowerLine, highest/100)
 end
 
+-- Stage 2
 function mod:OnyxiaDeath() -- Stage 2
 	self:SetStage(2)
 	self:StopBar(79318) -- Dominion
@@ -274,9 +281,9 @@ function mod:OnyxiaDeath() -- Stage 2
 	self:CloseInfo("infobox")
 	self:UnregisterUnitEvent("UNIT_POWER_FREQUENT", "boss1", "boss2")
 	self:Message("stages", "cyan", CL.stage:format(2), false)
+	self:PlaySound("stages", "long")
 end
 
--- Stage 2
 function mod:BlastNova(args)
 	blastNovaCollector[args.sourceGUID] = (blastNovaCollector[args.sourceGUID] or 0) + 1
 	local unit = self:GetUnitIdByGUID(args.sourceGUID)
@@ -316,6 +323,7 @@ function mod:ExplosiveCindersRemoved(args)
 	end
 end
 
+-- Stage 3
 function mod:ChromaticPrototypeDeaths()
 	chromaticPrototypeKilled = chromaticPrototypeKilled + 1
 	if chromaticPrototypeKilled == (self:Heroic() and 1 or 3) then
@@ -333,10 +341,10 @@ function mod:ChromaticPrototypeDeaths()
 		self:SetInfo("infobox", 5, self:SpellName(79330), 0.4, 1, 0.6)
 		self:SetInfo("infobox", 6, 0)
 		self:SetInfoBar("infobox", 5, 0)
+		self:PlaySound("stages", "long")
 	end
 end
 
--- Stage 3
 do
 	local function nextBlaze(self)
 		lastBlaze = GetTime()
