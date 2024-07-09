@@ -19,7 +19,7 @@ BigWigs:AddColors("Valiona and Theralion", {
 	[86840] = "red",
 	[88518] = "blue",
 	[93051] = {"blue","red"},
-	["phase_switch"] = "cyan",
+	["stages"] = "cyan",
 })
 
 BigWigs:AddColors("Ascendant Council", {

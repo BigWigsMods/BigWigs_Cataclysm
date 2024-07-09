@@ -65,4 +65,5 @@ BigWigs:AddSounds("Nefarian", {
 	[80734] = "alert",
 	[81007] = {"alarm","underyou"},
 	[81272] = "alert",
+	["stages"] = "long",
 })
