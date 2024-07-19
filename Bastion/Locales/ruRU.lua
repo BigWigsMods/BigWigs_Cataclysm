@@ -54,8 +54,6 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "ruRU")
 if L then
-	L.static_overload_say = "Перегрузка"
-	L.gravity_core_say = "Гравитация"
 	L.health_report = "%s имеет %d%% здоровья, скоро смена!"
 	L.switch = "Смена"
 	L.switch_desc = "Сообщать о смене боссов"
@@ -74,6 +72,9 @@ if L then
 	L.thundershock_quake_spam = "%s через %d"
 
 	L.last_phase_trigger = "Ваше упорство..."
+
+	--L.custom_on_linked_spam = "Repeating 'Linked' say messages"
+	--L.custom_on_linked_spam_desc = "Repeating say messages in chat stating who you are linked with."
 end
 
 L = BigWigs:NewBossLocale("Sinestra", "ruRU")

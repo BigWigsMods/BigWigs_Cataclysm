@@ -56,7 +56,7 @@ function mod:GetOptions()
 		78895, -- Frost Imbued
 		{77699, "SAY"}, -- Flash Freeze
 		flashFreezeMarker,
-		{77760, "SAY"}, -- Biting Chill
+		{77760, "SAY", "ME_ONLY"}, -- Biting Chill
 		-- Red
 		78896, -- Fire Imbued
 		{77786, "ICON", "ME_ONLY_EMPHASIZE"}, -- Consuming Flames
@@ -281,7 +281,8 @@ function mod:ReleaseAllMinions(args)
 		addsActive = 100
 		self:SimpleTimer(UpdateInfoBoxList, 1)
 	end
-	self:CDBar(78225, 14, CL.count:format(self:SpellName(78225), acidNovaCount)) -- Acid Nova
+	self:CDBar(78225, 13, CL.count:format(self:SpellName(78225), acidNovaCount)) -- Acid Nova
+	self:CDBar(78223, 13, CL.orbs) -- Absolute Zero
 	self:Message("stages", "cyan", CL.percent:format(25, CL.stage:format(2)), false)
 	self:Message(77569, "cyan", CL.adds_spawned_count:format(addsRemaining + 2), false)
 	self:PlaySound("stages", "long")
@@ -345,7 +346,7 @@ function mod:FrostImbuedApplied(args)
 	self:CDBar(77699, 16.1) -- Flash Freeze
 	self:CDBar(77896, 11.3, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
 	if addsRemaining > 0 then
-		self:CDBar(77569, 14.5, CL.adds, 77569) -- Release Aberrations
+		self:CDBar(77569, 11.5, CL.adds, 77569) -- Release Aberrations
 	end
 	self:Message(args.spellId, "cyan")
 	self:Bar(args.spellId, 40)
@@ -408,7 +409,7 @@ function mod:ThrowRedBottle(args)
 end
 
 function mod:FireImbuedApplied(args)
-	self:CDBar(77679, 19.4, CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
+	self:CDBar(77679, 16.4, CL.count:format(CL.breath, scorchingBlastCounter)) -- Scorching Blast
 	self:CDBar(77896, 16.2, CL.count:format(self:SpellName(77896), arcaneStormCount), 77896) -- Arcane Storm
 	if addsRemaining > 0 then
 		self:CDBar(77569, 11.3, CL.adds, 77569) -- Release Aberrations

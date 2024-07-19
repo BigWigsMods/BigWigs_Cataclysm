@@ -343,7 +343,7 @@ function mod:EncasingShadowsApplied(args)
 		local duration = 4 - (args.time-flamethrowerApplied)
 		self:SayCountdown(79501, duration > 1 and duration or 4, CL.plus:format(L.flamethrower, CL.rooted), 2, "Flamethrower + Rooted")
 		self:Say(args.spellId, CL.rooted, nil, "Rooted")
-		self:SayCountdown(args.spellId, 8, CL.rooted, 3, "Rooted")
+		self:SayCountdown(args.spellId, 8, CL.rooted, 4, "Rooted")
 	end
 end
 

@@ -49,6 +49,7 @@ function mod:GetOptions()
 		{78075, "ICON", "SAY", "ME_ONLY_EMPHASIZE"}, -- Sonic Breath
 		{77611, "INFOBOX"}, -- Resonating Clash
 		78023, -- Roaring Flame
+		77717, -- Vertigo
 		"stages",
 		"altpower",
 	},{
@@ -61,6 +62,7 @@ function mod:GetOptions()
 		[78075] = CL.breath, -- Sonic Breath (Breath)
 		[77611] = CL.shield, -- Resonating Clash (Shield)
 		[78023] = CL.underyou:format(CL.fire), -- Roaring Flame (Fire under YOU)
+		[77717] = CL.stunned, -- Vertigo (Stunned)
 	}
 end
 
@@ -85,6 +87,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "ResonatingClash", 77611, 78168) -- Stage 1, Stage 2
 	self:Log("SPELL_INSTAKILL", "SonicFlamesKill", 77782, 78945) -- Stage 1, Stage 2
 	self:Death("ShieldDies", 42954, 42960, 42949, 42947, 42956, 42951, 42958, 41445) -- 8 Ancient Dwarven Shield, there are 10, but 2 share the same ID...
+	self:Log("SPELL_AURA_APPLIED", "VertigoApplied", 77717)
 
 	self:Log("SPELL_CAST_SUCCESS", "PhaseShift", 92681)
 	self:Log("SPELL_AURA_APPLIED", "PesteredApplied", 92685)
@@ -234,6 +237,10 @@ do
 	end
 end
 
+function mod:VertigoApplied(args)
+	self:Bar(args.spellId, 5, CL.stunned)
+end
+
 do
 	local addGUID = nil
 	function mod:ObnoxiousFiendMarking(_, unit, guid)
@@ -250,15 +257,13 @@ do
 	end
 end
 
-do
-	function mod:PesteredApplied(args)
-		if self:Player(args.destFlags) then -- The add itself also gains it
-			if self:Me(args.destGUID) then
-				self:Yell(args.spellId, CL.add, nil, "Add")
-			end
-			self:TargetMessage(args.spellId, "red", args.destName, CL.add)
-			self:PlaySound(args.spellId, "alarm", nil, args.destName)
+function mod:PesteredApplied(args)
+	if self:Player(args.destFlags) then -- The add itself also gains it
+		if self:Me(args.destGUID) then
+			self:Yell(args.spellId, CL.add, nil, "Add")
 		end
+		self:TargetMessage(args.spellId, "red", args.destName, CL.add)
+		self:PlaySound(args.spellId, "alarm", nil, args.destName)
 	end
 end
 

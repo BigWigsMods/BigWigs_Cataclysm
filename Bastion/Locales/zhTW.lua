@@ -71,8 +71,6 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "zhTW")
 if L then
-	L.static_overload_say = "靜電超載"
-	L.gravity_core_say = "重力之核"
 	L.health_report = "%s生命值>%d%%<，即將階段轉換！"
 	L.switch = "轉換"
 	L.switch_desc = "當首領轉換時發出警報。"
@@ -91,5 +89,8 @@ if L then
 	L.thundershock_quake_spam = ">%s< %d！"
 
 	L.last_phase_trigger = "令人印象深刻的表現..."
+
+	--L.custom_on_linked_spam = "Repeating 'Linked' say messages"
+	--L.custom_on_linked_spam_desc = "Repeating say messages in chat stating who you are linked with."
 end
 

@@ -12,12 +12,15 @@ mod:SetRespawnTime(30)
 -- Locals
 --
 
-local lrTargets, gcTargets = mod:NewTargetList(), mod:NewTargetList()
 local quake, thundershock = mod:SpellName(83565), mod:SpellName(83067)
 local crushMarked = false
 local timeLeft = 8
 local phase = 1
 local isWaterlogged = false
+local staticOverloadTarget = nil
+local staticOverloadOnMe = false
+local gravityCoreOnMe = false
+local mySaySpamTarget = nil
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -25,8 +28,6 @@ local isWaterlogged = false
 
 local L = mod:GetLocale()
 if L then
-	L.static_overload_say = "Overload"
-	L.gravity_core_say = "Gravity"
 	L.health_report = "%s at %d%%, phase change soon!"
 	L.switch = "Switch"
 	L.switch_desc = "Warning for boss switches."
@@ -45,30 +46,48 @@ if L then
 	L.thundershock_quake_spam = "%s in %d"
 
 	L.last_phase_trigger = "An impressive display..."
+
+	L.custom_on_linked_spam = "Repeating 'Linked' say messages"
+	L.custom_on_linked_spam_icon = "Interface\\AddOns\\BigWigs\\Media\\Icons\\Menus\\Say"
+	L.custom_on_linked_spam_desc = "Repeating say messages in chat stating who you are linked with."
 end
 
 --------------------------------------------------------------------------------
 -- Initialization
 --
 
+local lightningRodMarker = mod:AddMarkerOption(true, "player", 1, 83099, 1, 2, 3) -- Lightning Rod
+local gravityCrushMarker = mod:AddMarkerOption(true, "player", 1, 84948, 1, 2, 3) -- Gravity Crush
+local staticOverloadMarker = mod:AddMarkerOption(true, "player", 4, 92067, 4) -- Static Overload
+local gravityCoreMarker = mod:AddMarkerOption(true, "player", 5, 92075, 5) -- Gravity Core
 function mod:GetOptions()
 	return {
 		-- Ignacious
-		82631, 82660,
+		82631, -- Aegis of Flame
+		82660, -- Burning Blood
 		82860, -- Inferno Rush
 		-- Feludius
-		82746, 82665,
+		82746, -- Glaciate
+		82665, -- Heart of Ice
 		82762, -- Waterlogged
 		-- Arion
-		83067, {83099, "SAY"},
+		83067, -- Thundershock
+		{83099, "SAY", "ME_ONLY_EMPHASIZE"}, -- Lightning Rod
+		lightningRodMarker,
 		-- Terrastra
-		83565, 83718,
+		83565, -- Quake
+		83718, -- Harden Skin
 		-- Monstrosity
-		{84948, "ICON"},
+		84948, -- Gravity Crush
+		gravityCrushMarker,
 		84915, -- Liquid Ice
+		84913, -- Lava Seed
 		-- Heroic
-		{92067, "SAY", "ICON"},
-		{92075, "SAY", "ICON"},
+		{92067, "SAY", "ME_ONLY", "ME_ONLY_EMPHASIZE"}, -- Static Overload
+		staticOverloadMarker,
+		{92075, "SAY", "ME_ONLY", "ME_ONLY_EMPHASIZE"}, -- Gravity Core
+		gravityCoreMarker,
+		"custom_on_linked_spam",
 		{92307, "SAY", "ICON", "ME_ONLY_EMPHASIZE"}, -- Frost Beacon
 		-- General
 		"switch"
@@ -82,6 +101,8 @@ function mod:GetOptions()
 		switch = "general",
 	},{
 		[82860] = CL.underyou:format(CL.fire), -- Inferno Rush (Fire under YOU)
+		[92067] = CL.count:format(CL.link, 1), -- Static Overload (Link 1)
+		[92075] = CL.count:format(CL.link, 2), -- Gravity Core (Link 2)
 		[92307] = CL.orb, -- Frost Beacon (Orb)
 	}
 end
@@ -96,6 +117,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_REMOVED", "FrostBeaconRemoved", 92307)
 
 	--normal
+	self:Log("SPELL_CAST_SUCCESS", "LightningRod", 83099)
 	self:Log("SPELL_AURA_APPLIED", "LightningRodApplied", 83099)
 	self:Log("SPELL_AURA_REMOVED", "LightningRodRemoved", 83099)
 
@@ -109,7 +131,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_REMOVED", "WaterloggedRemoved", 82762)
 	self:Log("SPELL_CAST_SUCCESS", "HeartofIce", 82665)
 	self:Log("SPELL_CAST_SUCCESS", "BurningBlood", 82660)
-	self:Log("SPELL_AURA_APPLIED", "GravityCrush", 84948)
 
 	self:BossYell("Switch", L["switch_trigger"])
 
@@ -124,15 +145,27 @@ function mod:OnBossEnable()
 	self:Log("SPELL_DAMAGE", "InfernoRushDamage", 82860)
 	self:Log("SPELL_MISSED", "InfernoRushDamage", 82860)
 
+	-- Stage 3
 	self:Log("SPELL_DAMAGE", "LiquidIceDamage", 84915)
 	self:Log("SPELL_MISSED", "LiquidIceDamage", 84915)
+	self:Log("SPELL_CAST_SUCCESS", "GravityCrush", 84948)
+	self:Log("SPELL_AURA_APPLIED", "GravityCrushApplied", 84948)
+	self:Log("SPELL_AURA_REMOVED", "GravityCrushRemoved", 84948)
+	self:Log("SPELL_CAST_START", "LavaSeed", 84913)
 end
 
 function mod:OnEngage()
 	isWaterlogged = false
+	staticOverloadTarget = nil
+	staticOverloadOnMe = false
+	gravityCoreOnMe = false
+	mySaySpamTarget = nil
 
 	self:Bar(82631, 30, L["shield_bar"])
 	self:Bar(82746, 30) -- Glaciate
+	if self:Heroic() then
+		self:Bar(92067, 20, CL.count:format(CL.link, 1)) -- Static Overload
+	end
 
 	phase = 1
 	crushMarked = false
@@ -144,76 +177,86 @@ end
 --
 
 do
-	local scheduled = nil
-	local function lrWarn(spellId)
-		mod:TargetMessageOld(spellId, lrTargets, "red", "alert")
-		scheduled = nil
+	local function RepeatLinkSay()
+		if not mod:IsEngaged() or not mySaySpamTarget then return end
+		mod:SimpleTimer(RepeatLinkSay, 1.5)
+		mod:Say(false, CL.link_with_rticon:format(mySaySpamTarget[1], mySaySpamTarget[2]), true, ("Linked with {rt%d}%s"):format(mySaySpamTarget[1], mySaySpamTarget[2]))
 	end
-	function mod:LightningRodApplied(args)
-		lrTargets[#lrTargets + 1] = args.destName
-		if not scheduled then
-			scheduled = self:ScheduleTimer(lrWarn, 0.3, args.spellId)
-		end
+	function mod:StaticOverload(args)
+		staticOverloadTarget = args.destName
+		self:StopBar(CL.count:format(CL.link, 1))
+		self:TargetMessage(args.spellId, "yellow", args.destName, CL.count_icon:format(CL.link, 1, 4))
+		self:Bar(92075, 5, CL.count:format(CL.link, 2)) -- Gravity Core
+		self:CustomIcon(staticOverloadMarker, args.destName, 4)
 		if self:Me(args.destGUID) then
-			self:Say(args.spellId, nil, nil, "Lightning Rod")
-			--self:Flash(args.spellId)
+			staticOverloadOnMe = true
+			self:Say(args.spellId, CL.count_rticon:format(CL.link, 1, 4), nil, "Link (1{rt4})")
+			self:PlaySound(args.spellId, "warning", nil, args.destName)
 		end
+	end
+
+	function mod:StaticOverloadRemoved(args)
+		if self:Me(args.destGUID) then
+			staticOverloadOnMe = false
+			mySaySpamTarget = nil
+		end
+		self:CustomIcon(staticOverloadMarker, args.destName)
+	end
+
+	function mod:GravityCore(args)
+		self:StopBar(CL.count:format(CL.link, 2))
+		self:TargetMessage(args.spellId, "yellow", args.destName, CL.count_icon:format(CL.link, 2, 5))
+		self:Bar(92067, 15, CL.count:format(CL.link, 1)) -- Static Overload
+		self:CustomIcon(gravityCoreMarker, args.destName, 5)
+		if self:Me(args.destGUID) then
+			gravityCoreOnMe = true
+			if staticOverloadTarget and self:GetOption("custom_on_linked_spam") then
+				local targetName = gsub(staticOverloadTarget, "%-.+", "")
+				mySaySpamTarget = {4, targetName}
+				self:SimpleTimer(1.5, RepeatLinkSay)
+			end
+			self:Say(args.spellId, CL.count_rticon:format(CL.link, 2, 5), nil, "Link (2{rt5})")
+			self:PlaySound(args.spellId, "warning", nil, args.destName)
+		else
+			if staticOverloadTarget then
+				self:Message(args.spellId, "yellow", CL.link_both_icon:format(4, self:ColorName(staticOverloadTarget), 5, self:ColorName(args.destName)))
+			end
+			if staticOverloadOnMe and self:GetOption("custom_on_linked_spam") then
+				local targetName = gsub(args.destName, "%-.+", "")
+				mySaySpamTarget = {5, targetName}
+				RepeatLinkSay()
+			end
+		end
+	end
+
+	function mod:GravityCoreRemoved(args)
+		if self:Me(args.destGUID) then
+			gravityCoreOnMe = false
+			mySaySpamTarget = nil
+		end
+		self:CustomIcon(gravityCoreMarker, args.destName)
 	end
 end
 
 do
-	local scheduled = nil
-	local function gcWarn(spellId)
-		mod:TargetMessageOld(spellId, gcTargets, "red", "alert")
-		scheduled = nil
+	local playerList = {}
+	function mod:LightningRod()
+		playerList = {}
 	end
-	local function marked()
-		crushMarked = false
-	end
-	function mod:GravityCrush(args)
-		gcTargets[#gcTargets + 1] = args.destName
-		if not crushMarked then
-			self:PrimaryIcon(args.spellId, args.destName)
-			crushMarked = true
-			self:ScheduleTimer(marked, 5)
+	function mod:LightningRodApplied(args)
+		local count = #playerList+1
+		playerList[count] = args.destName
+		self:TargetsMessage(args.spellId, "red", playerList, self:GetMaxPlayers() == 10 and 1 or 3)
+		self:CustomIcon(lightningRodMarker, args.destName, count)
+		if self:Me(args.destGUID) then
+			self:Say(args.spellId, nil, nil, "Lightning Rod")
+			self:PlaySound(args.spellId, "warning", nil, args.destName)
 		end
-		if not scheduled then
-			scheduled = self:ScheduleTimer(gcWarn, 0.2, args.spellId)
-		end
-		self:Bar(args.spellId, 25)
 	end
 end
 
 function mod:LightningRodRemoved(args)
-	--if self:Me(args.destGUID) then
-	--	self:CloseProximity()
-	--end
-end
-
-function mod:GravityCore(args)
-	if self:Me(args.destGUID) then
-		self:Say(args.spellId, L["gravity_core_say"], nil, "Gravity")
-		--self:Flash(args.spellId)
-	end
-	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
-	self:SecondaryIcon(args.spellId, args.destName)
-end
-
-function mod:GravityCoreRemoved(args)
-	self:SecondaryIcon(args.spellId)
-end
-
-function mod:StaticOverload(args)
-	if self:Me(args.destGUID) then
-		self:Say(args.spellId, L["static_overload_say"], nil, "Overload")
-		--self:Flash(args.spellId)
-	end
-	self:TargetMessageOld(args.spellId, args.destName, "yellow", "alarm")
-	self:PrimaryIcon(args.spellId, args.destName)
-end
-
-function mod:StaticOverloadRemoved(args)
-	self:PrimaryIcon(args.spellId)
+	self:CustomIcon(lightningRodMarker, args.destName)
 end
 
 function mod:FrostBeaconApplied(args)
@@ -231,7 +274,7 @@ function mod:FrostBeaconRemoved(args)
 	if self:Me(args.destGUID) then
 		self:PersonalMessage(args.spellId, "removed", CL.orb)
 	end
-	--self:PrimaryIcon(args.spellId)
+	self:PrimaryIcon(args.spellId)
 end
 
 function mod:UNIT_HEALTH(event, unit)
@@ -371,6 +414,7 @@ function mod:LastPhase()
 	self:StopBar(83067) -- Thundershock
 	self:StopBar(83718) -- Harden Skin
 	self:CancelAllTimers()
+	self:CDBar(84913, 34) -- Lava Seed
 	self:Bar(84948, 43) -- Gravity Crush
 	self:UnregisterUnitEvent("UNIT_HEALTH", "boss1", "boss2", "boss3", "boss4")
 end
@@ -386,6 +430,7 @@ do
 	end
 end
 
+-- Stage 3
 do
 	local prev = 0
 	function mod:LiquidIceDamage(args)
@@ -395,4 +440,30 @@ do
 			self:PlaySound(args.spellId, "underyou")
 		end
 	end
+end
+
+do
+	local playerList = {}
+	function mod:GravityCrush(args)
+		playerList = {}
+		self:Bar(args.spellId, 25)
+	end
+	function mod:GravityCrushApplied(args)
+		local count = #playerList+1
+		playerList[count] = args.destName
+		self:TargetsMessage(args.spellId, "red", playerList, self:GetMaxPlayers() == 10 and 1 or 3)
+		self:CustomIcon(gravityCrushMarker, args.destName, count)
+		if self:Me(args.destGUID) then
+			self:PlaySound(args.spellId, "warning", nil, args.destName)
+		end
+	end
+end
+
+function mod:GravityCrushRemoved(args)
+	self:CustomIcon(gravityCrushMarker, args.destName)
+end
+
+function mod:LavaSeed(args)
+	self:Message(args.spellId, "orange")
+	self:CDBar(args.spellId, 24)
 end

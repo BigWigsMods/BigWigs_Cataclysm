@@ -71,8 +71,6 @@ end
 
 L = BigWigs:NewBossLocale("Ascendant Council", "itIT")
 if L then
-	L.static_overload_say = "Tuonofolgore"
-	L.gravity_core_say = "Gravità"
 	L.health_report = "%s al %d%%, cambio di fase tra poco!"
 	L.switch = "Cambio"
 	L.switch_desc = "Avvisi per il cambio di boss."
@@ -91,5 +89,8 @@ if L then
 	L.thundershock_quake_spam = "%s in %d"
 
 	L.last_phase_trigger = "Ecco la vostra rovina..."
+
+	--L.custom_on_linked_spam = "Repeating 'Linked' say messages"
+	--L.custom_on_linked_spam_desc = "Repeating say messages in chat stating who you are linked with."
 end
 
