@@ -213,7 +213,7 @@ do
 			if staticOverloadTarget and self:GetOption("custom_on_linked_spam") then
 				local targetName = gsub(staticOverloadTarget, "%-.+", "")
 				mySaySpamTarget = {4, targetName}
-				self:SimpleTimer(1.5, RepeatLinkSay)
+				self:SimpleTimer(RepeatLinkSay, 1.5)
 			end
 			self:Say(args.spellId, CL.count_rticon:format(CL.link, 2, 5), nil, "Link (2{rt5})")
 			self:PlaySound(args.spellId, "warning", nil, args.destName)
