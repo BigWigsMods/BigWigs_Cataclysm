@@ -33,6 +33,7 @@ BigWigs:AddColors("Ascendant Council", {
 	[83099] = {"blue","red"},
 	[83565] = {"blue","red"},
 	[83718] = "orange",
+	[84913] = "orange",
 	[84915] = "blue",
 	[84948] = {"blue","red"},
 	[92067] = {"blue","yellow"},
