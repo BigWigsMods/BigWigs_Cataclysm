@@ -199,6 +199,7 @@ do
 		if self:Me(args.destGUID) then
 			staticOverloadOnMe = false
 			mySaySpamTarget = nil
+			self:Say(args.spellId, CL.link_removed, nil, "Link removed")
 		end
 		self:CustomIcon(staticOverloadMarker, args.destName)
 	end
@@ -211,8 +212,7 @@ do
 		if self:Me(args.destGUID) then
 			gravityCoreOnMe = true
 			if staticOverloadTarget and self:GetOption("custom_on_linked_spam") then
-				local targetName = gsub(staticOverloadTarget, "%-.+", "")
-				mySaySpamTarget = {4, targetName}
+				mySaySpamTarget = {4, self:Ambiguate(staticOverloadTarget, "short")}
 				self:SimpleTimer(RepeatLinkSay, 1.5)
 			end
 			self:Say(args.spellId, CL.count_rticon:format(CL.link, 2, 5), nil, "Link (2{rt5})")
@@ -222,8 +222,7 @@ do
 				self:Message(args.spellId, "yellow", CL.link_both_icon:format(4, self:ColorName(staticOverloadTarget), 5, self:ColorName(args.destName)))
 			end
 			if staticOverloadOnMe and self:GetOption("custom_on_linked_spam") then
-				local targetName = gsub(args.destName, "%-.+", "")
-				mySaySpamTarget = {5, targetName}
+				mySaySpamTarget = {5, self:Ambiguate(args.destName, "short")}
 				RepeatLinkSay()
 			end
 		end
@@ -233,6 +232,7 @@ do
 		if self:Me(args.destGUID) then
 			gravityCoreOnMe = false
 			mySaySpamTarget = nil
+			self:Say(args.spellId, CL.link_removed, nil, "Link removed")
 		end
 		self:CustomIcon(gravityCoreMarker, args.destName)
 	end

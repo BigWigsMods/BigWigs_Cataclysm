@@ -220,7 +220,7 @@ do
 	function mod:MangleRemoved(args)
 		mangleCount = mangleCount + 1
 		self:StopBar(args.spellName, args.destName)
-		self:CDBar(args.spellId, prevMangle > 0 and (95 - (args.time-prevMangle)) or 95, CL.count:format(args.spellName, mangleCount)) -- Show the bar after it ends on the tank
+		self:CDBar(args.spellId, prevMangle > 0 and (95 - (args.time-prevMangle)) or 65, CL.count:format(args.spellName, mangleCount)) -- Show the bar after it ends on the tank
 	end
 end
 
