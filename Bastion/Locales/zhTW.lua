@@ -89,8 +89,5 @@ if L then
 	L.thundershock_quake_spam = ">%s< %d！"
 
 	L.last_phase_trigger = "令人印象深刻的表現..."
-
-	--L.custom_on_linked_spam = "Repeating 'Linked' say messages"
-	--L.custom_on_linked_spam_desc = "Repeating say messages in chat stating who you are linked with."
 end
 

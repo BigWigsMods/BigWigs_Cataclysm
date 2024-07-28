@@ -47,9 +47,9 @@ if L then
 
 	L.last_phase_trigger = "An impressive display..."
 
-	L.custom_on_linked_spam = "Repeating 'Linked' say messages"
-	L.custom_on_linked_spam_icon = "Interface\\AddOns\\BigWigs\\Media\\Icons\\Menus\\Say"
-	L.custom_on_linked_spam_desc = "Repeating say messages in chat stating who you are linked with."
+	L.custom_on_linked_spam = CL.link_say_option_name
+	L.custom_on_linked_spam_desc = CL.link_say_option_desc
+	L.custom_on_linked_spam_icon = mod:GetMenuIcon("SAY")
 end
 
 --------------------------------------------------------------------------------
@@ -180,7 +180,7 @@ do
 	local function RepeatLinkSay()
 		if not mod:IsEngaged() or not mySaySpamTarget then return end
 		mod:SimpleTimer(RepeatLinkSay, 1.5)
-		mod:Say(false, CL.link_with_rticon:format(mySaySpamTarget[1], mySaySpamTarget[2]), true, ("Linked with {rt%d}%s"):format(mySaySpamTarget[1], mySaySpamTarget[2]))
+		mod:Say(false, CL.link_with_rticon:format(mySaySpamTarget[1], mySaySpamTarget[2]), true, ("{rt%d}Linked with %s"):format(mySaySpamTarget[1], mySaySpamTarget[2]))
 	end
 	function mod:StaticOverload(args)
 		staticOverloadTarget = args.destName
@@ -212,7 +212,7 @@ do
 		if self:Me(args.destGUID) then
 			gravityCoreOnMe = true
 			if staticOverloadTarget and self:GetOption("custom_on_linked_spam") then
-				mySaySpamTarget = {4, self:Ambiguate(staticOverloadTarget, "short")}
+				mySaySpamTarget = {5, self:Ambiguate(staticOverloadTarget, "short")}
 				self:SimpleTimer(RepeatLinkSay, 1.5)
 			end
 			self:Say(args.spellId, CL.count_rticon:format(CL.link, 2, 5), nil, "Link (2{rt5})")
@@ -222,7 +222,7 @@ do
 				self:Message(args.spellId, "yellow", CL.link_both_icon:format(4, self:ColorName(staticOverloadTarget), 5, self:ColorName(args.destName)))
 			end
 			if staticOverloadOnMe and self:GetOption("custom_on_linked_spam") then
-				mySaySpamTarget = {5, self:Ambiguate(args.destName, "short")}
+				mySaySpamTarget = {4, self:Ambiguate(args.destName, "short")}
 				RepeatLinkSay()
 			end
 		end

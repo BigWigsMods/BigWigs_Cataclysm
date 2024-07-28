@@ -89,8 +89,5 @@ if L then
 	L.thundershock_quake_spam = "%s dans %d"
 
 	L.last_phase_trigger = "Quelle démonstration impressionnante" -- "CONTEMPLEZ VOTRE DESTIN !" -- à vérifier
-
-	--L.custom_on_linked_spam = "Repeating 'Linked' say messages"
-	--L.custom_on_linked_spam_desc = "Repeating say messages in chat stating who you are linked with."
 end
 
