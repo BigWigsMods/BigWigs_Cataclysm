@@ -79,7 +79,6 @@ function mod:OnEngage()
 	self:SimpleTimer(InitialBossCheck, 1)
 	self:Berserk(480)
 	self:Bar("full_power", 90, L["full_power"], 86193)
-	self:CDBar(86082, 11) -- Permafrost
 end
 
 --------------------------------------------------------------------------------
@@ -103,6 +102,7 @@ function InitialBossCheck()
 
 	local unit = mod:GetUnitIdByGUID(45871) -- Nezir
 	if unit and mod:UnitWithinRange(unit, 100) then
+		mod:CDBar(86082, 11) -- Permafrost
 		return
 	end
 
@@ -110,6 +110,7 @@ function InitialBossCheck()
 	mod:Bar(85422, 29) -- Nurture
 	mod:Bar(93059, 29) -- Storm Shield
 	mod:Bar(86193, 29) -- Wind Blast
+	mod:CDBar(86082, 11) -- Permafrost
 end
 
 function mod:FullPower(args)
@@ -168,7 +169,10 @@ end
 
 function mod:Permafrost(args)
 	self:CDBar(args.spellId, 11)
-	self:Message(args.spellId, "orange")
+	local unit = mod:GetUnitIdByGUID(args.sourceGUID)
+	if unit and mod:UnitWithinRange(unit, 100) then
+		self:Message(args.spellId, "orange")
+	end
 end
 
 function mod:Nurture(args)
