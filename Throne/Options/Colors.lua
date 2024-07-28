@@ -2,6 +2,7 @@
 BigWigs:AddColors("Conclave of Wind", {
 	[84645] = "blue",
 	[85422] = "orange",
+	[86082] = "orange",
 	[86193] = "red",
 	[86205] = "orange",
 	[86281] = "orange",

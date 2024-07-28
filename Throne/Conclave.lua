@@ -42,6 +42,7 @@ function mod:GetOptions()
 		93059, -- Storm Shield
 		-- Nezir
 		84645, -- Wind Chill
+		86082, -- Permafrost
 		-- Anshal
 		85422, -- Nurture
 		86281, -- Toxic Spores
@@ -66,6 +67,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "StormShield", 93059)
 	self:Log("SPELL_CAST_SUCCESS", "WindBlast", 86193)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "WindChill", 84645)
+	self:Log("SPELL_CAST_SUCCESS", "Permafrost", 86082)
 	self:Log("SPELL_CAST_SUCCESS", "Nurture", 85422)
 	self:Log("SPELL_AURA_APPLIED", "ToxicSpores", 86281)
 	self:Log("SPELL_CAST_START", "SoothingBreeze", 86205)
@@ -77,6 +79,7 @@ function mod:OnEngage()
 	self:SimpleTimer(InitialBossCheck, 1)
 	self:Berserk(480)
 	self:Bar("full_power", 90, L["full_power"], 86193)
+	self:CDBar(86082, 11) -- Permafrost
 end
 
 --------------------------------------------------------------------------------
@@ -161,6 +164,11 @@ function mod:SoothingBreeze(args)
 	if unit and mod:UnitWithinRange(unit, 100) then
 		self:Message(args.spellId, "orange")
 	end
+end
+
+function mod:Permafrost(args)
+	self:CDBar(args.spellId, 11)
+	self:Message(args.spellId, "orange")
 end
 
 function mod:Nurture(args)
