@@ -42,6 +42,7 @@ function mod:GetOptions()
 		93059, -- Storm Shield
 		-- Nezir
 		84645, -- Wind Chill
+		86082, -- Permafrost
 		-- Anshal
 		85422, -- Nurture
 		86281, -- Toxic Spores
@@ -66,6 +67,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "StormShield", 93059)
 	self:Log("SPELL_CAST_SUCCESS", "WindBlast", 86193)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "WindChill", 84645)
+	self:Log("SPELL_CAST_SUCCESS", "Permafrost", 86082)
 	self:Log("SPELL_CAST_SUCCESS", "Nurture", 85422)
 	self:Log("SPELL_AURA_APPLIED", "ToxicSpores", 86281)
 	self:Log("SPELL_CAST_START", "SoothingBreeze", 86205)
@@ -100,6 +102,7 @@ function InitialBossCheck()
 
 	local unit = mod:GetUnitIdByGUID(45871) -- Nezir
 	if unit and mod:UnitWithinRange(unit, 100) then
+		mod:CDBar(86082, 11) -- Permafrost
 		return
 	end
 
@@ -107,6 +110,7 @@ function InitialBossCheck()
 	mod:Bar(85422, 29) -- Nurture
 	mod:Bar(93059, 29) -- Storm Shield
 	mod:Bar(86193, 29) -- Wind Blast
+	mod:CDBar(86082, 11) -- Permafrost
 end
 
 function mod:FullPower(args)
@@ -157,6 +161,14 @@ end
 
 function mod:SoothingBreeze(args)
 	self:Bar(args.spellId, 32.5)
+	local unit = mod:GetUnitIdByGUID(args.sourceGUID)
+	if unit and mod:UnitWithinRange(unit, 100) then
+		self:Message(args.spellId, "orange")
+	end
+end
+
+function mod:Permafrost(args)
+	self:CDBar(args.spellId, 11)
 	local unit = mod:GetUnitIdByGUID(args.sourceGUID)
 	if unit and mod:UnitWithinRange(unit, 100) then
 		self:Message(args.spellId, "orange")
