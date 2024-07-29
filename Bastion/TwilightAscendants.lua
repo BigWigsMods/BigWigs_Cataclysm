@@ -199,7 +199,7 @@ do
 		if self:Me(args.destGUID) then
 			staticOverloadOnMe = false
 			mySaySpamTarget = nil
-			self:Say(args.spellId, CL.link_removed, nil, "Link removed")
+			self:Say(args.spellId, CL.link_removed, true, "Link removed")
 		end
 		self:CustomIcon(staticOverloadMarker, args.destName)
 	end
@@ -232,7 +232,7 @@ do
 		if self:Me(args.destGUID) then
 			gravityCoreOnMe = false
 			mySaySpamTarget = nil
-			self:Say(args.spellId, CL.link_removed, nil, "Link removed")
+			self:Say(args.spellId, CL.link_removed, true, "Link removed")
 		end
 		self:CustomIcon(gravityCoreMarker, args.destName)
 	end
