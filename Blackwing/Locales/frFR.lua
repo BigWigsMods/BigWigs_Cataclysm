@@ -38,6 +38,5 @@ L = BigWigs:NewBossLocale("Nefarian", "frFR")
 if L then
 	L.discharge = "Décharge"
 	L.stage3_yell_trigger = "J'ai tout fait pour être un hôte accommodant"
-	L.shadowblaze_yell_trigger = "Que la chair se transforme en cendres !"
 	--L.too_close = "Dragons are too close"
 end

@@ -38,6 +38,5 @@ L = BigWigs:NewBossLocale("Nefarian", "itIT")
 if L then
 	L.discharge = "Scarica"
 	L.stage3_yell_trigger = "Ho cercato di essere un'ospite cortese"
-	L.shadowblaze_yell_trigger = "La Carne si tramuta in cenere!"
 	--L.too_close = "Dragons are too close"
 end

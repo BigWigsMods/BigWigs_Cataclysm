@@ -38,6 +38,5 @@ L = BigWigs:NewBossLocale("Nefarian", "zhTW")
 if L then
 	L.discharge = "閃電釋放"
 	L.stage3_yell_trigger = "我本來只想略盡地主之誼"
-	L.shadowblaze_yell_trigger = "化為灰燼吧!"
 	--L.too_close = "Dragons are too close"
 end

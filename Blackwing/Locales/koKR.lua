@@ -38,6 +38,5 @@ L = BigWigs:NewBossLocale("Nefarian", "koKR")
 if L then
 	L.discharge = "번개 방출"
 	L.stage3_yell_trigger = "품위있는"
-	L.shadowblaze_yell_trigger = "살을 재로 만들어 주마!"
 	--L.too_close = "Dragons are too close"
 end

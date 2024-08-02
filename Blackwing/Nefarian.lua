@@ -13,8 +13,7 @@ mod:SetStage(1)
 -- Locals
 --
 
-local shadowBlazeTimer = 35
-local shadowblazeHandle, lastBlaze = nil, 0
+local sparkCount = 0
 local blastNovaCollector = {}
 local addsCollector = {}
 local currentPercent = 100
@@ -34,8 +33,8 @@ local L = mod:GetLocale()
 if L then
 	L.discharge = "Discharge"
 	L.stage3_yell_trigger = "I have tried to be an accommodating host"
-	L.shadowblaze_yell_trigger = "Flesh turns to ash!"
 	L.too_close = "Dragons are too close"
+	L["77939_icon"] = "spell_nature_lightning"
 end
 
 --------------------------------------------------------------------------------
@@ -49,7 +48,6 @@ function mod:GetOptions()
 		78999, -- Electrical Overload
 		-- Normal
 		{81272, "CASTBAR"}, -- Electrocute
-		81007, -- Shadowblaze
 		78620, -- Children of Deathwing
 		77826, -- Shadowflame Breath
 		{77827, "OFF"}, -- Tail Lash
@@ -57,6 +55,8 @@ function mod:GetOptions()
 		"stages",
 		-- Stage 2
 		80734, -- Blast Nova
+		81031, -- Shadowblaze Spark
+		81007, -- Shadowblaze
 		-- Heroic
 		{79339, "CASTBAR", "CASTBAR_COUNTDOWN", "SAY", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"}, -- Explosive Cinders
 		79318, -- Dominion
@@ -65,13 +65,14 @@ function mod:GetOptions()
 		[77939] = -3283, -- Onyxia
 		[81272] = "normal",
 		[80734] = CL.stage:format(2),
+		[81031] = CL.stage:format(3),
 		[79339] = "heroic",
 	},{
 		[77939] = L.discharge, -- Lightning Discharge (Discharge)
 		[78999] = CL.full_energy, -- Electrical Overload (Full Energy)
-		[81007] = CL.underyou:format(CL.fire), -- Shadowblaze (Fire under YOU)
 		[78620] = L.too_close, -- Children of Deathwing (Dragons are too close)
 		[77826] = CL.breath, -- Shadowflame Breath (Breath)
+		[81007] = CL.underyou:format(CL.fire), -- Shadowblaze (Fire under YOU)
 		[79339] = CL.bomb, -- Explosive Cinders (Bomb)
 	}
 end
@@ -84,7 +85,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_SUCCESS", "TailLash", 77827)
 
 	-- Stage 1
-	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", nil, "boss1", "boss2")
+	self:Log("SPELL_CAST_SUCCESS", "LightningDischarge", 78090)
 	self:Log("SPELL_AURA_APPLIED", "ChildrenOfDeathwingApplied", 78619, 78620)
 	self:Log("SPELL_AURA_REFRESH", "ChildrenOfDeathwingApplied", 78619, 78620)
 	self:Log("SPELL_AURA_APPLIED", "Empower", 79330)
@@ -102,13 +103,13 @@ function mod:OnBossEnable()
 
 	-- Stage 3
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")
+	self:Log("SPELL_CAST_SUCCESS", "ShadowblazeSpark", 81031)
 	self:Log("SPELL_DAMAGE", "ShadowblazeDamage", 81007)
 	self:Log("SPELL_MISSED", "ShadowblazeDamage", 81007)
 end
 
 function mod:OnEngage()
-	shadowBlazeTimer = 35
-	shadowblazeHandle, lastBlaze = nil, 0
+	sparkCount = 0
 	blastNovaCollector = {}
 	addsCollector = {}
 	currentPercent = 100
@@ -122,7 +123,7 @@ function mod:OnEngage()
 	self:SetStage(1)
 	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1", "boss2")
 	self:Berserk(630)
-	self:CDBar(77939, 24, L.discharge)
+	self:CDBar(77939, 24, L.discharge, "spell_nature_lightning")
 	self:Bar("stages", 30, self:SpellName(-3279), "achievement_boss_nefarion") -- Nefarian
 	self:ScheduleTimer("NefarianLanding", 30)
 	if self:Heroic() and not self:Solo() then
@@ -196,13 +197,12 @@ function mod:TailLash(args)
 end
 
 -- Stage 1
-function mod:UNIT_SPELLCAST_SUCCEEDED(_, unit, _, spellId)
-	if spellId == 78090 then -- Lightning Discharge
-		self:CDBar(77939, 22, L.discharge)
-		if self:UnitGUID("target") == self:UnitGUID(unit) or self:UnitWithinRange(unit, 30) then -- Target is Onyxia, or she is nearby
-			self:Message(77939, "yellow", CL.casting:format(self:SpellName(77939)))
-			self:CastBar(77939, 5, L.discharge)
-		end
+function mod:LightningDischarge(args)
+	self:CDBar(77939, 22, L.discharge, args.spellId)
+	local unit = self:GetUnitIdByGUID(args.sourceGUID)
+	if self:UnitGUID("target") == args.sourceGUID or (unit and self:UnitWithinRange(unit, 30)) then -- Target is Onyxia, or she is nearby
+		self:Message(77939, "yellow", CL.casting:format(L.discharge), args.spellId)
+		self:CastBar(77939, 5, L.discharge, args.spellId)
 	end
 end
 
@@ -345,39 +345,23 @@ function mod:ChromaticPrototypeDeaths()
 	end
 end
 
-do
-	local function nextBlaze(self)
-		lastBlaze = GetTime()
-		if shadowBlazeTimer > 10 and self:Heroic() then
-			shadowBlazeTimer = shadowBlazeTimer - 5
-		elseif shadowBlazeTimer > 15 and not self:Heroic() then
-			shadowBlazeTimer = shadowBlazeTimer - 5
+function mod:CHAT_MSG_MONSTER_YELL(_, msg)
+	if msg:find(L.stage3_yell_trigger, nil, true) then
+		self:StopBar(CL.bombs) -- Explosive Cinders
+		if self:Heroic() and not self:Solo() then
+			self:CDBar(79318, 20) -- Dominion
 		end
-		shadowblazeHandle = self:ScheduleTimer(nextBlaze, shadowBlazeTimer, self)
-		self:Message(81007, "red") -- Shadowblaze
-		self:Bar(81007, shadowBlazeTimer) -- Shadowblaze
-		self:PlaySound(81007, "alarm")
+		self:CDBar(81031, 10) -- Shadowblaze Spark
 	end
-	function mod:CHAT_MSG_MONSTER_YELL(_, msg)
-		if msg:find(L.stage3_yell_trigger, nil, true) then
-			self:StopBar(CL.bombs) -- Explosive Cinders
-			if self:Heroic() and not self:Solo() then
-				self:CDBar(79318, 20) -- Dominion
-			end
-			self:Bar(81007, 12) -- Shadowblaze
-			shadowblazeHandle = self:ScheduleTimer(nextBlaze, 12, self)
-		elseif msg:find(L.shadowblaze_yell_trigger, nil, true) then
-			if shadowblazeHandle then
-				self:CancelTimer(shadowblazeHandle)
-			end
-			if (GetTime() - lastBlaze) <= 3 then
-				shadowblazeHandle = self:ScheduleTimer(nextBlaze, shadowBlazeTimer, self)
-			elseif (GetTime() - lastBlaze) >= 6 then
-				nextBlaze(self)
-				return
-			end
-			lastBlaze = GetTime()
-		end
+end
+
+do
+	local timers = {30, 25, 20, 15}
+	function mod:ShadowblazeSpark(args)
+		sparkCount = sparkCount + 1
+		self:Message(args.spellId, "red")
+		self:Bar(args.spellId, timers[sparkCount] or self:Normal() and 15 or 10)
+		self:PlaySound(args.spellId, "alarm")
 	end
 end
 

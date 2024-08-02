@@ -38,6 +38,5 @@ L = BigWigs:NewBossLocale("Nefarian", "ruRU")
 if L then
 	L.discharge = "Искровой разряд"
 	L.stage3_yell_trigger = "Я пытался следовать законам гостеприимства"
-	--L.shadowblaze_yell_trigger = "Flesh turns to ash!"
 	--L.too_close = "Dragons are too close"
 end
