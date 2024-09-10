@@ -38,7 +38,7 @@ function mod:GetOptions()
 	return {
 		98379,
 		98474,
-		{98374, "PROXIMITY"},
+		98374,
 		{98476, "ICON", "SAY"},
 		{98450, "CASTBAR", "CASTBAR_COUNTDOWN", "SAY_COUNTDOWN", "ME_ONLY_EMPHASIZE"},
 		98451,
