@@ -82,7 +82,8 @@ BigWigs:AddColors("Nefarian", {
 	[79318] = {"blue","yellow"},
 	[79339] = {"blue","orange"},
 	[80734] = "orange",
-	[81007] = {"blue","red"},
+	[81007] = "blue",
+	[81031] = "red",
 	[81272] = "orange",
 	["stages"] = "cyan",
 })
