@@ -5,6 +5,8 @@
 local mod, CL = BigWigs:NewBoss("Lord Rhyolith", 720, 193)
 if not mod then return end
 mod:RegisterEnableMob(52577, 53087, 52558) -- Left foot, Right Foot, Lord Rhyolith
+mod:SetEncounterID(1204)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -58,8 +60,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_SUMMON", "Fragments", 98136)
 	self:Log("SPELL_AURA_REMOVED_DOSE", "ObsidianStack", 98632)
 	self:Log("SPELL_AURA_REMOVED", "Obsidian", 98632)
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
 	self:Death("Win", 52558)
 end
