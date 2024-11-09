@@ -5,6 +5,8 @@
 local mod, CL = BigWigs:NewBoss("Ragnaros", 720, 198)
 if not mod then return end
 mod:RegisterEnableMob(52409, 53231) --Ragnaros, Lava Scion
+mod:SetEncounterID(1203)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -89,8 +91,6 @@ function mod:OnBossEnable()
 
 	self:Log("SPELL_AURA_APPLIED", "BurningWound", 99399)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "BurningWound", 99399)
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
 	self:Death("Win", 52409)
 	self:Death("SonDeaths", 53140) -- Son of Flame

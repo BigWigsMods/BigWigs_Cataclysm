@@ -5,6 +5,8 @@
 local mod, CL = BigWigs:NewBoss("Shannox", 720, 195)
 if not mod then return end
 mod:RegisterEnableMob(53691, 53695, 53694) --Shannox, Rageface, Riplimb
+mod:SetEncounterID(1205)
+mod:SetRespawnTime(30)
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -54,8 +56,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_REMOVED", "FaceRageRemoved", 99945, 99947)
 	self:Log("SPELL_CAST_SUCCESS", "HurlSpear", 99978, 100002) -- Retail?, Cataclysm Classic
 	self:Log("SPELL_SUMMON", "Traps", 99836, 99839) -- Throw Crystal Prison Trap, Throw Immolation Trap
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 
 	self:Death("Win", 53691)
 end

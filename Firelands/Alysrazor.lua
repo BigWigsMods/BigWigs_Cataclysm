@@ -5,6 +5,8 @@
 local mod, CL = BigWigs:NewBoss("Alysrazor", 720, 194)
 if not mod then return end
 mod:RegisterEnableMob(52530, 53898, 54015, 53089) --Alysrazor, Voracious Hatchling, Majordomo Staghelm, Molten Feather
+mod:SetEncounterID(1206)
+mod:SetRespawnTime(30)
 
 local woundTargets = mod:NewTargetList()
 local meteorCount, moltCount, burnCount, initiateCount = 0, 0, 0, 0
@@ -98,7 +100,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "Firestorm", 100744)
 	self:Log("SPELL_AURA_REMOVED", "FirestormOver", 100744)
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL", "Initiates")
 
 	self:Death("Win", 52530)
