@@ -36,19 +36,23 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		100002, {100129, "ICON"}, "berserk",
-		"immolation", {"immolationyou", "FLASH"}, {"crystal", "SAY", "FLASH"},
-	}, {
+		100002, -- Hurl Spear
+		{100129, "ICON"}, -- Face Rage
+		"berserk",
+		"immolation",
+		{"immolationyou", "FLASH"},
+		{"crystal", "SAY", "FLASH"},
+	},{
 		[100002] = "general",
 		["immolation"] = L["traps_header"],
 	}
 end
 
 function mod:OnBossEnable()
-	self:Log("SPELL_AURA_APPLIED", "WaryDog", 99838)
+	self:Log("SPELL_AURA_APPLIED", "ImmolationTrapApplied", 99838)
 	self:Log("SPELL_CAST_SUCCESS", "FaceRage", 99945, 99947)
 	self:Log("SPELL_AURA_REMOVED", "FaceRageRemoved", 99945, 99947)
-	self:Log("SPELL_CAST_SUCCESS", "HurlSpear", 99978)
+	self:Log("SPELL_CAST_SUCCESS", "HurlSpear", 99978, 100002) -- Retail?, Cataclysm Classic
 	self:Log("SPELL_SUMMON", "Traps", 99836, 99839) -- Throw Crystal Prison Trap, Throw Immolation Trap
 
 	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
@@ -103,7 +107,7 @@ do
 	end
 end
 
-function mod:WaryDog(args)
+function mod:ImmolationTrapApplied(args)
 	-- We use the Immolation Trap IDs as we only want to warn for Wary after a
 	-- Immolation Trap not a Crystal Trap, which also applies Wary.
 	local creatureId = self:MobId(args.destGUID)
