@@ -60,6 +60,7 @@ end
 
 function mod:OnEngage()
 	self:Bar(100002, 23) -- Hurl Spear
+	self:CDBar(100129, 15) -- Face Rage
 	self:Berserk(600)
 end
 
@@ -123,6 +124,7 @@ end
 function mod:FaceRage(args)
 	self:TargetMessageOld(100129, args.destName, "red", "alert")
 	self:PrimaryIcon(100129, args.destName)
+	self:CDBar(100129, 30) -- Face Rage
 end
 
 function mod:FaceRageRemoved(args)
