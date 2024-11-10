@@ -92,7 +92,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "BurningWound", 99399)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "BurningWound", 99399)
 
-	self:Death("Win", 52409)
 	self:Death("SonDeaths", 53140) -- Son of Flame
 end
 

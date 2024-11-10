@@ -49,8 +49,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "Shards", 99259)
 	self:Log("SPELL_CAST_START", "Blades", 99352, 99350)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "Torment", 99256)
-
-	self:Death("Win", 53494)
 end
 
 function mod:OnEngage()
