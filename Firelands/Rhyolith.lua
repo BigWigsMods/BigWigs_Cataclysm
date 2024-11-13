@@ -46,7 +46,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		98552, 98136,
-		"armor", 97282, 98255, -2537, 101304, 98493
+		"armor", 97282, 98255, -2537, 101304, 98493, 97225
 	}, {
 		[98552] = L["adds_header"],
 		["armor"] = "general"
@@ -61,6 +61,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_REMOVED_DOSE", "ObsidianStack", 98632)
 	self:Log("SPELL_AURA_REMOVED", "Obsidian", 98632)
 	self:Log("SPELL_CAST_SUCCESS", "HeatedVolcano", 98493)
+	self:Log("SPELL_CAST_SUCCESS", "MagmaFlow", 97225)
 end
 
 function mod:OnEngage()
@@ -78,6 +79,10 @@ end
 function mod:HeatedVolcano(args)
 	self:MessageOld(args.spellId, "yellow", "info")
 	self:CDBar(98493, self:Heroic() and 25.5 or 40)
+end
+
+function mod:MagmaFlow(args)
+	mod:MessageOld(args.spellId, "red", "alarm")
 end
 
 function mod:Obsidian(args)
