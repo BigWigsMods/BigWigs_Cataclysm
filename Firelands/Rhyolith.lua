@@ -67,7 +67,7 @@ end
 function mod:OnEngage()
 	self:Berserk(self:Heroic() and 300 or 360, nil, nil, 101304)
 	self:Bar(97282, 15, L["stomp"])
-	self:CDBar(98493, 30)
+	self:CDBar(98493, 30) -- Heated Volcano
 	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1")
 	lastFragments = GetTime()
 end
@@ -125,6 +125,7 @@ function mod:UNIT_HEALTH(event, unit)
 	if hp < 30 then -- phase starts at 25
 		self:MessageOld(-2537, "green", "info", L["phase2_warning"], 99846)
 		self:UnregisterUnitEvent(event, unit)
+		self:StopBar(98493) -- Heated Volcano
 		local _, stack = self:UnitBuff(unit, 98255) -- Molten Armor
 		if stack then
 			self:MessageOld(98255, "red", "alarm", L["molten_message"]:format(stack))
