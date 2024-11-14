@@ -29,6 +29,7 @@ if L then
 	L.crystal = "Crystal Trap"
 	L.crystal_desc = "Warn whom Shannox casts a Crystal Trap under."
 	L.crystal_icon = 99836
+	L.facerage_trigger = "Go for the throat!"
 end
 L = mod:GetLocale()
 
@@ -56,6 +57,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_REMOVED", "FaceRageRemoved", 99945, 99947)
 	self:Log("SPELL_CAST_SUCCESS", "HurlSpear", 99978, 100002) -- Retail?, Cataclysm Classic
 	self:Log("SPELL_SUMMON", "Traps", 99836, 99839) -- Throw Crystal Prison Trap, Throw Immolation Trap
+	self:BossYell("FaceRageTrigger", L["facerage_trigger"])
 end
 
 function mod:OnEngage()
@@ -124,7 +126,6 @@ end
 function mod:FaceRage(args)
 	self:TargetMessageOld(100129, args.destName, "red", "alert")
 	self:PrimaryIcon(100129, args.destName)
-	self:CDBar(100129, 30) -- Face Rage
 end
 
 function mod:FaceRageRemoved(args)
@@ -132,3 +133,6 @@ function mod:FaceRageRemoved(args)
 	self:PrimaryIcon(100129)
 end
 
+function mod:FaceRageTrigger()
+	self:CDBar(100129, 30)
+end
