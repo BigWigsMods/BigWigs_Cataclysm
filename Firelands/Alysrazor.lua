@@ -101,8 +101,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_REMOVED", "FirestormOver", 100744)
 
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL", "Initiates")
-
-	self:Death("Win", 52530)
 end
 
 function mod:OnEngage()

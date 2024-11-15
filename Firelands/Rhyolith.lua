@@ -60,8 +60,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_SUMMON", "Fragments", 98136)
 	self:Log("SPELL_AURA_REMOVED_DOSE", "ObsidianStack", 98632)
 	self:Log("SPELL_AURA_REMOVED", "Obsidian", 98632)
-
-	self:Death("Win", 52558)
 end
 
 function mod:OnEngage()
