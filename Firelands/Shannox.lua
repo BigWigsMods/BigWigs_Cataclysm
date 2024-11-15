@@ -29,6 +29,7 @@ if L then
 	L.crystal = "Crystal Trap"
 	L.crystal_desc = "Warn whom Shannox casts a Crystal Trap under."
 	L.crystal_icon = 99836
+	L.facerage_trigger = "Go for the throat!"
 end
 L = mod:GetLocale()
 
@@ -56,10 +57,12 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_REMOVED", "FaceRageRemoved", 99945, 99947)
 	self:Log("SPELL_CAST_SUCCESS", "HurlSpear", 99978, 100002) -- Retail?, Cataclysm Classic
 	self:Log("SPELL_SUMMON", "Traps", 99836, 99839) -- Throw Crystal Prison Trap, Throw Immolation Trap
+	self:BossYell("FaceRageTrigger", L["facerage_trigger"]) -- BossYell is more accurate than SPELL_CAST_SUCCESS for Face Rage cooldown
 end
 
 function mod:OnEngage()
 	self:Bar(100002, 23) -- Hurl Spear
+	self:CDBar(100129, 15) -- Face Rage
 	self:Berserk(600)
 end
 
@@ -130,3 +133,6 @@ function mod:FaceRageRemoved(args)
 	self:PrimaryIcon(100129)
 end
 
+function mod:FaceRageTrigger()
+	self:CDBar(100129, 30)
+end
