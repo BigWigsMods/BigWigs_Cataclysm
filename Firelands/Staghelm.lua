@@ -66,8 +66,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "SearingSeedsApplied", 98450)
 	self:Log("SPELL_AURA_REMOVED", "SearingSeedsRemoved", 98450)
 	self:Log("SPELL_CAST_START", "BurningOrbs", 98451)
-
-	self:Death("Win", 52571)
 end
 
 function mod:OnEngage()
