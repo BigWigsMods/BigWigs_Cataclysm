@@ -135,7 +135,8 @@ function mod:Phase4()
 end
 
 function mod:Dreadflame()
-	if not self:UnitDebuff("player", self:SpellName(100757)) then return end -- No Deluge on you = you don't care
+	-- 100713 on difficulty 5
+	if not self:UnitDebuff("player", self:SpellName(100757), 100713) then return end -- No Deluge on you = you don't care
 	self:MessageOld(100675, "red", "alarm")
 	self:Bar(100675, dreadflameCD)
 	if dreadflameCD > 10 then
