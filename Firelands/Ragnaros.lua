@@ -252,6 +252,7 @@ function mod:SplittingBlow(args)
 	self:StopBar(lavaWaves)
 	self:StopBar(98263) -- Wrath of Ragnaros
 	self:StopBar(98498) -- Molten Seed
+	self:StopBar(98164) -- Magma Trap
 end
 
 function mod:SulfurasSmash(args)
