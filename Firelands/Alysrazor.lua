@@ -111,7 +111,7 @@ function mod:OnEngage()
 		self:Bar(99816, 250, L["stage_message"]:format(2))
 		self:Bar(100744, 95) -- Firestorm
 		self:CDBar("meteor", 30, L["meteor"], 100761)
-		self:CDBar("eggs", 42, 58542, L["eggs_icon"]) -- Hatch Eggs
+		self:Bar("eggs", 42, 58542, L["eggs_icon"]) -- Hatch Eggs
 		self:DelayedMessage("eggs", 41.5, "green", 58542, L["eggs_icon"]) -- Hatch Eggs
 	else
 		initiateTimes = {31, 31, 21, 21, 21}
@@ -222,7 +222,7 @@ function mod:FirestormOver(args)
 		self:CDBar(args.spellId, 72)
 	end
 	self:Bar("meteor", meteorCount == 2 and 11.5 or 21.5,  L["meteor"], 100761)
-	self:CDBar("eggs", 22.5, 58542, L["eggs_icon"]) -- Hatch Eggs
+	self:Bar("eggs", 22.5, 58542, L["eggs_icon"]) -- Hatch Eggs
 	self:DelayedMessage("eggs", 22, "green", 58542, L["eggs_icon"]) -- Hatch Eggs
 end
 
@@ -281,8 +281,8 @@ do
 				self:Bar("meteor", 19, L["meteor"], 100761)
 				self:Bar(100744, 72) -- Firestorm
 				self:Bar(99816, 225, L["stage_message"]:format(2)) -- Just adding 60s like OnEngage
-				self:CDBar("eggs", 30, 58542, L["eggs_icon"]) -- Hatch Eggs
-				self:DelayedMessage("eggs", 29.5, "green", L["eggs_icon"], 58542) -- Hatch Eggs
+				self:Bar("eggs", 30, 58542, L["eggs_icon"]) -- Hatch Eggs
+				self:DelayedMessage("eggs", 29.5, "green", 58542, L["eggs_icon"]) -- Hatch Eggs
 			else
 				self:Bar(99816, 165, L["stage_message"]:format(2))
 				moltCount = 1
