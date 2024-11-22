@@ -98,6 +98,7 @@ end
 function mod:OnEngage()
 	self:Bar(98237, 25, L["hand_bar"])
 	self:Bar(98710, 30, lavaWaves)
+	self:CDBar(98164, 15) -- Magma Trap
 	self:OpenProximity("proximity", 6)
 	self:Berserk(1080)
 	lavaWavesCD, dreadflameCD = 30, 40
