@@ -282,7 +282,7 @@ do
 				self:Bar(100744, 72) -- Firestorm
 				self:Bar(99816, 225, L["stage_message"]:format(2)) -- Just adding 60s like OnEngage
 				self:Bar("eggs", 30, 58542, L["eggs_icon"]) -- Hatch Eggs
-				self:DelayedMessage("eggs", 29.5, "green", L["eggs_icon"], 58542) -- Hatch Eggs
+				self:DelayedMessage("eggs", 29.5, "green", 58542, L["eggs_icon"]) -- Hatch Eggs
 			else
 				self:Bar(99816, 165, L["stage_message"]:format(2))
 				moltCount = 1
