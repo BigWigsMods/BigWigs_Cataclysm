@@ -98,6 +98,7 @@ end
 function mod:OnEngage()
 	self:Bar(98237, 25, L["hand_bar"])
 	self:Bar(98710, 30, lavaWaves)
+	self:CDBar(98164, 15) -- Magma Trap
 	self:OpenProximity("proximity", 6)
 	self:Berserk(1080)
 	lavaWavesCD, dreadflameCD = 30, 40
@@ -252,6 +253,7 @@ function mod:SplittingBlow(args)
 	self:StopBar(lavaWaves)
 	self:StopBar(98263) -- Wrath of Ragnaros
 	self:StopBar(98498) -- Molten Seed
+	self:StopBar(98164) -- Magma Trap
 end
 
 function mod:SulfurasSmash(args)
