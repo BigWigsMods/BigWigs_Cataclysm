@@ -220,7 +220,7 @@ end
 function mod:FirestormOver(args)
 	-- Only show a bar for next if we have seen less than 3 meteors
 	if meteorCount < 3 then
-		self:CDBar(args.spellId, 72)
+		self:CDBar(100744, 72) -- Firestorm
 	end
 	self:Bar("meteor", meteorCount == 2 and 11.5 or 21.5,  L["meteor"], 100761)
 	self:Bar("eggs", 22.5, 58542, L["eggs_icon"]) -- Hatch Eggs
