@@ -98,7 +98,6 @@ function mod:OnBossEnable()
 	-- Heroic only
 	self:Log("SPELL_CAST_START", "Meteor", 100761, 102111)
 	self:Log("SPELL_CAST_START", "Firestorm", 100744)
-	self:Log("SPELL_AURA_REMOVED", "FirestormOver", 100744)
 
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL", "Initiates")
 end
@@ -109,7 +108,7 @@ function mod:OnEngage()
 		initiateTimes = {22, 63, 21, 21, 40}
 		self:MessageOld(99816, "yellow", nil, L["engage_message"]:format(4), "inv_misc_pheonixpet_01")
 		self:Bar(99816, 250, L["stage_message"]:format(2))
-		self:Bar(100744, 95) -- Firestorm
+		self:CDBar(100744, 95) -- Firestorm
 		self:CDBar("meteor", 30, L["meteor"], 100761)
 		self:Bar("eggs", 42, 58542, L["eggs_icon"]) -- Hatch Eggs
 		self:DelayedMessage("eggs", 41.5, "green", 58542, L["eggs_icon"]) -- Hatch Eggs
@@ -213,7 +212,9 @@ end
 function mod:Firestorm(args)
 	self:Flash(args.spellId)
 	self:MessageOld(args.spellId, "orange", "alert")
+	self:StopBar(args.spellId)
 	self:Bar(args.spellId, 10, CL["cast"]:format(args.spellName))
+	self:SimpleTimer(function() self:FirestormOver(args) end, 10)
 end
 
 function mod:FirestormOver(args)
@@ -279,7 +280,7 @@ do
 			if self:Heroic() then
 				meteorCount = 0
 				self:Bar("meteor", 19, L["meteor"], 100761)
-				self:Bar(100744, 72) -- Firestorm
+				self:CDBar(100744, 72) -- Firestorm
 				self:Bar(99816, 225, L["stage_message"]:format(2)) -- Just adding 60s like OnEngage
 				self:Bar("eggs", 30, 58542, L["eggs_icon"]) -- Hatch Eggs
 				self:DelayedMessage("eggs", 29.5, "green", 58542, L["eggs_icon"]) -- Hatch Eggs
