@@ -99,6 +99,7 @@ function mod:OnEngage()
 	self:Bar(98237, 25, L["hand_bar"])
 	self:Bar(98710, 30, lavaWaves)
 	self:CDBar(98164, 15) -- Magma Trap
+	self:CDBar(98263, 5) -- Wrath of Ragnaros
 	self:OpenProximity("proximity", 6)
 	self:Berserk(1080)
 	lavaWavesCD, dreadflameCD = 30, 40
@@ -232,9 +233,7 @@ function mod:HandofRagnaros(args)
 end
 
 function mod:WrathofRagnaros(args)
-	if self:Difficulty() == 5 then
-		self:CDBar(args.spellId, 25)
-	end
+	self:CDBar(args.spellId, 25.5)
 end
 
 function mod:SplittingBlow(args)
@@ -257,8 +256,8 @@ function mod:SplittingBlow(args)
 end
 
 function mod:SulfurasSmash(args)
-	if phase == 1 and self:Difficulty() ~= 5 then
-		self:CDBar(98263, 12)
+	if phase == 1 and self:BarTimeLeft(98263) < 12.5 then
+		self:CDBar(98263, 12.5) -- Wrath of Ragnaros
 	end
 	self:MessageOld(args.spellId, "yellow", "info", lavaWaves)
 	self:Bar(args.spellId, lavaWavesCD, lavaWaves)
