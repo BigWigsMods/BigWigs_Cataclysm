@@ -97,7 +97,7 @@ end
 
 function mod:OnEngage()
 	self:Bar(98237, 25, L["hand_bar"])
-	self:Bar(98710, 30, lavaWaves)
+	self:CDBar(98710, 30, lavaWaves)
 	self:CDBar(98164, 15) -- Magma Trap
 	self:CDBar(98263, 5) -- Wrath of Ragnaros
 	self:OpenProximity("proximity", 6)
@@ -208,19 +208,20 @@ function mod:IntermissionEnd()
 		self:OpenProximity("proximity", 6)
 		if self:Heroic() then
 			self:CDBar(98498, 15) -- Molten Seed
-			self:Bar(98710, 7.5, lavaWaves)
+			self:CDBar(98710, 5, lavaWaves)
 			self:Bar(100171, 40) -- World in Flames
 		else
 			self:Bar(98498, 22.7) -- Molten Seed
-			self:Bar(98710, 55, lavaWaves)
+			self:CDBar(98710, 15, lavaWaves)
 		end
 	elseif phase == 2 then
+		lavaWavesCD = 30
 		engulfingCD = 30
 		if self:Heroic() then
 			self:Bar(100171, engulfingCD) -- World in Flames
 		end
 		self:CDBar(99317, 52) -- Living Meteor
-		self:Bar(98710, 55, lavaWaves)
+		self:CDBar(98710, 15, lavaWaves)
 		self:RegisterUnitEvent("UNIT_AURA", "FixatedCheck", "player")
 		self:UnregisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "boss1")
 	end
@@ -260,7 +261,7 @@ function mod:SulfurasSmash(args)
 		self:CDBar(98263, 12.5) -- Wrath of Ragnaros
 	end
 	self:MessageOld(args.spellId, "yellow", "info", lavaWaves)
-	self:Bar(args.spellId, lavaWavesCD, lavaWaves)
+	self:CDBar(args.spellId, lavaWavesCD, lavaWaves)
 end
 
 function mod:WorldInFlames(args)
