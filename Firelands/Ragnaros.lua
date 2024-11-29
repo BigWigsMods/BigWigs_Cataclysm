@@ -119,21 +119,18 @@ end
 --
 
 function mod:Phase4()
-	--10% Yell is Phase 4 for heroic, and victory for normal
-	if self:Heroic() then
-		self:StopBar(livingMeteor)
-		self:StopBar(lavaWaves)
-		self:StopBar(98498) -- Molten Seed
-		phase = 4
-		 -- not sure if we want a different option key or different icon
-		self:MessageOld(98953, "green", nil, CL["phase"]:format(phase))
-		self:Bar(100479, 34) -- Breadth of Frost
-		self:Bar(100714, 51) -- Cloudburst
-		self:Bar(100646, 68) -- Entraping Roots
-		self:Bar(100604, 90) -- Empower Sulfuras
-	else
-		self:Win()
-	end
+	if not self:Heroic() then return end
+
+	self:StopBar(livingMeteor)
+	self:StopBar(lavaWaves)
+	self:StopBar(98498) -- Molten Seed
+	phase = 4
+	-- not sure if we want a different option key or different icon
+	self:MessageOld(98953, "green", nil, CL["phase"]:format(phase))
+	self:Bar(100479, 34) -- Breadth of Frost
+	self:Bar(100714, 51) -- Cloudburst
+	self:Bar(100646, 68) -- Entraping Roots
+	self:Bar(100604, 90) -- Empower Sulfuras
 end
 
 function mod:Dreadflame()
