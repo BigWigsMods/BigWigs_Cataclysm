@@ -313,8 +313,8 @@ do
 			if t-prev > 5 then
 				prev = t
 				self:MessageOld(98498, "orange", "alarm")
-				self:Bar(98498, 12, L["seed_explosion"])
-				self:Bar(98498, 60)
+				self:Bar(98498, 11, L["seed_explosion"])
+				self:Bar(98498, 61.4)
 			end
 		elseif self:SpellName(spellId) == self:SpellName(98333) then
 			self:Error(("Found new id %d"):format(spellId)) -- XXX 98333 is the id on hc25, check normal
