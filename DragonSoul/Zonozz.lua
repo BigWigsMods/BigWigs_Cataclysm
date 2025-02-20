@@ -24,7 +24,7 @@ if L then
 
 	L.bounce = "Void ball bounce"
 	L.bounce_desc = "Counter for the void ball bounces."
-	L.bounce_icon = 132563 -- inv_misc_soccerball / Kick Foot Ball
+	L.bounce_icon = "Inv_misc_throwingball_01"
 
 	L.darkness = "Tentacle disco party!"
 	L.darkness_desc = "This phase starts when the void ball hits the boss."
