@@ -167,7 +167,7 @@ do
 	function mod:BuffCheck()
 		local name = self:UnitBuff("player", feather, 97128)
 		if not name then
-			if self:UnitBuff("player", moonkin) then
+			if self:UnitBuff("player", moonkin, 24858) then
 				self:MessageOld(97128, "blue", nil, L["moonkin_message"])
 			else
 				self:MessageOld(97128, "blue", nil, L["no_stacks_message"])
