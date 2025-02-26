@@ -6,6 +6,7 @@ local mod, CL = BigWigs:NewBoss("Warlord Zon'ozz", 967, 324)
 if not mod then return end
 mod:RegisterEnableMob(55308)
 mod:SetEncounterID(1294)
+mod:SetRespawnTime(35)
 
 local ballTimer = 0
 local shadowsMarkCounter = 1
