@@ -130,7 +130,7 @@ function mod:Phase4()
 	self:Bar(100479, 34) -- Breadth of Frost
 	self:Bar(100714, 51) -- Cloudburst
 	self:Bar(100646, 68) -- Entraping Roots
-	self:Bar(100604, 90) -- Empower Sulfuras
+	self:Bar(100604, 80) -- Empower Sulfuras
 end
 
 function mod:Dreadflame()
