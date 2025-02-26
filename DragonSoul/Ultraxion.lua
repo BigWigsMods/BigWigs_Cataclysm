@@ -5,6 +5,7 @@
 local mod, CL = BigWigs:NewBoss("Ultraxion", 967, 331)
 if not mod then return end
 mod:RegisterEnableMob(55294, 56667) -- Ultraxion, Thrall
+mod:SetEncounterID(1297)
 
 --------------------------------------------------------------------------------
 -- Locales
@@ -73,15 +74,11 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "HourofTwilight", 106371)
 	self:Log("SPELL_AURA_APPLIED", "FadingLight", 109075, 105925) -- Normal/Tank
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
 	self:BossYell("Warmup", L["warmup_trigger"])
 	self:Emote("Gift", L["crystal_icon"])
 	self:Emote("Dreams", L["crystal_green_icon"])
 	self:Emote("Magic", L["crystal_blue_icon"])
 	self:Emote("Loop", L["crystal_bronze_icon"])
-
-	self:Death("Win", 55294)
 end
 
 function mod:Warmup()
