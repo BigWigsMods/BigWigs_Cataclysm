@@ -5,6 +5,7 @@
 local mod, CL = BigWigs:NewBoss("Hagara the Stormbinder", 967, 317)
 if not mod then return end
 mod:RegisterEnableMob(55689)
+mod:SetEncounterID(1296)
 
 --------------------------------------------------------------------------------
 -- Locales
@@ -58,10 +59,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "WaterShield", 105409)
 	self:Log("SPELL_AURA_APPLIED", "FrostFlakeApplied", 109325)
 	self:Log("SPELL_AURA_REMOVED", "FrostFlakeRemoved", 109325)
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	self:Death("Win", 55689)
 end
 
 function mod:OnEngage()

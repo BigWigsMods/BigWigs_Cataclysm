@@ -5,6 +5,7 @@
 local mod, CL = BigWigs:NewBoss("Warlord Zon'ozz", 967, 324)
 if not mod then return end
 mod:RegisterEnableMob(55308)
+mod:SetEncounterID(1294)
 
 local ballTimer = 0
 local shadowsMarkCounter = 1
@@ -65,10 +66,7 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "VoidDiffusion", 106836)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "VoidDiffusion", 106836)
 
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 	self:BossYell("VoidoftheUnmaking", L["ball_yell"])
-
-	self:Death("Win", 55308)
 end
 
 function mod:OnEngage()

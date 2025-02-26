@@ -5,6 +5,7 @@
 local mod, CL = BigWigs:NewBoss("Morchok", 967, 311)
 if not mod then return end
 mod:RegisterEnableMob(55265)
+mod:SetEncounterID(1292)
 
 local crystalCount, stompCount = 0, 1
 
@@ -67,10 +68,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "BlackBloodStacks", 103785)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "BlackBloodStacks", 103785)
 	self:Log("SPELL_SUMMON", "ResonatingCrystal", 103639)
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	self:Death("Win", 55265)
 end
 
 function mod:OnEngage()
