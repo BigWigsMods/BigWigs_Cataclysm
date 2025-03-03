@@ -188,7 +188,7 @@ function mod:Shrapnel(args)
 		local you = CL["you"]:format(args.spellName)
 		self:MessageOld(args.spellId, "red", "long", you)
 		self:Flash(args.spellId)
-		self:Bar(args.spellId, 7, you)
+		self:Bar(args.spellId, 6, you)
 	end
 end
 
