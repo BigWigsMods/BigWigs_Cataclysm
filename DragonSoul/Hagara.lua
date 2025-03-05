@@ -6,6 +6,7 @@ local mod, CL = BigWigs:NewBoss("Hagara the Stormbinder", 967, 317)
 if not mod then return end
 mod:RegisterEnableMob(55689)
 mod:SetEncounterID(1296)
+mod:SetRespawnTime(32)
 
 --------------------------------------------------------------------------------
 -- Locales
