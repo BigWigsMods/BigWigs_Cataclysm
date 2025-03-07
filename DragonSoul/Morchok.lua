@@ -6,6 +6,7 @@ local mod, CL = BigWigs:NewBoss("Morchok", 967, 311)
 if not mod then return end
 mod:RegisterEnableMob(55265)
 mod:SetEncounterID(1292)
+mod:SetRespawnTime(30)
 
 local crystalCount, stompCount = 0, 1
 
