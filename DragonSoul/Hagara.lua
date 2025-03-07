@@ -39,9 +39,9 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		{104448, "FLASH"}, 105256, {105316, "PROXIMITY"}, {109325, "ICON", "FLASH", "PROXIMITY", "SAY"},
+		{104448, "FLASH"}, 105256, {109325, "ICON", "FLASH", "PROXIMITY", "SAY"},
 		105409,
-		{-4159, "TANK_HEALER"}, 108934, "nextphase", "berserk"
+		{-4159, "TANK_HEALER"}, {105316, "PROXIMITY"}, 108934, "nextphase", "berserk"
 	}, {
 		[104448] = L["ice_next"],
 		[105409] = L["lightning_next"],
