@@ -8,7 +8,7 @@ mod:RegisterEnableMob(55265)
 mod:SetEncounterID(1292)
 mod:SetRespawnTime(30)
 
-local crystalCount, stompCount = 0, 1
+local stompCount = 1
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -75,9 +75,8 @@ end
 function mod:OnEngage()
 	self:Berserk(420) -- confirmed
 	self:Bar("stomp_boss", 11, L["stomp_boss"], L["stomp_boss_icon"])
-	self:Bar("crystal_boss", 16, L["crystal"], L["crystal_boss_icon"])
 	self:CDBar(103851, 57, L["blood"]) -- Black Blood, 57-64s
-	crystalCount, stompCount = 0, 1
+	stompCount = 1
 end
 
 --------------------------------------------------------------------------------
@@ -87,7 +86,6 @@ end
 function mod:SummonKohcrom(args)
 	self:CDBar("stomp_boss", 6, CL.other:format(self:SpellName(103414), self.displayName), L["stomp_boss_icon"]) -- Stomp, 6-12s
 	self:MessageOld(args.spellId, "green")
-	self:StopBar(L["crystal"])
 	self:StopBar(L["stomp_boss"])
 end
 
@@ -95,13 +93,11 @@ end
 function mod:BloodOver(_, _, _, spellId)
 	if spellId == 103851 then
 		self:CDBar(spellId, 74, L["blood"])
-		crystalCount, stompCount = 0, 1
+		stompCount = 1
 		if self:Heroic() then
 			self:CDBar("stomp_boss", 15, CL.other:format(self:SpellName(103414), self.displayName), L["stomp_boss_icon"]) -- Stomp
-			self:CDBar("crystal_boss", 22, CL.other:format(L["crystal"], self.displayName), L["crystal_boss_icon"])
 		else
 			self:Bar("stomp_boss", 5, L["stomp_boss"], L["stomp_boss_icon"])
-			self:Bar("crystal_boss", 29, L["crystal"], L["crystal_boss_icon"])
 		end
 	end
 end
@@ -163,19 +159,13 @@ function mod:EarthenVortex(args)
 end
 
 function mod:ResonatingCrystal(args)
-	if args.sourceName == self.displayName then crystalCount = crystalCount + 1 end -- Only increment count off morchok casts.
 	if self:Heroic() then
 		if args.sourceName == self:SpellName(-4262) then -- -4262 == Kohcrom
-			self:StopBar(CL.other:format(L["crystal"], self:SpellName(-4262))) -- "Crystal: Kohcrom"
 			self:MessageOld("crystal_add" , "orange", "alarm", CL.other:format(L["crystal"], self:SpellName(-4262)), args.spellId) -- "Crystal: Kohcrom"
 			self:Bar("crystal_add", 12, CL.other:format(CL.explosion, self:SpellName(-4262)), args.spellId) -- "Explosion: Kohcrom"
 		else -- if args.sourceName == self.displayName then
 			self:MessageOld("crystal_boss", "orange", "alarm", CL.other:format(L["crystal"], self.displayName), args.spellId) -- "Crystal: Morchok"
 			self:Bar("crystal_boss", 12, CL.other:format(CL.explosion, self.displayName), args.spellId) -- "Explosion: Morchok"
-			if UnitExists("boss2") and crystalCount > 1 then
-				-- The CD bar will only start off morchok's 2nd crystal, if kohcrom is already summoned.
-				self:CDBar("crystal_add", self:Difficulty() == 5 and 6 or 5, CL.other:format(L["crystal"], self:SpellName(-4262)), args.spellId) -- "Crystal: Kohcrom" Same as stomp, 6/5
-			end
 		end
 	else
 		self:MessageOld("crystal_boss", "orange", "alarm", args.spellId)
