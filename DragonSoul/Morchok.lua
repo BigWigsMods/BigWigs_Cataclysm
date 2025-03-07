@@ -63,6 +63,7 @@ function mod:OnBossEnable()
 	self:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", "BloodOver", "boss1")
 	self:Log("SPELL_CAST_START", "Stomp", 103414)
 	self:Log("SPELL_CAST_START", "BlackBlood", 103851)
+	self:Log("SPELL_CAST_SUCCESS", "EarthenVortex", 103821)
 	self:Log("SPELL_AURA_APPLIED", "Furious", 103846)
 	self:Log("SPELL_AURA_APPLIED", "Crush", 103687)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "Crush", 103687)
@@ -75,7 +76,7 @@ function mod:OnEngage()
 	self:Berserk(420) -- confirmed
 	self:Bar("stomp_boss", 11, L["stomp_boss"], L["stomp_boss_icon"])
 	self:Bar("crystal_boss", 16, L["crystal"], L["crystal_boss_icon"])
-	self:CDBar(103851, 56, L["blood"])
+	self:CDBar(103851, 57, L["blood"]) -- Black Blood, 57-64s
 	crystalCount, stompCount = 0, 1
 end
 
@@ -93,7 +94,7 @@ end
 -- If we were to start bars at :BlackBlood then we are subject to BlackBlood duration changes
 function mod:BloodOver(_, _, _, spellId)
 	if spellId == 103851 then
-		self:Bar(spellId, 75, L["blood"])
+		self:CDBar(spellId, 74, L["blood"])
 		crystalCount, stompCount = 0, 1
 		if self:Heroic() then
 			self:CDBar("stomp_boss", 15, CL.other:format(self:SpellName(103414), self.displayName), L["stomp_boss_icon"]) -- Stomp
@@ -155,6 +156,10 @@ do
 			self:MessageOld(103851, "blue", "long", CL["underyou"]:format(L["blood"]), args.spellId)
 		end
 	end
+end
+
+function mod:EarthenVortex(args)
+	self:StopBar(L["blood"]) -- Black Blood
 end
 
 function mod:ResonatingCrystal(args)
