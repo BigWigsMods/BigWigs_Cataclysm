@@ -25,7 +25,7 @@ if L then
 	L.ball_yell = "Gul'kafh an'qov N'Zoth."
 
 	L.ball_active = "Void ball active"
-	L.ball_active_desc = "Timer for when the void ball activates (i.e. can bounce)"
+	L.ball_active_desc = "Timer for when the void ball activates (i.e. it can bounce)."
 	L.ball_active_icon = 88887
 
 	L.bounce = "Void ball bounce"
