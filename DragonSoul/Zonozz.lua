@@ -6,6 +6,7 @@ local mod, CL = BigWigs:NewBoss("Warlord Zon'ozz", 967, 324)
 if not mod then return end
 mod:RegisterEnableMob(55308)
 mod:SetEncounterID(1294)
+mod:SetRespawnTime(35)
 
 local ballTimer = 0
 local shadowsMarkCounter = 1
@@ -22,6 +23,10 @@ if L then
 	L.ball_desc = "Void ball that bounces off of players and the boss."
 	L.ball_icon = 28028 -- void sphere icon
 	L.ball_yell = "Gul'kafh an'qov N'Zoth."
+
+	L.ball_active = "Void ball active"
+	L.ball_active_desc = "Timer for when the void ball activates (i.e. can bounce)"
+	L.ball_active_icon = 88887
 
 	L.bounce = "Void ball bounce"
 	L.bounce_desc = "Counter for the void ball bounces."
@@ -48,7 +53,7 @@ L = mod:GetLocale()
 
 function mod:GetOptions()
 	return {
-		"ball", "bounce", "darkness",
+		"ball", "ball_active", "bounce", "darkness",
 		"drain", {103434, "FLASH", "SAY", "PROXIMITY"}, "custom_off_shadows_marker",
 		"berserk",
 	}, {
@@ -99,6 +104,7 @@ end
 
 function mod:VoidDiffusion(args)
 	self:MessageOld("bounce", "red", nil, ("%s (%d)"):format(L["bounce"], args.amount or 1), L.bounce_icon)
+	self:Bar("ball_active", 5, CL.other:format(L["ball"], CL["active"]), L["ball_active_icon"])
 end
 
 function mod:PsychicDrain(args)
@@ -112,6 +118,7 @@ function mod:VoidoftheUnmaking()
 	end
 	ballTimer = GetTime()
 	self:Bar("ball", 90, L["ball"], L["ball_icon"])
+	self:Bar("ball_active", 4.3, CL.other:format(L["ball"], CL["active"]), L["ball_active_icon"])
 	self:MessageOld("ball", "orange", "alarm", L["ball"], L["ball_icon"])
 end
 
