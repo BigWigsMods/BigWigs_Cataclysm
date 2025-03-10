@@ -147,9 +147,8 @@ end
 do
 	local prev = 0
 	function mod:IceLance(args)
-		local t = GetTime()
-		if t-prev > 5 then
-			prev = t
+		if args.time-prev > 5 then
+			prev = args.time
 			lanceCount = lanceCount + 1
 			if lanceCount < 2 then
 				self:CDBar(105316, 30)
