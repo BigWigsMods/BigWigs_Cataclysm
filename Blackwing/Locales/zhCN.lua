@@ -37,5 +37,4 @@ L = BigWigs:NewBossLocale("Nefarian", "zhCN")
 if L then
 	L.discharge = "闪电倾泻"
 	L.stage3_yell_trigger = "我一直在尝试扮演好客的主人" -- 我一直在尝试扮演好客的主人，可你们就是不肯受死！该卸下伪装了……杀光你们！
-	--L.too_close = "Dragons are too close"
 end
