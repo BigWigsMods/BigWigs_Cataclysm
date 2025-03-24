@@ -25,7 +25,7 @@ end
 L = BigWigs:NewBossLocale("Atramedes", "zhCN")
 if L then
 	L.obnoxious_fiend = "喧闹恶鬼" -- NPC ID 49740
-	--L.circles = "Circles"
+	L.circles = "音波"
 end
 
 L = BigWigs:NewBossLocale("Maloriak", "zhCN")
