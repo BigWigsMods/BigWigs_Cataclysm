@@ -147,7 +147,7 @@ end
 --
 
 function mod:NefarianLanding()
-	self:Message("stages", "cyan", CL.landing:format(self:SpellName(-3279)), false) -- Nefarian
+	self:Message("stages", "cyan", CL.boss_landing:format(self:SpellName(-3279)), false) -- Nefarian
 	self:PlaySound("stages", "long")
 end
 
