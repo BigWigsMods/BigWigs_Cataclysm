@@ -10,3 +10,4 @@ A collection of BigWigs modules from the **Cataclysm** era, including:
 
 ## Download
 <https://www.curseforge.com/wow/addons/bigwigs_cataclysm>
+<https://addons.wago.io/addons/bigwigs-cataclysm>
