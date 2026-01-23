@@ -9,5 +9,5 @@ A collection of BigWigs modules from the **Cataclysm** era, including:
 * Throne of the Four Winds
 
 ## Download
-<https://www.curseforge.com/wow/addons/bigwigs_cataclysm>
-<https://addons.wago.io/addons/bigwigs-cataclysm>
+* <https://www.curseforge.com/wow/addons/bigwigs_cataclysm>
+* <https://addons.wago.io/addons/bigwigs-cataclysm>
