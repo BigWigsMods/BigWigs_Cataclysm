@@ -2,7 +2,7 @@
 
 ## Title: BigWigs [|cffeda55fCataclysm|r]
 ## Title-zhCN: BigWigs [|cffeda55f大地的裂变|r]
-## Title-zhTW: BigWigs [|cffeda55fCataclysm|r]
+## Title-zhTW: BigWigs [|cffeda55f浩劫與重生|r]
 ## Title-deDE: BigWigs [|cffeda55fCataclysm|r]
 ## Title-frFR: BigWigs [|cffeda55fCataclysm|r]
 ## Title-itIT: BigWigs [|cffeda55fCataclysm|r]
@@ -13,7 +13,7 @@
 ## Title-esMX: BigWigs [|cffeda55fCataclysm|r]
 ## Notes: A collection of BigWigs modules from the Cataclysm era.
 ## Notes-zhCN: BigWigs 大地的裂变模块。
-## Notes-zhTW: A collection of BigWigs modules from the Cataclysm era.
+## Notes-zhTW: BigWigs 浩劫與重生模組。
 ## Notes-deDE: Eine Sammlung von BigWigs-Modulen aus der Ära Cataclysm.
 ## Notes-frFR: A collection of BigWigs modules from the Cataclysm era.
 ## Notes-itIT: Una collezione di moduli BigWigs dell'era di Cataclysm.
