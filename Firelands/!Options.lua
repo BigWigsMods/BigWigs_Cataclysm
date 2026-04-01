@@ -27,6 +27,7 @@ BigWigs:AddColors("Lord Rhyolith", {
 	[98255] = {"red","yellow"},
 	[98493] = "yellow",
 	[98552] = "red",
+	[101304] = {"orange","red","yellow"},
 	["armor"] = "green",
 })
 
@@ -38,6 +39,7 @@ BigWigs:AddSounds("Lord Rhyolith", {
 	[98255] = "alarm",
 	[98493] = "info",
 	[98552] = "alarm",
+	[101304] = "alarm",
 })
 
 BigWigs:AddColors("Alysrazor", {
@@ -66,6 +68,7 @@ BigWigs:AddSounds("Alysrazor", {
 BigWigs:AddColors("Shannox", {
 	[100002] = "yellow",
 	[100129] = {"blue","green","red"},
+	["berserk"] = {"orange","red","yellow"},
 	["crystal"] = {"blue","orange"},
 	["immolation"] = "yellow",
 	["immolationyou"] = "blue",
@@ -74,6 +77,7 @@ BigWigs:AddColors("Shannox", {
 BigWigs:AddSounds("Shannox", {
 	[100002] = "info",
 	[100129] = "alert",
+	["berserk"] = "alarm",
 	["crystal"] = "alarm",
 	["immolationyou"] = "alarm",
 })
@@ -82,12 +86,14 @@ BigWigs:AddColors("Baleroc", {
 	[-2598] = "yellow",
 	[99259] = "orange",
 	[99516] = {"blue","red"},
+	["berserk"] = {"orange","red","yellow"},
 	["torment"] = "blue",
 })
 
 BigWigs:AddSounds("Baleroc", {
 	[99259] = "alert",
 	[99516] = "alarm",
+	["berserk"] = "alarm",
 	["torment"] = "info",
 })
 
@@ -97,6 +103,7 @@ BigWigs:AddColors("Majordomo Staghelm", {
 	[98379] = "red",
 	[98450] = "blue",
 	[98476] = {"blue","orange"},
+	["berserk"] = {"orange","red","yellow"},
 })
 
 BigWigs:AddSounds("Majordomo Staghelm", {
@@ -104,6 +111,7 @@ BigWigs:AddSounds("Majordomo Staghelm", {
 	[98379] = "alert",
 	[98450] = "warning",
 	[98476] = "long",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Ragnaros", {
@@ -121,6 +129,7 @@ BigWigs:AddColors("Ragnaros", {
 	[100646] = "green",
 	[100675] = "red",
 	[100714] = "green",
+	["berserk"] = {"orange","red","yellow"},
 })
 
 BigWigs:AddSounds("Ragnaros", {
@@ -133,4 +142,5 @@ BigWigs:AddSounds("Ragnaros", {
 	[100171] = "alert",
 	[100460] = "info",
 	[100675] = "alarm",
+	["berserk"] = "alarm",
 })

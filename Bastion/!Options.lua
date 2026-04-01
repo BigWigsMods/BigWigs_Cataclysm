@@ -8,6 +8,7 @@ BigWigs:AddColors("Halfus Wyrmbreaker", {
 	[83710] = {"cyan","orange"},
 	[83908] = {"blue","purple"},
 	[84030] = "yellow",
+	["berserk"] = {"orange","red"},
 })
 
 BigWigs:AddSounds("Halfus Wyrmbreaker", {
@@ -16,6 +17,7 @@ BigWigs:AddSounds("Halfus Wyrmbreaker", {
 	[83707] = "warning",
 	[83710] = "info",
 	[84030] = "long",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Valiona and Theralion", {
@@ -28,6 +30,7 @@ BigWigs:AddColors("Valiona and Theralion", {
 	[86840] = "red",
 	[88518] = "blue",
 	[93051] = {"blue","red"},
+	["berserk"] = {"orange","red","yellow"},
 	["stages"] = "cyan",
 })
 
@@ -40,6 +43,7 @@ BigWigs:AddSounds("Valiona and Theralion", {
 	[86788] = {"alert","warning"},
 	[86840] = "alert",
 	[88518] = "long",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Ascendant Council", {
@@ -89,6 +93,7 @@ BigWigs:AddColors("Cho'gall", {
 	[82524] = "yellow",
 	[82630] = {"green","yellow"},
 	[91303] = {"blue","red"},
+	["berserk"] = {"orange","red","yellow"},
 	["orders"] = "orange",
 })
 
@@ -99,6 +104,7 @@ BigWigs:AddSounds("Cho'gall", {
 	[82299] = "alert",
 	[82630] = "info",
 	[91303] = "alarm",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Sinestra", {

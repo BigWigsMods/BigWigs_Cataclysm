@@ -17,6 +17,7 @@ BigWigs:AddColors("Omnotron Defense System", {
 	[92023] = {"blue","orange"},
 	[92048] = {"blue","orange"},
 	[92053] = "blue",
+	["berserk"] = {"orange","red"},
 })
 
 BigWigs:AddSounds("Omnotron Defense System", {
@@ -33,6 +34,7 @@ BigWigs:AddSounds("Omnotron Defense System", {
 	[91879] = {"underyou","warning"},
 	[92048] = "warning",
 	[92053] = "warning",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Magmaw", {
@@ -47,6 +49,7 @@ BigWigs:AddColors("Magmaw", {
 	[92134] = "blue",
 	[92177] = "red",
 	["adds"] = "cyan",
+	["berserk"] = {"orange","red","yellow"},
 	["slump"] = "green",
 	["stages"] = "cyan",
 })
@@ -60,6 +63,7 @@ BigWigs:AddSounds("Magmaw", {
 	[92134] = "underyou",
 	[92177] = "alarm",
 	["adds"] = "info",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Atramedes", {
@@ -69,6 +73,7 @@ BigWigs:AddColors("Atramedes", {
 	[78023] = "blue",
 	[78075] = {"blue","red"},
 	[92685] = {"blue","red"},
+	["berserk"] = {"orange","red","yellow"},
 	["stages"] = "cyan",
 })
 
@@ -79,6 +84,7 @@ BigWigs:AddSounds("Atramedes", {
 	[78023] = "underyou",
 	[78075] = "warning",
 	[92685] = "alarm",
+	["berserk"] = "alarm",
 	["stages"] = "long",
 })
 
@@ -87,6 +93,7 @@ BigWigs:AddColors("Chimaeron", {
 	[82881] = {"blue","purple"},
 	[88826] = {"green","purple"},
 	[88853] = "red",
+	["berserk"] = {"orange","red","yellow"},
 	["stages"] = "cyan",
 })
 
@@ -94,6 +101,7 @@ BigWigs:AddSounds("Chimaeron", {
 	[82848] = "info",
 	[88826] = "alert",
 	[88853] = "warning",
+	["berserk"] = "alarm",
 	["stages"] = "long",
 })
 
@@ -116,6 +124,7 @@ BigWigs:AddColors("Maloriak", {
 	[92754] = {"green","purple"},
 	[92917] = "cyan",
 	[92930] = "blue",
+	["berserk"] = {"orange","red","yellow"},
 	["stages"] = "cyan",
 })
 
@@ -131,6 +140,7 @@ BigWigs:AddSounds("Maloriak", {
 	[78225] = "alarm",
 	[92754] = "info",
 	[92930] = "underyou",
+	["berserk"] = "alarm",
 	["stages"] = "long",
 })
 
@@ -145,6 +155,7 @@ BigWigs:AddColors("Nefarian", {
 	[81007] = "blue",
 	[81031] = "red",
 	[81272] = "orange",
+	["berserk"] = {"orange","red","yellow"},
 	["stages"] = "cyan",
 })
 
@@ -156,5 +167,6 @@ BigWigs:AddSounds("Nefarian", {
 	[81007] = "underyou",
 	[81031] = "alarm",
 	[81272] = "alert",
+	["berserk"] = "alarm",
 	["stages"] = "long",
 })

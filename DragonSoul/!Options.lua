@@ -4,6 +4,7 @@ BigWigs:AddColors("Morchok", {
 	[103846] = "green",
 	[103851] = "blue",
 	[109017] = "green",
+	["berserk"] = {"orange","red","yellow"},
 	["crush"] = {"blue","orange"},
 	["crystal_add"] = "orange",
 	["crystal_boss"] = "orange",
@@ -13,6 +14,7 @@ BigWigs:AddColors("Morchok", {
 
 BigWigs:AddSounds("Morchok", {
 	[103851] = "long",
+	["berserk"] = "alarm",
 	["crush"] = "info",
 	["crystal_add"] = "alarm",
 	["crystal_boss"] = "alarm",
@@ -21,6 +23,7 @@ BigWigs:AddSounds("Morchok", {
 BigWigs:AddColors("Warlord Zon'ozz", {
 	[103434] = {"blue","yellow"},
 	["ball"] = "orange",
+	["berserk"] = {"orange","red","yellow"},
 	["bounce"] = "red",
 	["darkness"] = "red",
 	["drain"] = "orange",
@@ -29,17 +32,20 @@ BigWigs:AddColors("Warlord Zon'ozz", {
 BigWigs:AddSounds("Warlord Zon'ozz", {
 	[103434] = "alert",
 	["ball"] = "alarm",
+	["berserk"] = "alarm",
 	["darkness"] = "info",
 })
 
 BigWigs:AddColors("Yor'sahj the Unsleeping", {
 	[-4321] = "blue",
+	["berserk"] = {"orange","red","yellow"},
 	["blobs"] = "orange",
 	["bolt"] = {"blue","orange"},
 })
 
 BigWigs:AddSounds("Yor'sahj the Unsleeping", {
 	[-4321] = "alert",
+	["berserk"] = "alarm",
 	["blobs"] = "alarm",
 	["bolt"] = "info",
 })
@@ -52,16 +58,19 @@ BigWigs:AddColors("Hagara the Stormbinder", {
 	[105409] = "yellow",
 	[108934] = "yellow",
 	[109325] = "blue",
+	["berserk"] = {"orange","red","yellow"},
 })
 
 BigWigs:AddSounds("Hagara the Stormbinder", {
 	[105316] = "info",
 	[109325] = "long",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Ultraxion", {
 	[105925] = {"blue","yellow"},
 	[106371] = "red",
+	["berserk"] = {"orange","red","yellow"},
 	["crystal"] = "green",
 	["lighttank"] = {"blue","yellow"},
 })
@@ -69,6 +78,7 @@ BigWigs:AddColors("Ultraxion", {
 BigWigs:AddSounds("Ultraxion", {
 	[105925] = "alarm",
 	[106371] = "alert",
+	["berserk"] = "alarm",
 	["crystal"] = "info",
 	["lighttank"] = "alarm",
 })
@@ -78,6 +88,7 @@ BigWigs:AddColors("Warmaster Blackhorn", {
 	[108044] = "green",
 	[108046] = {"blue","yellow"},
 	[108076] = "blue",
+	["berserk"] = {"orange","red"},
 	["sapper"] = "red",
 	["sunder"] = {"blue","orange"},
 	["warmup"] = "green",
@@ -88,6 +99,7 @@ BigWigs:AddSounds("Warmaster Blackhorn", {
 	[108044] = "alert",
 	[108046] = "alarm",
 	[108076] = "long",
+	["berserk"] = "alarm",
 	["sapper"] = "info",
 	["sunder"] = "info",
 })
@@ -112,6 +124,7 @@ BigWigs:AddColors("Madness of Deathwing", {
 	[105651] = "red",
 	[106523] = "yellow",
 	[106794] = "red",
+	["berserk"] = {"orange","red","yellow"},
 	["bigtentacle"] = "orange",
 	["fragment"] = "orange",
 	["hemorrhage"] = "orange",
@@ -125,6 +138,7 @@ BigWigs:AddSounds("Madness of Deathwing", {
 	[-4351] = "info",
 	[105651] = "long",
 	[106794] = "long",
+	["berserk"] = "alarm",
 	["bigtentacle"] = "alert",
 	["fragment"] = "alarm",
 	["hemorrhage"] = "alarm",

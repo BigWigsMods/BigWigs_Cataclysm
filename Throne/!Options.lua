@@ -9,12 +9,14 @@ BigWigs:AddColors("Conclave of Wind", {
 	[86281] = "orange",
 	[86307] = "red",
 	[93059] = "orange",
+	["berserk"] = {"orange","red","yellow"},
 	["full_power"] = "yellow",
 })
 
 BigWigs:AddSounds("Conclave of Wind", {
 	[84645] = "alarm",
 	[86307] = "long",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Al'Akir", {
@@ -24,6 +26,7 @@ BigWigs:AddColors("Al'Akir", {
 	[88427] = {"blue","red"},
 	[89588] = {"blue","red"},
 	[89668] = {"blue","red"},
+	["berserk"] = {"orange","red","yellow"},
 	["stages"] = "green",
 	["stormling"] = "red",
 })
@@ -32,5 +35,6 @@ BigWigs:AddSounds("Al'Akir", {
 	[87770] = "alert",
 	[89588] = {"alarm","info"},
 	[89668] = "long",
+	["berserk"] = "alarm",
 	["stages"] = "info",
 })

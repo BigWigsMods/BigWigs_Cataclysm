@@ -5,6 +5,7 @@ BigWigs:AddColors("Argaloth", {
 	[88954] = {"green","yellow"},
 	[88972] = {"cyan","orange"},
 	[89000] = "blue",
+	["berserk"] = {"orange","red","yellow"},
 })
 
 BigWigs:AddSounds("Argaloth", {
@@ -12,24 +13,29 @@ BigWigs:AddSounds("Argaloth", {
 	[88954] = "alert",
 	[88972] = {"info","long"},
 	[89000] = "underyou",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Occu'thar", {
 	[96884] = "yellow",
 	[96913] = {"blue","red"},
 	[96920] = "orange",
+	["berserk"] = {"orange","red","yellow"},
 })
 
 BigWigs:AddSounds("Occu'thar", {
 	[96920] = "alert",
+	["berserk"] = "alarm",
 })
 
 BigWigs:AddColors("Alizabal", {
 	[104936] = {"blue","yellow"},
 	[105067] = {"blue","red"},
 	[105784] = "orange",
+	["berserk"] = {"orange","red","yellow"},
 })
 
 BigWigs:AddSounds("Alizabal", {
 	[105784] = "info",
+	["berserk"] = "alarm",
 })
