@@ -153,7 +153,7 @@ end
 do
 	local initiateLocation = {L["initiate_both"], L["initiate_east"], L["initiate_west"], L["initiate_east"], L["initiate_west"]}
 	function mod:Initiates(_, _, unit)
-		if unit == self:SpellName(-2834) then -- Blazing Talon Initiate
+		if not self:IsSecret(unit) and unit == self:SpellName(-2834) then -- Blazing Talon Initiate
 			initiateCount = initiateCount + 1
 			if initiateCount > 5 then return end
 			self:Bar("initiate", initiateTimes[initiateCount], initiateLocation[initiateCount], 97062) --Night Elf head
