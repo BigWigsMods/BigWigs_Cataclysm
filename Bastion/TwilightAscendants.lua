@@ -13,13 +13,11 @@ mod:SetRespawnTime(30)
 --
 
 local quake, thundershock = mod:SpellName(83565), mod:SpellName(83067)
-local crushMarked = false
 local timeLeft = 8
 local phase = 1
 local isWaterlogged = false
 local staticOverloadTarget = nil
 local staticOverloadOnMe = false
-local gravityCoreOnMe = false
 local mySaySpamTarget = nil
 
 --------------------------------------------------------------------------------
@@ -158,7 +156,6 @@ function mod:OnEngage()
 	isWaterlogged = false
 	staticOverloadTarget = nil
 	staticOverloadOnMe = false
-	gravityCoreOnMe = false
 	mySaySpamTarget = nil
 
 	self:Bar(82631, 30, L["shield_bar"])
@@ -168,7 +165,6 @@ function mod:OnEngage()
 	end
 
 	phase = 1
-	crushMarked = false
 	self:RegisterUnitEvent("UNIT_HEALTH", nil, "boss1", "boss2", "boss3", "boss4")
 end
 
@@ -210,7 +206,6 @@ do
 		self:Bar(92067, 15, CL.count:format(CL.link, 1)) -- Static Overload
 		self:CustomIcon(gravityCoreMarker, args.destName, 5)
 		if self:Me(args.destGUID) then
-			gravityCoreOnMe = true
 			if staticOverloadTarget and self:GetOption("custom_on_linked_spam") then
 				mySaySpamTarget = {5, self:Ambiguate(staticOverloadTarget, "short")}
 				self:SimpleTimer(RepeatLinkSay, 1.5)
@@ -230,7 +225,6 @@ do
 
 	function mod:GravityCoreRemoved(args)
 		if self:Me(args.destGUID) then
-			gravityCoreOnMe = false
 			mySaySpamTarget = nil
 			self:Say(args.spellId, CL.link_removed, true, "Link removed")
 		end
