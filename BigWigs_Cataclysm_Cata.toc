@@ -36,4 +36,42 @@
 ## X-BigWigs-LoadOn-InstanceId: 669, 671, 720, 754, 757, 967
 ## X-BigWigs-Minimum: 412
 
-modules.xml
+Blackwing\Omnotron.lua
+Blackwing\Magmaw.lua
+Blackwing\Atramedes.lua
+Blackwing\Chimaeron.lua
+Blackwing\Maloriak.lua
+Blackwing\Nefarian.lua
+Blackwing\Locales\locales.xml
+Bastion\Halfus.lua
+Bastion\DoubleDragon.lua
+Bastion\TwilightAscendants.lua
+Bastion\Chogall.lua
+Bastion\Sinestra.lua
+Bastion\Locales\locales.xml
+Throne\Conclave.lua
+Throne\Alakir.lua
+Throne\Locales\locales.xml
+Baradin\Argaloth.lua
+Baradin\Occuthar.lua
+Baradin\Alizabal.lua
+Baradin\Locales\locales.xml
+Firelands\Bethtilac.lua
+Firelands\Rhyolith.lua
+Firelands\Alysrazor.lua
+Firelands\Shannox.lua
+Firelands\Baleroc.lua
+Firelands\Staghelm.lua
+Firelands\Ragnaros.lua
+Firelands\Locales\locales.xml
+DragonSoul\Morchok.lua
+DragonSoul\Zonozz.lua
+DragonSoul\Yorsahj.lua
+DragonSoul\Hagara.lua
+DragonSoul\Ultraxion.lua
+DragonSoul\Blackhorn.lua
+DragonSoul\DeathwingSpine.lua
+DragonSoul\DeathwingMadness.lua
+DragonSoul\Locales\locales.xml
+
+!Options.lua
