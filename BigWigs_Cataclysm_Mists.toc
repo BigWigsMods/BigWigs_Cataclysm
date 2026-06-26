@@ -34,7 +34,7 @@
 ## X-WoWI-ID: 21755
 ## X-Wago-ID: kGr0z76y
 ## X-BigWigs-LoadOn-InstanceId: 669, 671, 720, 754, 757, 967
-## X-BigWigs-Minimum: 412
+## X-BigWigs-Minimum: 417
 
 Blackwing\Omnotron.lua
 Blackwing\Magmaw.lua
