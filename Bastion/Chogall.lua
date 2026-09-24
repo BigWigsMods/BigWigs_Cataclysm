@@ -69,7 +69,7 @@ function mod:GetOptions(CL)
 end
 
 function mod:OnBossEnable()
-	if IsEncounterInProgress() then
+	if self:UnitGUID("boss1") then
 		self:OpenAltPower("altpower", 70602) -- Corruption
 	end
 

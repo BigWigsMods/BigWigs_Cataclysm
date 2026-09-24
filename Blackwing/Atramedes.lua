@@ -71,7 +71,7 @@ function mod:OnRegister()
 end
 
 function mod:OnBossEnable()
-	if IsEncounterInProgress() then
+	if self:UnitGUID("boss1") then
 		self:OpenAltPower("altpower", self:SpellName(-3072)) -- "Sound"
 	end
 
